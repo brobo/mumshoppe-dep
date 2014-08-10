@@ -1,3 +1,4 @@
+.bowerrc
 .htaccess
 composer.lock
 composer.phar
