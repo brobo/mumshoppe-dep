@@ -1,4 +1,8 @@
 angular.module('garnishesAll.controller', [])
-	.controller('GarnishesAllContorller', function($scope) {
+	.controller('GarnishesAllController', function($scope, $http, GarnishesService) {
+		
+		GarnishesService.get().success(function(data) {
+			$scope.garnishes = data;
+		})
 
 	});

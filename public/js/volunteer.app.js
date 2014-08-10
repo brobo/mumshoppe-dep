@@ -1,6 +1,8 @@
 var app = angular.module('volunteer', [
 	'ui.bootstrap',
-	'ui.router']);
+	'ui.router',
+	'garnishesAll.controller',
+	'garnishes.service']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
 
@@ -14,7 +16,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		})
 		.state('garnishes.all', {
 			url: '',
-			template: 'Hello, garnishes!',
+			templateUrl: 'public/views/volunteer/garnishes/all.html',
 			controller: 'GarnishesAllController'
 		});
 
