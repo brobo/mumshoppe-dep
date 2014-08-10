@@ -24,15 +24,14 @@
 		foreach ($app->request->put() as $key => $value) {
 			$garnish->setByName($key, $value);
 		}
-		$garnish->save();
 
-		echo $garnish->toJson();
+		$garnish->save();
 	});
 
 	$app->post('/api/garnish', function() use ($app) {
 		$garnish = new Garnish();
 
-		foreach ($app->request->put() as $key => $value) {
+		foreach ($app->request->post() as $key => $value) {
 			$garnish->setByName($key, $value);
 		}
 

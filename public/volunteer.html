@@ -7,15 +7,26 @@
 
 	<script type="text/javascript" src="public/libs/angular/angular.js"></script>
 	<script type="text/javascript" src="public/libs/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+	<script type="text/javascript" src="public/libs/angular-promise-tracker/promise-tracker.js"></script>
 	<script type="text/javascript" src="public/libs/angular-ui-router/release/angular-ui-router.js"></script>
 	<script type="text/javascript" src="public/libs/angular-route/angular-route.js"></script>
 
 	<script type="text/javascript" src="public/js/volunteer.app.js"></script>
+	<script type="text/javascript" src="public/js/services/alerts.service.js"></script>
 	<script type="text/javascript" src="public/js/services/garnishes.service.js"></script>
+	<script type="text/javascript" src="public/js/controllers/alerts.controller.js"></script>
 	<script type="text/javascript" src="public/js/controllers/garnishes_all.controller.js"></script>
+	<script type="text/javascript" src="public/js/controllers/garnishes_add.controller.js"></script>
 
 </head>
 <body ng-app="volunteer">
+	<div ng-controller="AlertsController">
+		<div ng-repeat="alert in alerts">
+			<alert type="{{alert.type}}" class="alert" ng-click="closeAlert(alert)">
+				{{alert.msg}}
+			</alert>
+		</div>
+	</div>
 	<div ui-view></div>
 </body>
 </html>

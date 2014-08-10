@@ -1,3 +1,4 @@
+<button class="btn btn-default" ng-click="addGarnish()">Add Garnish</button>
 <table class="table table-striped table-hover">
 <thead>
 	<tr>
@@ -11,9 +12,9 @@
 <tbody>
 	<tr ng-repeat="garnish in garnishes">
 		<td>{{garnish.Name}}</td>
-		<td class="fa" ng-class="{'fa-check': garnish.Underclassman}"></td>
-		<td class="fa" ng-class="{'fa-check': garnish.Junior}"></td>
-		<td class="fa" ng-class="{'fa-check': garnish.Senior}"></td>
+		<td><span class="fa" ng-class="{'fa-check': garnish.Underclassman}"></span></td>
+		<td><span class="fa" ng-class="{'fa-check': garnish.Junior}"></span></td>
+		<td><span class="fa" ng-class="{'fa-check': garnish.Senior}"></span></td>
 		<td>{{garnish.Price | currency}}</td>
 	</tr>
 </tbody>

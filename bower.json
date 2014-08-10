@@ -18,6 +18,7 @@
   "dependencies": {
     "angular": "latest",
     "angular-bootstrap": "latest",
+    "angular-promise-tracker": "latest",
     "angular-route": "latest",
     "angular-ui-router": "latest"
   }
