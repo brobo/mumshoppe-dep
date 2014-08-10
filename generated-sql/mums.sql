@@ -16,7 +16,7 @@ CREATE TABLE `garnish`
     `underclassman` TINYINT(1) DEFAULT 0 NOT NULL,
     `junior` TINYINT(1) DEFAULT 0 NOT NULL,
     `senior` TINYINT(1) DEFAULT 0 NOT NULL,
-    `price` DECIMAL NOT NULL,
+    `price` DECIMAL(10,2) NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 

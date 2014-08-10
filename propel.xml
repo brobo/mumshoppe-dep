@@ -1,0 +1,26 @@
+<propel>
+	<database>
+		<connections>
+			<connection id="mums">
+				<adapter>mysql</adapter>
+				<classname>Propel\Runtime\Connection\ConnectionWrapper</classname>
+				<dsn>mysql:host=localhost;dbname=mums</dsn>
+				<user>mumshoppe</user>
+				<password>pCr38i@AjhHW2j85!i2T1Lh2Pn&#Vpil</password>
+				<attributes></attributes>
+			</connection>
+		</connections>
+	</database>	
+	<runtime>
+		<defaultConnection>mums</defaultConnection>
+		<connections>
+			<connection>mums</connection>
+		</connections>
+	</runtime>
+	<generator>
+		<defaultconnection>mums</defaultConnection>
+		<connections>
+			<connection>mums</connection>
+		</connections>
+	</generator>
+</propel>

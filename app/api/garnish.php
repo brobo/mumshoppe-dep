@@ -1,50 +1,54 @@
 <?php
 
-	$app->post('/api/garnish', function() use ($app, $mysqli) {
-		$name = $app->request->post('name');
-		$underclassman = $app->request->post('underclassman');
-		$junior = $app->request->post('junior');
-		$senior = $app->request->post('senior');
-		$price = $app->request->post('price');
-
-		$create_stmt = $mysqli->prepare("
-			INSERT INTO garnish
-			(name, underclassman, junior, senior, price)
-			VALUES
-			(?, ?, ?, ?, ?)");
+	$app->get('/api/garnish', function() {
+		$garnishes = GarnishQuery::create()->find();
 		
-		$create_stmt->bind_param("siiid", $name, $underclassman, $junior, $senior, $price);
-		if ($create_stmt->execute()) {
-			echo "Successfully created garnish.";
-		} else {
-			echo "Error while creating garnish: " . $create_stmt->error;
-		}
+		if (!$garnishes) return;
+		
+		echo $garnishes->toJson();
 	});
 
-	$app->get('/api/garnish', function() use ($app, $mysqli) {
+	$app->get('/api/garnish/:id', function($id) {
+		$garnish = GarnishQuery::create()->findPK($id);
 		
-		$select_stmt = $mysqli->prepare("SELECT name, underclassman, junior, senior, price FROM garnish");
+		if (!$garnish) return;
 
-		if ($select_stmt->execute()) {
-			$select_stmt->bind_result($name, $underclassman, $junior, $senior, $price);
-
-			$output = array();
-
-			while ($select_stmt->fetch()) {
-				$output[] = array(
-					"name" => $name, 
-					"underclassman" => $underclassman, 
-					"junior" => $junior, 
-					"senior" => $senior, 
-					"price" => $price);
-			}
-
-			echo json_encode($output);
-		} else {
-			echo "Error while getting garnishes: " . $select_stmt->error;
-		}
+		echo $garnish->toJson();
 	});
 
-	$app->get('/api/garnish/:id')
+	$app->put('/api/garnish/:id', function($id) use ($app) {
+		$garnish = GarnishQuery::create()->findPK($id);
+
+		if (!$garnish) return;
+
+		foreach ($app->request->put() as $key => $value) {
+			$garnish->setByName($key, $value);
+		}
+		$garnish->save();
+
+		echo $garnish->toJson();
+	});
+
+	$app->post('/api/garnish', function() use ($app) {
+		$garnish = new Garnish();
+
+		foreach ($app->request->put() as $key => $value) {
+			$garnish->setByName($key, $value);
+		}
+
+		$garnish->save();
+
+		echo $garnish->toJson();
+	});
+
+	$app->delete('/api/garnish/:id', function($id) {
+		$garnish = GarnishQuery::create()->findPK($id);
+
+		if (!$garnish) return;
+
+		$garnish->delete();
+		
+		echo $garnish->toJson();
+	})
 
 ?>

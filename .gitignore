@@ -1,5 +1,4 @@
 .htaccess
-composer.json
 composer.lock
 composer.phar
 propel
