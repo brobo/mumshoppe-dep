@@ -3,8 +3,9 @@ var app = angular.module('volunteer', [
 	'ui.bootstrap',
 	'ui.router',
 	'alerts.controller',
-	'garnishesAll.controller',
 	'garnishesAdd.controller',
+	'garnishesAll.controller',
+	'garnishesEdit.controller',
 	'alerts.service',
 	'garnishes.service']);
 
@@ -25,8 +26,13 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 		})
 		.state('garnishes.add', {
 			url: '/add',
-			templateUrl: 'public/views/volunteer/garnishes/add.html',
+			templateUrl: 'public/views/volunteer/garnishes/edit.html',
 			controller: 'GarnishesAddController'
+		})
+		.state('garnishes.edit', {
+			url: '/edit/:garnishId',
+			templateUrl: 'public/views/volunteer/garnishes/edit.html',
+			controller: 'GarnishesEditController'
 		});
 
     $httpProvider.defaults.transformRequest = function(data) {

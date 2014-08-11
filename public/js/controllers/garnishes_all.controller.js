@@ -9,4 +9,8 @@ angular.module('garnishesAll.controller', [])
 			$state.go('^.add');
 		}
 
+		$scope.editGarnish = function(id) {
+			$state.go('^.edit', { garnishId: id});
+		}
+
 	});

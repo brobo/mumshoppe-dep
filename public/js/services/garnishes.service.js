@@ -5,15 +5,16 @@ angular.module('garnishes.service', [])
 				return $http.get('/mums/api/garnish');
 			},
 			create: function(garnishData) {
-				console.log("GanishData is...");
-				console.log(garnishData);
 				return $http.post('/mums/api/garnish', garnishData);
 			},
+			update: function(id, garnishData) {
+				return $http.put('/mums/api/garnish/' + id, garnishData);
+			},
 			delete: function(id) {
-				return $http.delete('/mums/api/garnish' + id);
+				return $http.delete('/mums/api/garnish/' + id);
 			},
 			fetch: function(id) {
-				return $http.get('/mums/api/garnish' + id);
+				return $http.get('/mums/api/garnish/' + id);
 			}
 		}
 	});

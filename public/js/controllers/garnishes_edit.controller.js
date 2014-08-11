@@ -1,12 +1,17 @@
-angular.module('garnishesAdd.controller', [])
-	.controller('GarnishesAddController', function($scope, $state, promiseTracker, GarnishesService, AlertsService) {
+angular.module('garnishesEdit.controller', [])
+	.controller('GarnishesEditController', function($scope, $state, $stateParams, promiseTracker, GarnishesService, AlertsService) {
 
 		$scope.REGEX_PRICE = /^[0-9]*(\.[0-9]{1,2})?$/
 
 		$scope.tracker = promiseTracker();
 
 		$scope.invalid = {};
-		$scope.garnish = {};
+		
+
+		GarnishesService.fetch($stateParams.garnishId)
+			.success(function(data) {
+				$scope.garnish = data;
+			});
 
 		$scope.validate = function(field) {
 			$scope.invalid[field] = $scope.garnishForm[field].$invalid;
@@ -24,14 +29,14 @@ angular.module('garnishesAdd.controller', [])
 		$scope.save = function(form) {
 			if (form.$valid) {
 				var defered = $scope.tracker.createPromise();
-				GarnishesService.create($scope.garnish)
+				GarnishesService.update($stateParams.garnishId, $scope.garnish)
 					.success(function(data) {
 						$scope.garnish = {};
-						AlertsService.add('success', 'Successfully created garnish.');
+						AlertsService.add('success', 'Successfully saved garnish.');
 						$state.go('^.all');
 					}).error(function(data) {
 						console.log(data);
-						AlertsService.add('danger', 'An error occured while trying to create the garnish. Try again.');
+						AlertsService.add('danger', 'An error occured while trying to save the garnish. Try again.');
 					}).finally(function() {
 						defered.resolve();
 					});

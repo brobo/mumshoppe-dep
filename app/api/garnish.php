@@ -17,6 +17,7 @@
 	});
 
 	$app->put('/api/garnish/:id', function($id) use ($app) {
+
 		$garnish = GarnishQuery::create()->findPK($id);
 
 		if (!$garnish) return;

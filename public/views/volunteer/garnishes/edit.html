@@ -1,5 +1,5 @@
-<form class="form-horizontal" name="garnishForm" ng-submit="add(garnishForm)" novalidate>
-	<h1>Add a Garnish</h1>
+<form class="form-horizontal" name="garnishForm" ng-submit="save(garnishForm)" novalidate>
+	<h1>Edit Garnish</h1>
 	<div class="form-group has-feedback col-xs-12" ng-class="{'has-error': invalid.Name}" ng-maxLength="5">
 		<label for="Name" class="control-label">Name</label>
 		<input type="text" class="form-control" id="Name" name="Name" ng-model="garnish.Name" ng-blur="validate('Name')" required>
@@ -25,11 +25,10 @@
 		<label for="Price" class="control-label">Price</label>
 		<div class="input-group">
 			<div class="input-group-addon">$</div>
-			<input type="number" class="form-control" name="Price" ng-model="garnish.Price" ng-pattern="REGEX_PRICE" ng-blur="validate('Price')" required>
+			<input type="text" class="form-control" name="Price" ng-model="garnish.Price" ng-pattern="REGEX_PRICE" ng-blur="validate('Price')" required>
 		</div>
 		<i class="fa form-control-feedback" ng-class="{'fa-warning': invalid.Price}"></i>
 	</div>
-
 	<button class="btn btn-default" ng-click="cancel()">Cancel</button>
 	<button type="submit" class="btn btn-success" ng-disabled="garnishForm.$invalid || !classSelected()">Save</button>
 </form>
