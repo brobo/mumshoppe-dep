@@ -3,36 +3,38 @@ var app = angular.module('volunteer', [
 	'ui.bootstrap',
 	'ui.router',
 	'alerts.controller',
-	'garnishesAdd.controller',
-	'garnishesAll.controller',
-	'garnishesEdit.controller',
+	'confirm.controller',
+	'trinketsAdd.controller',
+	'trinketsAll.controller',
+	'trinketsEdit.controller',
 	'alerts.service',
-	'garnishes.service']);
+	'confirm.service',
+	'trinkets.service']);
 
 app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 
-	$urlRouterProvider.otherwise('/garnishes');
+	$urlRouterProvider.otherwise('/trinkets');
 
 	$stateProvider
-		.state('garnishes', {
-			url: '/garnishes',
+		.state('trinkets', {
+			url: '/trinkets',
 			template: '<ui-view />',
 			abstract: true
 		})
-		.state('garnishes.all', {
+		.state('trinkets.all', {
 			url: '',
-			templateUrl: 'public/views/volunteer/garnishes/all.html',
-			controller: 'GarnishesAllController'
+			templateUrl: 'public/views/volunteer/trinkets/all.html',
+			controller: 'trinketsAllController'
 		})
-		.state('garnishes.add', {
+		.state('trinkets.add', {
 			url: '/add',
-			templateUrl: 'public/views/volunteer/garnishes/edit.html',
-			controller: 'GarnishesAddController'
+			templateUrl: 'public/views/volunteer/trinkets/edit.html',
+			controller: 'trinketsAddController'
 		})
-		.state('garnishes.edit', {
-			url: '/edit/:garnishId',
-			templateUrl: 'public/views/volunteer/garnishes/edit.html',
-			controller: 'GarnishesEditController'
+		.state('trinkets.edit', {
+			url: '/edit/:trinketId',
+			templateUrl: 'public/views/volunteer/trinkets/edit.html',
+			controller: 'trinketsEditController'
 		});
 
     $httpProvider.defaults.transformRequest = function(data) {

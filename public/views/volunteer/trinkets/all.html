@@ -1,0 +1,23 @@
+<button class="btn btn-default" ng-click="addTrinket()">Add Trinket</button>
+<table class="table table-striped table-hover">
+<thead>
+	<tr>
+		<th>Name</th>
+		<th>Underclassman</th>
+		<th>Junior</th>
+		<th>Senior</th>
+		<th>Price</th>
+	</tr>
+</thead>
+<tbody>
+	<tr ng-repeat="trinket in trinkets">
+		<td>{{trinket.Name}}</td>
+		<td><span class="fa" ng-class="{'fa-check': trinket.Underclassman}"></span></td>
+		<td><span class="fa" ng-class="{'fa-check': trinket.Junior}"></span></td>
+		<td><span class="fa" ng-class="{'fa-check': trinket.Senior}"></span></td>
+		<td>{{trinket.Price | currency}}</td>
+		<td><button class="btn btn-info btn-xs" ng-click="editTrinket(trinket.Id)"><i class="fa fa-pencil"></i> Edit</button>
+			<button class="btn btn-danger btn-xs" ng-click="deleteTrinket(trinket)"><i class="fa fa-bomb"></i> Delete</button></td>
+	</tr>
+</tbody>
+</table>

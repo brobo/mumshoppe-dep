@@ -6,9 +6,9 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Base\\Garnish' => $baseDir . '/generated-classes/Base/Garnish.php',
-    'Base\\GarnishQuery' => $baseDir . '/generated-classes/Base/GarnishQuery.php',
-    'Garnish' => $baseDir . '/generated-classes/Garnish.php',
-    'GarnishQuery' => $baseDir . '/generated-classes/GarnishQuery.php',
-    'Map\\GarnishTableMap' => $baseDir . '/generated-classes/Map/GarnishTableMap.php',
+    'Base\\Trinket' => $baseDir . '/generated-classes/Base/Trinket.php',
+    'Base\\TrinketQuery' => $baseDir . '/generated-classes/Base/TrinketQuery.php',
+    'Map\\TrinketTableMap' => $baseDir . '/generated-classes/Map/TrinketTableMap.php',
+    'Trinket' => $baseDir . '/generated-classes/Trinket.php',
+    'TrinketQuery' => $baseDir . '/generated-classes/TrinketQuery.php',
 );

@@ -1,0 +1,9 @@
+<div class="modal-header">
+	 <h3 class="modal-title">{{head}}</h3>
+</div>
+<div class="modal-body">
+	<p>{{body}}</p>
+	<button type="button" class="btn btn-default" ng-click="close()">{{no}}</button>
+	<button type="submit" ng-show="tracker.active()" class="btn btn-success pull-right" disabled><i class="fa fa-spin fa-circle-o-notch"></i></button>
+	<button type="submit" ng-show="!tracker.active()" class="btn btn-success pull-right" ng-click="confirmed()">{{yes}}</button>
+</div>

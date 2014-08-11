@@ -2,8 +2,8 @@
 
 namespace Map;
 
-use \Garnish;
-use \GarnishQuery;
+use \Trinket;
+use \TrinketQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -15,7 +15,7 @@ use Propel\Runtime\Map\TableMapTrait;
 
 
 /**
- * This class defines the structure of the 'garnish' table.
+ * This class defines the structure of the 'trinket' table.
  *
  *
  *
@@ -25,14 +25,14 @@ use Propel\Runtime\Map\TableMapTrait;
  * (i.e. if it's a text column type).
  *
  */
-class GarnishTableMap extends TableMap
+class TrinketTableMap extends TableMap
 {
     use InstancePoolTrait;
     use TableMapTrait;
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.GarnishTableMap';
+    const CLASS_NAME = '.Map.TrinketTableMap';
 
     /**
      * The default database name for this class
@@ -42,17 +42,17 @@ class GarnishTableMap extends TableMap
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'garnish';
+    const TABLE_NAME = 'trinket';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\Garnish';
+    const OM_CLASS = '\\Trinket';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'Garnish';
+    const CLASS_DEFAULT = 'Trinket';
 
     /**
      * The total number of columns
@@ -72,32 +72,32 @@ class GarnishTableMap extends TableMap
     /**
      * the column name for the ID field
      */
-    const ID = 'garnish.ID';
+    const ID = 'trinket.ID';
 
     /**
      * the column name for the NAME field
      */
-    const NAME = 'garnish.NAME';
+    const NAME = 'trinket.NAME';
 
     /**
      * the column name for the UNDERCLASSMAN field
      */
-    const UNDERCLASSMAN = 'garnish.UNDERCLASSMAN';
+    const UNDERCLASSMAN = 'trinket.UNDERCLASSMAN';
 
     /**
      * the column name for the JUNIOR field
      */
-    const JUNIOR = 'garnish.JUNIOR';
+    const JUNIOR = 'trinket.JUNIOR';
 
     /**
      * the column name for the SENIOR field
      */
-    const SENIOR = 'garnish.SENIOR';
+    const SENIOR = 'trinket.SENIOR';
 
     /**
      * the column name for the PRICE field
      */
-    const PRICE = 'garnish.PRICE';
+    const PRICE = 'trinket.PRICE';
 
     /**
      * The default string format for model objects of the related table
@@ -113,7 +113,7 @@ class GarnishTableMap extends TableMap
     protected static $fieldNames = array (
         self::TYPE_PHPNAME       => array('Id', 'Name', 'Underclassman', 'Junior', 'Senior', 'Price', ),
         self::TYPE_STUDLYPHPNAME => array('id', 'name', 'underclassman', 'junior', 'senior', 'price', ),
-        self::TYPE_COLNAME       => array(GarnishTableMap::ID, GarnishTableMap::NAME, GarnishTableMap::UNDERCLASSMAN, GarnishTableMap::JUNIOR, GarnishTableMap::SENIOR, GarnishTableMap::PRICE, ),
+        self::TYPE_COLNAME       => array(TrinketTableMap::ID, TrinketTableMap::NAME, TrinketTableMap::UNDERCLASSMAN, TrinketTableMap::JUNIOR, TrinketTableMap::SENIOR, TrinketTableMap::PRICE, ),
         self::TYPE_RAW_COLNAME   => array('ID', 'NAME', 'UNDERCLASSMAN', 'JUNIOR', 'SENIOR', 'PRICE', ),
         self::TYPE_FIELDNAME     => array('id', 'name', 'underclassman', 'junior', 'senior', 'price', ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
@@ -128,7 +128,7 @@ class GarnishTableMap extends TableMap
     protected static $fieldKeys = array (
         self::TYPE_PHPNAME       => array('Id' => 0, 'Name' => 1, 'Underclassman' => 2, 'Junior' => 3, 'Senior' => 4, 'Price' => 5, ),
         self::TYPE_STUDLYPHPNAME => array('id' => 0, 'name' => 1, 'underclassman' => 2, 'junior' => 3, 'senior' => 4, 'price' => 5, ),
-        self::TYPE_COLNAME       => array(GarnishTableMap::ID => 0, GarnishTableMap::NAME => 1, GarnishTableMap::UNDERCLASSMAN => 2, GarnishTableMap::JUNIOR => 3, GarnishTableMap::SENIOR => 4, GarnishTableMap::PRICE => 5, ),
+        self::TYPE_COLNAME       => array(TrinketTableMap::ID => 0, TrinketTableMap::NAME => 1, TrinketTableMap::UNDERCLASSMAN => 2, TrinketTableMap::JUNIOR => 3, TrinketTableMap::SENIOR => 4, TrinketTableMap::PRICE => 5, ),
         self::TYPE_RAW_COLNAME   => array('ID' => 0, 'NAME' => 1, 'UNDERCLASSMAN' => 2, 'JUNIOR' => 3, 'SENIOR' => 4, 'PRICE' => 5, ),
         self::TYPE_FIELDNAME     => array('id' => 0, 'name' => 1, 'underclassman' => 2, 'junior' => 3, 'senior' => 4, 'price' => 5, ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
@@ -144,9 +144,9 @@ class GarnishTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('garnish');
-        $this->setPhpName('Garnish');
-        $this->setClassName('\\Garnish');
+        $this->setName('trinket');
+        $this->setPhpName('Trinket');
+        $this->setClassName('\\Trinket');
         $this->setPackage('');
         $this->setUseIdGenerator(true);
         // columns
@@ -221,7 +221,7 @@ class GarnishTableMap extends TableMap
      */
     public static function getOMClass($withPrefix = true)
     {
-        return $withPrefix ? GarnishTableMap::CLASS_DEFAULT : GarnishTableMap::OM_CLASS;
+        return $withPrefix ? TrinketTableMap::CLASS_DEFAULT : TrinketTableMap::OM_CLASS;
     }
 
     /**
@@ -235,21 +235,21 @@ class GarnishTableMap extends TableMap
      *
      * @throws PropelException Any exceptions caught during processing will be
      *         rethrown wrapped into a PropelException.
-     * @return array (Garnish object, last column rank)
+     * @return array (Trinket object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        $key = GarnishTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
-        if (null !== ($obj = GarnishTableMap::getInstanceFromPool($key))) {
+        $key = TrinketTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
+        if (null !== ($obj = TrinketTableMap::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $offset, true); // rehydrate
-            $col = $offset + GarnishTableMap::NUM_HYDRATE_COLUMNS;
+            $col = $offset + TrinketTableMap::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = GarnishTableMap::OM_CLASS;
+            $cls = TrinketTableMap::OM_CLASS;
             $obj = new $cls();
             $col = $obj->hydrate($row, $offset, false, $indexType);
-            GarnishTableMap::addInstanceToPool($obj, $key);
+            TrinketTableMap::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -272,8 +272,8 @@ class GarnishTableMap extends TableMap
         $cls = static::getOMClass(false);
         // populate the object(s)
         while ($row = $dataFetcher->fetch()) {
-            $key = GarnishTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
-            if (null !== ($obj = GarnishTableMap::getInstanceFromPool($key))) {
+            $key = TrinketTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
+            if (null !== ($obj = TrinketTableMap::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
@@ -282,7 +282,7 @@ class GarnishTableMap extends TableMap
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                GarnishTableMap::addInstanceToPool($obj, $key);
+                TrinketTableMap::addInstanceToPool($obj, $key);
             } // if key exists
         }
 
@@ -303,12 +303,12 @@ class GarnishTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(GarnishTableMap::ID);
-            $criteria->addSelectColumn(GarnishTableMap::NAME);
-            $criteria->addSelectColumn(GarnishTableMap::UNDERCLASSMAN);
-            $criteria->addSelectColumn(GarnishTableMap::JUNIOR);
-            $criteria->addSelectColumn(GarnishTableMap::SENIOR);
-            $criteria->addSelectColumn(GarnishTableMap::PRICE);
+            $criteria->addSelectColumn(TrinketTableMap::ID);
+            $criteria->addSelectColumn(TrinketTableMap::NAME);
+            $criteria->addSelectColumn(TrinketTableMap::UNDERCLASSMAN);
+            $criteria->addSelectColumn(TrinketTableMap::JUNIOR);
+            $criteria->addSelectColumn(TrinketTableMap::SENIOR);
+            $criteria->addSelectColumn(TrinketTableMap::PRICE);
         } else {
             $criteria->addSelectColumn($alias . '.ID');
             $criteria->addSelectColumn($alias . '.NAME');
@@ -328,7 +328,7 @@ class GarnishTableMap extends TableMap
      */
     public static function getTableMap()
     {
-        return Propel::getServiceContainer()->getDatabaseMap(GarnishTableMap::DATABASE_NAME)->getTable(GarnishTableMap::TABLE_NAME);
+        return Propel::getServiceContainer()->getDatabaseMap(TrinketTableMap::DATABASE_NAME)->getTable(TrinketTableMap::TABLE_NAME);
     }
 
     /**
@@ -336,16 +336,16 @@ class GarnishTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-      $dbMap = Propel::getServiceContainer()->getDatabaseMap(GarnishTableMap::DATABASE_NAME);
-      if (!$dbMap->hasTable(GarnishTableMap::TABLE_NAME)) {
-        $dbMap->addTableObject(new GarnishTableMap());
+      $dbMap = Propel::getServiceContainer()->getDatabaseMap(TrinketTableMap::DATABASE_NAME);
+      if (!$dbMap->hasTable(TrinketTableMap::TABLE_NAME)) {
+        $dbMap->addTableObject(new TrinketTableMap());
       }
     }
 
     /**
-     * Performs a DELETE on the database, given a Garnish or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a Trinket or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or Garnish object or primary key or array of primary keys
+     * @param mixed               $values Criteria or Trinket object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -356,25 +356,25 @@ class GarnishTableMap extends TableMap
      public static function doDelete($values, ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(GarnishTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(TrinketTableMap::DATABASE_NAME);
         }
 
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \Garnish) { // it's a model object
+        } elseif ($values instanceof \Trinket) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(GarnishTableMap::DATABASE_NAME);
-            $criteria->add(GarnishTableMap::ID, (array) $values, Criteria::IN);
+            $criteria = new Criteria(TrinketTableMap::DATABASE_NAME);
+            $criteria->add(TrinketTableMap::ID, (array) $values, Criteria::IN);
         }
 
-        $query = GarnishQuery::create()->mergeWith($criteria);
+        $query = TrinketQuery::create()->mergeWith($criteria);
 
-        if ($values instanceof Criteria) { GarnishTableMap::clearInstancePool();
+        if ($values instanceof Criteria) { TrinketTableMap::clearInstancePool();
         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
-            foreach ((array) $values as $singleval) { GarnishTableMap::removeInstanceFromPool($singleval);
+            foreach ((array) $values as $singleval) { TrinketTableMap::removeInstanceFromPool($singleval);
             }
         }
 
@@ -382,20 +382,20 @@ class GarnishTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the garnish table.
+     * Deletes all rows from the trinket table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
-        return GarnishQuery::create()->doDeleteAll($con);
+        return TrinketQuery::create()->doDeleteAll($con);
     }
 
     /**
-     * Performs an INSERT on the database, given a Garnish or Criteria object.
+     * Performs an INSERT on the database, given a Trinket or Criteria object.
      *
-     * @param mixed               $criteria Criteria or Garnish object containing data that is used to create the INSERT statement.
+     * @param mixed               $criteria Criteria or Trinket object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -404,22 +404,22 @@ class GarnishTableMap extends TableMap
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(GarnishTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(TrinketTableMap::DATABASE_NAME);
         }
 
         if ($criteria instanceof Criteria) {
             $criteria = clone $criteria; // rename for clarity
         } else {
-            $criteria = $criteria->buildCriteria(); // build Criteria from Garnish object
+            $criteria = $criteria->buildCriteria(); // build Criteria from Trinket object
         }
 
-        if ($criteria->containsKey(GarnishTableMap::ID) && $criteria->keyContainsValue(GarnishTableMap::ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.GarnishTableMap::ID.')');
+        if ($criteria->containsKey(TrinketTableMap::ID) && $criteria->keyContainsValue(TrinketTableMap::ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.TrinketTableMap::ID.')');
         }
 
 
         // Set the correct dbName
-        $query = GarnishQuery::create()->mergeWith($criteria);
+        $query = TrinketQuery::create()->mergeWith($criteria);
 
         try {
             // use transaction because $criteria could contain info
@@ -435,7 +435,7 @@ class GarnishTableMap extends TableMap
         return $pk;
     }
 
-} // GarnishTableMap
+} // TrinketTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-GarnishTableMap::buildTableMap();
+TrinketTableMap::buildTableMap();

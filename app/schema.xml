@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <database name="mums" defaultIdMethod="native">
 
-	<table name="garnish" phpName="Garnish">
+	<table name="trinket" phpName="Trinket">
 		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
 		<column name="name" type="varchar" size="64" required="true" />
 		<column name="underclassman" type="boolean" required="true" defaultValue="false" />

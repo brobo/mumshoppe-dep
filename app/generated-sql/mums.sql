@@ -4,12 +4,12 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ---------------------------------------------------------------------
--- garnish
+-- trinket
 -- ---------------------------------------------------------------------
 
-DROP TABLE IF EXISTS `garnish`;
+DROP TABLE IF EXISTS `trinket`;
 
-CREATE TABLE `garnish`
+CREATE TABLE `trinket`
 (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(64) NOT NULL,

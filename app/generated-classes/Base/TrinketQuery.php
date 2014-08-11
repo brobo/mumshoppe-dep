@@ -2,11 +2,11 @@
 
 namespace Base;
 
-use \Garnish as ChildGarnish;
-use \GarnishQuery as ChildGarnishQuery;
+use \Trinket as ChildTrinket;
+use \TrinketQuery as ChildTrinketQuery;
 use \Exception;
 use \PDO;
-use Map\GarnishTableMap;
+use Map\TrinketTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -14,75 +14,75 @@ use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
 
 /**
- * Base class that represents a query for the 'garnish' table.
+ * Base class that represents a query for the 'trinket' table.
  *
  *
  *
- * @method     ChildGarnishQuery orderById($order = Criteria::ASC) Order by the id column
- * @method     ChildGarnishQuery orderByName($order = Criteria::ASC) Order by the name column
- * @method     ChildGarnishQuery orderByUnderclassman($order = Criteria::ASC) Order by the underclassman column
- * @method     ChildGarnishQuery orderByJunior($order = Criteria::ASC) Order by the junior column
- * @method     ChildGarnishQuery orderBySenior($order = Criteria::ASC) Order by the senior column
- * @method     ChildGarnishQuery orderByPrice($order = Criteria::ASC) Order by the price column
+ * @method     ChildTrinketQuery orderById($order = Criteria::ASC) Order by the id column
+ * @method     ChildTrinketQuery orderByName($order = Criteria::ASC) Order by the name column
+ * @method     ChildTrinketQuery orderByUnderclassman($order = Criteria::ASC) Order by the underclassman column
+ * @method     ChildTrinketQuery orderByJunior($order = Criteria::ASC) Order by the junior column
+ * @method     ChildTrinketQuery orderBySenior($order = Criteria::ASC) Order by the senior column
+ * @method     ChildTrinketQuery orderByPrice($order = Criteria::ASC) Order by the price column
  *
- * @method     ChildGarnishQuery groupById() Group by the id column
- * @method     ChildGarnishQuery groupByName() Group by the name column
- * @method     ChildGarnishQuery groupByUnderclassman() Group by the underclassman column
- * @method     ChildGarnishQuery groupByJunior() Group by the junior column
- * @method     ChildGarnishQuery groupBySenior() Group by the senior column
- * @method     ChildGarnishQuery groupByPrice() Group by the price column
+ * @method     ChildTrinketQuery groupById() Group by the id column
+ * @method     ChildTrinketQuery groupByName() Group by the name column
+ * @method     ChildTrinketQuery groupByUnderclassman() Group by the underclassman column
+ * @method     ChildTrinketQuery groupByJunior() Group by the junior column
+ * @method     ChildTrinketQuery groupBySenior() Group by the senior column
+ * @method     ChildTrinketQuery groupByPrice() Group by the price column
  *
- * @method     ChildGarnishQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
- * @method     ChildGarnishQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
- * @method     ChildGarnishQuery innerJoin($relation) Adds a INNER JOIN clause to the query
+ * @method     ChildTrinketQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
+ * @method     ChildTrinketQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
+ * @method     ChildTrinketQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     ChildGarnish findOne(ConnectionInterface $con = null) Return the first ChildGarnish matching the query
- * @method     ChildGarnish findOneOrCreate(ConnectionInterface $con = null) Return the first ChildGarnish matching the query, or a new ChildGarnish object populated from the query conditions when no match is found
+ * @method     ChildTrinket findOne(ConnectionInterface $con = null) Return the first ChildTrinket matching the query
+ * @method     ChildTrinket findOneOrCreate(ConnectionInterface $con = null) Return the first ChildTrinket matching the query, or a new ChildTrinket object populated from the query conditions when no match is found
  *
- * @method     ChildGarnish findOneById(int $id) Return the first ChildGarnish filtered by the id column
- * @method     ChildGarnish findOneByName(string $name) Return the first ChildGarnish filtered by the name column
- * @method     ChildGarnish findOneByUnderclassman(boolean $underclassman) Return the first ChildGarnish filtered by the underclassman column
- * @method     ChildGarnish findOneByJunior(boolean $junior) Return the first ChildGarnish filtered by the junior column
- * @method     ChildGarnish findOneBySenior(boolean $senior) Return the first ChildGarnish filtered by the senior column
- * @method     ChildGarnish findOneByPrice(string $price) Return the first ChildGarnish filtered by the price column
+ * @method     ChildTrinket findOneById(int $id) Return the first ChildTrinket filtered by the id column
+ * @method     ChildTrinket findOneByName(string $name) Return the first ChildTrinket filtered by the name column
+ * @method     ChildTrinket findOneByUnderclassman(boolean $underclassman) Return the first ChildTrinket filtered by the underclassman column
+ * @method     ChildTrinket findOneByJunior(boolean $junior) Return the first ChildTrinket filtered by the junior column
+ * @method     ChildTrinket findOneBySenior(boolean $senior) Return the first ChildTrinket filtered by the senior column
+ * @method     ChildTrinket findOneByPrice(string $price) Return the first ChildTrinket filtered by the price column
  *
- * @method     array findById(int $id) Return ChildGarnish objects filtered by the id column
- * @method     array findByName(string $name) Return ChildGarnish objects filtered by the name column
- * @method     array findByUnderclassman(boolean $underclassman) Return ChildGarnish objects filtered by the underclassman column
- * @method     array findByJunior(boolean $junior) Return ChildGarnish objects filtered by the junior column
- * @method     array findBySenior(boolean $senior) Return ChildGarnish objects filtered by the senior column
- * @method     array findByPrice(string $price) Return ChildGarnish objects filtered by the price column
+ * @method     array findById(int $id) Return ChildTrinket objects filtered by the id column
+ * @method     array findByName(string $name) Return ChildTrinket objects filtered by the name column
+ * @method     array findByUnderclassman(boolean $underclassman) Return ChildTrinket objects filtered by the underclassman column
+ * @method     array findByJunior(boolean $junior) Return ChildTrinket objects filtered by the junior column
+ * @method     array findBySenior(boolean $senior) Return ChildTrinket objects filtered by the senior column
+ * @method     array findByPrice(string $price) Return ChildTrinket objects filtered by the price column
  *
  */
-abstract class GarnishQuery extends ModelCriteria
+abstract class TrinketQuery extends ModelCriteria
 {
 
     /**
-     * Initializes internal state of \Base\GarnishQuery object.
+     * Initializes internal state of \Base\TrinketQuery object.
      *
      * @param     string $dbName The database name
      * @param     string $modelName The phpName of a model, e.g. 'Book'
      * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
      */
-    public function __construct($dbName = 'mums', $modelName = '\\Garnish', $modelAlias = null)
+    public function __construct($dbName = 'mums', $modelName = '\\Trinket', $modelAlias = null)
     {
         parent::__construct($dbName, $modelName, $modelAlias);
     }
 
     /**
-     * Returns a new ChildGarnishQuery object.
+     * Returns a new ChildTrinketQuery object.
      *
      * @param     string $modelAlias The alias of a model in the query
      * @param     Criteria $criteria Optional Criteria to build the query from
      *
-     * @return ChildGarnishQuery
+     * @return ChildTrinketQuery
      */
     public static function create($modelAlias = null, $criteria = null)
     {
-        if ($criteria instanceof \GarnishQuery) {
+        if ($criteria instanceof \TrinketQuery) {
             return $criteria;
         }
-        $query = new \GarnishQuery();
+        $query = new \TrinketQuery();
         if (null !== $modelAlias) {
             $query->setModelAlias($modelAlias);
         }
@@ -105,19 +105,19 @@ abstract class GarnishQuery extends ModelCriteria
      * @param mixed $key Primary key to use for the query
      * @param ConnectionInterface $con an optional connection object
      *
-     * @return ChildGarnish|array|mixed the result, formatted by the current formatter
+     * @return ChildTrinket|array|mixed the result, formatted by the current formatter
      */
     public function findPk($key, $con = null)
     {
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = GarnishTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
+        if ((null !== ($obj = TrinketTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(GarnishTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(TrinketTableMap::DATABASE_NAME);
         }
         $this->basePreSelect($con);
         if ($this->formatter || $this->modelAlias || $this->with || $this->select
@@ -136,11 +136,11 @@ abstract class GarnishQuery extends ModelCriteria
      * @param     mixed $key Primary key to use for the query
      * @param     ConnectionInterface $con A connection object
      *
-     * @return   ChildGarnish A model object, or null if the key is not found
+     * @return   ChildTrinket A model object, or null if the key is not found
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT ID, NAME, UNDERCLASSMAN, JUNIOR, SENIOR, PRICE FROM garnish WHERE ID = :p0';
+        $sql = 'SELECT ID, NAME, UNDERCLASSMAN, JUNIOR, SENIOR, PRICE FROM trinket WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -151,9 +151,9 @@ abstract class GarnishQuery extends ModelCriteria
         }
         $obj = null;
         if ($row = $stmt->fetch(\PDO::FETCH_NUM)) {
-            $obj = new ChildGarnish();
+            $obj = new ChildTrinket();
             $obj->hydrate($row);
-            GarnishTableMap::addInstanceToPool($obj, (string) $key);
+            TrinketTableMap::addInstanceToPool($obj, (string) $key);
         }
         $stmt->closeCursor();
 
@@ -166,7 +166,7 @@ abstract class GarnishQuery extends ModelCriteria
      * @param     mixed $key Primary key to use for the query
      * @param     ConnectionInterface $con A connection object
      *
-     * @return ChildGarnish|array|mixed the result, formatted by the current formatter
+     * @return ChildTrinket|array|mixed the result, formatted by the current formatter
      */
     protected function findPkComplex($key, $con)
     {
@@ -208,12 +208,12 @@ abstract class GarnishQuery extends ModelCriteria
      *
      * @param     mixed $key Primary key to use for the query
      *
-     * @return ChildGarnishQuery The current query, for fluid interface
+     * @return ChildTrinketQuery The current query, for fluid interface
      */
     public function filterByPrimaryKey($key)
     {
 
-        return $this->addUsingAlias(GarnishTableMap::ID, $key, Criteria::EQUAL);
+        return $this->addUsingAlias(TrinketTableMap::ID, $key, Criteria::EQUAL);
     }
 
     /**
@@ -221,12 +221,12 @@ abstract class GarnishQuery extends ModelCriteria
      *
      * @param     array $keys The list of primary key to use for the query
      *
-     * @return ChildGarnishQuery The current query, for fluid interface
+     * @return ChildTrinketQuery The current query, for fluid interface
      */
     public function filterByPrimaryKeys($keys)
     {
 
-        return $this->addUsingAlias(GarnishTableMap::ID, $keys, Criteria::IN);
+        return $this->addUsingAlias(TrinketTableMap::ID, $keys, Criteria::IN);
     }
 
     /**
@@ -245,18 +245,18 @@ abstract class GarnishQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildGarnishQuery The current query, for fluid interface
+     * @return ChildTrinketQuery The current query, for fluid interface
      */
     public function filterById($id = null, $comparison = null)
     {
         if (is_array($id)) {
             $useMinMax = false;
             if (isset($id['min'])) {
-                $this->addUsingAlias(GarnishTableMap::ID, $id['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(TrinketTableMap::ID, $id['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($id['max'])) {
-                $this->addUsingAlias(GarnishTableMap::ID, $id['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(TrinketTableMap::ID, $id['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -267,7 +267,7 @@ abstract class GarnishQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(GarnishTableMap::ID, $id, $comparison);
+        return $this->addUsingAlias(TrinketTableMap::ID, $id, $comparison);
     }
 
     /**
@@ -283,7 +283,7 @@ abstract class GarnishQuery extends ModelCriteria
      *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildGarnishQuery The current query, for fluid interface
+     * @return ChildTrinketQuery The current query, for fluid interface
      */
     public function filterByName($name = null, $comparison = null)
     {
@@ -296,7 +296,7 @@ abstract class GarnishQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(GarnishTableMap::NAME, $name, $comparison);
+        return $this->addUsingAlias(TrinketTableMap::NAME, $name, $comparison);
     }
 
     /**
@@ -315,7 +315,7 @@ abstract class GarnishQuery extends ModelCriteria
      *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildGarnishQuery The current query, for fluid interface
+     * @return ChildTrinketQuery The current query, for fluid interface
      */
     public function filterByUnderclassman($underclassman = null, $comparison = null)
     {
@@ -323,7 +323,7 @@ abstract class GarnishQuery extends ModelCriteria
             $underclassman = in_array(strtolower($underclassman), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
         }
 
-        return $this->addUsingAlias(GarnishTableMap::UNDERCLASSMAN, $underclassman, $comparison);
+        return $this->addUsingAlias(TrinketTableMap::UNDERCLASSMAN, $underclassman, $comparison);
     }
 
     /**
@@ -342,7 +342,7 @@ abstract class GarnishQuery extends ModelCriteria
      *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildGarnishQuery The current query, for fluid interface
+     * @return ChildTrinketQuery The current query, for fluid interface
      */
     public function filterByJunior($junior = null, $comparison = null)
     {
@@ -350,7 +350,7 @@ abstract class GarnishQuery extends ModelCriteria
             $junior = in_array(strtolower($junior), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
         }
 
-        return $this->addUsingAlias(GarnishTableMap::JUNIOR, $junior, $comparison);
+        return $this->addUsingAlias(TrinketTableMap::JUNIOR, $junior, $comparison);
     }
 
     /**
@@ -369,7 +369,7 @@ abstract class GarnishQuery extends ModelCriteria
      *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildGarnishQuery The current query, for fluid interface
+     * @return ChildTrinketQuery The current query, for fluid interface
      */
     public function filterBySenior($senior = null, $comparison = null)
     {
@@ -377,7 +377,7 @@ abstract class GarnishQuery extends ModelCriteria
             $senior = in_array(strtolower($senior), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
         }
 
-        return $this->addUsingAlias(GarnishTableMap::SENIOR, $senior, $comparison);
+        return $this->addUsingAlias(TrinketTableMap::SENIOR, $senior, $comparison);
     }
 
     /**
@@ -396,18 +396,18 @@ abstract class GarnishQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildGarnishQuery The current query, for fluid interface
+     * @return ChildTrinketQuery The current query, for fluid interface
      */
     public function filterByPrice($price = null, $comparison = null)
     {
         if (is_array($price)) {
             $useMinMax = false;
             if (isset($price['min'])) {
-                $this->addUsingAlias(GarnishTableMap::PRICE, $price['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(TrinketTableMap::PRICE, $price['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($price['max'])) {
-                $this->addUsingAlias(GarnishTableMap::PRICE, $price['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(TrinketTableMap::PRICE, $price['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -418,27 +418,27 @@ abstract class GarnishQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(GarnishTableMap::PRICE, $price, $comparison);
+        return $this->addUsingAlias(TrinketTableMap::PRICE, $price, $comparison);
     }
 
     /**
      * Exclude object from result
      *
-     * @param   ChildGarnish $garnish Object to remove from the list of results
+     * @param   ChildTrinket $trinket Object to remove from the list of results
      *
-     * @return ChildGarnishQuery The current query, for fluid interface
+     * @return ChildTrinketQuery The current query, for fluid interface
      */
-    public function prune($garnish = null)
+    public function prune($trinket = null)
     {
-        if ($garnish) {
-            $this->addUsingAlias(GarnishTableMap::ID, $garnish->getId(), Criteria::NOT_EQUAL);
+        if ($trinket) {
+            $this->addUsingAlias(TrinketTableMap::ID, $trinket->getId(), Criteria::NOT_EQUAL);
         }
 
         return $this;
     }
 
     /**
-     * Deletes all rows from the garnish table.
+     * Deletes all rows from the trinket table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
@@ -446,7 +446,7 @@ abstract class GarnishQuery extends ModelCriteria
     public function doDeleteAll(ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(GarnishTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(TrinketTableMap::DATABASE_NAME);
         }
         $affectedRows = 0; // initialize var to track total num of affected rows
         try {
@@ -457,8 +457,8 @@ abstract class GarnishQuery extends ModelCriteria
             // Because this db requires some delete cascade/set null emulation, we have to
             // clear the cached instance *after* the emulation has happened (since
             // instances get re-added by the select statement contained therein).
-            GarnishTableMap::clearInstancePool();
-            GarnishTableMap::clearRelatedInstancePool();
+            TrinketTableMap::clearInstancePool();
+            TrinketTableMap::clearRelatedInstancePool();
 
             $con->commit();
         } catch (PropelException $e) {
@@ -470,9 +470,9 @@ abstract class GarnishQuery extends ModelCriteria
     }
 
     /**
-     * Performs a DELETE on the database, given a ChildGarnish or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a ChildTrinket or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or ChildGarnish object or primary key or array of primary keys
+     * @param mixed               $values Criteria or ChildTrinket object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -483,13 +483,13 @@ abstract class GarnishQuery extends ModelCriteria
      public function delete(ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(GarnishTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(TrinketTableMap::DATABASE_NAME);
         }
 
         $criteria = $this;
 
         // Set the correct dbName
-        $criteria->setDbName(GarnishTableMap::DATABASE_NAME);
+        $criteria->setDbName(TrinketTableMap::DATABASE_NAME);
 
         $affectedRows = 0; // initialize var to track total num of affected rows
 
@@ -499,10 +499,10 @@ abstract class GarnishQuery extends ModelCriteria
             $con->beginTransaction();
 
 
-        GarnishTableMap::removeInstanceFromPool($criteria);
+        TrinketTableMap::removeInstanceFromPool($criteria);
 
             $affectedRows += ModelCriteria::delete($con);
-            GarnishTableMap::clearRelatedInstancePool();
+            TrinketTableMap::clearRelatedInstancePool();
             $con->commit();
 
             return $affectedRows;
@@ -512,4 +512,4 @@ abstract class GarnishQuery extends ModelCriteria
         }
     }
 
-} // GarnishQuery
+} // TrinketQuery

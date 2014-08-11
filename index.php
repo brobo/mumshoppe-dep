@@ -16,7 +16,7 @@
 		$app->render('volunteer.html');
 	});
 
-	require('app/api/garnish.php');
+	require('app/api/trinket.php');
 
 	$app->run();
 ?>

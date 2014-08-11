@@ -2,10 +2,10 @@
 
 namespace Base;
 
-use \GarnishQuery as ChildGarnishQuery;
+use \TrinketQuery as ChildTrinketQuery;
 use \Exception;
 use \PDO;
-use Map\GarnishTableMap;
+use Map\TrinketTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -17,12 +17,12 @@ use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 
-abstract class Garnish implements ActiveRecordInterface
+abstract class Trinket implements ActiveRecordInterface
 {
     /**
      * TableMap class name
      */
-    const TABLE_MAP = '\\Map\\GarnishTableMap';
+    const TABLE_MAP = '\\Map\\TrinketTableMap';
 
 
     /**
@@ -112,7 +112,7 @@ abstract class Garnish implements ActiveRecordInterface
     }
 
     /**
-     * Initializes internal state of Base\Garnish object.
+     * Initializes internal state of Base\Trinket object.
      * @see applyDefaults()
      */
     public function __construct()
@@ -209,9 +209,9 @@ abstract class Garnish implements ActiveRecordInterface
     }
 
     /**
-     * Compares this with another <code>Garnish</code> instance.  If
-     * <code>obj</code> is an instance of <code>Garnish</code>, delegates to
-     * <code>equals(Garnish)</code>.  Otherwise, returns <code>false</code>.
+     * Compares this with another <code>Trinket</code> instance.  If
+     * <code>obj</code> is an instance of <code>Trinket</code>, delegates to
+     * <code>equals(Trinket)</code>.  Otherwise, returns <code>false</code>.
      *
      * @param  mixed   $obj The object to compare to.
      * @return boolean Whether equal to the object specified.
@@ -294,7 +294,7 @@ abstract class Garnish implements ActiveRecordInterface
      * @param string $name  The virtual column name
      * @param mixed  $value The value to give to the virtual column
      *
-     * @return Garnish The current object, for fluid interface
+     * @return Trinket The current object, for fluid interface
      */
     public function setVirtualColumn($name, $value)
     {
@@ -326,7 +326,7 @@ abstract class Garnish implements ActiveRecordInterface
      *                       or a format name ('XML', 'YAML', 'JSON', 'CSV')
      * @param string $data The source data to import from
      *
-     * @return Garnish The current object, for fluid interface
+     * @return Trinket The current object, for fluid interface
      */
     public function importFrom($parser, $data)
     {
@@ -441,7 +441,7 @@ abstract class Garnish implements ActiveRecordInterface
      * Set the value of [id] column.
      *
      * @param      int $v new value
-     * @return   \Garnish The current object (for fluent API support)
+     * @return   \Trinket The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -451,7 +451,7 @@ abstract class Garnish implements ActiveRecordInterface
 
         if ($this->id !== $v) {
             $this->id = $v;
-            $this->modifiedColumns[] = GarnishTableMap::ID;
+            $this->modifiedColumns[] = TrinketTableMap::ID;
         }
 
 
@@ -462,7 +462,7 @@ abstract class Garnish implements ActiveRecordInterface
      * Set the value of [name] column.
      *
      * @param      string $v new value
-     * @return   \Garnish The current object (for fluent API support)
+     * @return   \Trinket The current object (for fluent API support)
      */
     public function setName($v)
     {
@@ -472,7 +472,7 @@ abstract class Garnish implements ActiveRecordInterface
 
         if ($this->name !== $v) {
             $this->name = $v;
-            $this->modifiedColumns[] = GarnishTableMap::NAME;
+            $this->modifiedColumns[] = TrinketTableMap::NAME;
         }
 
 
@@ -487,7 +487,7 @@ abstract class Garnish implements ActiveRecordInterface
      * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
      *
      * @param      boolean|integer|string $v The new value
-     * @return   \Garnish The current object (for fluent API support)
+     * @return   \Trinket The current object (for fluent API support)
      */
     public function setUnderclassman($v)
     {
@@ -501,7 +501,7 @@ abstract class Garnish implements ActiveRecordInterface
 
         if ($this->underclassman !== $v) {
             $this->underclassman = $v;
-            $this->modifiedColumns[] = GarnishTableMap::UNDERCLASSMAN;
+            $this->modifiedColumns[] = TrinketTableMap::UNDERCLASSMAN;
         }
 
 
@@ -516,7 +516,7 @@ abstract class Garnish implements ActiveRecordInterface
      * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
      *
      * @param      boolean|integer|string $v The new value
-     * @return   \Garnish The current object (for fluent API support)
+     * @return   \Trinket The current object (for fluent API support)
      */
     public function setJunior($v)
     {
@@ -530,7 +530,7 @@ abstract class Garnish implements ActiveRecordInterface
 
         if ($this->junior !== $v) {
             $this->junior = $v;
-            $this->modifiedColumns[] = GarnishTableMap::JUNIOR;
+            $this->modifiedColumns[] = TrinketTableMap::JUNIOR;
         }
 
 
@@ -545,7 +545,7 @@ abstract class Garnish implements ActiveRecordInterface
      * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
      *
      * @param      boolean|integer|string $v The new value
-     * @return   \Garnish The current object (for fluent API support)
+     * @return   \Trinket The current object (for fluent API support)
      */
     public function setSenior($v)
     {
@@ -559,7 +559,7 @@ abstract class Garnish implements ActiveRecordInterface
 
         if ($this->senior !== $v) {
             $this->senior = $v;
-            $this->modifiedColumns[] = GarnishTableMap::SENIOR;
+            $this->modifiedColumns[] = TrinketTableMap::SENIOR;
         }
 
 
@@ -570,7 +570,7 @@ abstract class Garnish implements ActiveRecordInterface
      * Set the value of [price] column.
      *
      * @param      string $v new value
-     * @return   \Garnish The current object (for fluent API support)
+     * @return   \Trinket The current object (for fluent API support)
      */
     public function setPrice($v)
     {
@@ -580,7 +580,7 @@ abstract class Garnish implements ActiveRecordInterface
 
         if ($this->price !== $v) {
             $this->price = $v;
-            $this->modifiedColumns[] = GarnishTableMap::PRICE;
+            $this->modifiedColumns[] = TrinketTableMap::PRICE;
         }
 
 
@@ -636,22 +636,22 @@ abstract class Garnish implements ActiveRecordInterface
         try {
 
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : GarnishTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : TrinketTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : GarnishTableMap::translateFieldName('Name', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : TrinketTableMap::translateFieldName('Name', TableMap::TYPE_PHPNAME, $indexType)];
             $this->name = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : GarnishTableMap::translateFieldName('Underclassman', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : TrinketTableMap::translateFieldName('Underclassman', TableMap::TYPE_PHPNAME, $indexType)];
             $this->underclassman = (null !== $col) ? (boolean) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : GarnishTableMap::translateFieldName('Junior', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : TrinketTableMap::translateFieldName('Junior', TableMap::TYPE_PHPNAME, $indexType)];
             $this->junior = (null !== $col) ? (boolean) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : GarnishTableMap::translateFieldName('Senior', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : TrinketTableMap::translateFieldName('Senior', TableMap::TYPE_PHPNAME, $indexType)];
             $this->senior = (null !== $col) ? (boolean) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : GarnishTableMap::translateFieldName('Price', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : TrinketTableMap::translateFieldName('Price', TableMap::TYPE_PHPNAME, $indexType)];
             $this->price = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
@@ -661,10 +661,10 @@ abstract class Garnish implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 6; // 6 = GarnishTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 6; // 6 = TrinketTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException("Error populating \Garnish object", 0, $e);
+            throw new PropelException("Error populating \Trinket object", 0, $e);
         }
     }
 
@@ -706,13 +706,13 @@ abstract class Garnish implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(GarnishTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(TrinketTableMap::DATABASE_NAME);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $dataFetcher = ChildGarnishQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
+        $dataFetcher = ChildTrinketQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
         $row = $dataFetcher->fetch();
         $dataFetcher->close();
         if (!$row) {
@@ -731,8 +731,8 @@ abstract class Garnish implements ActiveRecordInterface
      * @param      ConnectionInterface $con
      * @return void
      * @throws PropelException
-     * @see Garnish::setDeleted()
-     * @see Garnish::isDeleted()
+     * @see Trinket::setDeleted()
+     * @see Trinket::isDeleted()
      */
     public function delete(ConnectionInterface $con = null)
     {
@@ -741,12 +741,12 @@ abstract class Garnish implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(GarnishTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(TrinketTableMap::DATABASE_NAME);
         }
 
         $con->beginTransaction();
         try {
-            $deleteQuery = ChildGarnishQuery::create()
+            $deleteQuery = ChildTrinketQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -783,7 +783,7 @@ abstract class Garnish implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(GarnishTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(TrinketTableMap::DATABASE_NAME);
         }
 
         $con->beginTransaction();
@@ -803,7 +803,7 @@ abstract class Garnish implements ActiveRecordInterface
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                GarnishTableMap::addInstanceToPool($this);
+                TrinketTableMap::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -864,33 +864,33 @@ abstract class Garnish implements ActiveRecordInterface
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[] = GarnishTableMap::ID;
+        $this->modifiedColumns[] = TrinketTableMap::ID;
         if (null !== $this->id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . GarnishTableMap::ID . ')');
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . TrinketTableMap::ID . ')');
         }
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(GarnishTableMap::ID)) {
+        if ($this->isColumnModified(TrinketTableMap::ID)) {
             $modifiedColumns[':p' . $index++]  = 'ID';
         }
-        if ($this->isColumnModified(GarnishTableMap::NAME)) {
+        if ($this->isColumnModified(TrinketTableMap::NAME)) {
             $modifiedColumns[':p' . $index++]  = 'NAME';
         }
-        if ($this->isColumnModified(GarnishTableMap::UNDERCLASSMAN)) {
+        if ($this->isColumnModified(TrinketTableMap::UNDERCLASSMAN)) {
             $modifiedColumns[':p' . $index++]  = 'UNDERCLASSMAN';
         }
-        if ($this->isColumnModified(GarnishTableMap::JUNIOR)) {
+        if ($this->isColumnModified(TrinketTableMap::JUNIOR)) {
             $modifiedColumns[':p' . $index++]  = 'JUNIOR';
         }
-        if ($this->isColumnModified(GarnishTableMap::SENIOR)) {
+        if ($this->isColumnModified(TrinketTableMap::SENIOR)) {
             $modifiedColumns[':p' . $index++]  = 'SENIOR';
         }
-        if ($this->isColumnModified(GarnishTableMap::PRICE)) {
+        if ($this->isColumnModified(TrinketTableMap::PRICE)) {
             $modifiedColumns[':p' . $index++]  = 'PRICE';
         }
 
         $sql = sprintf(
-            'INSERT INTO garnish (%s) VALUES (%s)',
+            'INSERT INTO trinket (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -963,7 +963,7 @@ abstract class Garnish implements ActiveRecordInterface
      */
     public function getByName($name, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = GarnishTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = TrinketTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -1019,11 +1019,11 @@ abstract class Garnish implements ActiveRecordInterface
      */
     public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
     {
-        if (isset($alreadyDumpedObjects['Garnish'][$this->getPrimaryKey()])) {
+        if (isset($alreadyDumpedObjects['Trinket'][$this->getPrimaryKey()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['Garnish'][$this->getPrimaryKey()] = true;
-        $keys = GarnishTableMap::getFieldNames($keyType);
+        $alreadyDumpedObjects['Trinket'][$this->getPrimaryKey()] = true;
+        $keys = TrinketTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
             $keys[1] => $this->getName(),
@@ -1054,7 +1054,7 @@ abstract class Garnish implements ActiveRecordInterface
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = GarnishTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = TrinketTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         return $this->setByPosition($pos, $value);
     }
@@ -1110,7 +1110,7 @@ abstract class Garnish implements ActiveRecordInterface
      */
     public function fromArray($arr, $keyType = TableMap::TYPE_PHPNAME)
     {
-        $keys = GarnishTableMap::getFieldNames($keyType);
+        $keys = TrinketTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
         if (array_key_exists($keys[1], $arr)) $this->setName($arr[$keys[1]]);
@@ -1127,14 +1127,14 @@ abstract class Garnish implements ActiveRecordInterface
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(GarnishTableMap::DATABASE_NAME);
+        $criteria = new Criteria(TrinketTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(GarnishTableMap::ID)) $criteria->add(GarnishTableMap::ID, $this->id);
-        if ($this->isColumnModified(GarnishTableMap::NAME)) $criteria->add(GarnishTableMap::NAME, $this->name);
-        if ($this->isColumnModified(GarnishTableMap::UNDERCLASSMAN)) $criteria->add(GarnishTableMap::UNDERCLASSMAN, $this->underclassman);
-        if ($this->isColumnModified(GarnishTableMap::JUNIOR)) $criteria->add(GarnishTableMap::JUNIOR, $this->junior);
-        if ($this->isColumnModified(GarnishTableMap::SENIOR)) $criteria->add(GarnishTableMap::SENIOR, $this->senior);
-        if ($this->isColumnModified(GarnishTableMap::PRICE)) $criteria->add(GarnishTableMap::PRICE, $this->price);
+        if ($this->isColumnModified(TrinketTableMap::ID)) $criteria->add(TrinketTableMap::ID, $this->id);
+        if ($this->isColumnModified(TrinketTableMap::NAME)) $criteria->add(TrinketTableMap::NAME, $this->name);
+        if ($this->isColumnModified(TrinketTableMap::UNDERCLASSMAN)) $criteria->add(TrinketTableMap::UNDERCLASSMAN, $this->underclassman);
+        if ($this->isColumnModified(TrinketTableMap::JUNIOR)) $criteria->add(TrinketTableMap::JUNIOR, $this->junior);
+        if ($this->isColumnModified(TrinketTableMap::SENIOR)) $criteria->add(TrinketTableMap::SENIOR, $this->senior);
+        if ($this->isColumnModified(TrinketTableMap::PRICE)) $criteria->add(TrinketTableMap::PRICE, $this->price);
 
         return $criteria;
     }
@@ -1149,8 +1149,8 @@ abstract class Garnish implements ActiveRecordInterface
      */
     public function buildPkeyCriteria()
     {
-        $criteria = new Criteria(GarnishTableMap::DATABASE_NAME);
-        $criteria->add(GarnishTableMap::ID, $this->id);
+        $criteria = new Criteria(TrinketTableMap::DATABASE_NAME);
+        $criteria->add(TrinketTableMap::ID, $this->id);
 
         return $criteria;
     }
@@ -1191,7 +1191,7 @@ abstract class Garnish implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \Garnish (or compatible) type.
+     * @param      object $copyObj An object of \Trinket (or compatible) type.
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
@@ -1218,7 +1218,7 @@ abstract class Garnish implements ActiveRecordInterface
      * objects.
      *
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return                 \Garnish Clone of current object.
+     * @return                 \Trinket Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1273,7 +1273,7 @@ abstract class Garnish implements ActiveRecordInterface
      */
     public function __toString()
     {
-        return (string) $this->exportTo(GarnishTableMap::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(TrinketTableMap::DEFAULT_STRING_FORMAT);
     }
 
     /**

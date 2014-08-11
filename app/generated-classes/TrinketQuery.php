@@ -1,10 +1,10 @@
 <?php
 
-use Base\GarnishQuery as BaseGarnishQuery;
+use Base\TrinketQuery as BaseTrinketQuery;
 
 
 /**
- * Skeleton subclass for performing query and update operations on the 'garnish' table.
+ * Skeleton subclass for performing query and update operations on the 'trinket' table.
  *
  *
  *
@@ -13,7 +13,7 @@ use Base\GarnishQuery as BaseGarnishQuery;
  * long as it does not already exist in the output directory.
  *
  */
-class GarnishQuery extends BaseGarnishQuery
+class TrinketQuery extends BaseTrinketQuery
 {
 
-} // GarnishQuery
+} // TrinketQuery
