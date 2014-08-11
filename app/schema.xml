@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <database name="mums" defaultIdMethod="native">
 
+	<table name="customer" phpName="Customer">
+		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
+		<column name="email" type="varchar" size="64" required="true" />
+		<column name="password" type="varchar" size="255" required="true" />
+		<column name="name" type="varchar" size="64" required="true" />
+		<column name="phone" type="varchar" size="16" required="true" />
+	</table>
+
 	<table name="trinket" phpName="Trinket">
 		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
 		<column name="name" type="varchar" size="64" required="true" />

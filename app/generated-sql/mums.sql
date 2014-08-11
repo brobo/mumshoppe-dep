@@ -4,6 +4,22 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ---------------------------------------------------------------------
+-- customer
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `customer`;
+
+CREATE TABLE `customer`
+(
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `email` VARCHAR(64) NOT NULL,
+    `password` VARCHAR(256) NOT NULL,
+    `name` VARCHAR(64) NOT NULL,
+    `phone` VARCHAR(16) NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
 -- trinket
 -- ---------------------------------------------------------------------
 

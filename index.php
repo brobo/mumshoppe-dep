@@ -2,6 +2,8 @@
 	require_once 'app/vendor/autoload.php';
 	require_once 'app/config/propel.php';
 
+	session_start();
+
 	$app = new \Slim\Slim();
 
 	$app->config(array(
@@ -16,6 +18,15 @@
 		$app->render('volunteer.html');
 	});
 
+	$app->get('/mumshoppe', function() use ($app) {
+		$app->render('mumshoppe.html');
+	});
+
+	$app->get('/', function() use ($app) {
+		$app->render('mumshoppe.html');
+	});
+
+	require('app/api/customer.php');
 	require('app/api/trinket.php');
 
 	$app->run();

@@ -27,6 +27,8 @@
 		}
 
 		$trinket->save();
+
+		echo $trinket->toJson();
 	});
 
 	$app->post('/api/trinket', function() use ($app) {

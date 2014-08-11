@@ -6,8 +6,13 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Base\\Customer' => $baseDir . '/generated-classes/Base/Customer.php',
+    'Base\\CustomerQuery' => $baseDir . '/generated-classes/Base/CustomerQuery.php',
     'Base\\Trinket' => $baseDir . '/generated-classes/Base/Trinket.php',
     'Base\\TrinketQuery' => $baseDir . '/generated-classes/Base/TrinketQuery.php',
+    'Customer' => $baseDir . '/generated-classes/Customer.php',
+    'CustomerQuery' => $baseDir . '/generated-classes/CustomerQuery.php',
+    'Map\\CustomerTableMap' => $baseDir . '/generated-classes/Map/CustomerTableMap.php',
     'Map\\TrinketTableMap' => $baseDir . '/generated-classes/Map/TrinketTableMap.php',
     'Trinket' => $baseDir . '/generated-classes/Trinket.php',
     'TrinketQuery' => $baseDir . '/generated-classes/TrinketQuery.php',
