@@ -2,8 +2,8 @@
 
 namespace Map;
 
-use \Customer;
-use \CustomerQuery;
+use \Grade;
+use \GradeQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -15,7 +15,7 @@ use Propel\Runtime\Map\TableMapTrait;
 
 
 /**
- * This class defines the structure of the 'customer' table.
+ * This class defines the structure of the 'grade' table.
  *
  *
  *
@@ -25,14 +25,14 @@ use Propel\Runtime\Map\TableMapTrait;
  * (i.e. if it's a text column type).
  *
  */
-class CustomerTableMap extends TableMap
+class GradeTableMap extends TableMap
 {
     use InstancePoolTrait;
     use TableMapTrait;
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.CustomerTableMap';
+    const CLASS_NAME = '.Map.GradeTableMap';
 
     /**
      * The default database name for this class
@@ -42,22 +42,22 @@ class CustomerTableMap extends TableMap
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'customer';
+    const TABLE_NAME = 'grade';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\Customer';
+    const OM_CLASS = '\\Grade';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'Customer';
+    const CLASS_DEFAULT = 'Grade';
 
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 5;
+    const NUM_COLUMNS = 2;
 
     /**
      * The number of lazy-loaded columns
@@ -67,32 +67,17 @@ class CustomerTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 5;
+    const NUM_HYDRATE_COLUMNS = 2;
 
     /**
      * the column name for the ID field
      */
-    const ID = 'customer.ID';
-
-    /**
-     * the column name for the EMAIL field
-     */
-    const EMAIL = 'customer.EMAIL';
-
-    /**
-     * the column name for the PASSWORD field
-     */
-    const PASSWORD = 'customer.PASSWORD';
+    const ID = 'grade.ID';
 
     /**
      * the column name for the NAME field
      */
-    const NAME = 'customer.NAME';
-
-    /**
-     * the column name for the PHONE field
-     */
-    const PHONE = 'customer.PHONE';
+    const NAME = 'grade.NAME';
 
     /**
      * The default string format for model objects of the related table
@@ -106,12 +91,12 @@ class CustomerTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Email', 'Password', 'Name', 'Phone', ),
-        self::TYPE_STUDLYPHPNAME => array('id', 'email', 'password', 'name', 'phone', ),
-        self::TYPE_COLNAME       => array(CustomerTableMap::ID, CustomerTableMap::EMAIL, CustomerTableMap::PASSWORD, CustomerTableMap::NAME, CustomerTableMap::PHONE, ),
-        self::TYPE_RAW_COLNAME   => array('ID', 'EMAIL', 'PASSWORD', 'NAME', 'PHONE', ),
-        self::TYPE_FIELDNAME     => array('id', 'email', 'password', 'name', 'phone', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
+        self::TYPE_PHPNAME       => array('Id', 'Name', ),
+        self::TYPE_STUDLYPHPNAME => array('id', 'name', ),
+        self::TYPE_COLNAME       => array(GradeTableMap::ID, GradeTableMap::NAME, ),
+        self::TYPE_RAW_COLNAME   => array('ID', 'NAME', ),
+        self::TYPE_FIELDNAME     => array('id', 'name', ),
+        self::TYPE_NUM           => array(0, 1, )
     );
 
     /**
@@ -121,12 +106,12 @@ class CustomerTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Email' => 1, 'Password' => 2, 'Name' => 3, 'Phone' => 4, ),
-        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'email' => 1, 'password' => 2, 'name' => 3, 'phone' => 4, ),
-        self::TYPE_COLNAME       => array(CustomerTableMap::ID => 0, CustomerTableMap::EMAIL => 1, CustomerTableMap::PASSWORD => 2, CustomerTableMap::NAME => 3, CustomerTableMap::PHONE => 4, ),
-        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'EMAIL' => 1, 'PASSWORD' => 2, 'NAME' => 3, 'PHONE' => 4, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'email' => 1, 'password' => 2, 'name' => 3, 'phone' => 4, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Name' => 1, ),
+        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'name' => 1, ),
+        self::TYPE_COLNAME       => array(GradeTableMap::ID => 0, GradeTableMap::NAME => 1, ),
+        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'NAME' => 1, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'name' => 1, ),
+        self::TYPE_NUM           => array(0, 1, )
     );
 
     /**
@@ -139,17 +124,14 @@ class CustomerTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('customer');
-        $this->setPhpName('Customer');
-        $this->setClassName('\\Customer');
+        $this->setName('grade');
+        $this->setPhpName('Grade');
+        $this->setClassName('\\Grade');
         $this->setPackage('');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
-        $this->addColumn('EMAIL', 'Email', 'VARCHAR', true, 64, null);
-        $this->addColumn('PASSWORD', 'Password', 'VARCHAR', true, 255, null);
-        $this->addColumn('NAME', 'Name', 'VARCHAR', true, 64, null);
-        $this->addColumn('PHONE', 'Phone', 'VARCHAR', true, 16, null);
+        $this->addColumn('NAME', 'Name', 'VARCHAR', true, 32, null);
     } // initialize()
 
     /**
@@ -157,7 +139,17 @@ class CustomerTableMap extends TableMap
      */
     public function buildRelations()
     {
+        $this->addRelation('Backing', '\\Backing', RelationMap::ONE_TO_MANY, array('id' => 'grade_id', ), 'SET NULL', null, 'Backings');
     } // buildRelations()
+    /**
+     * Method to invalidate the instance pool of all tables related to grade     * by a foreign key with ON DELETE CASCADE
+     */
+    public static function clearRelatedInstancePool()
+    {
+        // Invalidate objects in ".$this->getClassNameFromBuilder($joinedTableTableMapBuilder)." instance pool,
+        // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
+                BackingTableMap::clearInstancePool();
+            }
 
     /**
      * Retrieves a string version of the primary key from the DB resultset row that can be used to uniquely identify a row in this table.
@@ -215,7 +207,7 @@ class CustomerTableMap extends TableMap
      */
     public static function getOMClass($withPrefix = true)
     {
-        return $withPrefix ? CustomerTableMap::CLASS_DEFAULT : CustomerTableMap::OM_CLASS;
+        return $withPrefix ? GradeTableMap::CLASS_DEFAULT : GradeTableMap::OM_CLASS;
     }
 
     /**
@@ -229,21 +221,21 @@ class CustomerTableMap extends TableMap
      *
      * @throws PropelException Any exceptions caught during processing will be
      *         rethrown wrapped into a PropelException.
-     * @return array (Customer object, last column rank)
+     * @return array (Grade object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        $key = CustomerTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
-        if (null !== ($obj = CustomerTableMap::getInstanceFromPool($key))) {
+        $key = GradeTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
+        if (null !== ($obj = GradeTableMap::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $offset, true); // rehydrate
-            $col = $offset + CustomerTableMap::NUM_HYDRATE_COLUMNS;
+            $col = $offset + GradeTableMap::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = CustomerTableMap::OM_CLASS;
+            $cls = GradeTableMap::OM_CLASS;
             $obj = new $cls();
             $col = $obj->hydrate($row, $offset, false, $indexType);
-            CustomerTableMap::addInstanceToPool($obj, $key);
+            GradeTableMap::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -266,8 +258,8 @@ class CustomerTableMap extends TableMap
         $cls = static::getOMClass(false);
         // populate the object(s)
         while ($row = $dataFetcher->fetch()) {
-            $key = CustomerTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
-            if (null !== ($obj = CustomerTableMap::getInstanceFromPool($key))) {
+            $key = GradeTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
+            if (null !== ($obj = GradeTableMap::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
@@ -276,7 +268,7 @@ class CustomerTableMap extends TableMap
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                CustomerTableMap::addInstanceToPool($obj, $key);
+                GradeTableMap::addInstanceToPool($obj, $key);
             } // if key exists
         }
 
@@ -297,17 +289,11 @@ class CustomerTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(CustomerTableMap::ID);
-            $criteria->addSelectColumn(CustomerTableMap::EMAIL);
-            $criteria->addSelectColumn(CustomerTableMap::PASSWORD);
-            $criteria->addSelectColumn(CustomerTableMap::NAME);
-            $criteria->addSelectColumn(CustomerTableMap::PHONE);
+            $criteria->addSelectColumn(GradeTableMap::ID);
+            $criteria->addSelectColumn(GradeTableMap::NAME);
         } else {
             $criteria->addSelectColumn($alias . '.ID');
-            $criteria->addSelectColumn($alias . '.EMAIL');
-            $criteria->addSelectColumn($alias . '.PASSWORD');
             $criteria->addSelectColumn($alias . '.NAME');
-            $criteria->addSelectColumn($alias . '.PHONE');
         }
     }
 
@@ -320,7 +306,7 @@ class CustomerTableMap extends TableMap
      */
     public static function getTableMap()
     {
-        return Propel::getServiceContainer()->getDatabaseMap(CustomerTableMap::DATABASE_NAME)->getTable(CustomerTableMap::TABLE_NAME);
+        return Propel::getServiceContainer()->getDatabaseMap(GradeTableMap::DATABASE_NAME)->getTable(GradeTableMap::TABLE_NAME);
     }
 
     /**
@@ -328,16 +314,16 @@ class CustomerTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-      $dbMap = Propel::getServiceContainer()->getDatabaseMap(CustomerTableMap::DATABASE_NAME);
-      if (!$dbMap->hasTable(CustomerTableMap::TABLE_NAME)) {
-        $dbMap->addTableObject(new CustomerTableMap());
+      $dbMap = Propel::getServiceContainer()->getDatabaseMap(GradeTableMap::DATABASE_NAME);
+      if (!$dbMap->hasTable(GradeTableMap::TABLE_NAME)) {
+        $dbMap->addTableObject(new GradeTableMap());
       }
     }
 
     /**
-     * Performs a DELETE on the database, given a Customer or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a Grade or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or Customer object or primary key or array of primary keys
+     * @param mixed               $values Criteria or Grade object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -348,25 +334,25 @@ class CustomerTableMap extends TableMap
      public static function doDelete($values, ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(CustomerTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(GradeTableMap::DATABASE_NAME);
         }
 
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \Customer) { // it's a model object
+        } elseif ($values instanceof \Grade) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(CustomerTableMap::DATABASE_NAME);
-            $criteria->add(CustomerTableMap::ID, (array) $values, Criteria::IN);
+            $criteria = new Criteria(GradeTableMap::DATABASE_NAME);
+            $criteria->add(GradeTableMap::ID, (array) $values, Criteria::IN);
         }
 
-        $query = CustomerQuery::create()->mergeWith($criteria);
+        $query = GradeQuery::create()->mergeWith($criteria);
 
-        if ($values instanceof Criteria) { CustomerTableMap::clearInstancePool();
+        if ($values instanceof Criteria) { GradeTableMap::clearInstancePool();
         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
-            foreach ((array) $values as $singleval) { CustomerTableMap::removeInstanceFromPool($singleval);
+            foreach ((array) $values as $singleval) { GradeTableMap::removeInstanceFromPool($singleval);
             }
         }
 
@@ -374,20 +360,20 @@ class CustomerTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the customer table.
+     * Deletes all rows from the grade table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
-        return CustomerQuery::create()->doDeleteAll($con);
+        return GradeQuery::create()->doDeleteAll($con);
     }
 
     /**
-     * Performs an INSERT on the database, given a Customer or Criteria object.
+     * Performs an INSERT on the database, given a Grade or Criteria object.
      *
-     * @param mixed               $criteria Criteria or Customer object containing data that is used to create the INSERT statement.
+     * @param mixed               $criteria Criteria or Grade object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -396,22 +382,22 @@ class CustomerTableMap extends TableMap
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(CustomerTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(GradeTableMap::DATABASE_NAME);
         }
 
         if ($criteria instanceof Criteria) {
             $criteria = clone $criteria; // rename for clarity
         } else {
-            $criteria = $criteria->buildCriteria(); // build Criteria from Customer object
+            $criteria = $criteria->buildCriteria(); // build Criteria from Grade object
         }
 
-        if ($criteria->containsKey(CustomerTableMap::ID) && $criteria->keyContainsValue(CustomerTableMap::ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.CustomerTableMap::ID.')');
+        if ($criteria->containsKey(GradeTableMap::ID) && $criteria->keyContainsValue(GradeTableMap::ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.GradeTableMap::ID.')');
         }
 
 
         // Set the correct dbName
-        $query = CustomerQuery::create()->mergeWith($criteria);
+        $query = GradeQuery::create()->mergeWith($criteria);
 
         try {
             // use transaction because $criteria could contain info
@@ -427,7 +413,7 @@ class CustomerTableMap extends TableMap
         return $pk;
     }
 
-} // CustomerTableMap
+} // GradeTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-CustomerTableMap::buildTableMap();
+GradeTableMap::buildTableMap();

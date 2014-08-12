@@ -1,6 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <database name="mums" defaultIdMethod="native">
 
+	<table name="grade" phpName="Grade">
+		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
+		<column name="name" type="varchar" size="32" required="true" />
+	</table>
+
+	<table name="product" phpName="Product">
+		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
+		<column name="name" type="varchar" size="32" required="true" />
+	</table>
+
+	<table name="size" phpName="Size">
+		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
+		<column name="name" type="varchar" size="32" required="true" />
+		<column name="price" type="decimal" size="10" scale="2" required="true" />
+		<column name="product_id" type="integer" required="true" />
+		<foreign-key foreignTable="product" phpName="Product" refPhpName="Size">
+			<reference local="product_id" foreign="id" />
+		</foreign-key>
+	</table>
+
+	<table name="backing" phpName="Backing">
+		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
+		<column name="name" type="varchar" size="32" required="true" />
+		<column name="price" type="decimal" size="10" scale="2" required="true" />
+		<column name="size_id" type="integer" required="true" />
+		<column name="grade_id" type="integer" required="true" />
+		<foreign-key foreignTable="size" phpName="Size" refPhpName="Backing">
+			<reference local="size_id" foreign="id" />
+		</foreign-key>
+		<foreign-key foreignTable="grade" phpName="Grade" refPhpName="Backing">
+			<reference local="grade_id" foreign="id" />
+		</foreign-key>
+	</table>
+
 	<table name="customer" phpName="Customer">
 		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
 		<column name="email" type="varchar" size="64" required="true" />

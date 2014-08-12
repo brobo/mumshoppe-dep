@@ -29,5 +29,10 @@
 	require('app/api/customer.php');
 	require('app/api/trinket.php');
 
+	require('app/api/backing.php');
+	require('app/api/customer.php');
+	require('app/api/product.php');
+	require('app/api/size.php');
+
 	$app->run();
 ?>

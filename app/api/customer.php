@@ -15,8 +15,4 @@
 			"Phone" => $customer->getPhone());
 		echo json_encode($res);
 	});
-
-	$app->post('/api/customer', function() use ($app) {
-		
-	})
 ?>
