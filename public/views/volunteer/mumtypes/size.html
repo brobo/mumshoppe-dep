@@ -1,12 +1,7 @@
-<ul class="breadcrumb">
-	<li><a ui-sref="^.grade">Home</a></li>
-	<li><a ui-sref="^.product({gradeId: grade.Id})">{{grade.Name}}</a></li>
-	<li>{{product.Name}}</li>
-</ul>
 <h2>Sizes</h2>
 <div class="list-group">
 	<div ng-repeat="size in items | filter:{ProductId:product.Id}" class="row">
-		<a class="list-group-item col-xs-10">
+		<a class="list-group-item col-xs-10" ui-sref="^.backing({gradeId: grade.Id, productId:product.Id, sizeId:size.Id})">
 			<h4 class="list-group-item-heading">{{size.Name}}</h4>
 		</a>
 		<div class="col-xs-2">
@@ -17,7 +12,7 @@
 </div>
 <button class="btn btn-success" ng-click="addItem({ProductId: product.Id})"><i class="fa fa-plus fa-x2">Add Size</i></button>
 
-<script type="text/ng-template" id="sizeForm">
+<script type="text/ng-template" id="itemForm">
 	<form class="form-horizontal" name="sizeForm" ng-submit="create(sizeForm)" novalidate>
 		<h2>Edit Size</h2>
 		<div class="form-group has-feedback" ng-class="{'has-error': invalid.Name}">

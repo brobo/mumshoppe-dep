@@ -5,7 +5,7 @@
 
 		if (!$backings) return;
 
-		echo $backings->toJson();
+		echo json_encode($backings->toArray());
 	});
 
 	$app->get('/api/backing/:id', function($id) {

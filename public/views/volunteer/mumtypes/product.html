@@ -1,7 +1,3 @@
-<ul class="breadcrumb">
-	<li><a ui-sref="^.grade">Home</a></li>
-	<li>{{grade.Name}}</li>
-</ul>
 <h2>Products</h2>
 <div class="list-group">
 	<div ng-repeat="product in items" class="row">
@@ -16,7 +12,7 @@
 </div>
 <button class="btn btn-success" ng-click="addItem()"><i class="fa fa-plus fa-x2">Add Product</i></button>
 
-<script type="text/ng-template" id="productForm">
+<script type="text/ng-template" id="itemForm">
 	<form class="form-horizontal" name="productForm" ng-submit="create(productForm)" novalidate>
 		<h2>Edit Product</h2>
 		<div class="form-group has-feedback col-xs-12" ng-class="{'has-error': invalid.Name}">

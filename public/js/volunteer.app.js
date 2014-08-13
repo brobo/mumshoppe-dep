@@ -32,10 +32,7 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 			resolve: {
 				itemDetails: function(MumtypesService) {
 					return {
-						form: {
-							url: 'gradeForm',
-							controller: 'mumtypesEditGradeController'
-						},
+						formController: 'mumtypesEditGradeController',
 						service: MumtypesService.grades,
 						fetch: []
 					};
@@ -52,10 +49,7 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 			resolve: {
 				itemDetails: function($stateParams, MumtypesService) {
 					return {
-						form: {
-							url: 'productForm',
-							controller: 'mumtypesEditProductController'
-						},
+						formController: 'mumtypesEditProductController',
 						service: MumtypesService.products,
 						fetch: [
 							function($scope) {
@@ -80,10 +74,7 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 			resolve: {
 				itemDetails: function($stateParams, MumtypesService) {
 					return {
-						form: {
-							url: 'sizeForm',
-							controller: 'mumtypesEditSizeController'
-						},
+						formController: 'mumtypesEditSizeController',
 						service: MumtypesService.sizes,
 						fetch: [
 							function($scope) {
@@ -105,6 +96,43 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 			data: {
 				ncyBreadcrumbParent: 'mumtypes.product',
 				ncyBreadcrumbLabel: '{{product.Name}}'
+			}
+		})
+		.state('mumtypes.backing', {
+			url: '/:gradeId/:productId/:sizeId',
+			templateUrl: 'public/views/volunteer/mumtypes/backing.html',
+			controller: 'mumtypesItemsController',
+			resolve: {
+				itemDetails: function($stateParams, MumtypesService) {
+					return {
+						formController: 'mumtypesEditBackingController',
+						service: MumtypesService.backings,
+						fetch: [
+							function($scope) {
+								return MumtypesService.grades.fetch($stateParams.gradeId)
+									.success(function(data) {
+										$scope.grade = data;
+									});
+							},
+							function($scope) {
+								return MumtypesService.products.fetch($stateParams.productId)
+									.success(function(data) {
+										$scope.product = data;
+									});
+							},
+							function($scope) {
+								return MumtypesService.sizes.fetch($stateParams.sizeId)
+									.success(function(data) {
+										$scope.size = data;
+									});
+							}
+						]
+					}
+				}
+			},
+			data: {
+				ncyBreadcrumbParent: 'mumtypes.size',
+				ncyBreadcrumbLabel: '{{size.Name}}'
 			}
 		})
 

@@ -18,8 +18,8 @@ angular.module('mumtypes.controller', [])
 
 		$scope.addItem = function(meta) {
 			$modal.open({
-				templateUrl: itemDetails.form.url,
-				controller: itemDetails.form.controller,
+				templateUrl: 'itemForm',
+				controller: itemDetails.formController,
 				size: 'lg',
 				resolve: {
 					item: function() {
@@ -41,8 +41,8 @@ angular.module('mumtypes.controller', [])
 
 		$scope.editItem = function(item, meta) {
 			$modal.open({
-				templateUrl: itemDetails.form.url,
-				controller: itemDetails.form.controller,
+				templateUrl: 'itemForm',
+				controller: itemDetails.formController,
 				size: 'lg',
 				resolve: {
 					item: function() {
@@ -114,7 +114,6 @@ angular.module('mumtypes.controller', [])
 	})
 
 	.controller('mumtypesEditProductController', function($scope, $state, $modalInstance, promiseTracker, AlertsService, MumtypesService, item, save) {
-		//$scope.REGEX_PRICE = /^[0-9]*(\.[0-9]{1,2})?$/
 		$scope.product = item;
 		$scope.tracker = promiseTracker();
 		$scope.invalid = {};
@@ -178,6 +177,42 @@ angular.module('mumtypes.controller', [])
 
 		$scope.cancel = function() {
 			$scope.size = {};
+			$modalInstance.dismiss();
+		}
+	})
+
+	.controller('mumtypesEditBackingController', function($scope, $state, $modalInstance, promiseTracker, AlertsService, MumtypesService, meta, item, save) {
+		$scope.REGEX_PRICE = /^[0-9]*(\.[0-9]{1,2})?$/
+		$scope.backing = item;
+		$scope.backing.SizeId = meta.SizeId;
+		$scope.backing.GradeId = meta.GradeId;
+		$scope.tracker = promiseTracker();
+		$scope.invalid = {};
+
+		$scope.validate = function(form, field) {
+			$scope.invalid[field] = form[field].$invalid;
+		}
+
+		$scope.create = function(form) {
+			if (form.$valid) {
+				var defered = $scope.tracker.createPromise();
+				save($scope.backing)
+					.success(function(data) {
+						$scope.backing = {};
+						AlertsService.add('success', 'Successfully saved backing.');
+						$modalInstance.close();
+					}).error(function(data) {
+						console.log('Error: ' + data);
+						AlertsService.add('warning', 'An error occured while saving the backing.');
+						$modalInstance.dismiss();
+					}).finally(function() {
+						defered.resolve();
+					});
+			}
+		}
+
+		$scope.cancel = function() {
+			$scope.backing = {};
 			$modalInstance.dismiss();
 		}
 	})
