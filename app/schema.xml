@@ -51,4 +51,18 @@
 		<column name="price" type="decimal" size="10" scale="2" required="true" />
 	</table>
 
+	<table name="accent_bow" phpName="AccentBow">
+		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
+		<column name="name" type="varchar" length="32" required="true" />
+		<column name="grade_id" type="integer" required="true" />
+		<foreign-key foreignTable="grade" phpName="Grade" refPhpName="AccentBow">
+			<reference local="grade_id" foreign="id" />
+		</foreign-key>
+	</table>
+
+	<table name="status" phpName="Status">
+		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
+		<column name="name" type="varchar" length="32" required="true" />
+	</table>
+
 </database>

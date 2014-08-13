@@ -3,6 +3,7 @@ var app = angular.module('volunteer', [
 	'ncy-angular-breadcrumb',
 	'ui.bootstrap',
 	'ui.router',
+	'accentbows.controller',
 	'alerts.controller',
 	'confirm.controller',
 	'mumtypes.controller',
@@ -19,6 +20,11 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 	$urlRouterProvider.otherwise('/trinkets');
 
 	$stateProvider
+		.state('accentbows', {
+			url: '/accentbows',
+			templateUrl: 'public/views/volunteer/accentbows/index.html',
+			controller: 'accentbowsController'
+		})
 		.state('mumtypes', {
 			url: '/mumtypes',
 			templateUrl: 'public/views/volunteer/mumtypes/index.html',
