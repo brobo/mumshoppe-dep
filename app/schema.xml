@@ -14,7 +14,6 @@
 	<table name="size" phpName="Size">
 		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
 		<column name="name" type="varchar" size="32" required="true" />
-		<column name="price" type="decimal" size="10" scale="2" required="true" />
 		<column name="product_id" type="integer" required="true" />
 		<foreign-key foreignTable="product" phpName="Product" refPhpName="Size">
 			<reference local="product_id" foreign="id" />

@@ -33,6 +33,7 @@
 	require('app/api/customer.php');
 	require('app/api/product.php');
 	require('app/api/size.php');
+	require('app/api/grade.php');
 
 	$app->run();
 ?>

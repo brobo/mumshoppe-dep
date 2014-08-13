@@ -1,14 +1,17 @@
 var app = angular.module('volunteer', [
 	'ajoslin.promise-tracker',
+	'ncy-angular-breadcrumb',
 	'ui.bootstrap',
 	'ui.router',
 	'alerts.controller',
 	'confirm.controller',
+	'mumtypes.controller',
 	'trinketsAdd.controller',
 	'trinketsAll.controller',
 	'trinketsEdit.controller',
 	'alerts.service',
 	'confirm.service',
+	'mumtypes.service',
 	'trinkets.service']);
 
 app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
@@ -16,6 +19,95 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 	$urlRouterProvider.otherwise('/trinkets');
 
 	$stateProvider
+		.state('mumtypes', {
+			url: '/mumtypes',
+			templateUrl: 'public/views/volunteer/mumtypes/index.html',
+			controller: 'mumtypesController',
+			abstract: true
+		})
+		.state('mumtypes.grade', {
+			url: '',
+			templateUrl: 'public/views/volunteer/mumtypes/grade.html',
+			controller: 'mumtypesItemsController',
+			resolve: {
+				itemDetails: function(MumtypesService) {
+					return {
+						form: {
+							url: 'gradeForm',
+							controller: 'mumtypesEditGradeController'
+						},
+						service: MumtypesService.grades,
+						fetch: []
+					};
+				}
+			},
+			data: {
+				ncyBreadcrumbLabel: 'Home'
+			}
+		})
+		.state('mumtypes.product', {
+			url: '/:gradeId',
+			templateUrl: 'public/views/volunteer/mumtypes/product.html',
+			controller: 'mumtypesItemsController',
+			resolve: {
+				itemDetails: function($stateParams, MumtypesService) {
+					return {
+						form: {
+							url: 'productForm',
+							controller: 'mumtypesEditProductController'
+						},
+						service: MumtypesService.products,
+						fetch: [
+							function($scope) {
+								return MumtypesService.grades.fetch($stateParams.gradeId)
+									.success(function(data) {
+										$scope.grade = data;
+									});
+							}
+						]
+					};
+				}
+			},
+			data: {
+				ncyBreadcrumbParent: 'mumtypes.grade',
+				ncyBreadcrumbLabel: '{{grade.Name}}'
+			}
+		})
+		.state('mumtypes.size', {
+			url: '/:gradeId/:productId',
+			templateUrl: 'public/views/volunteer/mumtypes/size.html',
+			controller: 'mumtypesItemsController',
+			resolve: {
+				itemDetails: function($stateParams, MumtypesService) {
+					return {
+						form: {
+							url: 'sizeForm',
+							controller: 'mumtypesEditSizeController'
+						},
+						service: MumtypesService.sizes,
+						fetch: [
+							function($scope) {
+								return MumtypesService.grades.fetch($stateParams.gradeId)
+									.success(function(data) {
+										$scope.grade = data;
+									});
+							},
+							function($scope) {
+								return MumtypesService.products.fetch($stateParams.productId)
+									.success(function(data) {
+										$scope.product = data;
+									});
+							}
+						]
+					};
+				}
+			},
+			data: {
+				ncyBreadcrumbParent: 'mumtypes.product',
+				ncyBreadcrumbLabel: '{{product.Name}}'
+			}
+		})
+
 		.state('trinkets', {
 			url: '/trinkets',
 			template: '<ui-view />',

@@ -1,0 +1,34 @@
+<ul class="breadcrumb">
+	<li><a ui-sref="^.grade">Home</a></li>
+	<li><a ui-sref="^.product({gradeId: grade.Id})">{{grade.Name}}</a></li>
+	<li>{{product.Name}}</li>
+</ul>
+<h2>Sizes</h2>
+<div class="list-group">
+	<div ng-repeat="size in items | filter:{ProductId:product.Id}" class="row">
+		<a class="list-group-item col-xs-10">
+			<h4 class="list-group-item-heading">{{size.Name}}</h4>
+		</a>
+		<div class="col-xs-2">
+			<button class="btn btn-info btn-xs" ng-click="editItem(size, {ProductId: product.Id})"><i class="fa fa-pencil"></i> Edit</button>
+			<button class="btn btn-danger btn-xs" ng-click="deleteItem(size)"><i class="fa fa-bomb"></i> Delete</button>
+		</div>
+	</div>
+</div>
+<button class="btn btn-success" ng-click="addItem({ProductId: product.Id})"><i class="fa fa-plus fa-x2">Add Size</i></button>
+
+<script type="text/ng-template" id="sizeForm">
+	<form class="form-horizontal" name="sizeForm" ng-submit="create(sizeForm)" novalidate>
+		<h2>Edit Size</h2>
+		<div class="form-group has-feedback" ng-class="{'has-error': invalid.Name}">
+			<label for="Name" class="col-lg-1 control-label">Name</label>
+			<div class="col-lg-10">
+				<input type="text" class="form-control col-lg-10" id="Name" name="Name" ng-model="size.Name" ng-blur="validate(sizeForm, 'Name')" ng-maxlength="32" required>
+				<span class="fa form-control-feedback" ng-class="{'fa-warning': invalid.Name}"></span>
+			</div>
+		</div>
+		<button class="btn btn-default" ng-click="cancel()">Cancel</button>
+		<button type="submit" ng-show="tracker.active()" class="btn btn-success" disabled><i class="fa fa-spin fa-circle-o-notch"></i></button>
+		<button type="submit" ng-show="!tracker.active()" class="btn btn-success" ng-disabled="gradeForm.$invalid">Save</button>
+	</form>
+</script>

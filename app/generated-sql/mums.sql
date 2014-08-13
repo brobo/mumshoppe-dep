@@ -39,7 +39,6 @@ CREATE TABLE `size`
 (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(32) NOT NULL,
-    `price` DECIMAL(10,2) NOT NULL,
     `product_id` INTEGER NOT NULL,
     PRIMARY KEY (`id`),
     INDEX `size_FI_1` (`product_id`),

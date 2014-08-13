@@ -1,0 +1,32 @@
+<ul class="breadcrumb">
+	<li>Home</li>
+</ul>
+<h2>Grades</h2>
+<div class="list-group">
+	<div ng-repeat="grade in items" class="row">
+		<a class="list-group-item col-xs-10" ui-sref="^.product({gradeId: grade.Id})">
+			<h4 class="list-group-item-heading">{{grade.Name}}</h4>
+		</a>
+		<div class="col-xs-2">
+			<button class="btn btn-info btn-xs" ng-click="editItem(grade)"><i class="fa fa-pencil"></i> Edit</button>
+			<button class="btn btn-danger btn-xs" ng-click="deleteItem(grade)"><i class="fa fa-bomb"></i> Delete</button>
+		</div>
+	</div>
+</div>
+<button class="btn btn-success" ng-click="addItem()"><i class="fa fa-plus fa-x2">Add Grade</i></button>
+
+<script type="text/ng-template" id="gradeForm">
+	<form class="form-horizontal" name="gradeForm" ng-submit="create(gradeForm)" novalidate>
+		<h2>Edit Grade</h2>
+		<div class="form-group has-feedback" ng-class="{'has-error': invalid.Name}">
+			<label for="Name" class="col-lg-1 control-label">Name</label>
+			<div class="col-lg-10">
+				<input type="text" class="form-control col-lg-10" id="Name" name="Name" ng-model="grade.Name" ng-blur="validate(gradeForm, 'Name')" ng-maxlength="16" required>
+				<span class="fa form-control-feedback" ng-class="{'fa-warning': invalid.Name}"></span>
+			</div>
+		</div>
+		<button class="btn btn-default" ng-click="cancel()">Cancel</button>
+		<button type="submit" ng-show="tracker.active()" class="btn btn-success" disabled><i class="fa fa-spin fa-circle-o-notch"></i></button>
+		<button type="submit" ng-show="!tracker.active()" class="btn btn-success" ng-disabled="gradeForm.$invalid">Save</button>
+	</form>
+</script>

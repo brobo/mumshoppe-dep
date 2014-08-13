@@ -23,12 +23,10 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     ChildSizeQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildSizeQuery orderByName($order = Criteria::ASC) Order by the name column
- * @method     ChildSizeQuery orderByPrice($order = Criteria::ASC) Order by the price column
  * @method     ChildSizeQuery orderByProductId($order = Criteria::ASC) Order by the product_id column
  *
  * @method     ChildSizeQuery groupById() Group by the id column
  * @method     ChildSizeQuery groupByName() Group by the name column
- * @method     ChildSizeQuery groupByPrice() Group by the price column
  * @method     ChildSizeQuery groupByProductId() Group by the product_id column
  *
  * @method     ChildSizeQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
@@ -48,12 +46,10 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     ChildSize findOneById(int $id) Return the first ChildSize filtered by the id column
  * @method     ChildSize findOneByName(string $name) Return the first ChildSize filtered by the name column
- * @method     ChildSize findOneByPrice(string $price) Return the first ChildSize filtered by the price column
  * @method     ChildSize findOneByProductId(int $product_id) Return the first ChildSize filtered by the product_id column
  *
  * @method     array findById(int $id) Return ChildSize objects filtered by the id column
  * @method     array findByName(string $name) Return ChildSize objects filtered by the name column
- * @method     array findByPrice(string $price) Return ChildSize objects filtered by the price column
  * @method     array findByProductId(int $product_id) Return ChildSize objects filtered by the product_id column
  *
  */
@@ -143,7 +139,7 @@ abstract class SizeQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT ID, NAME, PRICE, PRODUCT_ID FROM size WHERE ID = :p0';
+        $sql = 'SELECT ID, NAME, PRODUCT_ID FROM size WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -300,47 +296,6 @@ abstract class SizeQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(SizeTableMap::NAME, $name, $comparison);
-    }
-
-    /**
-     * Filter the query on the price column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByPrice(1234); // WHERE price = 1234
-     * $query->filterByPrice(array(12, 34)); // WHERE price IN (12, 34)
-     * $query->filterByPrice(array('min' => 12)); // WHERE price > 12
-     * </code>
-     *
-     * @param     mixed $price The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return ChildSizeQuery The current query, for fluid interface
-     */
-    public function filterByPrice($price = null, $comparison = null)
-    {
-        if (is_array($price)) {
-            $useMinMax = false;
-            if (isset($price['min'])) {
-                $this->addUsingAlias(SizeTableMap::PRICE, $price['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($price['max'])) {
-                $this->addUsingAlias(SizeTableMap::PRICE, $price['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(SizeTableMap::PRICE, $price, $comparison);
     }
 
     /**

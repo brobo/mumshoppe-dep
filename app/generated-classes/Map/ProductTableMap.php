@@ -139,17 +139,8 @@ class ProductTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Size', '\\Size', RelationMap::ONE_TO_MANY, array('id' => 'product_id', ), 'SET NULL', null, 'Sizes');
+        $this->addRelation('Size', '\\Size', RelationMap::ONE_TO_MANY, array('id' => 'product_id', ), null, null, 'Sizes');
     } // buildRelations()
-    /**
-     * Method to invalidate the instance pool of all tables related to product     * by a foreign key with ON DELETE CASCADE
-     */
-    public static function clearRelatedInstancePool()
-    {
-        // Invalidate objects in ".$this->getClassNameFromBuilder($joinedTableTableMapBuilder)." instance pool,
-        // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
-                SizeTableMap::clearInstancePool();
-            }
 
     /**
      * Retrieves a string version of the primary key from the DB resultset row that can be used to uniquely identify a row in this table.

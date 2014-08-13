@@ -70,12 +70,6 @@ abstract class Size implements ActiveRecordInterface
     protected $name;
 
     /**
-     * The value for the price field.
-     * @var        string
-     */
-    protected $price;
-
-    /**
      * The value for the product_id field.
      * @var        int
      */
@@ -387,17 +381,6 @@ abstract class Size implements ActiveRecordInterface
     }
 
     /**
-     * Get the [price] column value.
-     *
-     * @return   string
-     */
-    public function getPrice()
-    {
-
-        return $this->price;
-    }
-
-    /**
      * Get the [product_id] column value.
      *
      * @return   int
@@ -449,27 +432,6 @@ abstract class Size implements ActiveRecordInterface
 
         return $this;
     } // setName()
-
-    /**
-     * Set the value of [price] column.
-     *
-     * @param      string $v new value
-     * @return   \Size The current object (for fluent API support)
-     */
-    public function setPrice($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->price !== $v) {
-            $this->price = $v;
-            $this->modifiedColumns[] = SizeTableMap::PRICE;
-        }
-
-
-        return $this;
-    } // setPrice()
 
     /**
      * Set the value of [product_id] column.
@@ -539,10 +501,7 @@ abstract class Size implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : SizeTableMap::translateFieldName('Name', TableMap::TYPE_PHPNAME, $indexType)];
             $this->name = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : SizeTableMap::translateFieldName('Price', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->price = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : SizeTableMap::translateFieldName('ProductId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : SizeTableMap::translateFieldName('ProductId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->product_id = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
@@ -552,7 +511,7 @@ abstract class Size implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 4; // 4 = SizeTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 3; // 3 = SizeTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating \Size object", 0, $e);
@@ -802,9 +761,6 @@ abstract class Size implements ActiveRecordInterface
         if ($this->isColumnModified(SizeTableMap::NAME)) {
             $modifiedColumns[':p' . $index++]  = 'NAME';
         }
-        if ($this->isColumnModified(SizeTableMap::PRICE)) {
-            $modifiedColumns[':p' . $index++]  = 'PRICE';
-        }
         if ($this->isColumnModified(SizeTableMap::PRODUCT_ID)) {
             $modifiedColumns[':p' . $index++]  = 'PRODUCT_ID';
         }
@@ -824,9 +780,6 @@ abstract class Size implements ActiveRecordInterface
                         break;
                     case 'NAME':
                         $stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
-                        break;
-                    case 'PRICE':
-                        $stmt->bindValue($identifier, $this->price, PDO::PARAM_STR);
                         break;
                     case 'PRODUCT_ID':
                         $stmt->bindValue($identifier, $this->product_id, PDO::PARAM_INT);
@@ -900,9 +853,6 @@ abstract class Size implements ActiveRecordInterface
                 return $this->getName();
                 break;
             case 2:
-                return $this->getPrice();
-                break;
-            case 3:
                 return $this->getProductId();
                 break;
             default:
@@ -936,8 +886,7 @@ abstract class Size implements ActiveRecordInterface
         $result = array(
             $keys[0] => $this->getId(),
             $keys[1] => $this->getName(),
-            $keys[2] => $this->getPrice(),
-            $keys[3] => $this->getProductId(),
+            $keys[2] => $this->getProductId(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -992,9 +941,6 @@ abstract class Size implements ActiveRecordInterface
                 $this->setName($value);
                 break;
             case 2:
-                $this->setPrice($value);
-                break;
-            case 3:
                 $this->setProductId($value);
                 break;
         } // switch()
@@ -1023,8 +969,7 @@ abstract class Size implements ActiveRecordInterface
 
         if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
         if (array_key_exists($keys[1], $arr)) $this->setName($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setPrice($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setProductId($arr[$keys[3]]);
+        if (array_key_exists($keys[2], $arr)) $this->setProductId($arr[$keys[2]]);
     }
 
     /**
@@ -1038,7 +983,6 @@ abstract class Size implements ActiveRecordInterface
 
         if ($this->isColumnModified(SizeTableMap::ID)) $criteria->add(SizeTableMap::ID, $this->id);
         if ($this->isColumnModified(SizeTableMap::NAME)) $criteria->add(SizeTableMap::NAME, $this->name);
-        if ($this->isColumnModified(SizeTableMap::PRICE)) $criteria->add(SizeTableMap::PRICE, $this->price);
         if ($this->isColumnModified(SizeTableMap::PRODUCT_ID)) $criteria->add(SizeTableMap::PRODUCT_ID, $this->product_id);
 
         return $criteria;
@@ -1104,7 +1048,6 @@ abstract class Size implements ActiveRecordInterface
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
         $copyObj->setName($this->getName());
-        $copyObj->setPrice($this->getPrice());
         $copyObj->setProductId($this->getProductId());
 
         if ($deepCopy) {
@@ -1465,7 +1408,6 @@ abstract class Size implements ActiveRecordInterface
     {
         $this->id = null;
         $this->name = null;
-        $this->price = null;
         $this->product_id = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();

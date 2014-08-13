@@ -11,7 +11,7 @@
 	$app->get('/api/grade/:id', function($id) {
 		$grade = GradeQuery::create()->findPK($id);
 
-		if (!$trinket) return;
+		if (!$grade) return;
 
 		echo $grade->toJson();
 	});

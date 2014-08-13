@@ -11,7 +11,7 @@
 	$app->get('/api/product/:id', function($id) {
 		$product = ProductQuery::create()->findPK($id);
 
-		if (!$trinket) return;
+		if (!$product) return;
 
 		echo $product->toJson();
 	});

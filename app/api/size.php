@@ -5,13 +5,14 @@
 
 		if (!$sizes) return;
 
-		echo $sizes->toJson();
+		echo json_encode($sizes->toArray());
+		//TODO json_encode(...->toArray()) should be the way that all of these GET methods works.
 	});
 
 	$app->get('/api/size/:id', function($id) {
 		$size = SizeQuery::create()->findPK($id);
 
-		if (!$trinket) return;
+		if (!$size) return;
 
 		echo $size->toJson();
 	});

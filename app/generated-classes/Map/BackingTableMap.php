@@ -157,8 +157,8 @@ class BackingTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Size', '\\Size', RelationMap::MANY_TO_ONE, array('size_id' => 'id', ), 'SET_NULL', null);
-        $this->addRelation('Grade', '\\Grade', RelationMap::MANY_TO_ONE, array('grade_id' => 'id', ), 'SET NULL', null);
+        $this->addRelation('Size', '\\Size', RelationMap::MANY_TO_ONE, array('size_id' => 'id', ), null, null);
+        $this->addRelation('Grade', '\\Grade', RelationMap::MANY_TO_ONE, array('grade_id' => 'id', ), null, null);
     } // buildRelations()
 
     /**

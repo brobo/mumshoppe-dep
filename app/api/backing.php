@@ -11,7 +11,7 @@
 	$app->get('/api/backing/:id', function($id) {
 		$backing = BackingQuery::create()->findPK($id);
 
-		if (!$trinket) return;
+		if (!$backing) return;
 
 		echo $backing->toJson();
 	});

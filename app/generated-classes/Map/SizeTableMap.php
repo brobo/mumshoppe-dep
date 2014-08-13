@@ -57,7 +57,7 @@ class SizeTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 4;
+    const NUM_COLUMNS = 3;
 
     /**
      * The number of lazy-loaded columns
@@ -67,7 +67,7 @@ class SizeTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 4;
+    const NUM_HYDRATE_COLUMNS = 3;
 
     /**
      * the column name for the ID field
@@ -78,11 +78,6 @@ class SizeTableMap extends TableMap
      * the column name for the NAME field
      */
     const NAME = 'size.NAME';
-
-    /**
-     * the column name for the PRICE field
-     */
-    const PRICE = 'size.PRICE';
 
     /**
      * the column name for the PRODUCT_ID field
@@ -101,12 +96,12 @@ class SizeTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Name', 'Price', 'ProductId', ),
-        self::TYPE_STUDLYPHPNAME => array('id', 'name', 'price', 'productId', ),
-        self::TYPE_COLNAME       => array(SizeTableMap::ID, SizeTableMap::NAME, SizeTableMap::PRICE, SizeTableMap::PRODUCT_ID, ),
-        self::TYPE_RAW_COLNAME   => array('ID', 'NAME', 'PRICE', 'PRODUCT_ID', ),
-        self::TYPE_FIELDNAME     => array('id', 'name', 'price', 'product_id', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Id', 'Name', 'ProductId', ),
+        self::TYPE_STUDLYPHPNAME => array('id', 'name', 'productId', ),
+        self::TYPE_COLNAME       => array(SizeTableMap::ID, SizeTableMap::NAME, SizeTableMap::PRODUCT_ID, ),
+        self::TYPE_RAW_COLNAME   => array('ID', 'NAME', 'PRODUCT_ID', ),
+        self::TYPE_FIELDNAME     => array('id', 'name', 'product_id', ),
+        self::TYPE_NUM           => array(0, 1, 2, )
     );
 
     /**
@@ -116,12 +111,12 @@ class SizeTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Name' => 1, 'Price' => 2, 'ProductId' => 3, ),
-        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'name' => 1, 'price' => 2, 'productId' => 3, ),
-        self::TYPE_COLNAME       => array(SizeTableMap::ID => 0, SizeTableMap::NAME => 1, SizeTableMap::PRICE => 2, SizeTableMap::PRODUCT_ID => 3, ),
-        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'NAME' => 1, 'PRICE' => 2, 'PRODUCT_ID' => 3, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'name' => 1, 'price' => 2, 'product_id' => 3, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Name' => 1, 'ProductId' => 2, ),
+        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'name' => 1, 'productId' => 2, ),
+        self::TYPE_COLNAME       => array(SizeTableMap::ID => 0, SizeTableMap::NAME => 1, SizeTableMap::PRODUCT_ID => 2, ),
+        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'NAME' => 1, 'PRODUCT_ID' => 2, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'name' => 1, 'product_id' => 2, ),
+        self::TYPE_NUM           => array(0, 1, 2, )
     );
 
     /**
@@ -142,7 +137,6 @@ class SizeTableMap extends TableMap
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
         $this->addColumn('NAME', 'Name', 'VARCHAR', true, 32, null);
-        $this->addColumn('PRICE', 'Price', 'DECIMAL', true, 10, null);
         $this->addForeignKey('PRODUCT_ID', 'ProductId', 'INTEGER', 'product', 'ID', true, null, null);
     } // initialize()
 
@@ -151,8 +145,8 @@ class SizeTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Product', '\\Product', RelationMap::MANY_TO_ONE, array('product_id' => 'id', ), 'SET NULL', null);
-        $this->addRelation('Backing', '\\Backing', RelationMap::ONE_TO_MANY, array('id' => 'size_id', ), 'SET_NULL', null, 'Backings');
+        $this->addRelation('Product', '\\Product', RelationMap::MANY_TO_ONE, array('product_id' => 'id', ), null, null);
+        $this->addRelation('Backing', '\\Backing', RelationMap::ONE_TO_MANY, array('id' => 'size_id', ), null, null, 'Backings');
     } // buildRelations()
 
     /**
@@ -295,12 +289,10 @@ class SizeTableMap extends TableMap
         if (null === $alias) {
             $criteria->addSelectColumn(SizeTableMap::ID);
             $criteria->addSelectColumn(SizeTableMap::NAME);
-            $criteria->addSelectColumn(SizeTableMap::PRICE);
             $criteria->addSelectColumn(SizeTableMap::PRODUCT_ID);
         } else {
             $criteria->addSelectColumn($alias . '.ID');
             $criteria->addSelectColumn($alias . '.NAME');
-            $criteria->addSelectColumn($alias . '.PRICE');
             $criteria->addSelectColumn($alias . '.PRODUCT_ID');
         }
     }
