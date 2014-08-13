@@ -5,7 +5,7 @@
 		
 		if (!$trinkets) return;
 		
-		echo $trinkets->toJson();
+		echo json_encode($trinkets->toArray());
 	});
 
 	$app->get('/api/trinket/:id', function($id) {

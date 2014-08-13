@@ -6,7 +6,6 @@
 		if (!$sizes) return;
 
 		echo json_encode($sizes->toArray());
-		//TODO json_encode(...->toArray()) should be the way that all of these GET methods works.
 	});
 
 	$app->get('/api/size/:id', function($id) {

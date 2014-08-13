@@ -5,7 +5,7 @@
 
 		if (!$products) return;
 
-		echo $products->toJson();
+		echo json_encode($products->toArray());
 	});
 
 	$app->get('/api/product/:id', function($id) {

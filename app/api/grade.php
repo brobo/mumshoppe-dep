@@ -5,7 +5,7 @@
 
 		if (!$grades) return;
 
-		echo $grades->toJson();
+		echo json_encode($grades->toArray());
 	});
 
 	$app->get('/api/grade/:id', function($id) {
