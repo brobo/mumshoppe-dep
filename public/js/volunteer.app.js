@@ -10,6 +10,7 @@ var app = angular.module('volunteer', [
 	'trinketsAdd.controller',
 	'trinketsAll.controller',
 	'trinketsEdit.controller',
+	'accentbows.service',
 	'alerts.service',
 	'confirm.service',
 	'mumtypes.service',

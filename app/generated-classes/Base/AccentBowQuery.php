@@ -2,11 +2,11 @@
 
 namespace Base;
 
-use \Grade as ChildGrade;
-use \GradeQuery as ChildGradeQuery;
+use \AccentBow as ChildAccentBow;
+use \AccentBowQuery as ChildAccentBowQuery;
 use \Exception;
 use \PDO;
-use Map\GradeTableMap;
+use Map\AccentBowTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -17,67 +17,67 @@ use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
 
 /**
- * Base class that represents a query for the 'grade' table.
+ * Base class that represents a query for the 'accent_bow' table.
  *
  *
  *
- * @method     ChildGradeQuery orderById($order = Criteria::ASC) Order by the id column
- * @method     ChildGradeQuery orderByName($order = Criteria::ASC) Order by the name column
+ * @method     ChildAccentBowQuery orderById($order = Criteria::ASC) Order by the id column
+ * @method     ChildAccentBowQuery orderByName($order = Criteria::ASC) Order by the name column
+ * @method     ChildAccentBowQuery orderByGradeId($order = Criteria::ASC) Order by the grade_id column
  *
- * @method     ChildGradeQuery groupById() Group by the id column
- * @method     ChildGradeQuery groupByName() Group by the name column
+ * @method     ChildAccentBowQuery groupById() Group by the id column
+ * @method     ChildAccentBowQuery groupByName() Group by the name column
+ * @method     ChildAccentBowQuery groupByGradeId() Group by the grade_id column
  *
- * @method     ChildGradeQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
- * @method     ChildGradeQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
- * @method     ChildGradeQuery innerJoin($relation) Adds a INNER JOIN clause to the query
+ * @method     ChildAccentBowQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
+ * @method     ChildAccentBowQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
+ * @method     ChildAccentBowQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     ChildGradeQuery leftJoinBacking($relationAlias = null) Adds a LEFT JOIN clause to the query using the Backing relation
- * @method     ChildGradeQuery rightJoinBacking($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Backing relation
- * @method     ChildGradeQuery innerJoinBacking($relationAlias = null) Adds a INNER JOIN clause to the query using the Backing relation
+ * @method     ChildAccentBowQuery leftJoinGrade($relationAlias = null) Adds a LEFT JOIN clause to the query using the Grade relation
+ * @method     ChildAccentBowQuery rightJoinGrade($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Grade relation
+ * @method     ChildAccentBowQuery innerJoinGrade($relationAlias = null) Adds a INNER JOIN clause to the query using the Grade relation
  *
- * @method     ChildGradeQuery leftJoinAccentBow($relationAlias = null) Adds a LEFT JOIN clause to the query using the AccentBow relation
- * @method     ChildGradeQuery rightJoinAccentBow($relationAlias = null) Adds a RIGHT JOIN clause to the query using the AccentBow relation
- * @method     ChildGradeQuery innerJoinAccentBow($relationAlias = null) Adds a INNER JOIN clause to the query using the AccentBow relation
+ * @method     ChildAccentBow findOne(ConnectionInterface $con = null) Return the first ChildAccentBow matching the query
+ * @method     ChildAccentBow findOneOrCreate(ConnectionInterface $con = null) Return the first ChildAccentBow matching the query, or a new ChildAccentBow object populated from the query conditions when no match is found
  *
- * @method     ChildGrade findOne(ConnectionInterface $con = null) Return the first ChildGrade matching the query
- * @method     ChildGrade findOneOrCreate(ConnectionInterface $con = null) Return the first ChildGrade matching the query, or a new ChildGrade object populated from the query conditions when no match is found
+ * @method     ChildAccentBow findOneById(int $id) Return the first ChildAccentBow filtered by the id column
+ * @method     ChildAccentBow findOneByName(string $name) Return the first ChildAccentBow filtered by the name column
+ * @method     ChildAccentBow findOneByGradeId(int $grade_id) Return the first ChildAccentBow filtered by the grade_id column
  *
- * @method     ChildGrade findOneById(int $id) Return the first ChildGrade filtered by the id column
- * @method     ChildGrade findOneByName(string $name) Return the first ChildGrade filtered by the name column
- *
- * @method     array findById(int $id) Return ChildGrade objects filtered by the id column
- * @method     array findByName(string $name) Return ChildGrade objects filtered by the name column
+ * @method     array findById(int $id) Return ChildAccentBow objects filtered by the id column
+ * @method     array findByName(string $name) Return ChildAccentBow objects filtered by the name column
+ * @method     array findByGradeId(int $grade_id) Return ChildAccentBow objects filtered by the grade_id column
  *
  */
-abstract class GradeQuery extends ModelCriteria
+abstract class AccentBowQuery extends ModelCriteria
 {
 
     /**
-     * Initializes internal state of \Base\GradeQuery object.
+     * Initializes internal state of \Base\AccentBowQuery object.
      *
      * @param     string $dbName The database name
      * @param     string $modelName The phpName of a model, e.g. 'Book'
      * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
      */
-    public function __construct($dbName = 'mums', $modelName = '\\Grade', $modelAlias = null)
+    public function __construct($dbName = 'mums', $modelName = '\\AccentBow', $modelAlias = null)
     {
         parent::__construct($dbName, $modelName, $modelAlias);
     }
 
     /**
-     * Returns a new ChildGradeQuery object.
+     * Returns a new ChildAccentBowQuery object.
      *
      * @param     string $modelAlias The alias of a model in the query
      * @param     Criteria $criteria Optional Criteria to build the query from
      *
-     * @return ChildGradeQuery
+     * @return ChildAccentBowQuery
      */
     public static function create($modelAlias = null, $criteria = null)
     {
-        if ($criteria instanceof \GradeQuery) {
+        if ($criteria instanceof \AccentBowQuery) {
             return $criteria;
         }
-        $query = new \GradeQuery();
+        $query = new \AccentBowQuery();
         if (null !== $modelAlias) {
             $query->setModelAlias($modelAlias);
         }
@@ -100,19 +100,19 @@ abstract class GradeQuery extends ModelCriteria
      * @param mixed $key Primary key to use for the query
      * @param ConnectionInterface $con an optional connection object
      *
-     * @return ChildGrade|array|mixed the result, formatted by the current formatter
+     * @return ChildAccentBow|array|mixed the result, formatted by the current formatter
      */
     public function findPk($key, $con = null)
     {
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = GradeTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
+        if ((null !== ($obj = AccentBowTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(GradeTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(AccentBowTableMap::DATABASE_NAME);
         }
         $this->basePreSelect($con);
         if ($this->formatter || $this->modelAlias || $this->with || $this->select
@@ -131,11 +131,11 @@ abstract class GradeQuery extends ModelCriteria
      * @param     mixed $key Primary key to use for the query
      * @param     ConnectionInterface $con A connection object
      *
-     * @return   ChildGrade A model object, or null if the key is not found
+     * @return   ChildAccentBow A model object, or null if the key is not found
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT ID, NAME FROM grade WHERE ID = :p0';
+        $sql = 'SELECT ID, NAME, GRADE_ID FROM accent_bow WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -146,9 +146,9 @@ abstract class GradeQuery extends ModelCriteria
         }
         $obj = null;
         if ($row = $stmt->fetch(\PDO::FETCH_NUM)) {
-            $obj = new ChildGrade();
+            $obj = new ChildAccentBow();
             $obj->hydrate($row);
-            GradeTableMap::addInstanceToPool($obj, (string) $key);
+            AccentBowTableMap::addInstanceToPool($obj, (string) $key);
         }
         $stmt->closeCursor();
 
@@ -161,7 +161,7 @@ abstract class GradeQuery extends ModelCriteria
      * @param     mixed $key Primary key to use for the query
      * @param     ConnectionInterface $con A connection object
      *
-     * @return ChildGrade|array|mixed the result, formatted by the current formatter
+     * @return ChildAccentBow|array|mixed the result, formatted by the current formatter
      */
     protected function findPkComplex($key, $con)
     {
@@ -203,12 +203,12 @@ abstract class GradeQuery extends ModelCriteria
      *
      * @param     mixed $key Primary key to use for the query
      *
-     * @return ChildGradeQuery The current query, for fluid interface
+     * @return ChildAccentBowQuery The current query, for fluid interface
      */
     public function filterByPrimaryKey($key)
     {
 
-        return $this->addUsingAlias(GradeTableMap::ID, $key, Criteria::EQUAL);
+        return $this->addUsingAlias(AccentBowTableMap::ID, $key, Criteria::EQUAL);
     }
 
     /**
@@ -216,12 +216,12 @@ abstract class GradeQuery extends ModelCriteria
      *
      * @param     array $keys The list of primary key to use for the query
      *
-     * @return ChildGradeQuery The current query, for fluid interface
+     * @return ChildAccentBowQuery The current query, for fluid interface
      */
     public function filterByPrimaryKeys($keys)
     {
 
-        return $this->addUsingAlias(GradeTableMap::ID, $keys, Criteria::IN);
+        return $this->addUsingAlias(AccentBowTableMap::ID, $keys, Criteria::IN);
     }
 
     /**
@@ -240,18 +240,18 @@ abstract class GradeQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildGradeQuery The current query, for fluid interface
+     * @return ChildAccentBowQuery The current query, for fluid interface
      */
     public function filterById($id = null, $comparison = null)
     {
         if (is_array($id)) {
             $useMinMax = false;
             if (isset($id['min'])) {
-                $this->addUsingAlias(GradeTableMap::ID, $id['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(AccentBowTableMap::ID, $id['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($id['max'])) {
-                $this->addUsingAlias(GradeTableMap::ID, $id['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(AccentBowTableMap::ID, $id['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -262,7 +262,7 @@ abstract class GradeQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(GradeTableMap::ID, $id, $comparison);
+        return $this->addUsingAlias(AccentBowTableMap::ID, $id, $comparison);
     }
 
     /**
@@ -278,7 +278,7 @@ abstract class GradeQuery extends ModelCriteria
      *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildGradeQuery The current query, for fluid interface
+     * @return ChildAccentBowQuery The current query, for fluid interface
      */
     public function filterByName($name = null, $comparison = null)
     {
@@ -291,44 +291,89 @@ abstract class GradeQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(GradeTableMap::NAME, $name, $comparison);
+        return $this->addUsingAlias(AccentBowTableMap::NAME, $name, $comparison);
     }
 
     /**
-     * Filter the query by a related \Backing object
+     * Filter the query on the grade_id column
      *
-     * @param \Backing|ObjectCollection $backing  the related object to use as filter
+     * Example usage:
+     * <code>
+     * $query->filterByGradeId(1234); // WHERE grade_id = 1234
+     * $query->filterByGradeId(array(12, 34)); // WHERE grade_id IN (12, 34)
+     * $query->filterByGradeId(array('min' => 12)); // WHERE grade_id > 12
+     * </code>
+     *
+     * @see       filterByGrade()
+     *
+     * @param     mixed $gradeId The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildAccentBowQuery The current query, for fluid interface
+     */
+    public function filterByGradeId($gradeId = null, $comparison = null)
+    {
+        if (is_array($gradeId)) {
+            $useMinMax = false;
+            if (isset($gradeId['min'])) {
+                $this->addUsingAlias(AccentBowTableMap::GRADE_ID, $gradeId['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($gradeId['max'])) {
+                $this->addUsingAlias(AccentBowTableMap::GRADE_ID, $gradeId['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(AccentBowTableMap::GRADE_ID, $gradeId, $comparison);
+    }
+
+    /**
+     * Filter the query by a related \Grade object
+     *
+     * @param \Grade|ObjectCollection $grade The related object(s) to use as filter
      * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildGradeQuery The current query, for fluid interface
+     * @return ChildAccentBowQuery The current query, for fluid interface
      */
-    public function filterByBacking($backing, $comparison = null)
+    public function filterByGrade($grade, $comparison = null)
     {
-        if ($backing instanceof \Backing) {
+        if ($grade instanceof \Grade) {
             return $this
-                ->addUsingAlias(GradeTableMap::ID, $backing->getGradeId(), $comparison);
-        } elseif ($backing instanceof ObjectCollection) {
+                ->addUsingAlias(AccentBowTableMap::GRADE_ID, $grade->getId(), $comparison);
+        } elseif ($grade instanceof ObjectCollection) {
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+
             return $this
-                ->useBackingQuery()
-                ->filterByPrimaryKeys($backing->getPrimaryKeys())
-                ->endUse();
+                ->addUsingAlias(AccentBowTableMap::GRADE_ID, $grade->toKeyValue('PrimaryKey', 'Id'), $comparison);
         } else {
-            throw new PropelException('filterByBacking() only accepts arguments of type \Backing or Collection');
+            throw new PropelException('filterByGrade() only accepts arguments of type \Grade or Collection');
         }
     }
 
     /**
-     * Adds a JOIN clause to the query using the Backing relation
+     * Adds a JOIN clause to the query using the Grade relation
      *
      * @param     string $relationAlias optional alias for the relation
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return ChildGradeQuery The current query, for fluid interface
+     * @return ChildAccentBowQuery The current query, for fluid interface
      */
-    public function joinBacking($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinGrade($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('Backing');
+        $relationMap = $tableMap->getRelation('Grade');
 
         // create a ModelJoin object for this join
         $join = new ModelJoin();
@@ -343,14 +388,14 @@ abstract class GradeQuery extends ModelCriteria
             $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
             $this->addJoinObject($join, $relationAlias);
         } else {
-            $this->addJoinObject($join, 'Backing');
+            $this->addJoinObject($join, 'Grade');
         }
 
         return $this;
     }
 
     /**
-     * Use the Backing relation Backing object
+     * Use the Grade relation Grade object
      *
      * @see useQuery()
      *
@@ -358,106 +403,33 @@ abstract class GradeQuery extends ModelCriteria
      *                                   to be used as main alias in the secondary query
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return   \BackingQuery A secondary query class using the current class as primary query
+     * @return   \GradeQuery A secondary query class using the current class as primary query
      */
-    public function useBackingQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function useGradeQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         return $this
-            ->joinBacking($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'Backing', '\BackingQuery');
-    }
-
-    /**
-     * Filter the query by a related \AccentBow object
-     *
-     * @param \AccentBow|ObjectCollection $accentBow  the related object to use as filter
-     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return ChildGradeQuery The current query, for fluid interface
-     */
-    public function filterByAccentBow($accentBow, $comparison = null)
-    {
-        if ($accentBow instanceof \AccentBow) {
-            return $this
-                ->addUsingAlias(GradeTableMap::ID, $accentBow->getGradeId(), $comparison);
-        } elseif ($accentBow instanceof ObjectCollection) {
-            return $this
-                ->useAccentBowQuery()
-                ->filterByPrimaryKeys($accentBow->getPrimaryKeys())
-                ->endUse();
-        } else {
-            throw new PropelException('filterByAccentBow() only accepts arguments of type \AccentBow or Collection');
-        }
-    }
-
-    /**
-     * Adds a JOIN clause to the query using the AccentBow relation
-     *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return ChildGradeQuery The current query, for fluid interface
-     */
-    public function joinAccentBow($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-    {
-        $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('AccentBow');
-
-        // create a ModelJoin object for this join
-        $join = new ModelJoin();
-        $join->setJoinType($joinType);
-        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-        if ($previousJoin = $this->getPreviousJoin()) {
-            $join->setPreviousJoin($previousJoin);
-        }
-
-        // add the ModelJoin to the current object
-        if ($relationAlias) {
-            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-            $this->addJoinObject($join, $relationAlias);
-        } else {
-            $this->addJoinObject($join, 'AccentBow');
-        }
-
-        return $this;
-    }
-
-    /**
-     * Use the AccentBow relation AccentBow object
-     *
-     * @see useQuery()
-     *
-     * @param     string $relationAlias optional alias for the relation,
-     *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return   \AccentBowQuery A secondary query class using the current class as primary query
-     */
-    public function useAccentBowQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-    {
-        return $this
-            ->joinAccentBow($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'AccentBow', '\AccentBowQuery');
+            ->joinGrade($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Grade', '\GradeQuery');
     }
 
     /**
      * Exclude object from result
      *
-     * @param   ChildGrade $grade Object to remove from the list of results
+     * @param   ChildAccentBow $accentBow Object to remove from the list of results
      *
-     * @return ChildGradeQuery The current query, for fluid interface
+     * @return ChildAccentBowQuery The current query, for fluid interface
      */
-    public function prune($grade = null)
+    public function prune($accentBow = null)
     {
-        if ($grade) {
-            $this->addUsingAlias(GradeTableMap::ID, $grade->getId(), Criteria::NOT_EQUAL);
+        if ($accentBow) {
+            $this->addUsingAlias(AccentBowTableMap::ID, $accentBow->getId(), Criteria::NOT_EQUAL);
         }
 
         return $this;
     }
 
     /**
-     * Deletes all rows from the grade table.
+     * Deletes all rows from the accent_bow table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
@@ -465,7 +437,7 @@ abstract class GradeQuery extends ModelCriteria
     public function doDeleteAll(ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(GradeTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(AccentBowTableMap::DATABASE_NAME);
         }
         $affectedRows = 0; // initialize var to track total num of affected rows
         try {
@@ -476,8 +448,8 @@ abstract class GradeQuery extends ModelCriteria
             // Because this db requires some delete cascade/set null emulation, we have to
             // clear the cached instance *after* the emulation has happened (since
             // instances get re-added by the select statement contained therein).
-            GradeTableMap::clearInstancePool();
-            GradeTableMap::clearRelatedInstancePool();
+            AccentBowTableMap::clearInstancePool();
+            AccentBowTableMap::clearRelatedInstancePool();
 
             $con->commit();
         } catch (PropelException $e) {
@@ -489,9 +461,9 @@ abstract class GradeQuery extends ModelCriteria
     }
 
     /**
-     * Performs a DELETE on the database, given a ChildGrade or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a ChildAccentBow or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or ChildGrade object or primary key or array of primary keys
+     * @param mixed               $values Criteria or ChildAccentBow object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -502,13 +474,13 @@ abstract class GradeQuery extends ModelCriteria
      public function delete(ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(GradeTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(AccentBowTableMap::DATABASE_NAME);
         }
 
         $criteria = $this;
 
         // Set the correct dbName
-        $criteria->setDbName(GradeTableMap::DATABASE_NAME);
+        $criteria->setDbName(AccentBowTableMap::DATABASE_NAME);
 
         $affectedRows = 0; // initialize var to track total num of affected rows
 
@@ -518,10 +490,10 @@ abstract class GradeQuery extends ModelCriteria
             $con->beginTransaction();
 
 
-        GradeTableMap::removeInstanceFromPool($criteria);
+        AccentBowTableMap::removeInstanceFromPool($criteria);
 
             $affectedRows += ModelCriteria::delete($con);
-            GradeTableMap::clearRelatedInstancePool();
+            AccentBowTableMap::clearRelatedInstancePool();
             $con->commit();
 
             return $affectedRows;
@@ -531,4 +503,4 @@ abstract class GradeQuery extends ModelCriteria
         }
     }
 
-} // GradeQuery
+} // AccentBowQuery

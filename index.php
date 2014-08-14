@@ -26,9 +26,9 @@
 		$app->render('mumshoppe.html');
 	});
 
+	require('app/api/accentbow.php');
 	require('app/api/customer.php');
 	require('app/api/trinket.php');
-
 	require('app/api/backing.php');
 	require('app/api/customer.php');
 	require('app/api/product.php');

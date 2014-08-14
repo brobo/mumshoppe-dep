@@ -1,6 +1,31 @@
 <div class="col-lg-6 col-lg-offset-3">
 	<h1 class="text-centered">Configure Accent Bows</h1>
 	<div ng-repeat="grade in grades">
+		<hr>
 		<h2>{{grade.Name}}</h2>
+		<button class="btn btn-success" ng-click="addBow(grade)"><i class="fa fa-plus"></i> Add</button>
+		<div class="list-group">
+			<div ng-repeat="bow in bows | filter:{GradeId: grade.Id}" class="list-group-item">
+				<h4 class="list-group-item-heading">{{bow.Name}}</h4>
+				<button class="btn btn-info btn-xs" ng-click="editBow(bow)"><i class="fa fa-pencil"></i> Edit</button>
+				<button class="btn btn-danger btn-xs" ng-click="deleteBow(bow)"><i class="fa fa-bomb"></i> Delete</button>
+			</div>
+		</div>
 	</div>
 </div>
+
+<script type="text/ng-template" id="bowForm">
+	<form class="form-horizontal" name="bowForm" ng-submit="save(bowForm)" novalidate>
+		<h2>Edit Accent Bow</h2>
+		<div class="form-group has-feedback" ng-class="{'has-error': invalid.Name}">
+			<label for="Name" class="col-lg-1 control-label">Name</label>
+			<div class="col-lg-10">
+				<input type="text" class="form-control col-lg-10" id="Name" name="Name" ng-model="bow.Name" ng-blur="validate(bowForm, 'Name')" ng-maxlength="32" required>
+				<span class="fa form-control-feedback" ng-class="{'fa-warning': invalid.Name}"></span>
+			</div>
+		</div>
+		<button class="btn btn-default" ng-click="cancel()">Cancel</button>
+		<button type="submit" ng-show="tracker.active()" class="btn btn-success" disabled><i class="fa fa-spin fa-circle-o-notch"></i></button>
+		<button type="submit" ng-show="!tracker.active()" class="btn btn-success" ng-disabled="bowForm.$invalid">Save</button>
+	</form>
+</script>

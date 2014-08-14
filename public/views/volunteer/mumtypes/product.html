@@ -22,14 +22,6 @@
 				<span class="fa form-control-feedback" ng-class="{'fa-warning': invalid.Name}"></span>
 			</div>
 		</div>
-		<!--<div class="form-group has-feedback col-xs-12" ng-class="{'has-error': invalid.Price}">
-			<label for="Price" class="col-lg-1 control-label">Price</label>
-			<div class="input-group col-lg-10">
-				<div class="input-group-addon">$</div>
-				<input type="text" class="form-control" id="Price" name="Price" ng-model="product.Price" ng-blur="validate(productForm, 'Price')" ng-pattern="REGEX_PRICE" required>
-				<span class="fa form-control-feedback" ng-class="{'fa-warning': invalid.Price}"></span>
-			</div>
-		</div>-->
 		<button class="btn btn-default" ng-click="cancel()">Cancel</button>
 		<button type="submit" ng-show="tracker.active()" class="btn btn-success" disabled><i class="fa fa-spin fa-circle-o-notch"></i></button>
 		<button type="submit" ng-show="!tracker.active()" class="btn btn-success" ng-disabled="gradeForm.$invalid">Save</button>

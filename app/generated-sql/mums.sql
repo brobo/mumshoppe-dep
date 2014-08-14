@@ -105,6 +105,24 @@ CREATE TABLE `trinket`
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
+-- accent_bow
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `accent_bow`;
+
+CREATE TABLE `accent_bow`
+(
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(255) NOT NULL,
+    `grade_id` INTEGER NOT NULL,
+    PRIMARY KEY (`id`),
+    INDEX `accent_bow_FI_1` (`grade_id`),
+    CONSTRAINT `accent_bow_FK_1`
+        FOREIGN KEY (`grade_id`)
+        REFERENCES `grade` (`id`)
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
 -- status
 -- ---------------------------------------------------------------------
 
