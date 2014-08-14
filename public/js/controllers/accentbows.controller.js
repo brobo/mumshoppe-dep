@@ -39,7 +39,7 @@ angular.module('accentbows.controller', [])
 				size: 'lg',
 				resolve: {
 					bow: function() {
-						return bow;
+						return angular.copy(bow);
 					},
 					save: function() {
 						return function(bow) {

@@ -46,7 +46,7 @@ angular.module('mumtypes.controller', [])
 				size: 'lg',
 				resolve: {
 					item: function() {
-						return item;
+						return angular.copy(item);
 					},
 					save: function() {
 						return function(data) {
