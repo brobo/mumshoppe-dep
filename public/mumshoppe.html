@@ -24,6 +24,7 @@
 		<div ng-repeat="alert in alerts">
 			<alert type="{{alert.type}}" class="alert" ng-click="closeAlert(alert)">
 				{{alert.msg}}
+				<small>Click to dismiss</small>
 			</alert>
 		</div>
 	</div>
