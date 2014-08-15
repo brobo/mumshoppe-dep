@@ -4,7 +4,11 @@ angular.module('home.controller', [])
 		$rootScope.$state = $state;
 
 		$scope.openLogIn = function() {
-			$state.go('.login');
+			$state.go('home.login');
+		}
+
+		$scope.openRegister = function() {
+			$state.go('home.register');
 		}
 
 	});

@@ -12,8 +12,20 @@
 	<script type="text/javascript" src="public/libs/angular-route/angular-route.js"></script>
 
 	<script type="text/javascript" src="public/js/mumshoppe.app.js"></script>
+	<script type="text/javascript" src="public/js/controllers/alerts.controller.js"></script>
 	<script type="text/javascript" src="public/js/controllers/home.controller.js"></script>
+	<script type="text/javascript" src="public/js/controllers/login.controller.js"></script>
+	<script type="text/javascript" src="public/js/controllers/register.controller.js"></script>
+	<script type="text/javascript" src="public/js/services/alerts.service.js"></script>
+	<script type="text/javascript" src="public/js/services/customer.service.js"></script>
 </head>
 <body ng-app="mumshoppe">
+	<div ng-controller="AlertsController">
+		<div ng-repeat="alert in alerts">
+			<alert type="{{alert.type}}" class="alert" ng-click="closeAlert(alert)">
+				{{alert.msg}}
+			</alert>
+		</div>
+	</div>
 	<div ui-view class="col-xs-8 col-xs-offset-2"></div>
 </body>

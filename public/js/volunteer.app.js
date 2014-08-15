@@ -165,6 +165,7 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 		});
 
     $httpProvider.defaults.transformRequest = function(data) {
+    	console.log("transforming");
         if (data === undefined) {
             return data;
         }

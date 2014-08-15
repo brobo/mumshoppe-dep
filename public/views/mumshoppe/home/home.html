@@ -1,10 +1,12 @@
 <div class="row">
 	<h1 class="text-center">Welcome to the Mum Shoppe!</h1>
-	<button class="btn btn-default btn-large col-xs-12 col-sm-5">Create Account</button>
-	<a ui-sref=".login">
+	<a ui-sref=".register">
+		<button class="btn btn-default btn-large col-xs-12 col-sm-5"
+			ng-class="{'active': $state.current.name.indexOf('register') > -1}">Create Account</button>
+	</a>
+	<a ui-sref="home.login">
 		<button class="btn btn-default btn-large col-xs-12 col-sm-5 col-sm-offset-2" 
 			ng-class="{'active': $state.current.name.indexOf('login') > -1}">Log In</button>
 	</a>
 </div>
-{{$state.current.name}}
 <div class="row well" ui-view></div>

@@ -1,7 +1,12 @@
 var app = angular.module('mumshoppe', [
 	'ui.bootstrap',
 	'ui.router',
-	'home.controller']);
+	'alerts.controller',
+	'home.controller',
+	'login.controller',
+	'register.controller',
+	'alerts.service',
+	'customer.service']);
 
 app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 
@@ -13,10 +18,16 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 		})
 		.state('home.login', {
 			url: '/login',
-			templateUrl: 'public/views/mumshoppe/home/login.html'
+			templateUrl: 'public/views/mumshoppe/home/login.html',
+			controller: 'loginController'
+		})
+		.state('home.register', {
+			url: '/register',
+			templateUrl: 'public/views/mumshoppe/home/register.html',
+			controller: 'registerController'
 		});
 
-	$httpProvider.defaults.tranformRequest = function(data) {
+	$httpProvider.defaults.transformRequest = function(data) {
 		if (data === undefined) {
             return data;
         }
