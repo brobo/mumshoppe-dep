@@ -10,6 +10,9 @@ use Map\StatusTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
+use Propel\Runtime\ActiveQuery\ModelJoin;
+use Propel\Runtime\Collection\Collection;
+use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
 
@@ -27,6 +30,10 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildStatusQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildStatusQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildStatusQuery innerJoin($relation) Adds a INNER JOIN clause to the query
+ *
+ * @method     ChildStatusQuery leftJoinMum($relationAlias = null) Adds a LEFT JOIN clause to the query using the Mum relation
+ * @method     ChildStatusQuery rightJoinMum($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Mum relation
+ * @method     ChildStatusQuery innerJoinMum($relationAlias = null) Adds a INNER JOIN clause to the query using the Mum relation
  *
  * @method     ChildStatus findOne(ConnectionInterface $con = null) Return the first ChildStatus matching the query
  * @method     ChildStatus findOneOrCreate(ConnectionInterface $con = null) Return the first ChildStatus matching the query, or a new ChildStatus object populated from the query conditions when no match is found
@@ -281,6 +288,79 @@ abstract class StatusQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(StatusTableMap::NAME, $name, $comparison);
+    }
+
+    /**
+     * Filter the query by a related \Mum object
+     *
+     * @param \Mum|ObjectCollection $mum  the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildStatusQuery The current query, for fluid interface
+     */
+    public function filterByMum($mum, $comparison = null)
+    {
+        if ($mum instanceof \Mum) {
+            return $this
+                ->addUsingAlias(StatusTableMap::ID, $mum->getStatusId(), $comparison);
+        } elseif ($mum instanceof ObjectCollection) {
+            return $this
+                ->useMumQuery()
+                ->filterByPrimaryKeys($mum->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByMum() only accepts arguments of type \Mum or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the Mum relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return ChildStatusQuery The current query, for fluid interface
+     */
+    public function joinMum($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('Mum');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'Mum');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the Mum relation Mum object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return   \MumQuery A secondary query class using the current class as primary query
+     */
+    public function useMumQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinMum($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Mum', '\MumQuery');
     }
 
     /**

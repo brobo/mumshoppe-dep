@@ -1,12 +1,17 @@
 var app = angular.module('mumshoppe', [
 	'ui.bootstrap',
 	'ui.router',
+	'ngCookies',
 	'alerts.controller',
+	'confirm.controller',
 	'home.controller',
 	'login.controller',
+	'mums.controller',
 	'register.controller',
 	'alerts.service',
-	'customer.service']);
+	'confirm.service',
+	'customer.service',
+	'mum.service']);
 
 app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 
@@ -21,10 +26,19 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 			templateUrl: 'public/views/mumshoppe/home/login.html',
 			controller: 'loginController'
 		})
+		.state('home.logout', {
+			url: '/logout',
+			controller: 'logoutController'
+		})
 		.state('home.register', {
 			url: '/register',
 			templateUrl: 'public/views/mumshoppe/home/register.html',
 			controller: 'registerController'
+		})
+		.state('mums', {
+			url: '/mums',
+			templateUrl: 'public/views/mumshoppe/mums/index.html',
+			controller: 'mumsController'
 		});
 
 	$httpProvider.defaults.transformRequest = function(data) {

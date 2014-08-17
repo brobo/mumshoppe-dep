@@ -139,6 +139,7 @@ class StatusTableMap extends TableMap
      */
     public function buildRelations()
     {
+        $this->addRelation('Mum', '\\Mum', RelationMap::ONE_TO_MANY, array('id' => 'status_id', ), null, null, 'Mums');
     } // buildRelations()
 
     /**

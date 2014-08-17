@@ -65,4 +65,40 @@
 		<column name="name" type="varchar" length="32" required="true" />
 	</table>
 
+	<table name="mum" phpName="Mum">
+		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
+		<column name="customer_id" type="integer" required="true" />
+		<column name="backing_id" type="integer" />
+		<column name="accent_bow_id" type="integer" />
+		<column name="status_id" type="integer" />
+		<column name="paid" type="boolean" />
+		<column name="order_date" type="timestamp" />
+		<column name="deposite_date" type="timestamp" />
+		<column name="paid_date" type="timestamp" />
+		<column name="delivery_date" type="timestamp" />
+		<foreign-key foreignTable="customer" phpName="Customer" refPhpName="Mum">
+			<reference local="customer_id" foreign="id" />
+		</foreign-key>
+		<foreign-key foreignTable="backing" phpName="Backing" refPhpName="Mum">
+			<reference local="backing_id" foreign="id" />
+		</foreign-key>
+		<foreign-key foreignTable="accent_bow" phpName="AccentBow" refPhpName="Mum">
+			<reference local="accent_bow_id" foreign="id" />
+		</foreign-key>
+		<foreign-key foreignTable="status" phpName="Status" refPhpName="Mum">
+			<reference local="status_id" foreign="id" />
+		</foreign-key>
+	</table>
+
+	<table name="mum_trinket" isCrossRef="true">
+		<column name="mum_id" type="integer" primaryKey="true" />
+		<column name="trinket_id" type="integer" primaryKey="true" />
+		<foreign-key foreignTable="mum">
+			<reference local="mum_id" foreign="id" />
+		</foreign-key>
+		<foreign-key foreignTable="trinket">
+			<reference local="trinket_id" foreign="id" />
+		</foreign-key>
+	</table>
+
 </database>

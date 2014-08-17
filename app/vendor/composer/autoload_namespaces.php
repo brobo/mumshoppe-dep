@@ -15,4 +15,5 @@ return array(
     'Slim' => array($vendorDir . '/slim/slim'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),
     'Propel' => array($vendorDir . '/propel/propel/src'),
+    'League\\OAuth2\\Server' => array($vendorDir . '/league/oauth2-server/src'),
 );

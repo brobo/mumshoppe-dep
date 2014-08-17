@@ -10,6 +10,9 @@ use Map\TrinketTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
+use Propel\Runtime\ActiveQuery\ModelJoin;
+use Propel\Runtime\Collection\Collection;
+use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
 
@@ -35,6 +38,10 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildTrinketQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildTrinketQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildTrinketQuery innerJoin($relation) Adds a INNER JOIN clause to the query
+ *
+ * @method     ChildTrinketQuery leftJoinMumTrinket($relationAlias = null) Adds a LEFT JOIN clause to the query using the MumTrinket relation
+ * @method     ChildTrinketQuery rightJoinMumTrinket($relationAlias = null) Adds a RIGHT JOIN clause to the query using the MumTrinket relation
+ * @method     ChildTrinketQuery innerJoinMumTrinket($relationAlias = null) Adds a INNER JOIN clause to the query using the MumTrinket relation
  *
  * @method     ChildTrinket findOne(ConnectionInterface $con = null) Return the first ChildTrinket matching the query
  * @method     ChildTrinket findOneOrCreate(ConnectionInterface $con = null) Return the first ChildTrinket matching the query, or a new ChildTrinket object populated from the query conditions when no match is found
@@ -419,6 +426,96 @@ abstract class TrinketQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(TrinketTableMap::PRICE, $price, $comparison);
+    }
+
+    /**
+     * Filter the query by a related \MumTrinket object
+     *
+     * @param \MumTrinket|ObjectCollection $mumTrinket  the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildTrinketQuery The current query, for fluid interface
+     */
+    public function filterByMumTrinket($mumTrinket, $comparison = null)
+    {
+        if ($mumTrinket instanceof \MumTrinket) {
+            return $this
+                ->addUsingAlias(TrinketTableMap::ID, $mumTrinket->getTrinketId(), $comparison);
+        } elseif ($mumTrinket instanceof ObjectCollection) {
+            return $this
+                ->useMumTrinketQuery()
+                ->filterByPrimaryKeys($mumTrinket->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByMumTrinket() only accepts arguments of type \MumTrinket or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the MumTrinket relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return ChildTrinketQuery The current query, for fluid interface
+     */
+    public function joinMumTrinket($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('MumTrinket');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'MumTrinket');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the MumTrinket relation MumTrinket object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return   \MumTrinketQuery A secondary query class using the current class as primary query
+     */
+    public function useMumTrinketQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinMumTrinket($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'MumTrinket', '\MumTrinketQuery');
+    }
+
+    /**
+     * Filter the query by a related Mum object
+     * using the mum_trinket table as cross reference
+     *
+     * @param Mum $mum the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildTrinketQuery The current query, for fluid interface
+     */
+    public function filterByMum($mum, $comparison = Criteria::EQUAL)
+    {
+        return $this
+            ->useMumTrinketQuery()
+            ->filterByMum($mum, $comparison)
+            ->endUse();
     }
 
     /**

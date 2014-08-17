@@ -20,11 +20,12 @@
 		$email = $app->request->post('Email');
 		$password = $app->request->post('Password');
 
-		echo $email;
-
 		$customer = CustomerQuery::create()->filterByEmail($email)->findOne();
 		if (password_verify($password, $customer->getPassword())) {
-			echo json_encode('Successfully logged in.');
+			echo json_encode(array(
+				'Email' => $customer->getEmail(),
+				'Id' => $customer->getId()
+			));
 		} else {
 			$app->response->setStatus(401);
 		}

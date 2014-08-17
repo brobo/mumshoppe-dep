@@ -163,6 +163,8 @@ class TrinketTableMap extends TableMap
      */
     public function buildRelations()
     {
+        $this->addRelation('MumTrinket', '\\MumTrinket', RelationMap::ONE_TO_MANY, array('id' => 'trinket_id', ), null, null, 'MumTrinkets');
+        $this->addRelation('Mum', '\\Mum', RelationMap::MANY_TO_MANY, array(), null, null, 'Mums');
     } // buildRelations()
 
     /**

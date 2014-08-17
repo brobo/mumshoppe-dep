@@ -146,6 +146,7 @@ class AccentBowTableMap extends TableMap
     public function buildRelations()
     {
         $this->addRelation('Grade', '\\Grade', RelationMap::MANY_TO_ONE, array('grade_id' => 'id', ), null, null);
+        $this->addRelation('Mum', '\\Mum', RelationMap::ONE_TO_MANY, array('id' => 'accent_bow_id', ), null, null, 'Mums');
     } // buildRelations()
 
     /**

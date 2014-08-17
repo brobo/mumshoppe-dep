@@ -11,4 +11,12 @@ angular.module('home.controller', [])
 			$state.go('home.register');
 		}
 
+	})
+
+	.controller('logoutController', function($state, $cookieStore) {
+
+		$cookieStore.remove('customer');
+
+		$state.go('home.login');
+
 	});

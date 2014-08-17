@@ -45,6 +45,10 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildBackingQuery rightJoinGrade($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Grade relation
  * @method     ChildBackingQuery innerJoinGrade($relationAlias = null) Adds a INNER JOIN clause to the query using the Grade relation
  *
+ * @method     ChildBackingQuery leftJoinMum($relationAlias = null) Adds a LEFT JOIN clause to the query using the Mum relation
+ * @method     ChildBackingQuery rightJoinMum($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Mum relation
+ * @method     ChildBackingQuery innerJoinMum($relationAlias = null) Adds a INNER JOIN clause to the query using the Mum relation
+ *
  * @method     ChildBacking findOne(ConnectionInterface $con = null) Return the first ChildBacking matching the query
  * @method     ChildBacking findOneOrCreate(ConnectionInterface $con = null) Return the first ChildBacking matching the query, or a new ChildBacking object populated from the query conditions when no match is found
  *
@@ -581,6 +585,79 @@ abstract class BackingQuery extends ModelCriteria
         return $this
             ->joinGrade($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'Grade', '\GradeQuery');
+    }
+
+    /**
+     * Filter the query by a related \Mum object
+     *
+     * @param \Mum|ObjectCollection $mum  the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildBackingQuery The current query, for fluid interface
+     */
+    public function filterByMum($mum, $comparison = null)
+    {
+        if ($mum instanceof \Mum) {
+            return $this
+                ->addUsingAlias(BackingTableMap::ID, $mum->getBackingId(), $comparison);
+        } elseif ($mum instanceof ObjectCollection) {
+            return $this
+                ->useMumQuery()
+                ->filterByPrimaryKeys($mum->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByMum() only accepts arguments of type \Mum or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the Mum relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return ChildBackingQuery The current query, for fluid interface
+     */
+    public function joinMum($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('Mum');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'Mum');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the Mum relation Mum object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return   \MumQuery A secondary query class using the current class as primary query
+     */
+    public function useMumQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinMum($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Mum', '\MumQuery');
     }
 
     /**

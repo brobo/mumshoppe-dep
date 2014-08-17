@@ -481,5 +481,64 @@
             "orm",
             "persistence"
         ]
+    },
+    {
+        "name": "league/oauth2-server",
+        "version": "3.2.3",
+        "version_normalized": "3.2.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/thephpleague/oauth2-server.git",
+            "reference": "2f14f6b3919029a14b2f09641fa757c1a566a2da"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/thephpleague/oauth2-server/zipball/2f14f6b3919029a14b2f09641fa757c1a566a2da",
+            "reference": "2f14f6b3919029a14b2f09641fa757c1a566a2da",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4.0"
+        },
+        "replace": {
+            "lncd/oauth2": "*"
+        },
+        "require-dev": {
+            "league/phpunit-coverage-listener": "~1.0",
+            "mockery/mockery": ">=0.7.2"
+        },
+        "time": "2014-07-23 15:13:50",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "League\\OAuth2\\Server": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Alex Bilbie",
+                "email": "hello@alexbilbie.com",
+                "homepage": "http://www.alexbilbie.com",
+                "role": "Developer"
+            }
+        ],
+        "description": "A lightweight and powerful OAuth 2.0 authorization and resource server library with support for all the core specification grants. This library will allow you to secure your API with OAuth and allow your applications users to approve apps that want to access their data from your API.",
+        "keywords": [
+            "Authentication",
+            "api",
+            "auth",
+            "authorization",
+            "oauth",
+            "oauth2",
+            "protect",
+            "resource",
+            "secure",
+            "server"
+        ]
     }
 ]

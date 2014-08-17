@@ -135,5 +135,62 @@ CREATE TABLE `status`
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
+-- ---------------------------------------------------------------------
+-- mum
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `mum`;
+
+CREATE TABLE `mum`
+(
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `customer_id` INTEGER NOT NULL,
+    `backing_id` INTEGER,
+    `accent_bow_id` INTEGER,
+    `status_id` INTEGER,
+    `paid` TINYINT(1),
+    `order_date` DATETIME,
+    `deposite_date` DATETIME,
+    `paid_date` DATETIME,
+    `delivery_date` DATETIME,
+    PRIMARY KEY (`id`),
+    INDEX `mum_FI_1` (`customer_id`),
+    INDEX `mum_FI_2` (`backing_id`),
+    INDEX `mum_FI_3` (`accent_bow_id`),
+    INDEX `mum_FI_4` (`status_id`),
+    CONSTRAINT `mum_FK_1`
+        FOREIGN KEY (`customer_id`)
+        REFERENCES `customer` (`id`),
+    CONSTRAINT `mum_FK_2`
+        FOREIGN KEY (`backing_id`)
+        REFERENCES `backing` (`id`),
+    CONSTRAINT `mum_FK_3`
+        FOREIGN KEY (`accent_bow_id`)
+        REFERENCES `accent_bow` (`id`),
+    CONSTRAINT `mum_FK_4`
+        FOREIGN KEY (`status_id`)
+        REFERENCES `status` (`id`)
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- mum_trinket
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `mum_trinket`;
+
+CREATE TABLE `mum_trinket`
+(
+    `mum_id` INTEGER NOT NULL,
+    `trinket_id` INTEGER NOT NULL,
+    PRIMARY KEY (`mum_id`,`trinket_id`),
+    INDEX `mum_trinket_FI_2` (`trinket_id`),
+    CONSTRAINT `mum_trinket_FK_1`
+        FOREIGN KEY (`mum_id`)
+        REFERENCES `mum` (`id`),
+    CONSTRAINT `mum_trinket_FK_2`
+        FOREIGN KEY (`trinket_id`)
+        REFERENCES `trinket` (`id`)
+) ENGINE=InnoDB;
+
 # This restores the fkey checks, after having unset them earlier
 SET FOREIGN_KEY_CHECKS = 1;
