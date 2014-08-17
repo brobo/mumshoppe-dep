@@ -1,6 +1,9 @@
 <h3>Select an accent bow!</h3>
 <div class="btn-group-vertical col-xs-12">
-	<div ng-repeat="accentbow in accentbows">
-		<label class="btn btn-block btn-primary" ng-model="mum.Mum.AccentBowId" btn-radio="accentbow.Id">{{accentbow.Name}}</label>
+	<div ng-repeat="accentbow in accentbows | filter:{GradeId:mum.Grade.Id}">
+		<label class="btn btn-block btn-primary" ng-model="accentBowId" btn-radio="accentbow.Id">{{accentbow.Name}}</label>
 	</div>
 </div>
+<button class="btn btn-default" ng-click="back()">Back</button>
+<button class="btn btn-success" ng-click="save()" ng-show="!tracker.active()">Next</button>
+<button class="btn btn-success" ng-click="save()" ng-show="tracker.active()" disabled><i class="fa fa-spin fa-circle-o-notch" ng-show="tracker.active()"></i></button>

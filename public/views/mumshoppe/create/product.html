@@ -2,8 +2,10 @@
 	<li>Product</li>
 </ul>
 <h3>What do you want to buy?</h3>
-<div ng-repeat="product in products" class="row">
-	<button class="btn-block list-group-item" ng-click="selectProduct(product)">
-		<h4 class="list-group-item-heading">{{product.Name}}</h4>
-	</button>
+<div class="btn-group-vertical col-xs-12">
+	<div ng-repeat="product in products">
+		<label class="btn btn-block btn-primary" ng-model="$parent.$parent.selectedProduct" btn-radio="product">{{product.Name}}</label>
+	</div>
 </div>
+
+<button class="btn btn-success" ng-click="next()">Next</button>

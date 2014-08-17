@@ -65,38 +65,28 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 			templateUrl: 'public/views/mumshoppe/create/product.html',
 			//url: '/product',
 			url: '',
-			data: {
-				ncyBreadcrumbLabel: 'Start'
-			}
 		})
 		.state('create.base.grade', {
 			templateUrl: 'public/views/mumshoppe/create/grade.html',
 			//url: '/grade',
-			data: {
-				ncyBreadcrumbLabel: '{{product.Name}}',
-				ncyBreadcrumbParent: 'create.base.product'
-			}
 		})
 		.state('create.base.size', {
 			templateUrl: 'public/views/mumshoppe/create/size.html',
 			//url: '/size',
-			data: {
-				ncyBreadcrumbLabel: '{{grade.Name}}',
-				ncyBreadcrumbParent: 'create.base.grade'
-			}
 		})
 		.state('create.base.backing', {
 			templateUrl: 'public/views/mumshoppe/create/backing.html',
 			//url: '/backing',
-			data: {
-				ncyBreadcrumbLabel: '{{size.Name}}',
-				ncyBreadcrumbParent: 'create.base.size'
-			}
 		})
 		.state('create.accentbow', {
 			templateUrl: 'public/views/mumshoppe/create/accentbow.html',
 			url: '/accentbow',
 			controller: 'createAccentBowController'
+		})
+		.state('create.nameribbons', {
+			templateUrl: 'public/views/mumshoppe/create/nameribbons.html',
+			url: '/nameribbons',
+			controller: 'createNameRibbion'
 		});
 
 	$httpProvider.defaults.transformRequest = function(data) {

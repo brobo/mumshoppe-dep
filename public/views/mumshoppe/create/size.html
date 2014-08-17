@@ -1,12 +1,13 @@
 <ul class="breadcrumb">
-	<li>{{product.Name}}</li>
-	<li>{{grade.Name}}</li>
+	<li>{{selectedProduct.Name}}</li>
+	<li>{{selectedGrade.Name}}</li>
 	<li>Size</li>
 </ul>
-<h3>What size {{product.Name}} would you like?</h3>
-<div ng-repeat="size in sizes | filter:{ProductId:product.Id}" class="row">
-	<button class="btn-block list-group-item" ng-click="selectSize(size)">
-		<h4 class="list-group-item-heading">{{size.Name}}</h4>
-	</button>
+<h3>What size {{selectedProduct.Name}} would you like?</h3>
+<div class="btn-group-vertical col-xs-12">
+	<div ng-repeat="size in sizes | filter:{ProductId:selectedProduct.Id}">
+		<label class="btn btn-block btn-primary" ng-model="$parent.$parent.selectedSize" btn-radio="size">{{size.Name}}</label>
+	</div>
 </div>
 <button class="btn btn-default" ng-click="back()">Back</button>
+<button class="btn btn-success" ng-click="next()">Next</button>

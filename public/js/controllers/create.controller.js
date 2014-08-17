@@ -1,10 +1,12 @@
 angular.module('create.controller', [])
 	.controller('createController', function($scope, $state, $stateParams, MumService) {
 
-		MumService.fetch($stateParams.mumId)
-			.success(function(data) {
-				$scope.mum = data;
-			});
+		$scope.updateMum = function() {
+			MumService.fetch($stateParams.mumId)
+				.success(function(data) {
+					$scope.mum = data;
+				});
+		}
 
 		$scope.getStarted = function() {
 			$state.go('^.base.product');
@@ -14,11 +16,30 @@ angular.module('create.controller', [])
 
 	.controller('createAccentBowController', function($scope, $state, MumService, AccentBowsService, promiseTracker) {
 		$scope.tracker = promiseTracker();
+		$scope.updateMum();
 
 		AccentBowsService.get()
 			.success(function(data) {
 				$scope.accentbows = data;
 			});
+
+		$scope.back = function() {
+			$state.go('create.base.product');
+		}
+
+		$scope.next = function() {
+			var defered = $scope.tracker.createPromise();
+			MumService.update($stateParams.mumId, {
+				AccentBowId: $scope.accentBowId
+			}).success(function(data) {
+				$state.go('create.nameribbons');
+			}).error(function(data) {
+				AlertsService.add('danger', 'An error occured. Please try again.');
+				console.log(data);
+			}).finally(function() {
+				defered.resolve();
+			});
+		}
 	})
 
 	.controller('createProductController', function($scope, $state, $stateParams, MumService, MumtypesService, promiseTracker) {
@@ -34,6 +55,8 @@ angular.module('create.controller', [])
 			'backing': 'create.accentbow'
 		};
 		$scope.tracker = promiseTracker();
+
+		$scope.selectedParent = {};
 
 		MumtypesService.grades.get()
 			.success(function(data) {
@@ -53,29 +76,26 @@ angular.module('create.controller', [])
 				$scope.backings = data;
 			});
 
-		$scope.selectProduct = function(product) {
-			$scope.product = product;
-			$state.go('^.grade');
-		}
-		$scope.selectGrade = function(grade) {
-			$scope.grade = grade;
-			$state.go('^.size');
-		}
-		$scope.selectSize = function(size) {
-			$scope.size = size;
-			$state.go('^.backing');
-		}
-		$scope.selectBacking = function(backing) {
+		$scope.save = function() {
 			var defered = $scope.tracker.createPromise();
 			MumService.update($stateParams.mumId, {
-				BackingId: backing.Id
+				BackingId: $scope.selectedBacking.Id
 			}).success(function(data) {
-				console.log('Successfully edited mum.');
+				$state.go('create.accentbow');
 			}).error(function(data) {
+				AlertsService.add('danger', 'An error occured. Please try again.');
 				console.log(data);
 			}).finally(function() {
 				defered.resolve();
 			});
+		}
+		$scope.next = function() {
+			for (var key in forwards) {
+				if ($state.current.name.indexOf(key) > -1) {
+					$state.go(forwards[key]);
+					return;
+				}
+			}
 		}
 		$scope.back = function() {
 			for (var key in back) {
@@ -85,5 +105,4 @@ angular.module('create.controller', [])
 				}
 			}
 		}
-
 	});
