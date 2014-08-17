@@ -1,5 +1,5 @@
 angular.module('mums.controller', [])
-	.controller('mumsController', function($scope, $http, $cookieStore, AlertsService, ConfirmService, MumService) {
+	.controller('mumsController', function($scope, $state, $http, $cookieStore, AlertsService, ConfirmService, MumService) {
 
 		$scope.updateMums = function() {
 			MumService.get()
@@ -13,7 +13,7 @@ angular.module('mums.controller', [])
 		$scope.createMum = function() {
 			MumService.create($cookieStore.get('customer').Id)
 				.success(function(data) {
-					//$scope.go('^.create', data.Id);
+					$state.go('create.getStarted', {mumId: data.Mum.Id});
 				}).error(function(data) {
 					console.log(data);
 					AlertsService.alert('danger', 'Something went wrong - try again.');
@@ -21,6 +21,10 @@ angular.module('mums.controller', [])
 					$scope.updateMums();
 				});
 		};
+
+		$scope.editMum = function(mumId) {
+			$state.go('create.getStarted', {mumId: mumId});
+		}
 
 		$scope.deleteMum = function(mumId) {
 			ConfirmService.confirm({

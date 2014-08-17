@@ -1,0 +1,14 @@
+<ul class="breadcrumb">
+	<li>{{product.Name}}</li>
+	<li>{{grade.Name}}</li>
+	<li>{{size.Name}}</li>
+	<li>Backing</li>
+</ul>
+<h3>What type of backing would you like?</h3>
+<div ng-repeat="backing in backings | filter:{SizeId:size.Id, GradeId:grade.Id}" class="row">
+	<button class="btn-block list-group-item" ng-click="selectBacking(backing)">
+		<h4 class="list-group-item-heading">{{backing.Name}}</h4>
+	</button>
+</div>
+<button class="btn btn-default" ng-click="back()">Back</button>
+<i class="fa fa-spin fa-circle-o-notch" ng-show="tracker.active()" ></button>

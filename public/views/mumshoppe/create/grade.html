@@ -1,0 +1,11 @@
+<ul class="breadcrumb">
+	<li>{{product.Name}}</li>
+	<li>Grade</li>
+</ul>
+<h3>What grade is this {{product.Name}} for?</h3>
+<div ng-repeat="grade in grades" class="row">
+	<button class="btn-block list-group-item" ng-click="selectGrade(grade)">
+		<h4 class="list-group-item-heading">{{grade.Name}}</h4>
+	</button>
+</div>
+<button class="btn btn-default" ng-click="back()">Back</button>

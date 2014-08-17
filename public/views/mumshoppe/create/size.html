@@ -1,0 +1,12 @@
+<ul class="breadcrumb">
+	<li>{{product.Name}}</li>
+	<li>{{grade.Name}}</li>
+	<li>Size</li>
+</ul>
+<h3>What size {{product.Name}} would you like?</h3>
+<div ng-repeat="size in sizes | filter:{ProductId:product.Id}" class="row">
+	<button class="btn-block list-group-item" ng-click="selectSize(size)">
+		<h4 class="list-group-item-heading">{{size.Name}}</h4>
+	</button>
+</div>
+<button class="btn btn-default" ng-click="back()">Back</button>

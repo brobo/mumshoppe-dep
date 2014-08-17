@@ -10,7 +10,7 @@ angular.module('mum.service', [])
 				return $http.get('/mums/api/mum');
 			},
 			update: function(mumId, mumData) {
-				return $http.put('/mums/api/mum' + mumId, mumData);
+				return $http.put('/mums/api/mum/' + mumId, mumData);
 			},
 			fetch: function(mumId) {
 				return $http.get('/mums/api/mum/' + mumId);
