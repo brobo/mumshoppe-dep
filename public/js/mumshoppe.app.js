@@ -11,6 +11,7 @@ var app = angular.module('mumshoppe', [
 	'mums.controller',
 	'create.controller',
 	'register.controller',
+	'accentbows.service',
 	'alerts.service',
 	'confirm.service',
 	'customer.service',
@@ -92,6 +93,11 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 				ncyBreadcrumbParent: 'create.base.size'
 			}
 		})
+		.state('create.accentbow', {
+			templateUrl: 'public/views/mumshoppe/create/accentbow.html',
+			url: '/accentbow',
+			controller: 'createAccentBowController'
+		});
 
 	$httpProvider.defaults.transformRequest = function(data) {
 		if (data === undefined) {

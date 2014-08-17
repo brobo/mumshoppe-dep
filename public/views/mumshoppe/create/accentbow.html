@@ -1,0 +1,6 @@
+<h3>Select an accent bow!</h3>
+<div class="btn-group-vertical col-xs-12">
+	<div ng-repeat="accentbow in accentbows">
+		<label class="btn btn-block btn-primary" ng-model="mum.Mum.AccentBowId" btn-radio="accentbow.Id">{{accentbow.Name}}</label>
+	</div>
+</div>
