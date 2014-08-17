@@ -51,6 +51,13 @@
 		<column name="price" type="decimal" size="10" scale="2" required="true" />
 	</table>
 
+	<table name="letter" phpName="Letter">
+		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
+		<column name="name" type="varchar" size="64" required="true" />
+		<column name="maxlength" type="integer" required="true" />
+		<column name="price" type="decimal" size="10" scale="2" required="true" />
+	</table>
+
 	<table name="accent_bow" phpName="AccentBow">
 		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
 		<column name="name" type="varchar" length="32" required="true" />
@@ -70,6 +77,10 @@
 		<column name="customer_id" type="integer" required="true" />
 		<column name="backing_id" type="integer" />
 		<column name="accent_bow_id" type="integer" />
+		<column name="letter1_id" type="integer" />
+		<column name="name_ribbion1" type="varchar" length="64" />
+		<column name="letter2_id" type="integer" />
+		<column name="name_ribbon2" type="varchar" length="64" />
 		<column name="status_id" type="integer" />
 		<column name="paid" type="boolean" />
 		<column name="order_date" type="timestamp" />
@@ -84,6 +95,10 @@
 		</foreign-key>
 		<foreign-key foreignTable="accent_bow" phpName="AccentBow" refPhpName="Mum">
 			<reference local="accent_bow_id" foreign="id" />
+		</foreign-key>
+		<foreign-key foreignTable="letter" phpName="Letter" refPhpName="Mum">
+			<reference local="letter1_id" foreign="id" />
+			<reference local="letter2_id" foreign="id" />
 		</foreign-key>
 		<foreign-key foreignTable="status" phpName="Status" refPhpName="Mum">
 			<reference local="status_id" foreign="id" />

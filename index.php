@@ -35,6 +35,7 @@
 	require('app/api/size.php');
 	require('app/api/grade.php');
 	require('app/api/mum.php');
+	require('app/api/letter.php');
 
 	$app->run();
 ?>

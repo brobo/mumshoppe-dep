@@ -1,0 +1,44 @@
+<div class="col-lg-6 col-lg-offset-3">
+	<h1 class="text-centered">Configure Letters</h1>
+	<button class="btn btn-success" ng-click="addLetter()"><i class="fa fa-plus"></i> Add</button>
+	<div class="list-group">
+		<div ng-repeat="letter in letters" class="list-group-item">
+			<h4 class="list-group-item-heading">{{letter.Name}} <span class="badge">{{letter.Price | currency}}</span></h4>
+			<button class="btn btn-info btn-xs" ng-click="editLetter(letter)"><i class="fa fa-pencil"></i> Edit</button>
+			<button class="btn btn-danger btn-xs" ng-click="deleteLetter(letter)"><i class="fa fa-bomb"></i> Delete</button>
+		</div>
+	</div>
+</div>
+
+<script type="text/ng-template" id="letterForm">
+	<form class="form-horizontal" name="letterForm" ng-submit="save(letterForm)" novalidate>
+		<h2>Edit Letter</h2>
+		<div class="form-group has-feedback" ng-class="{'has-error': invalid.Name}">
+			<label for="Name" class="col-lg-1 control-label">Name</label>
+			<div class="col-lg-12">
+				<input type="text" class="form-control col-lg-10" id="Name" name="Name" ng-model="letter.Name" ng-blur="validate(letterForm, 'Name')" ng-maxlength="32" required>
+				<span class="fa form-control-feedback" ng-class="{'fa-warning': invalid.Name}"></span>
+			</div>
+		</div>
+		<div class="form-group has-feedback" ng-class="{'has-error': invalid.Maxlength}">
+			<label for="Maxlength" class="control-label col-lg-3">Maximum number of letters</label>
+			<div class="col-lg-12">
+				<input type="number" class="form-control col-lg-10" id="Maxlength" name="Maxlength" ng-model="letter.Maxlength" ng-blur="validate(letterForm, 'Maxlength')" min="1" required>
+			</div>
+			<span class="fa form-control-feedback" ng-class="{'fa-warning': invalid.Maxlength}"></span>
+		</div>
+		<div class="form-group has-feedback" ng-class="{'has-error': invalid.Price}">
+			<label for="Price" class="control-label col-lg-1">Price</label>
+			<div class="col-lg-12">
+				<div class="input-group">
+					<span class="input-group-addon">$</span>
+					<input type="text" class="form-control col-lg-10" id="Price" name="Price" ng-model="letter.Price" ng-blur="validate(letterForm, 'Price')" ng-pattern="REGEX_PRICE" required>
+				</div>
+			</div>
+			<span class="fa form-control-feedback" ng-class="{'fa-warning': invalid.Price}"></span>
+		</div>
+		<button class="btn btn-default" ng-click="cancel()">Cancel</button>
+		<button type="submit" ng-show="tracker.active()" class="btn btn-success" disabled><i class="fa fa-spin fa-circle-o-notch"></i></button>
+		<button type="submit" ng-show="!tracker.active()" class="btn btn-success" ng-disabled="bowForm.$invalid">Save</button>
+	</form>
+</script>

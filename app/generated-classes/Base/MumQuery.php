@@ -25,6 +25,10 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMumQuery orderByCustomerId($order = Criteria::ASC) Order by the customer_id column
  * @method     ChildMumQuery orderByBackingId($order = Criteria::ASC) Order by the backing_id column
  * @method     ChildMumQuery orderByAccentBowId($order = Criteria::ASC) Order by the accent_bow_id column
+ * @method     ChildMumQuery orderByLetter1Id($order = Criteria::ASC) Order by the letter1_id column
+ * @method     ChildMumQuery orderByNameRibbion1($order = Criteria::ASC) Order by the name_ribbion1 column
+ * @method     ChildMumQuery orderByLetter2Id($order = Criteria::ASC) Order by the letter2_id column
+ * @method     ChildMumQuery orderByNameRibbon2($order = Criteria::ASC) Order by the name_ribbon2 column
  * @method     ChildMumQuery orderByStatusId($order = Criteria::ASC) Order by the status_id column
  * @method     ChildMumQuery orderByPaid($order = Criteria::ASC) Order by the paid column
  * @method     ChildMumQuery orderByOrderDate($order = Criteria::ASC) Order by the order_date column
@@ -36,6 +40,10 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMumQuery groupByCustomerId() Group by the customer_id column
  * @method     ChildMumQuery groupByBackingId() Group by the backing_id column
  * @method     ChildMumQuery groupByAccentBowId() Group by the accent_bow_id column
+ * @method     ChildMumQuery groupByLetter1Id() Group by the letter1_id column
+ * @method     ChildMumQuery groupByNameRibbion1() Group by the name_ribbion1 column
+ * @method     ChildMumQuery groupByLetter2Id() Group by the letter2_id column
+ * @method     ChildMumQuery groupByNameRibbon2() Group by the name_ribbon2 column
  * @method     ChildMumQuery groupByStatusId() Group by the status_id column
  * @method     ChildMumQuery groupByPaid() Group by the paid column
  * @method     ChildMumQuery groupByOrderDate() Group by the order_date column
@@ -59,6 +67,10 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMumQuery rightJoinAccentBow($relationAlias = null) Adds a RIGHT JOIN clause to the query using the AccentBow relation
  * @method     ChildMumQuery innerJoinAccentBow($relationAlias = null) Adds a INNER JOIN clause to the query using the AccentBow relation
  *
+ * @method     ChildMumQuery leftJoinLetter($relationAlias = null) Adds a LEFT JOIN clause to the query using the Letter relation
+ * @method     ChildMumQuery rightJoinLetter($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Letter relation
+ * @method     ChildMumQuery innerJoinLetter($relationAlias = null) Adds a INNER JOIN clause to the query using the Letter relation
+ *
  * @method     ChildMumQuery leftJoinStatus($relationAlias = null) Adds a LEFT JOIN clause to the query using the Status relation
  * @method     ChildMumQuery rightJoinStatus($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Status relation
  * @method     ChildMumQuery innerJoinStatus($relationAlias = null) Adds a INNER JOIN clause to the query using the Status relation
@@ -74,6 +86,10 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMum findOneByCustomerId(int $customer_id) Return the first ChildMum filtered by the customer_id column
  * @method     ChildMum findOneByBackingId(int $backing_id) Return the first ChildMum filtered by the backing_id column
  * @method     ChildMum findOneByAccentBowId(int $accent_bow_id) Return the first ChildMum filtered by the accent_bow_id column
+ * @method     ChildMum findOneByLetter1Id(int $letter1_id) Return the first ChildMum filtered by the letter1_id column
+ * @method     ChildMum findOneByNameRibbion1(string $name_ribbion1) Return the first ChildMum filtered by the name_ribbion1 column
+ * @method     ChildMum findOneByLetter2Id(int $letter2_id) Return the first ChildMum filtered by the letter2_id column
+ * @method     ChildMum findOneByNameRibbon2(string $name_ribbon2) Return the first ChildMum filtered by the name_ribbon2 column
  * @method     ChildMum findOneByStatusId(int $status_id) Return the first ChildMum filtered by the status_id column
  * @method     ChildMum findOneByPaid(boolean $paid) Return the first ChildMum filtered by the paid column
  * @method     ChildMum findOneByOrderDate(string $order_date) Return the first ChildMum filtered by the order_date column
@@ -85,6 +101,10 @@ use Propel\Runtime\Exception\PropelException;
  * @method     array findByCustomerId(int $customer_id) Return ChildMum objects filtered by the customer_id column
  * @method     array findByBackingId(int $backing_id) Return ChildMum objects filtered by the backing_id column
  * @method     array findByAccentBowId(int $accent_bow_id) Return ChildMum objects filtered by the accent_bow_id column
+ * @method     array findByLetter1Id(int $letter1_id) Return ChildMum objects filtered by the letter1_id column
+ * @method     array findByNameRibbion1(string $name_ribbion1) Return ChildMum objects filtered by the name_ribbion1 column
+ * @method     array findByLetter2Id(int $letter2_id) Return ChildMum objects filtered by the letter2_id column
+ * @method     array findByNameRibbon2(string $name_ribbon2) Return ChildMum objects filtered by the name_ribbon2 column
  * @method     array findByStatusId(int $status_id) Return ChildMum objects filtered by the status_id column
  * @method     array findByPaid(boolean $paid) Return ChildMum objects filtered by the paid column
  * @method     array findByOrderDate(string $order_date) Return ChildMum objects filtered by the order_date column
@@ -179,7 +199,7 @@ abstract class MumQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT ID, CUSTOMER_ID, BACKING_ID, ACCENT_BOW_ID, STATUS_ID, PAID, ORDER_DATE, DEPOSITE_DATE, PAID_DATE, DELIVERY_DATE FROM mum WHERE ID = :p0';
+        $sql = 'SELECT ID, CUSTOMER_ID, BACKING_ID, ACCENT_BOW_ID, LETTER1_ID, NAME_RIBBION1, LETTER2_ID, NAME_RIBBON2, STATUS_ID, PAID, ORDER_DATE, DEPOSITE_DATE, PAID_DATE, DELIVERY_DATE FROM mum WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -436,6 +456,150 @@ abstract class MumQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(MumTableMap::ACCENT_BOW_ID, $accentBowId, $comparison);
+    }
+
+    /**
+     * Filter the query on the letter1_id column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByLetter1Id(1234); // WHERE letter1_id = 1234
+     * $query->filterByLetter1Id(array(12, 34)); // WHERE letter1_id IN (12, 34)
+     * $query->filterByLetter1Id(array('min' => 12)); // WHERE letter1_id > 12
+     * </code>
+     *
+     * @see       filterByLetter()
+     *
+     * @param     mixed $letter1Id The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildMumQuery The current query, for fluid interface
+     */
+    public function filterByLetter1Id($letter1Id = null, $comparison = null)
+    {
+        if (is_array($letter1Id)) {
+            $useMinMax = false;
+            if (isset($letter1Id['min'])) {
+                $this->addUsingAlias(MumTableMap::LETTER1_ID, $letter1Id['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($letter1Id['max'])) {
+                $this->addUsingAlias(MumTableMap::LETTER1_ID, $letter1Id['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(MumTableMap::LETTER1_ID, $letter1Id, $comparison);
+    }
+
+    /**
+     * Filter the query on the name_ribbion1 column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByNameRibbion1('fooValue');   // WHERE name_ribbion1 = 'fooValue'
+     * $query->filterByNameRibbion1('%fooValue%'); // WHERE name_ribbion1 LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $nameRibbion1 The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildMumQuery The current query, for fluid interface
+     */
+    public function filterByNameRibbion1($nameRibbion1 = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($nameRibbion1)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $nameRibbion1)) {
+                $nameRibbion1 = str_replace('*', '%', $nameRibbion1);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(MumTableMap::NAME_RIBBION1, $nameRibbion1, $comparison);
+    }
+
+    /**
+     * Filter the query on the letter2_id column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByLetter2Id(1234); // WHERE letter2_id = 1234
+     * $query->filterByLetter2Id(array(12, 34)); // WHERE letter2_id IN (12, 34)
+     * $query->filterByLetter2Id(array('min' => 12)); // WHERE letter2_id > 12
+     * </code>
+     *
+     * @see       filterByLetter()
+     *
+     * @param     mixed $letter2Id The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildMumQuery The current query, for fluid interface
+     */
+    public function filterByLetter2Id($letter2Id = null, $comparison = null)
+    {
+        if (is_array($letter2Id)) {
+            $useMinMax = false;
+            if (isset($letter2Id['min'])) {
+                $this->addUsingAlias(MumTableMap::LETTER2_ID, $letter2Id['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($letter2Id['max'])) {
+                $this->addUsingAlias(MumTableMap::LETTER2_ID, $letter2Id['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(MumTableMap::LETTER2_ID, $letter2Id, $comparison);
+    }
+
+    /**
+     * Filter the query on the name_ribbon2 column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByNameRibbon2('fooValue');   // WHERE name_ribbon2 = 'fooValue'
+     * $query->filterByNameRibbon2('%fooValue%'); // WHERE name_ribbon2 LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $nameRibbon2 The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildMumQuery The current query, for fluid interface
+     */
+    public function filterByNameRibbon2($nameRibbon2 = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($nameRibbon2)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $nameRibbon2)) {
+                $nameRibbon2 = str_replace('*', '%', $nameRibbon2);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(MumTableMap::NAME_RIBBON2, $nameRibbon2, $comparison);
     }
 
     /**
@@ -903,6 +1067,75 @@ abstract class MumQuery extends ModelCriteria
         return $this
             ->joinAccentBow($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'AccentBow', '\AccentBowQuery');
+    }
+
+    /**
+     * Filter the query by a related \Letter object
+     *
+     * @param \Letter $letter The related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildMumQuery The current query, for fluid interface
+     */
+    public function filterByLetter($letter, $comparison = null)
+    {
+        if ($letter instanceof \Letter) {
+            return $this
+                ->addUsingAlias(MumTableMap::LETTER1_ID, $letter->getId(), $comparison)
+                ->addUsingAlias(MumTableMap::LETTER2_ID, $letter->getId(), $comparison);
+        } else {
+            throw new PropelException('filterByLetter() only accepts arguments of type \Letter');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the Letter relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return ChildMumQuery The current query, for fluid interface
+     */
+    public function joinLetter($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('Letter');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'Letter');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the Letter relation Letter object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return   \LetterQuery A secondary query class using the current class as primary query
+     */
+    public function useLetterQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinLetter($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Letter', '\LetterQuery');
     }
 
     /**

@@ -2,15 +2,13 @@
 
 namespace Base;
 
-use \AccentBow as ChildAccentBow;
-use \AccentBowQuery as ChildAccentBowQuery;
-use \Grade as ChildGrade;
-use \GradeQuery as ChildGradeQuery;
+use \Letter as ChildLetter;
+use \LetterQuery as ChildLetterQuery;
 use \Mum as ChildMum;
 use \MumQuery as ChildMumQuery;
 use \Exception;
 use \PDO;
-use Map\AccentBowTableMap;
+use Map\LetterTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -23,12 +21,12 @@ use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 
-abstract class AccentBow implements ActiveRecordInterface
+abstract class Letter implements ActiveRecordInterface
 {
     /**
      * TableMap class name
      */
-    const TABLE_MAP = '\\Map\\AccentBowTableMap';
+    const TABLE_MAP = '\\Map\\LetterTableMap';
 
 
     /**
@@ -70,15 +68,16 @@ abstract class AccentBow implements ActiveRecordInterface
     protected $name;
 
     /**
-     * The value for the grade_id field.
+     * The value for the maxlength field.
      * @var        int
      */
-    protected $grade_id;
+    protected $maxlength;
 
     /**
-     * @var        Grade
+     * The value for the price field.
+     * @var        string
      */
-    protected $aGrade;
+    protected $price;
 
     /**
      * @var        ObjectCollection|ChildMum[] Collection to store aggregation of ChildMum objects.
@@ -101,7 +100,7 @@ abstract class AccentBow implements ActiveRecordInterface
     protected $mumsScheduledForDeletion = null;
 
     /**
-     * Initializes internal state of Base\AccentBow object.
+     * Initializes internal state of Base\Letter object.
      */
     public function __construct()
     {
@@ -196,9 +195,9 @@ abstract class AccentBow implements ActiveRecordInterface
     }
 
     /**
-     * Compares this with another <code>AccentBow</code> instance.  If
-     * <code>obj</code> is an instance of <code>AccentBow</code>, delegates to
-     * <code>equals(AccentBow)</code>.  Otherwise, returns <code>false</code>.
+     * Compares this with another <code>Letter</code> instance.  If
+     * <code>obj</code> is an instance of <code>Letter</code>, delegates to
+     * <code>equals(Letter)</code>.  Otherwise, returns <code>false</code>.
      *
      * @param  mixed   $obj The object to compare to.
      * @return boolean Whether equal to the object specified.
@@ -281,7 +280,7 @@ abstract class AccentBow implements ActiveRecordInterface
      * @param string $name  The virtual column name
      * @param mixed  $value The value to give to the virtual column
      *
-     * @return AccentBow The current object, for fluid interface
+     * @return Letter The current object, for fluid interface
      */
     public function setVirtualColumn($name, $value)
     {
@@ -313,7 +312,7 @@ abstract class AccentBow implements ActiveRecordInterface
      *                       or a format name ('XML', 'YAML', 'JSON', 'CSV')
      * @param string $data The source data to import from
      *
-     * @return AccentBow The current object, for fluid interface
+     * @return Letter The current object, for fluid interface
      */
     public function importFrom($parser, $data)
     {
@@ -381,21 +380,32 @@ abstract class AccentBow implements ActiveRecordInterface
     }
 
     /**
-     * Get the [grade_id] column value.
+     * Get the [maxlength] column value.
      *
      * @return   int
      */
-    public function getGradeId()
+    public function getMaxlength()
     {
 
-        return $this->grade_id;
+        return $this->maxlength;
+    }
+
+    /**
+     * Get the [price] column value.
+     *
+     * @return   string
+     */
+    public function getPrice()
+    {
+
+        return $this->price;
     }
 
     /**
      * Set the value of [id] column.
      *
      * @param      int $v new value
-     * @return   \AccentBow The current object (for fluent API support)
+     * @return   \Letter The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -405,7 +415,7 @@ abstract class AccentBow implements ActiveRecordInterface
 
         if ($this->id !== $v) {
             $this->id = $v;
-            $this->modifiedColumns[] = AccentBowTableMap::ID;
+            $this->modifiedColumns[] = LetterTableMap::ID;
         }
 
 
@@ -416,7 +426,7 @@ abstract class AccentBow implements ActiveRecordInterface
      * Set the value of [name] column.
      *
      * @param      string $v new value
-     * @return   \AccentBow The current object (for fluent API support)
+     * @return   \Letter The current object (for fluent API support)
      */
     public function setName($v)
     {
@@ -426,7 +436,7 @@ abstract class AccentBow implements ActiveRecordInterface
 
         if ($this->name !== $v) {
             $this->name = $v;
-            $this->modifiedColumns[] = AccentBowTableMap::NAME;
+            $this->modifiedColumns[] = LetterTableMap::NAME;
         }
 
 
@@ -434,29 +444,46 @@ abstract class AccentBow implements ActiveRecordInterface
     } // setName()
 
     /**
-     * Set the value of [grade_id] column.
+     * Set the value of [maxlength] column.
      *
      * @param      int $v new value
-     * @return   \AccentBow The current object (for fluent API support)
+     * @return   \Letter The current object (for fluent API support)
      */
-    public function setGradeId($v)
+    public function setMaxlength($v)
     {
         if ($v !== null) {
             $v = (int) $v;
         }
 
-        if ($this->grade_id !== $v) {
-            $this->grade_id = $v;
-            $this->modifiedColumns[] = AccentBowTableMap::GRADE_ID;
-        }
-
-        if ($this->aGrade !== null && $this->aGrade->getId() !== $v) {
-            $this->aGrade = null;
+        if ($this->maxlength !== $v) {
+            $this->maxlength = $v;
+            $this->modifiedColumns[] = LetterTableMap::MAXLENGTH;
         }
 
 
         return $this;
-    } // setGradeId()
+    } // setMaxlength()
+
+    /**
+     * Set the value of [price] column.
+     *
+     * @param      string $v new value
+     * @return   \Letter The current object (for fluent API support)
+     */
+    public function setPrice($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->price !== $v) {
+            $this->price = $v;
+            $this->modifiedColumns[] = LetterTableMap::PRICE;
+        }
+
+
+        return $this;
+    } // setPrice()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -495,14 +522,17 @@ abstract class AccentBow implements ActiveRecordInterface
         try {
 
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : AccentBowTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : LetterTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : AccentBowTableMap::translateFieldName('Name', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : LetterTableMap::translateFieldName('Name', TableMap::TYPE_PHPNAME, $indexType)];
             $this->name = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : AccentBowTableMap::translateFieldName('GradeId', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->grade_id = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : LetterTableMap::translateFieldName('Maxlength', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->maxlength = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : LetterTableMap::translateFieldName('Price', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->price = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -511,10 +541,10 @@ abstract class AccentBow implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 3; // 3 = AccentBowTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 4; // 4 = LetterTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException("Error populating \AccentBow object", 0, $e);
+            throw new PropelException("Error populating \Letter object", 0, $e);
         }
     }
 
@@ -533,9 +563,6 @@ abstract class AccentBow implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
-        if ($this->aGrade !== null && $this->grade_id !== $this->aGrade->getId()) {
-            $this->aGrade = null;
-        }
     } // ensureConsistency
 
     /**
@@ -559,13 +586,13 @@ abstract class AccentBow implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(AccentBowTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(LetterTableMap::DATABASE_NAME);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $dataFetcher = ChildAccentBowQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
+        $dataFetcher = ChildLetterQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
         $row = $dataFetcher->fetch();
         $dataFetcher->close();
         if (!$row) {
@@ -575,7 +602,6 @@ abstract class AccentBow implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->aGrade = null;
             $this->collMums = null;
 
         } // if (deep)
@@ -587,8 +613,8 @@ abstract class AccentBow implements ActiveRecordInterface
      * @param      ConnectionInterface $con
      * @return void
      * @throws PropelException
-     * @see AccentBow::setDeleted()
-     * @see AccentBow::isDeleted()
+     * @see Letter::setDeleted()
+     * @see Letter::isDeleted()
      */
     public function delete(ConnectionInterface $con = null)
     {
@@ -597,12 +623,12 @@ abstract class AccentBow implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(AccentBowTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(LetterTableMap::DATABASE_NAME);
         }
 
         $con->beginTransaction();
         try {
-            $deleteQuery = ChildAccentBowQuery::create()
+            $deleteQuery = ChildLetterQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -639,7 +665,7 @@ abstract class AccentBow implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(AccentBowTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(LetterTableMap::DATABASE_NAME);
         }
 
         $con->beginTransaction();
@@ -659,7 +685,7 @@ abstract class AccentBow implements ActiveRecordInterface
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                AccentBowTableMap::addInstanceToPool($this);
+                LetterTableMap::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -688,18 +714,6 @@ abstract class AccentBow implements ActiveRecordInterface
         $affectedRows = 0; // initialize var to track total num of affected rows
         if (!$this->alreadyInSave) {
             $this->alreadyInSave = true;
-
-            // We call the save method on the following object(s) if they
-            // were passed to this object by their corresponding set
-            // method.  This object relates to these object(s) by a
-            // foreign key reference.
-
-            if ($this->aGrade !== null) {
-                if ($this->aGrade->isModified() || $this->aGrade->isNew()) {
-                    $affectedRows += $this->aGrade->save($con);
-                }
-                $this->setGrade($this->aGrade);
-            }
 
             if ($this->isNew() || $this->isModified()) {
                 // persist changes
@@ -750,24 +764,27 @@ abstract class AccentBow implements ActiveRecordInterface
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[] = AccentBowTableMap::ID;
+        $this->modifiedColumns[] = LetterTableMap::ID;
         if (null !== $this->id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . AccentBowTableMap::ID . ')');
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . LetterTableMap::ID . ')');
         }
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(AccentBowTableMap::ID)) {
+        if ($this->isColumnModified(LetterTableMap::ID)) {
             $modifiedColumns[':p' . $index++]  = 'ID';
         }
-        if ($this->isColumnModified(AccentBowTableMap::NAME)) {
+        if ($this->isColumnModified(LetterTableMap::NAME)) {
             $modifiedColumns[':p' . $index++]  = 'NAME';
         }
-        if ($this->isColumnModified(AccentBowTableMap::GRADE_ID)) {
-            $modifiedColumns[':p' . $index++]  = 'GRADE_ID';
+        if ($this->isColumnModified(LetterTableMap::MAXLENGTH)) {
+            $modifiedColumns[':p' . $index++]  = 'MAXLENGTH';
+        }
+        if ($this->isColumnModified(LetterTableMap::PRICE)) {
+            $modifiedColumns[':p' . $index++]  = 'PRICE';
         }
 
         $sql = sprintf(
-            'INSERT INTO accent_bow (%s) VALUES (%s)',
+            'INSERT INTO letter (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -782,8 +799,11 @@ abstract class AccentBow implements ActiveRecordInterface
                     case 'NAME':
                         $stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
                         break;
-                    case 'GRADE_ID':
-                        $stmt->bindValue($identifier, $this->grade_id, PDO::PARAM_INT);
+                    case 'MAXLENGTH':
+                        $stmt->bindValue($identifier, $this->maxlength, PDO::PARAM_INT);
+                        break;
+                    case 'PRICE':
+                        $stmt->bindValue($identifier, $this->price, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -831,7 +851,7 @@ abstract class AccentBow implements ActiveRecordInterface
      */
     public function getByName($name, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = AccentBowTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = LetterTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -854,7 +874,10 @@ abstract class AccentBow implements ActiveRecordInterface
                 return $this->getName();
                 break;
             case 2:
-                return $this->getGradeId();
+                return $this->getMaxlength();
+                break;
+            case 3:
+                return $this->getPrice();
                 break;
             default:
                 return null;
@@ -879,15 +902,16 @@ abstract class AccentBow implements ActiveRecordInterface
      */
     public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
-        if (isset($alreadyDumpedObjects['AccentBow'][$this->getPrimaryKey()])) {
+        if (isset($alreadyDumpedObjects['Letter'][$this->getPrimaryKey()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['AccentBow'][$this->getPrimaryKey()] = true;
-        $keys = AccentBowTableMap::getFieldNames($keyType);
+        $alreadyDumpedObjects['Letter'][$this->getPrimaryKey()] = true;
+        $keys = LetterTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
             $keys[1] => $this->getName(),
-            $keys[2] => $this->getGradeId(),
+            $keys[2] => $this->getMaxlength(),
+            $keys[3] => $this->getPrice(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -895,9 +919,6 @@ abstract class AccentBow implements ActiveRecordInterface
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->aGrade) {
-                $result['Grade'] = $this->aGrade->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
-            }
             if (null !== $this->collMums) {
                 $result['Mums'] = $this->collMums->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
@@ -919,7 +940,7 @@ abstract class AccentBow implements ActiveRecordInterface
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = AccentBowTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = LetterTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         return $this->setByPosition($pos, $value);
     }
@@ -942,7 +963,10 @@ abstract class AccentBow implements ActiveRecordInterface
                 $this->setName($value);
                 break;
             case 2:
-                $this->setGradeId($value);
+                $this->setMaxlength($value);
+                break;
+            case 3:
+                $this->setPrice($value);
                 break;
         } // switch()
     }
@@ -966,11 +990,12 @@ abstract class AccentBow implements ActiveRecordInterface
      */
     public function fromArray($arr, $keyType = TableMap::TYPE_PHPNAME)
     {
-        $keys = AccentBowTableMap::getFieldNames($keyType);
+        $keys = LetterTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
         if (array_key_exists($keys[1], $arr)) $this->setName($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setGradeId($arr[$keys[2]]);
+        if (array_key_exists($keys[2], $arr)) $this->setMaxlength($arr[$keys[2]]);
+        if (array_key_exists($keys[3], $arr)) $this->setPrice($arr[$keys[3]]);
     }
 
     /**
@@ -980,11 +1005,12 @@ abstract class AccentBow implements ActiveRecordInterface
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(AccentBowTableMap::DATABASE_NAME);
+        $criteria = new Criteria(LetterTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(AccentBowTableMap::ID)) $criteria->add(AccentBowTableMap::ID, $this->id);
-        if ($this->isColumnModified(AccentBowTableMap::NAME)) $criteria->add(AccentBowTableMap::NAME, $this->name);
-        if ($this->isColumnModified(AccentBowTableMap::GRADE_ID)) $criteria->add(AccentBowTableMap::GRADE_ID, $this->grade_id);
+        if ($this->isColumnModified(LetterTableMap::ID)) $criteria->add(LetterTableMap::ID, $this->id);
+        if ($this->isColumnModified(LetterTableMap::NAME)) $criteria->add(LetterTableMap::NAME, $this->name);
+        if ($this->isColumnModified(LetterTableMap::MAXLENGTH)) $criteria->add(LetterTableMap::MAXLENGTH, $this->maxlength);
+        if ($this->isColumnModified(LetterTableMap::PRICE)) $criteria->add(LetterTableMap::PRICE, $this->price);
 
         return $criteria;
     }
@@ -999,8 +1025,8 @@ abstract class AccentBow implements ActiveRecordInterface
      */
     public function buildPkeyCriteria()
     {
-        $criteria = new Criteria(AccentBowTableMap::DATABASE_NAME);
-        $criteria->add(AccentBowTableMap::ID, $this->id);
+        $criteria = new Criteria(LetterTableMap::DATABASE_NAME);
+        $criteria->add(LetterTableMap::ID, $this->id);
 
         return $criteria;
     }
@@ -1041,7 +1067,7 @@ abstract class AccentBow implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \AccentBow (or compatible) type.
+     * @param      object $copyObj An object of \Letter (or compatible) type.
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
@@ -1049,7 +1075,8 @@ abstract class AccentBow implements ActiveRecordInterface
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
         $copyObj->setName($this->getName());
-        $copyObj->setGradeId($this->getGradeId());
+        $copyObj->setMaxlength($this->getMaxlength());
+        $copyObj->setPrice($this->getPrice());
 
         if ($deepCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1079,7 +1106,7 @@ abstract class AccentBow implements ActiveRecordInterface
      * objects.
      *
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return                 \AccentBow Clone of current object.
+     * @return                 \Letter Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1090,57 +1117,6 @@ abstract class AccentBow implements ActiveRecordInterface
         $this->copyInto($copyObj, $deepCopy);
 
         return $copyObj;
-    }
-
-    /**
-     * Declares an association between this object and a ChildGrade object.
-     *
-     * @param                  ChildGrade $v
-     * @return                 \AccentBow The current object (for fluent API support)
-     * @throws PropelException
-     */
-    public function setGrade(ChildGrade $v = null)
-    {
-        if ($v === null) {
-            $this->setGradeId(NULL);
-        } else {
-            $this->setGradeId($v->getId());
-        }
-
-        $this->aGrade = $v;
-
-        // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the ChildGrade object, it will not be re-added.
-        if ($v !== null) {
-            $v->addAccentBow($this);
-        }
-
-
-        return $this;
-    }
-
-
-    /**
-     * Get the associated ChildGrade object
-     *
-     * @param      ConnectionInterface $con Optional Connection object.
-     * @return                 ChildGrade The associated ChildGrade object.
-     * @throws PropelException
-     */
-    public function getGrade(ConnectionInterface $con = null)
-    {
-        if ($this->aGrade === null && ($this->grade_id !== null)) {
-            $this->aGrade = ChildGradeQuery::create()->findPk($this->grade_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aGrade->addAccentBows($this);
-             */
-        }
-
-        return $this->aGrade;
     }
 
 
@@ -1208,7 +1184,7 @@ abstract class AccentBow implements ActiveRecordInterface
      * If the $criteria is not null, it is used to always fetch the results from the database.
      * Otherwise the results are fetched from the database the first time, then cached.
      * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this ChildAccentBow is new, it will return
+     * If this ChildLetter is new, it will return
      * an empty collection or the current collection; the criteria is ignored on a new object.
      *
      * @param      Criteria $criteria optional Criteria object to narrow the query
@@ -1225,7 +1201,7 @@ abstract class AccentBow implements ActiveRecordInterface
                 $this->initMums();
             } else {
                 $collMums = ChildMumQuery::create(null, $criteria)
-                    ->filterByAccentBow($this)
+                    ->filterByLetter($this)
                     ->find($con);
 
                 if (null !== $criteria) {
@@ -1270,7 +1246,7 @@ abstract class AccentBow implements ActiveRecordInterface
      *
      * @param      Collection $mums A Propel collection.
      * @param      ConnectionInterface $con Optional connection object
-     * @return   ChildAccentBow The current object (for fluent API support)
+     * @return   ChildLetter The current object (for fluent API support)
      */
     public function setMums(Collection $mums, ConnectionInterface $con = null)
     {
@@ -1280,7 +1256,7 @@ abstract class AccentBow implements ActiveRecordInterface
         $this->mumsScheduledForDeletion = $mumsToDelete;
 
         foreach ($mumsToDelete as $mumRemoved) {
-            $mumRemoved->setAccentBow(null);
+            $mumRemoved->setLetter(null);
         }
 
         $this->collMums = null;
@@ -1321,7 +1297,7 @@ abstract class AccentBow implements ActiveRecordInterface
             }
 
             return $query
-                ->filterByAccentBow($this)
+                ->filterByLetter($this)
                 ->count($con);
         }
 
@@ -1333,7 +1309,7 @@ abstract class AccentBow implements ActiveRecordInterface
      * through the ChildMum foreign key attribute.
      *
      * @param    ChildMum $l ChildMum
-     * @return   \AccentBow The current object (for fluent API support)
+     * @return   \Letter The current object (for fluent API support)
      */
     public function addMum(ChildMum $l)
     {
@@ -1355,12 +1331,12 @@ abstract class AccentBow implements ActiveRecordInterface
     protected function doAddMum($mum)
     {
         $this->collMums[]= $mum;
-        $mum->setAccentBow($this);
+        $mum->setLetter($this);
     }
 
     /**
      * @param  Mum $mum The mum object to remove.
-     * @return ChildAccentBow The current object (for fluent API support)
+     * @return ChildLetter The current object (for fluent API support)
      */
     public function removeMum($mum)
     {
@@ -1370,8 +1346,8 @@ abstract class AccentBow implements ActiveRecordInterface
                 $this->mumsScheduledForDeletion = clone $this->collMums;
                 $this->mumsScheduledForDeletion->clear();
             }
-            $this->mumsScheduledForDeletion[]= $mum;
-            $mum->setAccentBow(null);
+            $this->mumsScheduledForDeletion[]= clone $mum;
+            $mum->setLetter(null);
         }
 
         return $this;
@@ -1381,13 +1357,13 @@ abstract class AccentBow implements ActiveRecordInterface
     /**
      * If this collection has already been initialized with
      * an identical criteria, it returns the collection.
-     * Otherwise if this AccentBow is new, it will return
-     * an empty collection; or if this AccentBow has previously
+     * Otherwise if this Letter is new, it will return
+     * an empty collection; or if this Letter has previously
      * been saved, it will retrieve related Mums from storage.
      *
      * This method is protected by default in order to keep the public
      * api reasonable.  You can provide public methods for those you
-     * actually need in AccentBow.
+     * actually need in Letter.
      *
      * @param      Criteria $criteria optional Criteria object to narrow the query
      * @param      ConnectionInterface $con optional connection object
@@ -1406,13 +1382,13 @@ abstract class AccentBow implements ActiveRecordInterface
     /**
      * If this collection has already been initialized with
      * an identical criteria, it returns the collection.
-     * Otherwise if this AccentBow is new, it will return
-     * an empty collection; or if this AccentBow has previously
+     * Otherwise if this Letter is new, it will return
+     * an empty collection; or if this Letter has previously
      * been saved, it will retrieve related Mums from storage.
      *
      * This method is protected by default in order to keep the public
      * api reasonable.  You can provide public methods for those you
-     * actually need in AccentBow.
+     * actually need in Letter.
      *
      * @param      Criteria $criteria optional Criteria object to narrow the query
      * @param      ConnectionInterface $con optional connection object
@@ -1431,23 +1407,23 @@ abstract class AccentBow implements ActiveRecordInterface
     /**
      * If this collection has already been initialized with
      * an identical criteria, it returns the collection.
-     * Otherwise if this AccentBow is new, it will return
-     * an empty collection; or if this AccentBow has previously
+     * Otherwise if this Letter is new, it will return
+     * an empty collection; or if this Letter has previously
      * been saved, it will retrieve related Mums from storage.
      *
      * This method is protected by default in order to keep the public
      * api reasonable.  You can provide public methods for those you
-     * actually need in AccentBow.
+     * actually need in Letter.
      *
      * @param      Criteria $criteria optional Criteria object to narrow the query
      * @param      ConnectionInterface $con optional connection object
      * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return Collection|ChildMum[] List of ChildMum objects
      */
-    public function getMumsJoinLetter($criteria = null, $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    public function getMumsJoinAccentBow($criteria = null, $con = null, $joinBehavior = Criteria::LEFT_JOIN)
     {
         $query = ChildMumQuery::create(null, $criteria);
-        $query->joinWith('Letter', $joinBehavior);
+        $query->joinWith('AccentBow', $joinBehavior);
 
         return $this->getMums($query, $con);
     }
@@ -1456,13 +1432,13 @@ abstract class AccentBow implements ActiveRecordInterface
     /**
      * If this collection has already been initialized with
      * an identical criteria, it returns the collection.
-     * Otherwise if this AccentBow is new, it will return
-     * an empty collection; or if this AccentBow has previously
+     * Otherwise if this Letter is new, it will return
+     * an empty collection; or if this Letter has previously
      * been saved, it will retrieve related Mums from storage.
      *
      * This method is protected by default in order to keep the public
      * api reasonable.  You can provide public methods for those you
-     * actually need in AccentBow.
+     * actually need in Letter.
      *
      * @param      Criteria $criteria optional Criteria object to narrow the query
      * @param      ConnectionInterface $con optional connection object
@@ -1484,7 +1460,8 @@ abstract class AccentBow implements ActiveRecordInterface
     {
         $this->id = null;
         $this->name = null;
-        $this->grade_id = null;
+        $this->maxlength = null;
+        $this->price = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();
@@ -1515,7 +1492,6 @@ abstract class AccentBow implements ActiveRecordInterface
             $this->collMums->clearIterator();
         }
         $this->collMums = null;
-        $this->aGrade = null;
     }
 
     /**
@@ -1525,7 +1501,7 @@ abstract class AccentBow implements ActiveRecordInterface
      */
     public function __toString()
     {
-        return (string) $this->exportTo(AccentBowTableMap::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(LetterTableMap::DEFAULT_STRING_FORMAT);
     }
 
     /**

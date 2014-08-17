@@ -15,6 +15,7 @@ var app = angular.module('mumshoppe', [
 	'alerts.service',
 	'confirm.service',
 	'customer.service',
+	'letters.service',
 	'mum.service',
 	'mumtypes.service']);
 

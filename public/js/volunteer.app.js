@@ -6,6 +6,7 @@ var app = angular.module('volunteer', [
 	'accentbows.controller',
 	'alerts.controller',
 	'confirm.controller',
+	'letters.controller',
 	'mumtypes.controller',
 	'trinketsAdd.controller',
 	'trinketsAll.controller',
@@ -13,6 +14,7 @@ var app = angular.module('volunteer', [
 	'accentbows.service',
 	'alerts.service',
 	'confirm.service',
+	'letters.service',
 	'mumtypes.service',
 	'trinkets.service']);
 
@@ -25,6 +27,11 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 			url: '/accentbows',
 			templateUrl: 'public/views/volunteer/accentbows/index.html',
 			controller: 'accentbowsController'
+		})
+		.state('letters', {
+			url: '/letters',
+			templateUrl: 'public/views/volunteer/letters/index.html',
+			controller: 'lettersController'
 		})
 		.state('mumtypes', {
 			url: '/mumtypes',
@@ -165,7 +172,6 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 		});
 
     $httpProvider.defaults.transformRequest = function(data) {
-    	console.log("transforming");
         if (data === undefined) {
             return data;
         }

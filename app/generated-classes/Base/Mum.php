@@ -8,6 +8,8 @@ use \Backing as ChildBacking;
 use \BackingQuery as ChildBackingQuery;
 use \Customer as ChildCustomer;
 use \CustomerQuery as ChildCustomerQuery;
+use \Letter as ChildLetter;
+use \LetterQuery as ChildLetterQuery;
 use \Mum as ChildMum;
 use \MumQuery as ChildMumQuery;
 use \MumTrinket as ChildMumTrinket;
@@ -92,6 +94,30 @@ abstract class Mum implements ActiveRecordInterface
     protected $accent_bow_id;
 
     /**
+     * The value for the letter1_id field.
+     * @var        int
+     */
+    protected $letter1_id;
+
+    /**
+     * The value for the name_ribbion1 field.
+     * @var        string
+     */
+    protected $name_ribbion1;
+
+    /**
+     * The value for the letter2_id field.
+     * @var        int
+     */
+    protected $letter2_id;
+
+    /**
+     * The value for the name_ribbon2 field.
+     * @var        string
+     */
+    protected $name_ribbon2;
+
+    /**
      * The value for the status_id field.
      * @var        int
      */
@@ -141,6 +167,11 @@ abstract class Mum implements ActiveRecordInterface
      * @var        AccentBow
      */
     protected $aAccentBow;
+
+    /**
+     * @var        Letter
+     */
+    protected $aLetter;
 
     /**
      * @var        Status
@@ -481,6 +512,50 @@ abstract class Mum implements ActiveRecordInterface
     }
 
     /**
+     * Get the [letter1_id] column value.
+     *
+     * @return   int
+     */
+    public function getLetter1Id()
+    {
+
+        return $this->letter1_id;
+    }
+
+    /**
+     * Get the [name_ribbion1] column value.
+     *
+     * @return   string
+     */
+    public function getNameRibbion1()
+    {
+
+        return $this->name_ribbion1;
+    }
+
+    /**
+     * Get the [letter2_id] column value.
+     *
+     * @return   int
+     */
+    public function getLetter2Id()
+    {
+
+        return $this->letter2_id;
+    }
+
+    /**
+     * Get the [name_ribbon2] column value.
+     *
+     * @return   string
+     */
+    public function getNameRibbon2()
+    {
+
+        return $this->name_ribbon2;
+    }
+
+    /**
      * Get the [status_id] column value.
      *
      * @return   int
@@ -679,6 +754,98 @@ abstract class Mum implements ActiveRecordInterface
     } // setAccentBowId()
 
     /**
+     * Set the value of [letter1_id] column.
+     *
+     * @param      int $v new value
+     * @return   \Mum The current object (for fluent API support)
+     */
+    public function setLetter1Id($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->letter1_id !== $v) {
+            $this->letter1_id = $v;
+            $this->modifiedColumns[] = MumTableMap::LETTER1_ID;
+        }
+
+        if ($this->aLetter !== null && $this->aLetter->getId() !== $v) {
+            $this->aLetter = null;
+        }
+
+
+        return $this;
+    } // setLetter1Id()
+
+    /**
+     * Set the value of [name_ribbion1] column.
+     *
+     * @param      string $v new value
+     * @return   \Mum The current object (for fluent API support)
+     */
+    public function setNameRibbion1($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->name_ribbion1 !== $v) {
+            $this->name_ribbion1 = $v;
+            $this->modifiedColumns[] = MumTableMap::NAME_RIBBION1;
+        }
+
+
+        return $this;
+    } // setNameRibbion1()
+
+    /**
+     * Set the value of [letter2_id] column.
+     *
+     * @param      int $v new value
+     * @return   \Mum The current object (for fluent API support)
+     */
+    public function setLetter2Id($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->letter2_id !== $v) {
+            $this->letter2_id = $v;
+            $this->modifiedColumns[] = MumTableMap::LETTER2_ID;
+        }
+
+        if ($this->aLetter !== null && $this->aLetter->getId() !== $v) {
+            $this->aLetter = null;
+        }
+
+
+        return $this;
+    } // setLetter2Id()
+
+    /**
+     * Set the value of [name_ribbon2] column.
+     *
+     * @param      string $v new value
+     * @return   \Mum The current object (for fluent API support)
+     */
+    public function setNameRibbon2($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->name_ribbon2 !== $v) {
+            $this->name_ribbon2 = $v;
+            $this->modifiedColumns[] = MumTableMap::NAME_RIBBON2;
+        }
+
+
+        return $this;
+    } // setNameRibbon2()
+
+    /**
      * Set the value of [status_id] column.
      *
      * @param      int $v new value
@@ -865,31 +1032,43 @@ abstract class Mum implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : MumTableMap::translateFieldName('AccentBowId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->accent_bow_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : MumTableMap::translateFieldName('StatusId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : MumTableMap::translateFieldName('Letter1Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->letter1_id = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : MumTableMap::translateFieldName('NameRibbion1', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->name_ribbion1 = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : MumTableMap::translateFieldName('Letter2Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->letter2_id = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : MumTableMap::translateFieldName('NameRibbon2', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->name_ribbon2 = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : MumTableMap::translateFieldName('StatusId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->status_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : MumTableMap::translateFieldName('Paid', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : MumTableMap::translateFieldName('Paid', TableMap::TYPE_PHPNAME, $indexType)];
             $this->paid = (null !== $col) ? (boolean) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : MumTableMap::translateFieldName('OrderDate', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : MumTableMap::translateFieldName('OrderDate', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
             $this->order_date = (null !== $col) ? PropelDateTime::newInstance($col, null, '\DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : MumTableMap::translateFieldName('DepositeDate', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 11 + $startcol : MumTableMap::translateFieldName('DepositeDate', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
             $this->deposite_date = (null !== $col) ? PropelDateTime::newInstance($col, null, '\DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : MumTableMap::translateFieldName('PaidDate', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 12 + $startcol : MumTableMap::translateFieldName('PaidDate', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
             $this->paid_date = (null !== $col) ? PropelDateTime::newInstance($col, null, '\DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : MumTableMap::translateFieldName('DeliveryDate', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 13 + $startcol : MumTableMap::translateFieldName('DeliveryDate', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
@@ -902,7 +1081,7 @@ abstract class Mum implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 10; // 10 = MumTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 14; // 14 = MumTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating \Mum object", 0, $e);
@@ -932,6 +1111,12 @@ abstract class Mum implements ActiveRecordInterface
         }
         if ($this->aAccentBow !== null && $this->accent_bow_id !== $this->aAccentBow->getId()) {
             $this->aAccentBow = null;
+        }
+        if ($this->aLetter !== null && $this->letter1_id !== $this->aLetter->getId()) {
+            $this->aLetter = null;
+        }
+        if ($this->aLetter !== null && $this->letter2_id !== $this->aLetter->getId()) {
+            $this->aLetter = null;
         }
         if ($this->aStatus !== null && $this->status_id !== $this->aStatus->getId()) {
             $this->aStatus = null;
@@ -978,6 +1163,7 @@ abstract class Mum implements ActiveRecordInterface
             $this->aCustomer = null;
             $this->aBacking = null;
             $this->aAccentBow = null;
+            $this->aLetter = null;
             $this->aStatus = null;
             $this->collMumTrinkets = null;
 
@@ -1119,6 +1305,13 @@ abstract class Mum implements ActiveRecordInterface
                 $this->setAccentBow($this->aAccentBow);
             }
 
+            if ($this->aLetter !== null) {
+                if ($this->aLetter->isModified() || $this->aLetter->isNew()) {
+                    $affectedRows += $this->aLetter->save($con);
+                }
+                $this->setLetter($this->aLetter);
+            }
+
             if ($this->aStatus !== null) {
                 if ($this->aStatus->isModified() || $this->aStatus->isNew()) {
                     $affectedRows += $this->aStatus->save($con);
@@ -1219,6 +1412,18 @@ abstract class Mum implements ActiveRecordInterface
         if ($this->isColumnModified(MumTableMap::ACCENT_BOW_ID)) {
             $modifiedColumns[':p' . $index++]  = 'ACCENT_BOW_ID';
         }
+        if ($this->isColumnModified(MumTableMap::LETTER1_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'LETTER1_ID';
+        }
+        if ($this->isColumnModified(MumTableMap::NAME_RIBBION1)) {
+            $modifiedColumns[':p' . $index++]  = 'NAME_RIBBION1';
+        }
+        if ($this->isColumnModified(MumTableMap::LETTER2_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'LETTER2_ID';
+        }
+        if ($this->isColumnModified(MumTableMap::NAME_RIBBON2)) {
+            $modifiedColumns[':p' . $index++]  = 'NAME_RIBBON2';
+        }
         if ($this->isColumnModified(MumTableMap::STATUS_ID)) {
             $modifiedColumns[':p' . $index++]  = 'STATUS_ID';
         }
@@ -1259,6 +1464,18 @@ abstract class Mum implements ActiveRecordInterface
                         break;
                     case 'ACCENT_BOW_ID':
                         $stmt->bindValue($identifier, $this->accent_bow_id, PDO::PARAM_INT);
+                        break;
+                    case 'LETTER1_ID':
+                        $stmt->bindValue($identifier, $this->letter1_id, PDO::PARAM_INT);
+                        break;
+                    case 'NAME_RIBBION1':
+                        $stmt->bindValue($identifier, $this->name_ribbion1, PDO::PARAM_STR);
+                        break;
+                    case 'LETTER2_ID':
+                        $stmt->bindValue($identifier, $this->letter2_id, PDO::PARAM_INT);
+                        break;
+                    case 'NAME_RIBBON2':
+                        $stmt->bindValue($identifier, $this->name_ribbon2, PDO::PARAM_STR);
                         break;
                     case 'STATUS_ID':
                         $stmt->bindValue($identifier, $this->status_id, PDO::PARAM_INT);
@@ -1353,21 +1570,33 @@ abstract class Mum implements ActiveRecordInterface
                 return $this->getAccentBowId();
                 break;
             case 4:
-                return $this->getStatusId();
+                return $this->getLetter1Id();
                 break;
             case 5:
-                return $this->getPaid();
+                return $this->getNameRibbion1();
                 break;
             case 6:
-                return $this->getOrderDate();
+                return $this->getLetter2Id();
                 break;
             case 7:
-                return $this->getDepositeDate();
+                return $this->getNameRibbon2();
                 break;
             case 8:
-                return $this->getPaidDate();
+                return $this->getStatusId();
                 break;
             case 9:
+                return $this->getPaid();
+                break;
+            case 10:
+                return $this->getOrderDate();
+                break;
+            case 11:
+                return $this->getDepositeDate();
+                break;
+            case 12:
+                return $this->getPaidDate();
+                break;
+            case 13:
                 return $this->getDeliveryDate();
                 break;
             default:
@@ -1403,12 +1632,16 @@ abstract class Mum implements ActiveRecordInterface
             $keys[1] => $this->getCustomerId(),
             $keys[2] => $this->getBackingId(),
             $keys[3] => $this->getAccentBowId(),
-            $keys[4] => $this->getStatusId(),
-            $keys[5] => $this->getPaid(),
-            $keys[6] => $this->getOrderDate(),
-            $keys[7] => $this->getDepositeDate(),
-            $keys[8] => $this->getPaidDate(),
-            $keys[9] => $this->getDeliveryDate(),
+            $keys[4] => $this->getLetter1Id(),
+            $keys[5] => $this->getNameRibbion1(),
+            $keys[6] => $this->getLetter2Id(),
+            $keys[7] => $this->getNameRibbon2(),
+            $keys[8] => $this->getStatusId(),
+            $keys[9] => $this->getPaid(),
+            $keys[10] => $this->getOrderDate(),
+            $keys[11] => $this->getDepositeDate(),
+            $keys[12] => $this->getPaidDate(),
+            $keys[13] => $this->getDeliveryDate(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1424,6 +1657,9 @@ abstract class Mum implements ActiveRecordInterface
             }
             if (null !== $this->aAccentBow) {
                 $result['AccentBow'] = $this->aAccentBow->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+            if (null !== $this->aLetter) {
+                $result['Letter'] = $this->aLetter->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
             if (null !== $this->aStatus) {
                 $result['Status'] = $this->aStatus->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
@@ -1478,21 +1714,33 @@ abstract class Mum implements ActiveRecordInterface
                 $this->setAccentBowId($value);
                 break;
             case 4:
-                $this->setStatusId($value);
+                $this->setLetter1Id($value);
                 break;
             case 5:
-                $this->setPaid($value);
+                $this->setNameRibbion1($value);
                 break;
             case 6:
-                $this->setOrderDate($value);
+                $this->setLetter2Id($value);
                 break;
             case 7:
-                $this->setDepositeDate($value);
+                $this->setNameRibbon2($value);
                 break;
             case 8:
-                $this->setPaidDate($value);
+                $this->setStatusId($value);
                 break;
             case 9:
+                $this->setPaid($value);
+                break;
+            case 10:
+                $this->setOrderDate($value);
+                break;
+            case 11:
+                $this->setDepositeDate($value);
+                break;
+            case 12:
+                $this->setPaidDate($value);
+                break;
+            case 13:
                 $this->setDeliveryDate($value);
                 break;
         } // switch()
@@ -1523,12 +1771,16 @@ abstract class Mum implements ActiveRecordInterface
         if (array_key_exists($keys[1], $arr)) $this->setCustomerId($arr[$keys[1]]);
         if (array_key_exists($keys[2], $arr)) $this->setBackingId($arr[$keys[2]]);
         if (array_key_exists($keys[3], $arr)) $this->setAccentBowId($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setStatusId($arr[$keys[4]]);
-        if (array_key_exists($keys[5], $arr)) $this->setPaid($arr[$keys[5]]);
-        if (array_key_exists($keys[6], $arr)) $this->setOrderDate($arr[$keys[6]]);
-        if (array_key_exists($keys[7], $arr)) $this->setDepositeDate($arr[$keys[7]]);
-        if (array_key_exists($keys[8], $arr)) $this->setPaidDate($arr[$keys[8]]);
-        if (array_key_exists($keys[9], $arr)) $this->setDeliveryDate($arr[$keys[9]]);
+        if (array_key_exists($keys[4], $arr)) $this->setLetter1Id($arr[$keys[4]]);
+        if (array_key_exists($keys[5], $arr)) $this->setNameRibbion1($arr[$keys[5]]);
+        if (array_key_exists($keys[6], $arr)) $this->setLetter2Id($arr[$keys[6]]);
+        if (array_key_exists($keys[7], $arr)) $this->setNameRibbon2($arr[$keys[7]]);
+        if (array_key_exists($keys[8], $arr)) $this->setStatusId($arr[$keys[8]]);
+        if (array_key_exists($keys[9], $arr)) $this->setPaid($arr[$keys[9]]);
+        if (array_key_exists($keys[10], $arr)) $this->setOrderDate($arr[$keys[10]]);
+        if (array_key_exists($keys[11], $arr)) $this->setDepositeDate($arr[$keys[11]]);
+        if (array_key_exists($keys[12], $arr)) $this->setPaidDate($arr[$keys[12]]);
+        if (array_key_exists($keys[13], $arr)) $this->setDeliveryDate($arr[$keys[13]]);
     }
 
     /**
@@ -1544,6 +1796,10 @@ abstract class Mum implements ActiveRecordInterface
         if ($this->isColumnModified(MumTableMap::CUSTOMER_ID)) $criteria->add(MumTableMap::CUSTOMER_ID, $this->customer_id);
         if ($this->isColumnModified(MumTableMap::BACKING_ID)) $criteria->add(MumTableMap::BACKING_ID, $this->backing_id);
         if ($this->isColumnModified(MumTableMap::ACCENT_BOW_ID)) $criteria->add(MumTableMap::ACCENT_BOW_ID, $this->accent_bow_id);
+        if ($this->isColumnModified(MumTableMap::LETTER1_ID)) $criteria->add(MumTableMap::LETTER1_ID, $this->letter1_id);
+        if ($this->isColumnModified(MumTableMap::NAME_RIBBION1)) $criteria->add(MumTableMap::NAME_RIBBION1, $this->name_ribbion1);
+        if ($this->isColumnModified(MumTableMap::LETTER2_ID)) $criteria->add(MumTableMap::LETTER2_ID, $this->letter2_id);
+        if ($this->isColumnModified(MumTableMap::NAME_RIBBON2)) $criteria->add(MumTableMap::NAME_RIBBON2, $this->name_ribbon2);
         if ($this->isColumnModified(MumTableMap::STATUS_ID)) $criteria->add(MumTableMap::STATUS_ID, $this->status_id);
         if ($this->isColumnModified(MumTableMap::PAID)) $criteria->add(MumTableMap::PAID, $this->paid);
         if ($this->isColumnModified(MumTableMap::ORDER_DATE)) $criteria->add(MumTableMap::ORDER_DATE, $this->order_date);
@@ -1616,6 +1872,10 @@ abstract class Mum implements ActiveRecordInterface
         $copyObj->setCustomerId($this->getCustomerId());
         $copyObj->setBackingId($this->getBackingId());
         $copyObj->setAccentBowId($this->getAccentBowId());
+        $copyObj->setLetter1Id($this->getLetter1Id());
+        $copyObj->setNameRibbion1($this->getNameRibbion1());
+        $copyObj->setLetter2Id($this->getLetter2Id());
+        $copyObj->setNameRibbon2($this->getNameRibbon2());
         $copyObj->setStatusId($this->getStatusId());
         $copyObj->setPaid($this->getPaid());
         $copyObj->setOrderDate($this->getOrderDate());
@@ -1815,6 +2075,65 @@ abstract class Mum implements ActiveRecordInterface
         }
 
         return $this->aAccentBow;
+    }
+
+    /**
+     * Declares an association between this object and a ChildLetter object.
+     *
+     * @param                  ChildLetter $v
+     * @return                 \Mum The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setLetter(ChildLetter $v = null)
+    {
+        if ($v === null) {
+            $this->setLetter1Id(NULL);
+        } else {
+            $this->setLetter1Id($v->getId());
+        }
+
+        if ($v === null) {
+            $this->setLetter2Id(NULL);
+        } else {
+            $this->setLetter2Id($v->getId());
+        }
+
+        $this->aLetter = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildLetter object, it will not be re-added.
+        if ($v !== null) {
+            $v->addMum($this);
+        }
+
+
+        return $this;
+    }
+
+
+    /**
+     * Get the associated ChildLetter object
+     *
+     * @param      ConnectionInterface $con Optional Connection object.
+     * @return                 ChildLetter The associated ChildLetter object.
+     * @throws PropelException
+     */
+    public function getLetter(ConnectionInterface $con = null)
+    {
+        if ($this->aLetter === null && ($this->letter1_id !== null && $this->letter2_id !== null)) {
+            $this->aLetter = ChildLetterQuery::create()
+                ->filterByMum($this) // here
+                ->findOne($con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aLetter->addMums($this);
+             */
+        }
+
+        return $this->aLetter;
     }
 
     /**
@@ -2322,6 +2641,10 @@ abstract class Mum implements ActiveRecordInterface
         $this->customer_id = null;
         $this->backing_id = null;
         $this->accent_bow_id = null;
+        $this->letter1_id = null;
+        $this->name_ribbion1 = null;
+        $this->letter2_id = null;
+        $this->name_ribbon2 = null;
         $this->status_id = null;
         $this->paid = null;
         $this->order_date = null;
@@ -2370,6 +2693,7 @@ abstract class Mum implements ActiveRecordInterface
         $this->aCustomer = null;
         $this->aBacking = null;
         $this->aAccentBow = null;
+        $this->aLetter = null;
         $this->aStatus = null;
     }
 

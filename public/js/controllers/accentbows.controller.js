@@ -97,4 +97,4 @@ angular.module('accentbows.controller', [])
 			$scope.bow = {};
 			$modalInstance.dismiss();
 		}
-	})
+	});

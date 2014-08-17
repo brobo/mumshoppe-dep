@@ -105,6 +105,21 @@ CREATE TABLE `trinket`
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
+-- letter
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `letter`;
+
+CREATE TABLE `letter`
+(
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(64) NOT NULL,
+    `maxlength` INTEGER NOT NULL,
+    `price` DECIMAL(10,2) NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
 -- accent_bow
 -- ---------------------------------------------------------------------
 
@@ -147,6 +162,10 @@ CREATE TABLE `mum`
     `customer_id` INTEGER NOT NULL,
     `backing_id` INTEGER,
     `accent_bow_id` INTEGER,
+    `letter1_id` INTEGER,
+    `name_ribbion1` VARCHAR(255),
+    `letter2_id` INTEGER,
+    `name_ribbon2` VARCHAR(255),
     `status_id` INTEGER,
     `paid` TINYINT(1),
     `order_date` DATETIME,
@@ -157,7 +176,8 @@ CREATE TABLE `mum`
     INDEX `mum_FI_1` (`customer_id`),
     INDEX `mum_FI_2` (`backing_id`),
     INDEX `mum_FI_3` (`accent_bow_id`),
-    INDEX `mum_FI_4` (`status_id`),
+    INDEX `mum_FI_4` (`letter1_id`, `letter2_id`),
+    INDEX `mum_FI_5` (`status_id`),
     CONSTRAINT `mum_FK_1`
         FOREIGN KEY (`customer_id`)
         REFERENCES `customer` (`id`),
@@ -168,6 +188,9 @@ CREATE TABLE `mum`
         FOREIGN KEY (`accent_bow_id`)
         REFERENCES `accent_bow` (`id`),
     CONSTRAINT `mum_FK_4`
+        FOREIGN KEY (`letter1_id`,`letter2_id`)
+        REFERENCES `letter` (`id`,`id`),
+    CONSTRAINT `mum_FK_5`
         FOREIGN KEY (`status_id`)
         REFERENCES `status` (`id`)
 ) ENGINE=InnoDB;
