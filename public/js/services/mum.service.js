@@ -17,6 +17,12 @@ angular.module('mum.service', [])
 			},
 			delete: function(id) {
 				return $http.delete('/mums/api/mum/' + id);
+			},
+			addBear: function(mumId, bearId) {
+				return $http.put('/mums/api/mum/' + mumId + '/bear/' + bearId);
+			},
+			removeBear: function(mumId, bearId) {
+				return $http.delete('/mums/api/mum/' + mumId + '/bear/' + bearId);
 			}
 		};
 	});

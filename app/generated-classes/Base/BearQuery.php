@@ -10,6 +10,9 @@ use Map\BearTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
+use Propel\Runtime\ActiveQuery\ModelJoin;
+use Propel\Runtime\Collection\Collection;
+use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
 
@@ -31,6 +34,10 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildBearQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildBearQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildBearQuery innerJoin($relation) Adds a INNER JOIN clause to the query
+ *
+ * @method     ChildBearQuery leftJoinMumBear($relationAlias = null) Adds a LEFT JOIN clause to the query using the MumBear relation
+ * @method     ChildBearQuery rightJoinMumBear($relationAlias = null) Adds a RIGHT JOIN clause to the query using the MumBear relation
+ * @method     ChildBearQuery innerJoinMumBear($relationAlias = null) Adds a INNER JOIN clause to the query using the MumBear relation
  *
  * @method     ChildBear findOne(ConnectionInterface $con = null) Return the first ChildBear matching the query
  * @method     ChildBear findOneOrCreate(ConnectionInterface $con = null) Return the first ChildBear matching the query, or a new ChildBear object populated from the query conditions when no match is found
@@ -357,6 +364,96 @@ abstract class BearQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(BearTableMap::PRICE, $price, $comparison);
+    }
+
+    /**
+     * Filter the query by a related \MumBear object
+     *
+     * @param \MumBear|ObjectCollection $mumBear  the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildBearQuery The current query, for fluid interface
+     */
+    public function filterByMumBear($mumBear, $comparison = null)
+    {
+        if ($mumBear instanceof \MumBear) {
+            return $this
+                ->addUsingAlias(BearTableMap::ID, $mumBear->getBearId(), $comparison);
+        } elseif ($mumBear instanceof ObjectCollection) {
+            return $this
+                ->useMumBearQuery()
+                ->filterByPrimaryKeys($mumBear->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByMumBear() only accepts arguments of type \MumBear or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the MumBear relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return ChildBearQuery The current query, for fluid interface
+     */
+    public function joinMumBear($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('MumBear');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'MumBear');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the MumBear relation MumBear object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return   \MumBearQuery A secondary query class using the current class as primary query
+     */
+    public function useMumBearQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinMumBear($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'MumBear', '\MumBearQuery');
+    }
+
+    /**
+     * Filter the query by a related Mum object
+     * using the mum_bear table as cross reference
+     *
+     * @param Mum $mum the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildBearQuery The current query, for fluid interface
+     */
+    public function filterByMum($mum, $comparison = Criteria::EQUAL)
+    {
+        return $this
+            ->useMumBearQuery()
+            ->filterByMum($mum, $comparison)
+            ->endUse();
     }
 
     /**

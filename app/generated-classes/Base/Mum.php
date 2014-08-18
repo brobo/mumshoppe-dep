@@ -6,11 +6,15 @@ use \AccentBow as ChildAccentBow;
 use \AccentBowQuery as ChildAccentBowQuery;
 use \Backing as ChildBacking;
 use \BackingQuery as ChildBackingQuery;
+use \Bear as ChildBear;
+use \BearQuery as ChildBearQuery;
 use \Customer as ChildCustomer;
 use \CustomerQuery as ChildCustomerQuery;
 use \Letter as ChildLetter;
 use \LetterQuery as ChildLetterQuery;
 use \Mum as ChildMum;
+use \MumBear as ChildMumBear;
+use \MumBearQuery as ChildMumBearQuery;
 use \MumQuery as ChildMumQuery;
 use \MumTrinket as ChildMumTrinket;
 use \MumTrinketQuery as ChildMumTrinketQuery;
@@ -185,9 +189,20 @@ abstract class Mum implements ActiveRecordInterface
     protected $collMumTrinketsPartial;
 
     /**
+     * @var        ObjectCollection|ChildMumBear[] Collection to store aggregation of ChildMumBear objects.
+     */
+    protected $collMumBears;
+    protected $collMumBearsPartial;
+
+    /**
      * @var        ChildTrinket[] Collection to store aggregation of ChildTrinket objects.
      */
     protected $collTrinkets;
+
+    /**
+     * @var        ChildBear[] Collection to store aggregation of ChildBear objects.
+     */
+    protected $collBears;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -207,7 +222,19 @@ abstract class Mum implements ActiveRecordInterface
      * An array of objects scheduled for deletion.
      * @var ObjectCollection
      */
+    protected $bearsScheduledForDeletion = null;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var ObjectCollection
+     */
     protected $mumTrinketsScheduledForDeletion = null;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var ObjectCollection
+     */
+    protected $mumBearsScheduledForDeletion = null;
 
     /**
      * Initializes internal state of Base\Mum object.
@@ -1167,7 +1194,10 @@ abstract class Mum implements ActiveRecordInterface
             $this->aStatus = null;
             $this->collMumTrinkets = null;
 
+            $this->collMumBears = null;
+
             $this->collTrinkets = null;
+            $this->collBears = null;
         } // if (deep)
     }
 
@@ -1357,6 +1387,33 @@ abstract class Mum implements ActiveRecordInterface
                 }
             }
 
+            if ($this->bearsScheduledForDeletion !== null) {
+                if (!$this->bearsScheduledForDeletion->isEmpty()) {
+                    $pks = array();
+                    $pk  = $this->getPrimaryKey();
+                    foreach ($this->bearsScheduledForDeletion->getPrimaryKeys(false) as $remotePk) {
+                        $pks[] = array($pk, $remotePk);
+                    }
+
+                    MumBearQuery::create()
+                        ->filterByPrimaryKeys($pks)
+                        ->delete($con);
+                    $this->bearsScheduledForDeletion = null;
+                }
+
+                foreach ($this->getBears() as $bear) {
+                    if ($bear->isModified()) {
+                        $bear->save($con);
+                    }
+                }
+            } elseif ($this->collBears) {
+                foreach ($this->collBears as $bear) {
+                    if ($bear->isModified()) {
+                        $bear->save($con);
+                    }
+                }
+            }
+
             if ($this->mumTrinketsScheduledForDeletion !== null) {
                 if (!$this->mumTrinketsScheduledForDeletion->isEmpty()) {
                     \MumTrinketQuery::create()
@@ -1368,6 +1425,23 @@ abstract class Mum implements ActiveRecordInterface
 
                 if ($this->collMumTrinkets !== null) {
             foreach ($this->collMumTrinkets as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
+            if ($this->mumBearsScheduledForDeletion !== null) {
+                if (!$this->mumBearsScheduledForDeletion->isEmpty()) {
+                    \MumBearQuery::create()
+                        ->filterByPrimaryKeys($this->mumBearsScheduledForDeletion->getPrimaryKeys(false))
+                        ->delete($con);
+                    $this->mumBearsScheduledForDeletion = null;
+                }
+            }
+
+                if ($this->collMumBears !== null) {
+            foreach ($this->collMumBears as $referrerFK) {
                     if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
                         $affectedRows += $referrerFK->save($con);
                     }
@@ -1667,6 +1741,9 @@ abstract class Mum implements ActiveRecordInterface
             if (null !== $this->collMumTrinkets) {
                 $result['MumTrinkets'] = $this->collMumTrinkets->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
+            if (null !== $this->collMumBears) {
+                $result['MumBears'] = $this->collMumBears->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
         }
 
         return $result;
@@ -1891,6 +1968,12 @@ abstract class Mum implements ActiveRecordInterface
             foreach ($this->getMumTrinkets() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
                     $copyObj->addMumTrinket($relObj->copy($deepCopy));
+                }
+            }
+
+            foreach ($this->getMumBears() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addMumBear($relObj->copy($deepCopy));
                 }
             }
 
@@ -2201,6 +2284,9 @@ abstract class Mum implements ActiveRecordInterface
         if ('MumTrinket' == $relationName) {
             return $this->initMumTrinkets();
         }
+        if ('MumBear' == $relationName) {
+            return $this->initMumBears();
+        }
     }
 
     /**
@@ -2450,6 +2536,252 @@ abstract class Mum implements ActiveRecordInterface
     }
 
     /**
+     * Clears out the collMumBears collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addMumBears()
+     */
+    public function clearMumBears()
+    {
+        $this->collMumBears = null; // important to set this to NULL since that means it is uninitialized
+    }
+
+    /**
+     * Reset is the collMumBears collection loaded partially.
+     */
+    public function resetPartialMumBears($v = true)
+    {
+        $this->collMumBearsPartial = $v;
+    }
+
+    /**
+     * Initializes the collMumBears collection.
+     *
+     * By default this just sets the collMumBears collection to an empty array (like clearcollMumBears());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param      boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initMumBears($overrideExisting = true)
+    {
+        if (null !== $this->collMumBears && !$overrideExisting) {
+            return;
+        }
+        $this->collMumBears = new ObjectCollection();
+        $this->collMumBears->setModel('\MumBear');
+    }
+
+    /**
+     * Gets an array of ChildMumBear objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildMum is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @return Collection|ChildMumBear[] List of ChildMumBear objects
+     * @throws PropelException
+     */
+    public function getMumBears($criteria = null, ConnectionInterface $con = null)
+    {
+        $partial = $this->collMumBearsPartial && !$this->isNew();
+        if (null === $this->collMumBears || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collMumBears) {
+                // return empty collection
+                $this->initMumBears();
+            } else {
+                $collMumBears = ChildMumBearQuery::create(null, $criteria)
+                    ->filterByMum($this)
+                    ->find($con);
+
+                if (null !== $criteria) {
+                    if (false !== $this->collMumBearsPartial && count($collMumBears)) {
+                        $this->initMumBears(false);
+
+                        foreach ($collMumBears as $obj) {
+                            if (false == $this->collMumBears->contains($obj)) {
+                                $this->collMumBears->append($obj);
+                            }
+                        }
+
+                        $this->collMumBearsPartial = true;
+                    }
+
+                    $collMumBears->getInternalIterator()->rewind();
+
+                    return $collMumBears;
+                }
+
+                if ($partial && $this->collMumBears) {
+                    foreach ($this->collMumBears as $obj) {
+                        if ($obj->isNew()) {
+                            $collMumBears[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collMumBears = $collMumBears;
+                $this->collMumBearsPartial = false;
+            }
+        }
+
+        return $this->collMumBears;
+    }
+
+    /**
+     * Sets a collection of MumBear objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param      Collection $mumBears A Propel collection.
+     * @param      ConnectionInterface $con Optional connection object
+     * @return   ChildMum The current object (for fluent API support)
+     */
+    public function setMumBears(Collection $mumBears, ConnectionInterface $con = null)
+    {
+        $mumBearsToDelete = $this->getMumBears(new Criteria(), $con)->diff($mumBears);
+
+
+        //since at least one column in the foreign key is at the same time a PK
+        //we can not just set a PK to NULL in the lines below. We have to store
+        //a backup of all values, so we are able to manipulate these items based on the onDelete value later.
+        $this->mumBearsScheduledForDeletion = clone $mumBearsToDelete;
+
+        foreach ($mumBearsToDelete as $mumBearRemoved) {
+            $mumBearRemoved->setMum(null);
+        }
+
+        $this->collMumBears = null;
+        foreach ($mumBears as $mumBear) {
+            $this->addMumBear($mumBear);
+        }
+
+        $this->collMumBears = $mumBears;
+        $this->collMumBearsPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related MumBear objects.
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct
+     * @param      ConnectionInterface $con
+     * @return int             Count of related MumBear objects.
+     * @throws PropelException
+     */
+    public function countMumBears(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    {
+        $partial = $this->collMumBearsPartial && !$this->isNew();
+        if (null === $this->collMumBears || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collMumBears) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getMumBears());
+            }
+
+            $query = ChildMumBearQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByMum($this)
+                ->count($con);
+        }
+
+        return count($this->collMumBears);
+    }
+
+    /**
+     * Method called to associate a ChildMumBear object to this object
+     * through the ChildMumBear foreign key attribute.
+     *
+     * @param    ChildMumBear $l ChildMumBear
+     * @return   \Mum The current object (for fluent API support)
+     */
+    public function addMumBear(ChildMumBear $l)
+    {
+        if ($this->collMumBears === null) {
+            $this->initMumBears();
+            $this->collMumBearsPartial = true;
+        }
+
+        if (!in_array($l, $this->collMumBears->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
+            $this->doAddMumBear($l);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param MumBear $mumBear The mumBear object to add.
+     */
+    protected function doAddMumBear($mumBear)
+    {
+        $this->collMumBears[]= $mumBear;
+        $mumBear->setMum($this);
+    }
+
+    /**
+     * @param  MumBear $mumBear The mumBear object to remove.
+     * @return ChildMum The current object (for fluent API support)
+     */
+    public function removeMumBear($mumBear)
+    {
+        if ($this->getMumBears()->contains($mumBear)) {
+            $this->collMumBears->remove($this->collMumBears->search($mumBear));
+            if (null === $this->mumBearsScheduledForDeletion) {
+                $this->mumBearsScheduledForDeletion = clone $this->collMumBears;
+                $this->mumBearsScheduledForDeletion->clear();
+            }
+            $this->mumBearsScheduledForDeletion[]= clone $mumBear;
+            $mumBear->setMum(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this Mum is new, it will return
+     * an empty collection; or if this Mum has previously
+     * been saved, it will retrieve related MumBears from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in Mum.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return Collection|ChildMumBear[] List of ChildMumBear objects
+     */
+    public function getMumBearsJoinBear($criteria = null, $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildMumBearQuery::create(null, $criteria);
+        $query->joinWith('Bear', $joinBehavior);
+
+        return $this->getMumBears($query, $con);
+    }
+
+    /**
      * Clears out the collTrinkets collection
      *
      * This does not modify the database; however, it will remove any associated objects, causing
@@ -2633,6 +2965,189 @@ abstract class Mum implements ActiveRecordInterface
     }
 
     /**
+     * Clears out the collBears collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addBears()
+     */
+    public function clearBears()
+    {
+        $this->collBears = null; // important to set this to NULL since that means it is uninitialized
+        $this->collBearsPartial = null;
+    }
+
+    /**
+     * Initializes the collBears collection.
+     *
+     * By default this just sets the collBears collection to an empty collection (like clearBears());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @return void
+     */
+    public function initBears()
+    {
+        $this->collBears = new ObjectCollection();
+        $this->collBears->setModel('\Bear');
+    }
+
+    /**
+     * Gets a collection of ChildBear objects related by a many-to-many relationship
+     * to the current object by way of the mum_bear cross-reference table.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildMum is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param      Criteria $criteria Optional query object to filter the query
+     * @param      ConnectionInterface $con Optional connection object
+     *
+     * @return ObjectCollection|ChildBear[] List of ChildBear objects
+     */
+    public function getBears($criteria = null, ConnectionInterface $con = null)
+    {
+        if (null === $this->collBears || null !== $criteria) {
+            if ($this->isNew() && null === $this->collBears) {
+                // return empty collection
+                $this->initBears();
+            } else {
+                $collBears = ChildBearQuery::create(null, $criteria)
+                    ->filterByMum($this)
+                    ->find($con);
+                if (null !== $criteria) {
+                    return $collBears;
+                }
+                $this->collBears = $collBears;
+            }
+        }
+
+        return $this->collBears;
+    }
+
+    /**
+     * Sets a collection of Bear objects related by a many-to-many relationship
+     * to the current object by way of the mum_bear cross-reference table.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param  Collection $bears A Propel collection.
+     * @param  ConnectionInterface $con Optional connection object
+     * @return ChildMum The current object (for fluent API support)
+     */
+    public function setBears(Collection $bears, ConnectionInterface $con = null)
+    {
+        $this->clearBears();
+        $currentBears = $this->getBears();
+
+        $this->bearsScheduledForDeletion = $currentBears->diff($bears);
+
+        foreach ($bears as $bear) {
+            if (!$currentBears->contains($bear)) {
+                $this->doAddBear($bear);
+            }
+        }
+
+        $this->collBears = $bears;
+
+        return $this;
+    }
+
+    /**
+     * Gets the number of ChildBear objects related by a many-to-many relationship
+     * to the current object by way of the mum_bear cross-reference table.
+     *
+     * @param      Criteria $criteria Optional query object to filter the query
+     * @param      boolean $distinct Set to true to force count distinct
+     * @param      ConnectionInterface $con Optional connection object
+     *
+     * @return int the number of related ChildBear objects
+     */
+    public function countBears($criteria = null, $distinct = false, ConnectionInterface $con = null)
+    {
+        if (null === $this->collBears || null !== $criteria) {
+            if ($this->isNew() && null === $this->collBears) {
+                return 0;
+            } else {
+                $query = ChildBearQuery::create(null, $criteria);
+                if ($distinct) {
+                    $query->distinct();
+                }
+
+                return $query
+                    ->filterByMum($this)
+                    ->count($con);
+            }
+        } else {
+            return count($this->collBears);
+        }
+    }
+
+    /**
+     * Associate a ChildBear object to this object
+     * through the mum_bear cross reference table.
+     *
+     * @param  ChildBear $bear The ChildMumBear object to relate
+     * @return ChildMum The current object (for fluent API support)
+     */
+    public function addBear(ChildBear $bear)
+    {
+        if ($this->collBears === null) {
+            $this->initBears();
+        }
+
+        if (!$this->collBears->contains($bear)) { // only add it if the **same** object is not already associated
+            $this->doAddBear($bear);
+            $this->collBears[] = $bear;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param    Bear $bear The bear object to add.
+     */
+    protected function doAddBear($bear)
+    {
+        $mumBear = new ChildMumBear();
+        $mumBear->setBear($bear);
+        $this->addMumBear($mumBear);
+        // set the back reference to this object directly as using provided method either results
+        // in endless loop or in multiple relations
+        if (!$bear->getMums()->contains($this)) {
+            $foreignCollection   = $bear->getMums();
+            $foreignCollection[] = $this;
+        }
+    }
+
+    /**
+     * Remove a ChildBear object to this object
+     * through the mum_bear cross reference table.
+     *
+     * @param ChildBear $bear The ChildMumBear object to relate
+     * @return ChildMum The current object (for fluent API support)
+     */
+    public function removeBear(ChildBear $bear)
+    {
+        if ($this->getBears()->contains($bear)) {
+            $this->collBears->remove($this->collBears->search($bear));
+
+            if (null === $this->bearsScheduledForDeletion) {
+                $this->bearsScheduledForDeletion = clone $this->collBears;
+                $this->bearsScheduledForDeletion->clear();
+            }
+
+            $this->bearsScheduledForDeletion[] = $bear;
+        }
+
+        return $this;
+    }
+
+    /**
      * Clears the current object and sets all attributes to their default values
      */
     public function clear()
@@ -2675,8 +3190,18 @@ abstract class Mum implements ActiveRecordInterface
                     $o->clearAllReferences($deep);
                 }
             }
+            if ($this->collMumBears) {
+                foreach ($this->collMumBears as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
             if ($this->collTrinkets) {
                 foreach ($this->collTrinkets as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
+            if ($this->collBears) {
+                foreach ($this->collBears as $o) {
                     $o->clearAllReferences($deep);
                 }
             }
@@ -2686,10 +3211,18 @@ abstract class Mum implements ActiveRecordInterface
             $this->collMumTrinkets->clearIterator();
         }
         $this->collMumTrinkets = null;
+        if ($this->collMumBears instanceof Collection) {
+            $this->collMumBears->clearIterator();
+        }
+        $this->collMumBears = null;
         if ($this->collTrinkets instanceof Collection) {
             $this->collTrinkets->clearIterator();
         }
         $this->collTrinkets = null;
+        if ($this->collBears instanceof Collection) {
+            $this->collBears->clearIterator();
+        }
+        $this->collBears = null;
         $this->aCustomer = null;
         $this->aBacking = null;
         $this->aAccentBow = null;

@@ -2,8 +2,8 @@
 
 namespace Map;
 
-use \Bear;
-use \BearQuery;
+use \MumBear;
+use \MumBearQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -15,7 +15,7 @@ use Propel\Runtime\Map\TableMapTrait;
 
 
 /**
- * This class defines the structure of the 'bear' table.
+ * This class defines the structure of the 'mum_bear' table.
  *
  *
  *
@@ -25,14 +25,14 @@ use Propel\Runtime\Map\TableMapTrait;
  * (i.e. if it's a text column type).
  *
  */
-class BearTableMap extends TableMap
+class MumBearTableMap extends TableMap
 {
     use InstancePoolTrait;
     use TableMapTrait;
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.BearTableMap';
+    const CLASS_NAME = '.Map.MumBearTableMap';
 
     /**
      * The default database name for this class
@@ -42,22 +42,22 @@ class BearTableMap extends TableMap
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'bear';
+    const TABLE_NAME = 'mum_bear';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\Bear';
+    const OM_CLASS = '\\MumBear';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'Bear';
+    const CLASS_DEFAULT = 'MumBear';
 
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 4;
+    const NUM_COLUMNS = 2;
 
     /**
      * The number of lazy-loaded columns
@@ -67,27 +67,17 @@ class BearTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 4;
+    const NUM_HYDRATE_COLUMNS = 2;
 
     /**
-     * the column name for the ID field
+     * the column name for the MUM_ID field
      */
-    const ID = 'bear.ID';
+    const MUM_ID = 'mum_bear.MUM_ID';
 
     /**
-     * the column name for the NAME field
+     * the column name for the BEAR_ID field
      */
-    const NAME = 'bear.NAME';
-
-    /**
-     * the column name for the SENIOR field
-     */
-    const SENIOR = 'bear.SENIOR';
-
-    /**
-     * the column name for the PRICE field
-     */
-    const PRICE = 'bear.PRICE';
+    const BEAR_ID = 'mum_bear.BEAR_ID';
 
     /**
      * The default string format for model objects of the related table
@@ -101,12 +91,12 @@ class BearTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Name', 'Senior', 'Price', ),
-        self::TYPE_STUDLYPHPNAME => array('id', 'name', 'senior', 'price', ),
-        self::TYPE_COLNAME       => array(BearTableMap::ID, BearTableMap::NAME, BearTableMap::SENIOR, BearTableMap::PRICE, ),
-        self::TYPE_RAW_COLNAME   => array('ID', 'NAME', 'SENIOR', 'PRICE', ),
-        self::TYPE_FIELDNAME     => array('id', 'name', 'senior', 'price', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('MumId', 'BearId', ),
+        self::TYPE_STUDLYPHPNAME => array('mumId', 'bearId', ),
+        self::TYPE_COLNAME       => array(MumBearTableMap::MUM_ID, MumBearTableMap::BEAR_ID, ),
+        self::TYPE_RAW_COLNAME   => array('MUM_ID', 'BEAR_ID', ),
+        self::TYPE_FIELDNAME     => array('mum_id', 'bear_id', ),
+        self::TYPE_NUM           => array(0, 1, )
     );
 
     /**
@@ -116,12 +106,12 @@ class BearTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Name' => 1, 'Senior' => 2, 'Price' => 3, ),
-        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'name' => 1, 'senior' => 2, 'price' => 3, ),
-        self::TYPE_COLNAME       => array(BearTableMap::ID => 0, BearTableMap::NAME => 1, BearTableMap::SENIOR => 2, BearTableMap::PRICE => 3, ),
-        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'NAME' => 1, 'SENIOR' => 2, 'PRICE' => 3, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'name' => 1, 'senior' => 2, 'price' => 3, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('MumId' => 0, 'BearId' => 1, ),
+        self::TYPE_STUDLYPHPNAME => array('mumId' => 0, 'bearId' => 1, ),
+        self::TYPE_COLNAME       => array(MumBearTableMap::MUM_ID => 0, MumBearTableMap::BEAR_ID => 1, ),
+        self::TYPE_RAW_COLNAME   => array('MUM_ID' => 0, 'BEAR_ID' => 1, ),
+        self::TYPE_FIELDNAME     => array('mum_id' => 0, 'bear_id' => 1, ),
+        self::TYPE_NUM           => array(0, 1, )
     );
 
     /**
@@ -134,16 +124,15 @@ class BearTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('bear');
-        $this->setPhpName('Bear');
-        $this->setClassName('\\Bear');
+        $this->setName('mum_bear');
+        $this->setPhpName('MumBear');
+        $this->setClassName('\\MumBear');
         $this->setPackage('');
-        $this->setUseIdGenerator(true);
+        $this->setUseIdGenerator(false);
+        $this->setIsCrossRef(true);
         // columns
-        $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
-        $this->addColumn('NAME', 'Name', 'VARCHAR', true, 255, null);
-        $this->addColumn('SENIOR', 'Senior', 'BOOLEAN', false, 1, false);
-        $this->addColumn('PRICE', 'Price', 'DECIMAL', true, 10, null);
+        $this->addForeignPrimaryKey('MUM_ID', 'MumId', 'INTEGER' , 'mum', 'ID', true, null, null);
+        $this->addForeignPrimaryKey('BEAR_ID', 'BearId', 'INTEGER' , 'bear', 'ID', true, null, null);
     } // initialize()
 
     /**
@@ -151,9 +140,62 @@ class BearTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('MumBear', '\\MumBear', RelationMap::ONE_TO_MANY, array('id' => 'bear_id', ), null, null, 'MumBears');
-        $this->addRelation('Mum', '\\Mum', RelationMap::MANY_TO_MANY, array(), null, null, 'Mums');
+        $this->addRelation('Mum', '\\Mum', RelationMap::MANY_TO_ONE, array('mum_id' => 'id', ), null, null);
+        $this->addRelation('Bear', '\\Bear', RelationMap::MANY_TO_ONE, array('bear_id' => 'id', ), null, null);
     } // buildRelations()
+
+    /**
+     * Adds an object to the instance pool.
+     *
+     * Propel keeps cached copies of objects in an instance pool when they are retrieved
+     * from the database. In some cases you may need to explicitly add objects
+     * to the cache in order to ensure that the same objects are always returned by find*()
+     * and findPk*() calls.
+     *
+     * @param \MumBear $obj A \MumBear object.
+     * @param string $key             (optional) key to use for instance map (for performance boost if key was already calculated externally).
+     */
+    public static function addInstanceToPool($obj, $key = null)
+    {
+        if (Propel::isInstancePoolingEnabled()) {
+            if (null === $key) {
+                $key = serialize(array((string) $obj->getMumId(), (string) $obj->getBearId()));
+            } // if key === null
+            self::$instances[$key] = $obj;
+        }
+    }
+
+    /**
+     * Removes an object from the instance pool.
+     *
+     * Propel keeps cached copies of objects in an instance pool when they are retrieved
+     * from the database.  In some cases -- especially when you override doDelete
+     * methods in your stub classes -- you may need to explicitly remove objects
+     * from the cache in order to prevent returning objects that no longer exist.
+     *
+     * @param mixed $value A \MumBear object or a primary key value.
+     */
+    public static function removeInstanceFromPool($value)
+    {
+        if (Propel::isInstancePoolingEnabled() && null !== $value) {
+            if (is_object($value) && $value instanceof \MumBear) {
+                $key = serialize(array((string) $value->getMumId(), (string) $value->getBearId()));
+
+            } elseif (is_array($value) && count($value) === 2) {
+                // assume we've been passed a primary key";
+                $key = serialize(array((string) $value[0], (string) $value[1]));
+            } elseif ($value instanceof Criteria) {
+                self::$instances = [];
+
+                return;
+            } else {
+                $e = new PropelException("Invalid value passed to removeInstanceFromPool().  Expected primary key or \MumBear object; got " . (is_object($value) ? get_class($value) . ' object.' : var_export($value, true)));
+                throw $e;
+            }
+
+            unset(self::$instances[$key]);
+        }
+    }
 
     /**
      * Retrieves a string version of the primary key from the DB resultset row that can be used to uniquely identify a row in this table.
@@ -169,11 +211,11 @@ class BearTableMap extends TableMap
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
         // If the PK cannot be derived from the row, return NULL.
-        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
+        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('MumId', TableMap::TYPE_PHPNAME, $indexType)] === null && $row[TableMap::TYPE_NUM == $indexType ? 1 + $offset : static::translateFieldName('BearId', TableMap::TYPE_PHPNAME, $indexType)] === null) {
             return null;
         }
 
-        return (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+        return serialize(array((string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('MumId', TableMap::TYPE_PHPNAME, $indexType)], (string) $row[TableMap::TYPE_NUM == $indexType ? 1 + $offset : static::translateFieldName('BearId', TableMap::TYPE_PHPNAME, $indexType)]));
     }
 
     /**
@@ -191,11 +233,7 @@ class BearTableMap extends TableMap
     public static function getPrimaryKeyFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
 
-            return (int) $row[
-                            $indexType == TableMap::TYPE_NUM
-                            ? 0 + $offset
-                            : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
-                        ];
+            return $pks;
     }
 
     /**
@@ -211,7 +249,7 @@ class BearTableMap extends TableMap
      */
     public static function getOMClass($withPrefix = true)
     {
-        return $withPrefix ? BearTableMap::CLASS_DEFAULT : BearTableMap::OM_CLASS;
+        return $withPrefix ? MumBearTableMap::CLASS_DEFAULT : MumBearTableMap::OM_CLASS;
     }
 
     /**
@@ -225,21 +263,21 @@ class BearTableMap extends TableMap
      *
      * @throws PropelException Any exceptions caught during processing will be
      *         rethrown wrapped into a PropelException.
-     * @return array (Bear object, last column rank)
+     * @return array (MumBear object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        $key = BearTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
-        if (null !== ($obj = BearTableMap::getInstanceFromPool($key))) {
+        $key = MumBearTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
+        if (null !== ($obj = MumBearTableMap::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $offset, true); // rehydrate
-            $col = $offset + BearTableMap::NUM_HYDRATE_COLUMNS;
+            $col = $offset + MumBearTableMap::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = BearTableMap::OM_CLASS;
+            $cls = MumBearTableMap::OM_CLASS;
             $obj = new $cls();
             $col = $obj->hydrate($row, $offset, false, $indexType);
-            BearTableMap::addInstanceToPool($obj, $key);
+            MumBearTableMap::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -262,8 +300,8 @@ class BearTableMap extends TableMap
         $cls = static::getOMClass(false);
         // populate the object(s)
         while ($row = $dataFetcher->fetch()) {
-            $key = BearTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
-            if (null !== ($obj = BearTableMap::getInstanceFromPool($key))) {
+            $key = MumBearTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
+            if (null !== ($obj = MumBearTableMap::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
@@ -272,7 +310,7 @@ class BearTableMap extends TableMap
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                BearTableMap::addInstanceToPool($obj, $key);
+                MumBearTableMap::addInstanceToPool($obj, $key);
             } // if key exists
         }
 
@@ -293,15 +331,11 @@ class BearTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(BearTableMap::ID);
-            $criteria->addSelectColumn(BearTableMap::NAME);
-            $criteria->addSelectColumn(BearTableMap::SENIOR);
-            $criteria->addSelectColumn(BearTableMap::PRICE);
+            $criteria->addSelectColumn(MumBearTableMap::MUM_ID);
+            $criteria->addSelectColumn(MumBearTableMap::BEAR_ID);
         } else {
-            $criteria->addSelectColumn($alias . '.ID');
-            $criteria->addSelectColumn($alias . '.NAME');
-            $criteria->addSelectColumn($alias . '.SENIOR');
-            $criteria->addSelectColumn($alias . '.PRICE');
+            $criteria->addSelectColumn($alias . '.MUM_ID');
+            $criteria->addSelectColumn($alias . '.BEAR_ID');
         }
     }
 
@@ -314,7 +348,7 @@ class BearTableMap extends TableMap
      */
     public static function getTableMap()
     {
-        return Propel::getServiceContainer()->getDatabaseMap(BearTableMap::DATABASE_NAME)->getTable(BearTableMap::TABLE_NAME);
+        return Propel::getServiceContainer()->getDatabaseMap(MumBearTableMap::DATABASE_NAME)->getTable(MumBearTableMap::TABLE_NAME);
     }
 
     /**
@@ -322,16 +356,16 @@ class BearTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-      $dbMap = Propel::getServiceContainer()->getDatabaseMap(BearTableMap::DATABASE_NAME);
-      if (!$dbMap->hasTable(BearTableMap::TABLE_NAME)) {
-        $dbMap->addTableObject(new BearTableMap());
+      $dbMap = Propel::getServiceContainer()->getDatabaseMap(MumBearTableMap::DATABASE_NAME);
+      if (!$dbMap->hasTable(MumBearTableMap::TABLE_NAME)) {
+        $dbMap->addTableObject(new MumBearTableMap());
       }
     }
 
     /**
-     * Performs a DELETE on the database, given a Bear or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a MumBear or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or Bear object or primary key or array of primary keys
+     * @param mixed               $values Criteria or MumBear object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -342,25 +376,35 @@ class BearTableMap extends TableMap
      public static function doDelete($values, ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(BearTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(MumBearTableMap::DATABASE_NAME);
         }
 
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \Bear) { // it's a model object
+        } elseif ($values instanceof \MumBear) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(BearTableMap::DATABASE_NAME);
-            $criteria->add(BearTableMap::ID, (array) $values, Criteria::IN);
+            $criteria = new Criteria(MumBearTableMap::DATABASE_NAME);
+            // primary key is composite; we therefore, expect
+            // the primary key passed to be an array of pkey values
+            if (count($values) == count($values, COUNT_RECURSIVE)) {
+                // array is not multi-dimensional
+                $values = array($values);
+            }
+            foreach ($values as $value) {
+                $criterion = $criteria->getNewCriterion(MumBearTableMap::MUM_ID, $value[0]);
+                $criterion->addAnd($criteria->getNewCriterion(MumBearTableMap::BEAR_ID, $value[1]));
+                $criteria->addOr($criterion);
+            }
         }
 
-        $query = BearQuery::create()->mergeWith($criteria);
+        $query = MumBearQuery::create()->mergeWith($criteria);
 
-        if ($values instanceof Criteria) { BearTableMap::clearInstancePool();
+        if ($values instanceof Criteria) { MumBearTableMap::clearInstancePool();
         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
-            foreach ((array) $values as $singleval) { BearTableMap::removeInstanceFromPool($singleval);
+            foreach ((array) $values as $singleval) { MumBearTableMap::removeInstanceFromPool($singleval);
             }
         }
 
@@ -368,20 +412,20 @@ class BearTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the bear table.
+     * Deletes all rows from the mum_bear table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
-        return BearQuery::create()->doDeleteAll($con);
+        return MumBearQuery::create()->doDeleteAll($con);
     }
 
     /**
-     * Performs an INSERT on the database, given a Bear or Criteria object.
+     * Performs an INSERT on the database, given a MumBear or Criteria object.
      *
-     * @param mixed               $criteria Criteria or Bear object containing data that is used to create the INSERT statement.
+     * @param mixed               $criteria Criteria or MumBear object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -390,22 +434,18 @@ class BearTableMap extends TableMap
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(BearTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(MumBearTableMap::DATABASE_NAME);
         }
 
         if ($criteria instanceof Criteria) {
             $criteria = clone $criteria; // rename for clarity
         } else {
-            $criteria = $criteria->buildCriteria(); // build Criteria from Bear object
-        }
-
-        if ($criteria->containsKey(BearTableMap::ID) && $criteria->keyContainsValue(BearTableMap::ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.BearTableMap::ID.')');
+            $criteria = $criteria->buildCriteria(); // build Criteria from MumBear object
         }
 
 
         // Set the correct dbName
-        $query = BearQuery::create()->mergeWith($criteria);
+        $query = MumBearQuery::create()->mergeWith($criteria);
 
         try {
             // use transaction because $criteria could contain info
@@ -421,7 +461,7 @@ class BearTableMap extends TableMap
         return $pk;
     }
 
-} // BearTableMap
+} // MumBearTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-BearTableMap::buildTableMap();
+MumBearTableMap::buildTableMap();

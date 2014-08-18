@@ -5,30 +5,28 @@ namespace Base;
 use \Bear as ChildBear;
 use \BearQuery as ChildBearQuery;
 use \Mum as ChildMum;
-use \MumBear as ChildMumBear;
 use \MumBearQuery as ChildMumBearQuery;
 use \MumQuery as ChildMumQuery;
 use \Exception;
 use \PDO;
-use Map\BearTableMap;
+use Map\MumBearTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 use Propel\Runtime\Collection\Collection;
-use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\BadMethodCallException;
 use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 
-abstract class Bear implements ActiveRecordInterface
+abstract class MumBear implements ActiveRecordInterface
 {
     /**
      * TableMap class name
      */
-    const TABLE_MAP = '\\Map\\BearTableMap';
+    const TABLE_MAP = '\\Map\\MumBearTableMap';
 
 
     /**
@@ -58,40 +56,26 @@ abstract class Bear implements ActiveRecordInterface
     protected $virtualColumns = array();
 
     /**
-     * The value for the id field.
+     * The value for the mum_id field.
      * @var        int
      */
-    protected $id;
+    protected $mum_id;
 
     /**
-     * The value for the name field.
-     * @var        string
+     * The value for the bear_id field.
+     * @var        int
      */
-    protected $name;
+    protected $bear_id;
 
     /**
-     * The value for the senior field.
-     * Note: this column has a database default value of: false
-     * @var        boolean
+     * @var        Mum
      */
-    protected $senior;
+    protected $aMum;
 
     /**
-     * The value for the price field.
-     * @var        string
+     * @var        Bear
      */
-    protected $price;
-
-    /**
-     * @var        ObjectCollection|ChildMumBear[] Collection to store aggregation of ChildMumBear objects.
-     */
-    protected $collMumBears;
-    protected $collMumBearsPartial;
-
-    /**
-     * @var        ChildMum[] Collection to store aggregation of ChildMum objects.
-     */
-    protected $collMums;
+    protected $aBear;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -102,35 +86,10 @@ abstract class Bear implements ActiveRecordInterface
     protected $alreadyInSave = false;
 
     /**
-     * An array of objects scheduled for deletion.
-     * @var ObjectCollection
-     */
-    protected $mumsScheduledForDeletion = null;
-
-    /**
-     * An array of objects scheduled for deletion.
-     * @var ObjectCollection
-     */
-    protected $mumBearsScheduledForDeletion = null;
-
-    /**
-     * Applies default values to this object.
-     * This method should be called from the object's constructor (or
-     * equivalent initialization method).
-     * @see __construct()
-     */
-    public function applyDefaultValues()
-    {
-        $this->senior = false;
-    }
-
-    /**
-     * Initializes internal state of Base\Bear object.
-     * @see applyDefaults()
+     * Initializes internal state of Base\MumBear object.
      */
     public function __construct()
     {
-        $this->applyDefaultValues();
     }
 
     /**
@@ -222,9 +181,9 @@ abstract class Bear implements ActiveRecordInterface
     }
 
     /**
-     * Compares this with another <code>Bear</code> instance.  If
-     * <code>obj</code> is an instance of <code>Bear</code>, delegates to
-     * <code>equals(Bear)</code>.  Otherwise, returns <code>false</code>.
+     * Compares this with another <code>MumBear</code> instance.  If
+     * <code>obj</code> is an instance of <code>MumBear</code>, delegates to
+     * <code>equals(MumBear)</code>.  Otherwise, returns <code>false</code>.
      *
      * @param  mixed   $obj The object to compare to.
      * @return boolean Whether equal to the object specified.
@@ -307,7 +266,7 @@ abstract class Bear implements ActiveRecordInterface
      * @param string $name  The virtual column name
      * @param mixed  $value The value to give to the virtual column
      *
-     * @return Bear The current object, for fluid interface
+     * @return MumBear The current object, for fluid interface
      */
     public function setVirtualColumn($name, $value)
     {
@@ -339,7 +298,7 @@ abstract class Bear implements ActiveRecordInterface
      *                       or a format name ('XML', 'YAML', 'JSON', 'CSV')
      * @param string $data The source data to import from
      *
-     * @return Bear The current object, for fluid interface
+     * @return MumBear The current object, for fluid interface
      */
     public function importFrom($parser, $data)
     {
@@ -385,140 +344,76 @@ abstract class Bear implements ActiveRecordInterface
     }
 
     /**
-     * Get the [id] column value.
+     * Get the [mum_id] column value.
      *
      * @return   int
      */
-    public function getId()
+    public function getMumId()
     {
 
-        return $this->id;
+        return $this->mum_id;
     }
 
     /**
-     * Get the [name] column value.
+     * Get the [bear_id] column value.
      *
-     * @return   string
+     * @return   int
      */
-    public function getName()
+    public function getBearId()
     {
 
-        return $this->name;
+        return $this->bear_id;
     }
 
     /**
-     * Get the [senior] column value.
-     *
-     * @return   boolean
-     */
-    public function getSenior()
-    {
-
-        return $this->senior;
-    }
-
-    /**
-     * Get the [price] column value.
-     *
-     * @return   string
-     */
-    public function getPrice()
-    {
-
-        return $this->price;
-    }
-
-    /**
-     * Set the value of [id] column.
+     * Set the value of [mum_id] column.
      *
      * @param      int $v new value
-     * @return   \Bear The current object (for fluent API support)
+     * @return   \MumBear The current object (for fluent API support)
      */
-    public function setId($v)
+    public function setMumId($v)
     {
         if ($v !== null) {
             $v = (int) $v;
         }
 
-        if ($this->id !== $v) {
-            $this->id = $v;
-            $this->modifiedColumns[] = BearTableMap::ID;
+        if ($this->mum_id !== $v) {
+            $this->mum_id = $v;
+            $this->modifiedColumns[] = MumBearTableMap::MUM_ID;
+        }
+
+        if ($this->aMum !== null && $this->aMum->getId() !== $v) {
+            $this->aMum = null;
         }
 
 
         return $this;
-    } // setId()
+    } // setMumId()
 
     /**
-     * Set the value of [name] column.
+     * Set the value of [bear_id] column.
      *
-     * @param      string $v new value
-     * @return   \Bear The current object (for fluent API support)
+     * @param      int $v new value
+     * @return   \MumBear The current object (for fluent API support)
      */
-    public function setName($v)
+    public function setBearId($v)
     {
         if ($v !== null) {
-            $v = (string) $v;
+            $v = (int) $v;
         }
 
-        if ($this->name !== $v) {
-            $this->name = $v;
-            $this->modifiedColumns[] = BearTableMap::NAME;
+        if ($this->bear_id !== $v) {
+            $this->bear_id = $v;
+            $this->modifiedColumns[] = MumBearTableMap::BEAR_ID;
+        }
+
+        if ($this->aBear !== null && $this->aBear->getId() !== $v) {
+            $this->aBear = null;
         }
 
 
         return $this;
-    } // setName()
-
-    /**
-     * Sets the value of the [senior] column.
-     * Non-boolean arguments are converted using the following rules:
-     *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
-     *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
-     * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-     *
-     * @param      boolean|integer|string $v The new value
-     * @return   \Bear The current object (for fluent API support)
-     */
-    public function setSenior($v)
-    {
-        if ($v !== null) {
-            if (is_string($v)) {
-                $v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
-            } else {
-                $v = (boolean) $v;
-            }
-        }
-
-        if ($this->senior !== $v) {
-            $this->senior = $v;
-            $this->modifiedColumns[] = BearTableMap::SENIOR;
-        }
-
-
-        return $this;
-    } // setSenior()
-
-    /**
-     * Set the value of [price] column.
-     *
-     * @param      string $v new value
-     * @return   \Bear The current object (for fluent API support)
-     */
-    public function setPrice($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->price !== $v) {
-            $this->price = $v;
-            $this->modifiedColumns[] = BearTableMap::PRICE;
-        }
-
-
-        return $this;
-    } // setPrice()
+    } // setBearId()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -530,10 +425,6 @@ abstract class Bear implements ActiveRecordInterface
      */
     public function hasOnlyDefaultValues()
     {
-            if ($this->senior !== false) {
-                return false;
-            }
-
         // otherwise, everything was equal, so return TRUE
         return true;
     } // hasOnlyDefaultValues()
@@ -561,17 +452,11 @@ abstract class Bear implements ActiveRecordInterface
         try {
 
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : BearTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->id = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : MumBearTableMap::translateFieldName('MumId', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->mum_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : BearTableMap::translateFieldName('Name', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->name = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : BearTableMap::translateFieldName('Senior', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->senior = (null !== $col) ? (boolean) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : BearTableMap::translateFieldName('Price', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->price = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : MumBearTableMap::translateFieldName('BearId', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->bear_id = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -580,10 +465,10 @@ abstract class Bear implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 4; // 4 = BearTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 2; // 2 = MumBearTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException("Error populating \Bear object", 0, $e);
+            throw new PropelException("Error populating \MumBear object", 0, $e);
         }
     }
 
@@ -602,6 +487,12 @@ abstract class Bear implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
+        if ($this->aMum !== null && $this->mum_id !== $this->aMum->getId()) {
+            $this->aMum = null;
+        }
+        if ($this->aBear !== null && $this->bear_id !== $this->aBear->getId()) {
+            $this->aBear = null;
+        }
     } // ensureConsistency
 
     /**
@@ -625,13 +516,13 @@ abstract class Bear implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(BearTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(MumBearTableMap::DATABASE_NAME);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $dataFetcher = ChildBearQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
+        $dataFetcher = ChildMumBearQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
         $row = $dataFetcher->fetch();
         $dataFetcher->close();
         if (!$row) {
@@ -641,9 +532,8 @@ abstract class Bear implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->collMumBears = null;
-
-            $this->collMums = null;
+            $this->aMum = null;
+            $this->aBear = null;
         } // if (deep)
     }
 
@@ -653,8 +543,8 @@ abstract class Bear implements ActiveRecordInterface
      * @param      ConnectionInterface $con
      * @return void
      * @throws PropelException
-     * @see Bear::setDeleted()
-     * @see Bear::isDeleted()
+     * @see MumBear::setDeleted()
+     * @see MumBear::isDeleted()
      */
     public function delete(ConnectionInterface $con = null)
     {
@@ -663,12 +553,12 @@ abstract class Bear implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(BearTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(MumBearTableMap::DATABASE_NAME);
         }
 
         $con->beginTransaction();
         try {
-            $deleteQuery = ChildBearQuery::create()
+            $deleteQuery = ChildMumBearQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -705,7 +595,7 @@ abstract class Bear implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(BearTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(MumBearTableMap::DATABASE_NAME);
         }
 
         $con->beginTransaction();
@@ -725,7 +615,7 @@ abstract class Bear implements ActiveRecordInterface
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                BearTableMap::addInstanceToPool($this);
+                MumBearTableMap::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -755,6 +645,25 @@ abstract class Bear implements ActiveRecordInterface
         if (!$this->alreadyInSave) {
             $this->alreadyInSave = true;
 
+            // We call the save method on the following object(s) if they
+            // were passed to this object by their corresponding set
+            // method.  This object relates to these object(s) by a
+            // foreign key reference.
+
+            if ($this->aMum !== null) {
+                if ($this->aMum->isModified() || $this->aMum->isNew()) {
+                    $affectedRows += $this->aMum->save($con);
+                }
+                $this->setMum($this->aMum);
+            }
+
+            if ($this->aBear !== null) {
+                if ($this->aBear->isModified() || $this->aBear->isNew()) {
+                    $affectedRows += $this->aBear->save($con);
+                }
+                $this->setBear($this->aBear);
+            }
+
             if ($this->isNew() || $this->isModified()) {
                 // persist changes
                 if ($this->isNew()) {
@@ -764,50 +673,6 @@ abstract class Bear implements ActiveRecordInterface
                 }
                 $affectedRows += 1;
                 $this->resetModified();
-            }
-
-            if ($this->mumsScheduledForDeletion !== null) {
-                if (!$this->mumsScheduledForDeletion->isEmpty()) {
-                    $pks = array();
-                    $pk  = $this->getPrimaryKey();
-                    foreach ($this->mumsScheduledForDeletion->getPrimaryKeys(false) as $remotePk) {
-                        $pks[] = array($remotePk, $pk);
-                    }
-
-                    MumBearQuery::create()
-                        ->filterByPrimaryKeys($pks)
-                        ->delete($con);
-                    $this->mumsScheduledForDeletion = null;
-                }
-
-                foreach ($this->getMums() as $mum) {
-                    if ($mum->isModified()) {
-                        $mum->save($con);
-                    }
-                }
-            } elseif ($this->collMums) {
-                foreach ($this->collMums as $mum) {
-                    if ($mum->isModified()) {
-                        $mum->save($con);
-                    }
-                }
-            }
-
-            if ($this->mumBearsScheduledForDeletion !== null) {
-                if (!$this->mumBearsScheduledForDeletion->isEmpty()) {
-                    \MumBearQuery::create()
-                        ->filterByPrimaryKeys($this->mumBearsScheduledForDeletion->getPrimaryKeys(false))
-                        ->delete($con);
-                    $this->mumBearsScheduledForDeletion = null;
-                }
-            }
-
-                if ($this->collMumBears !== null) {
-            foreach ($this->collMumBears as $referrerFK) {
-                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
-                        $affectedRows += $referrerFK->save($con);
-                    }
-                }
             }
 
             $this->alreadyInSave = false;
@@ -830,27 +695,17 @@ abstract class Bear implements ActiveRecordInterface
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[] = BearTableMap::ID;
-        if (null !== $this->id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . BearTableMap::ID . ')');
-        }
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(BearTableMap::ID)) {
-            $modifiedColumns[':p' . $index++]  = 'ID';
+        if ($this->isColumnModified(MumBearTableMap::MUM_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'MUM_ID';
         }
-        if ($this->isColumnModified(BearTableMap::NAME)) {
-            $modifiedColumns[':p' . $index++]  = 'NAME';
-        }
-        if ($this->isColumnModified(BearTableMap::SENIOR)) {
-            $modifiedColumns[':p' . $index++]  = 'SENIOR';
-        }
-        if ($this->isColumnModified(BearTableMap::PRICE)) {
-            $modifiedColumns[':p' . $index++]  = 'PRICE';
+        if ($this->isColumnModified(MumBearTableMap::BEAR_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'BEAR_ID';
         }
 
         $sql = sprintf(
-            'INSERT INTO bear (%s) VALUES (%s)',
+            'INSERT INTO mum_bear (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -859,17 +714,11 @@ abstract class Bear implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':
-                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
+                    case 'MUM_ID':
+                        $stmt->bindValue($identifier, $this->mum_id, PDO::PARAM_INT);
                         break;
-                    case 'NAME':
-                        $stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
-                        break;
-                    case 'SENIOR':
-                        $stmt->bindValue($identifier, (int) $this->senior, PDO::PARAM_INT);
-                        break;
-                    case 'PRICE':
-                        $stmt->bindValue($identifier, $this->price, PDO::PARAM_STR);
+                    case 'BEAR_ID':
+                        $stmt->bindValue($identifier, $this->bear_id, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -878,13 +727,6 @@ abstract class Bear implements ActiveRecordInterface
             Propel::log($e->getMessage(), Propel::LOG_ERR);
             throw new PropelException(sprintf('Unable to execute INSERT statement [%s]', $sql), 0, $e);
         }
-
-        try {
-            $pk = $con->lastInsertId();
-        } catch (Exception $e) {
-            throw new PropelException('Unable to get autoincrement id.', 0, $e);
-        }
-        $this->setId($pk);
 
         $this->setNew(false);
     }
@@ -917,7 +759,7 @@ abstract class Bear implements ActiveRecordInterface
      */
     public function getByName($name, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = BearTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = MumBearTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -934,16 +776,10 @@ abstract class Bear implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                return $this->getId();
+                return $this->getMumId();
                 break;
             case 1:
-                return $this->getName();
-                break;
-            case 2:
-                return $this->getSenior();
-                break;
-            case 3:
-                return $this->getPrice();
+                return $this->getBearId();
                 break;
             default:
                 return null;
@@ -968,16 +804,14 @@ abstract class Bear implements ActiveRecordInterface
      */
     public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
-        if (isset($alreadyDumpedObjects['Bear'][$this->getPrimaryKey()])) {
+        if (isset($alreadyDumpedObjects['MumBear'][serialize($this->getPrimaryKey())])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['Bear'][$this->getPrimaryKey()] = true;
-        $keys = BearTableMap::getFieldNames($keyType);
+        $alreadyDumpedObjects['MumBear'][serialize($this->getPrimaryKey())] = true;
+        $keys = MumBearTableMap::getFieldNames($keyType);
         $result = array(
-            $keys[0] => $this->getId(),
-            $keys[1] => $this->getName(),
-            $keys[2] => $this->getSenior(),
-            $keys[3] => $this->getPrice(),
+            $keys[0] => $this->getMumId(),
+            $keys[1] => $this->getBearId(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -985,8 +819,11 @@ abstract class Bear implements ActiveRecordInterface
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->collMumBears) {
-                $result['MumBears'] = $this->collMumBears->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            if (null !== $this->aMum) {
+                $result['Mum'] = $this->aMum->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+            if (null !== $this->aBear) {
+                $result['Bear'] = $this->aBear->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
 
@@ -1006,7 +843,7 @@ abstract class Bear implements ActiveRecordInterface
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = BearTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = MumBearTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         return $this->setByPosition($pos, $value);
     }
@@ -1023,16 +860,10 @@ abstract class Bear implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                $this->setId($value);
+                $this->setMumId($value);
                 break;
             case 1:
-                $this->setName($value);
-                break;
-            case 2:
-                $this->setSenior($value);
-                break;
-            case 3:
-                $this->setPrice($value);
+                $this->setBearId($value);
                 break;
         } // switch()
     }
@@ -1056,12 +887,10 @@ abstract class Bear implements ActiveRecordInterface
      */
     public function fromArray($arr, $keyType = TableMap::TYPE_PHPNAME)
     {
-        $keys = BearTableMap::getFieldNames($keyType);
+        $keys = MumBearTableMap::getFieldNames($keyType);
 
-        if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-        if (array_key_exists($keys[1], $arr)) $this->setName($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setSenior($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setPrice($arr[$keys[3]]);
+        if (array_key_exists($keys[0], $arr)) $this->setMumId($arr[$keys[0]]);
+        if (array_key_exists($keys[1], $arr)) $this->setBearId($arr[$keys[1]]);
     }
 
     /**
@@ -1071,12 +900,10 @@ abstract class Bear implements ActiveRecordInterface
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(BearTableMap::DATABASE_NAME);
+        $criteria = new Criteria(MumBearTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(BearTableMap::ID)) $criteria->add(BearTableMap::ID, $this->id);
-        if ($this->isColumnModified(BearTableMap::NAME)) $criteria->add(BearTableMap::NAME, $this->name);
-        if ($this->isColumnModified(BearTableMap::SENIOR)) $criteria->add(BearTableMap::SENIOR, $this->senior);
-        if ($this->isColumnModified(BearTableMap::PRICE)) $criteria->add(BearTableMap::PRICE, $this->price);
+        if ($this->isColumnModified(MumBearTableMap::MUM_ID)) $criteria->add(MumBearTableMap::MUM_ID, $this->mum_id);
+        if ($this->isColumnModified(MumBearTableMap::BEAR_ID)) $criteria->add(MumBearTableMap::BEAR_ID, $this->bear_id);
 
         return $criteria;
     }
@@ -1091,30 +918,37 @@ abstract class Bear implements ActiveRecordInterface
      */
     public function buildPkeyCriteria()
     {
-        $criteria = new Criteria(BearTableMap::DATABASE_NAME);
-        $criteria->add(BearTableMap::ID, $this->id);
+        $criteria = new Criteria(MumBearTableMap::DATABASE_NAME);
+        $criteria->add(MumBearTableMap::MUM_ID, $this->mum_id);
+        $criteria->add(MumBearTableMap::BEAR_ID, $this->bear_id);
 
         return $criteria;
     }
 
     /**
-     * Returns the primary key for this object (row).
-     * @return   int
+     * Returns the composite primary key for this object.
+     * The array elements will be in same order as specified in XML.
+     * @return array
      */
     public function getPrimaryKey()
     {
-        return $this->getId();
+        $pks = array();
+        $pks[0] = $this->getMumId();
+        $pks[1] = $this->getBearId();
+
+        return $pks;
     }
 
     /**
-     * Generic method to set the primary key (id column).
+     * Set the [composite] primary key.
      *
-     * @param       int $key Primary key.
+     * @param      array $keys The elements of the composite key (order must match the order in XML file).
      * @return void
      */
-    public function setPrimaryKey($key)
+    public function setPrimaryKey($keys)
     {
-        $this->setId($key);
+        $this->setMumId($keys[0]);
+        $this->setBearId($keys[1]);
     }
 
     /**
@@ -1124,7 +958,7 @@ abstract class Bear implements ActiveRecordInterface
     public function isPrimaryKeyNull()
     {
 
-        return null === $this->getId();
+        return (null === $this->getMumId()) && (null === $this->getBearId());
     }
 
     /**
@@ -1133,33 +967,17 @@ abstract class Bear implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \Bear (or compatible) type.
+     * @param      object $copyObj An object of \MumBear (or compatible) type.
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setName($this->getName());
-        $copyObj->setSenior($this->getSenior());
-        $copyObj->setPrice($this->getPrice());
-
-        if ($deepCopy) {
-            // important: temporarily setNew(false) because this affects the behavior of
-            // the getter/setter methods for fkey referrer objects.
-            $copyObj->setNew(false);
-
-            foreach ($this->getMumBears() as $relObj) {
-                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-                    $copyObj->addMumBear($relObj->copy($deepCopy));
-                }
-            }
-
-        } // if ($deepCopy)
-
+        $copyObj->setMumId($this->getMumId());
+        $copyObj->setBearId($this->getBearId());
         if ($makeNew) {
             $copyObj->setNew(true);
-            $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
         }
     }
 
@@ -1172,7 +990,7 @@ abstract class Bear implements ActiveRecordInterface
      * objects.
      *
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return                 \Bear Clone of current object.
+     * @return                 \MumBear Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1185,449 +1003,106 @@ abstract class Bear implements ActiveRecordInterface
         return $copyObj;
     }
 
-
     /**
-     * Initializes a collection based on the name of a relation.
-     * Avoids crafting an 'init[$relationName]s' method name
-     * that wouldn't work when StandardEnglishPluralizer is used.
+     * Declares an association between this object and a ChildMum object.
      *
-     * @param      string $relationName The name of the relation to initialize
-     * @return void
-     */
-    public function initRelation($relationName)
-    {
-        if ('MumBear' == $relationName) {
-            return $this->initMumBears();
-        }
-    }
-
-    /**
-     * Clears out the collMumBears collection
-     *
-     * This does not modify the database; however, it will remove any associated objects, causing
-     * them to be refetched by subsequent calls to accessor method.
-     *
-     * @return void
-     * @see        addMumBears()
-     */
-    public function clearMumBears()
-    {
-        $this->collMumBears = null; // important to set this to NULL since that means it is uninitialized
-    }
-
-    /**
-     * Reset is the collMumBears collection loaded partially.
-     */
-    public function resetPartialMumBears($v = true)
-    {
-        $this->collMumBearsPartial = $v;
-    }
-
-    /**
-     * Initializes the collMumBears collection.
-     *
-     * By default this just sets the collMumBears collection to an empty array (like clearcollMumBears());
-     * however, you may wish to override this method in your stub class to provide setting appropriate
-     * to your application -- for example, setting the initial array to the values stored in database.
-     *
-     * @param      boolean $overrideExisting If set to true, the method call initializes
-     *                                        the collection even if it is not empty
-     *
-     * @return void
-     */
-    public function initMumBears($overrideExisting = true)
-    {
-        if (null !== $this->collMumBears && !$overrideExisting) {
-            return;
-        }
-        $this->collMumBears = new ObjectCollection();
-        $this->collMumBears->setModel('\MumBear');
-    }
-
-    /**
-     * Gets an array of ChildMumBear objects which contain a foreign key that references this object.
-     *
-     * If the $criteria is not null, it is used to always fetch the results from the database.
-     * Otherwise the results are fetched from the database the first time, then cached.
-     * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this ChildBear is new, it will return
-     * an empty collection or the current collection; the criteria is ignored on a new object.
-     *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
-     * @return Collection|ChildMumBear[] List of ChildMumBear objects
+     * @param                  ChildMum $v
+     * @return                 \MumBear The current object (for fluent API support)
      * @throws PropelException
      */
-    public function getMumBears($criteria = null, ConnectionInterface $con = null)
+    public function setMum(ChildMum $v = null)
     {
-        $partial = $this->collMumBearsPartial && !$this->isNew();
-        if (null === $this->collMumBears || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collMumBears) {
-                // return empty collection
-                $this->initMumBears();
-            } else {
-                $collMumBears = ChildMumBearQuery::create(null, $criteria)
-                    ->filterByBear($this)
-                    ->find($con);
-
-                if (null !== $criteria) {
-                    if (false !== $this->collMumBearsPartial && count($collMumBears)) {
-                        $this->initMumBears(false);
-
-                        foreach ($collMumBears as $obj) {
-                            if (false == $this->collMumBears->contains($obj)) {
-                                $this->collMumBears->append($obj);
-                            }
-                        }
-
-                        $this->collMumBearsPartial = true;
-                    }
-
-                    $collMumBears->getInternalIterator()->rewind();
-
-                    return $collMumBears;
-                }
-
-                if ($partial && $this->collMumBears) {
-                    foreach ($this->collMumBears as $obj) {
-                        if ($obj->isNew()) {
-                            $collMumBears[] = $obj;
-                        }
-                    }
-                }
-
-                $this->collMumBears = $collMumBears;
-                $this->collMumBearsPartial = false;
-            }
-        }
-
-        return $this->collMumBears;
-    }
-
-    /**
-     * Sets a collection of MumBear objects related by a one-to-many relationship
-     * to the current object.
-     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
-     * and new objects from the given Propel collection.
-     *
-     * @param      Collection $mumBears A Propel collection.
-     * @param      ConnectionInterface $con Optional connection object
-     * @return   ChildBear The current object (for fluent API support)
-     */
-    public function setMumBears(Collection $mumBears, ConnectionInterface $con = null)
-    {
-        $mumBearsToDelete = $this->getMumBears(new Criteria(), $con)->diff($mumBears);
-
-
-        //since at least one column in the foreign key is at the same time a PK
-        //we can not just set a PK to NULL in the lines below. We have to store
-        //a backup of all values, so we are able to manipulate these items based on the onDelete value later.
-        $this->mumBearsScheduledForDeletion = clone $mumBearsToDelete;
-
-        foreach ($mumBearsToDelete as $mumBearRemoved) {
-            $mumBearRemoved->setBear(null);
-        }
-
-        $this->collMumBears = null;
-        foreach ($mumBears as $mumBear) {
-            $this->addMumBear($mumBear);
-        }
-
-        $this->collMumBears = $mumBears;
-        $this->collMumBearsPartial = false;
-
-        return $this;
-    }
-
-    /**
-     * Returns the number of related MumBear objects.
-     *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct
-     * @param      ConnectionInterface $con
-     * @return int             Count of related MumBear objects.
-     * @throws PropelException
-     */
-    public function countMumBears(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
-    {
-        $partial = $this->collMumBearsPartial && !$this->isNew();
-        if (null === $this->collMumBears || null !== $criteria || $partial) {
-            if ($this->isNew() && null === $this->collMumBears) {
-                return 0;
-            }
-
-            if ($partial && !$criteria) {
-                return count($this->getMumBears());
-            }
-
-            $query = ChildMumBearQuery::create(null, $criteria);
-            if ($distinct) {
-                $query->distinct();
-            }
-
-            return $query
-                ->filterByBear($this)
-                ->count($con);
-        }
-
-        return count($this->collMumBears);
-    }
-
-    /**
-     * Method called to associate a ChildMumBear object to this object
-     * through the ChildMumBear foreign key attribute.
-     *
-     * @param    ChildMumBear $l ChildMumBear
-     * @return   \Bear The current object (for fluent API support)
-     */
-    public function addMumBear(ChildMumBear $l)
-    {
-        if ($this->collMumBears === null) {
-            $this->initMumBears();
-            $this->collMumBearsPartial = true;
-        }
-
-        if (!in_array($l, $this->collMumBears->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
-            $this->doAddMumBear($l);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param MumBear $mumBear The mumBear object to add.
-     */
-    protected function doAddMumBear($mumBear)
-    {
-        $this->collMumBears[]= $mumBear;
-        $mumBear->setBear($this);
-    }
-
-    /**
-     * @param  MumBear $mumBear The mumBear object to remove.
-     * @return ChildBear The current object (for fluent API support)
-     */
-    public function removeMumBear($mumBear)
-    {
-        if ($this->getMumBears()->contains($mumBear)) {
-            $this->collMumBears->remove($this->collMumBears->search($mumBear));
-            if (null === $this->mumBearsScheduledForDeletion) {
-                $this->mumBearsScheduledForDeletion = clone $this->collMumBears;
-                $this->mumBearsScheduledForDeletion->clear();
-            }
-            $this->mumBearsScheduledForDeletion[]= clone $mumBear;
-            $mumBear->setBear(null);
-        }
-
-        return $this;
-    }
-
-
-    /**
-     * If this collection has already been initialized with
-     * an identical criteria, it returns the collection.
-     * Otherwise if this Bear is new, it will return
-     * an empty collection; or if this Bear has previously
-     * been saved, it will retrieve related MumBears from storage.
-     *
-     * This method is protected by default in order to keep the public
-     * api reasonable.  You can provide public methods for those you
-     * actually need in Bear.
-     *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
-     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
-     * @return Collection|ChildMumBear[] List of ChildMumBear objects
-     */
-    public function getMumBearsJoinMum($criteria = null, $con = null, $joinBehavior = Criteria::LEFT_JOIN)
-    {
-        $query = ChildMumBearQuery::create(null, $criteria);
-        $query->joinWith('Mum', $joinBehavior);
-
-        return $this->getMumBears($query, $con);
-    }
-
-    /**
-     * Clears out the collMums collection
-     *
-     * This does not modify the database; however, it will remove any associated objects, causing
-     * them to be refetched by subsequent calls to accessor method.
-     *
-     * @return void
-     * @see        addMums()
-     */
-    public function clearMums()
-    {
-        $this->collMums = null; // important to set this to NULL since that means it is uninitialized
-        $this->collMumsPartial = null;
-    }
-
-    /**
-     * Initializes the collMums collection.
-     *
-     * By default this just sets the collMums collection to an empty collection (like clearMums());
-     * however, you may wish to override this method in your stub class to provide setting appropriate
-     * to your application -- for example, setting the initial array to the values stored in database.
-     *
-     * @return void
-     */
-    public function initMums()
-    {
-        $this->collMums = new ObjectCollection();
-        $this->collMums->setModel('\Mum');
-    }
-
-    /**
-     * Gets a collection of ChildMum objects related by a many-to-many relationship
-     * to the current object by way of the mum_bear cross-reference table.
-     *
-     * If the $criteria is not null, it is used to always fetch the results from the database.
-     * Otherwise the results are fetched from the database the first time, then cached.
-     * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this ChildBear is new, it will return
-     * an empty collection or the current collection; the criteria is ignored on a new object.
-     *
-     * @param      Criteria $criteria Optional query object to filter the query
-     * @param      ConnectionInterface $con Optional connection object
-     *
-     * @return ObjectCollection|ChildMum[] List of ChildMum objects
-     */
-    public function getMums($criteria = null, ConnectionInterface $con = null)
-    {
-        if (null === $this->collMums || null !== $criteria) {
-            if ($this->isNew() && null === $this->collMums) {
-                // return empty collection
-                $this->initMums();
-            } else {
-                $collMums = ChildMumQuery::create(null, $criteria)
-                    ->filterByBear($this)
-                    ->find($con);
-                if (null !== $criteria) {
-                    return $collMums;
-                }
-                $this->collMums = $collMums;
-            }
-        }
-
-        return $this->collMums;
-    }
-
-    /**
-     * Sets a collection of Mum objects related by a many-to-many relationship
-     * to the current object by way of the mum_bear cross-reference table.
-     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
-     * and new objects from the given Propel collection.
-     *
-     * @param  Collection $mums A Propel collection.
-     * @param  ConnectionInterface $con Optional connection object
-     * @return ChildBear The current object (for fluent API support)
-     */
-    public function setMums(Collection $mums, ConnectionInterface $con = null)
-    {
-        $this->clearMums();
-        $currentMums = $this->getMums();
-
-        $this->mumsScheduledForDeletion = $currentMums->diff($mums);
-
-        foreach ($mums as $mum) {
-            if (!$currentMums->contains($mum)) {
-                $this->doAddMum($mum);
-            }
-        }
-
-        $this->collMums = $mums;
-
-        return $this;
-    }
-
-    /**
-     * Gets the number of ChildMum objects related by a many-to-many relationship
-     * to the current object by way of the mum_bear cross-reference table.
-     *
-     * @param      Criteria $criteria Optional query object to filter the query
-     * @param      boolean $distinct Set to true to force count distinct
-     * @param      ConnectionInterface $con Optional connection object
-     *
-     * @return int the number of related ChildMum objects
-     */
-    public function countMums($criteria = null, $distinct = false, ConnectionInterface $con = null)
-    {
-        if (null === $this->collMums || null !== $criteria) {
-            if ($this->isNew() && null === $this->collMums) {
-                return 0;
-            } else {
-                $query = ChildMumQuery::create(null, $criteria);
-                if ($distinct) {
-                    $query->distinct();
-                }
-
-                return $query
-                    ->filterByBear($this)
-                    ->count($con);
-            }
+        if ($v === null) {
+            $this->setMumId(NULL);
         } else {
-            return count($this->collMums);
-        }
-    }
-
-    /**
-     * Associate a ChildMum object to this object
-     * through the mum_bear cross reference table.
-     *
-     * @param  ChildMum $mum The ChildMumBear object to relate
-     * @return ChildBear The current object (for fluent API support)
-     */
-    public function addMum(ChildMum $mum)
-    {
-        if ($this->collMums === null) {
-            $this->initMums();
+            $this->setMumId($v->getId());
         }
 
-        if (!$this->collMums->contains($mum)) { // only add it if the **same** object is not already associated
-            $this->doAddMum($mum);
-            $this->collMums[] = $mum;
+        $this->aMum = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildMum object, it will not be re-added.
+        if ($v !== null) {
+            $v->addMumBear($this);
         }
+
 
         return $this;
     }
 
+
     /**
-     * @param    Mum $mum The mum object to add.
+     * Get the associated ChildMum object
+     *
+     * @param      ConnectionInterface $con Optional Connection object.
+     * @return                 ChildMum The associated ChildMum object.
+     * @throws PropelException
      */
-    protected function doAddMum($mum)
+    public function getMum(ConnectionInterface $con = null)
     {
-        $mumBear = new ChildMumBear();
-        $mumBear->setMum($mum);
-        $this->addMumBear($mumBear);
-        // set the back reference to this object directly as using provided method either results
-        // in endless loop or in multiple relations
-        if (!$mum->getBears()->contains($this)) {
-            $foreignCollection   = $mum->getBears();
-            $foreignCollection[] = $this;
+        if ($this->aMum === null && ($this->mum_id !== null)) {
+            $this->aMum = ChildMumQuery::create()->findPk($this->mum_id, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aMum->addMumBears($this);
+             */
         }
+
+        return $this->aMum;
     }
 
     /**
-     * Remove a ChildMum object to this object
-     * through the mum_bear cross reference table.
+     * Declares an association between this object and a ChildBear object.
      *
-     * @param ChildMum $mum The ChildMumBear object to relate
-     * @return ChildBear The current object (for fluent API support)
+     * @param                  ChildBear $v
+     * @return                 \MumBear The current object (for fluent API support)
+     * @throws PropelException
      */
-    public function removeMum(ChildMum $mum)
+    public function setBear(ChildBear $v = null)
     {
-        if ($this->getMums()->contains($mum)) {
-            $this->collMums->remove($this->collMums->search($mum));
-
-            if (null === $this->mumsScheduledForDeletion) {
-                $this->mumsScheduledForDeletion = clone $this->collMums;
-                $this->mumsScheduledForDeletion->clear();
-            }
-
-            $this->mumsScheduledForDeletion[] = $mum;
+        if ($v === null) {
+            $this->setBearId(NULL);
+        } else {
+            $this->setBearId($v->getId());
         }
 
+        $this->aBear = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildBear object, it will not be re-added.
+        if ($v !== null) {
+            $v->addMumBear($this);
+        }
+
+
         return $this;
+    }
+
+
+    /**
+     * Get the associated ChildBear object
+     *
+     * @param      ConnectionInterface $con Optional Connection object.
+     * @return                 ChildBear The associated ChildBear object.
+     * @throws PropelException
+     */
+    public function getBear(ConnectionInterface $con = null)
+    {
+        if ($this->aBear === null && ($this->bear_id !== null)) {
+            $this->aBear = ChildBearQuery::create()->findPk($this->bear_id, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aBear->addMumBears($this);
+             */
+        }
+
+        return $this->aBear;
     }
 
     /**
@@ -1635,13 +1110,10 @@ abstract class Bear implements ActiveRecordInterface
      */
     public function clear()
     {
-        $this->id = null;
-        $this->name = null;
-        $this->senior = null;
-        $this->price = null;
+        $this->mum_id = null;
+        $this->bear_id = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
-        $this->applyDefaultValues();
         $this->resetModified();
         $this->setNew(true);
         $this->setDeleted(false);
@@ -1659,26 +1131,10 @@ abstract class Bear implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
-            if ($this->collMumBears) {
-                foreach ($this->collMumBears as $o) {
-                    $o->clearAllReferences($deep);
-                }
-            }
-            if ($this->collMums) {
-                foreach ($this->collMums as $o) {
-                    $o->clearAllReferences($deep);
-                }
-            }
         } // if ($deep)
 
-        if ($this->collMumBears instanceof Collection) {
-            $this->collMumBears->clearIterator();
-        }
-        $this->collMumBears = null;
-        if ($this->collMums instanceof Collection) {
-            $this->collMums->clearIterator();
-        }
-        $this->collMums = null;
+        $this->aMum = null;
+        $this->aBear = null;
     }
 
     /**
@@ -1688,7 +1144,7 @@ abstract class Bear implements ActiveRecordInterface
      */
     public function __toString()
     {
-        return (string) $this->exportTo(BearTableMap::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(MumBearTableMap::DEFAULT_STRING_FORMAT);
     }
 
     /**

@@ -13,6 +13,7 @@ var app = angular.module('mumshoppe', [
 	'register.controller',
 	'accentbows.service',
 	'alerts.service',
+	'bears.service',
 	'confirm.service',
 	'customer.service',
 	'letters.service',
@@ -88,6 +89,11 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 			templateUrl: 'public/views/mumshoppe/create/nameribbons.html',
 			url: '/nameribbons',
 			controller: 'createNameRibbonController'
+		})
+		.state('create.bears', {
+			templateUrl: 'public/views/mumshoppe/create/bears.html',
+			url: '/bears',
+			controller: 'createBearsController'
 		});
 
 	$httpProvider.defaults.transformRequest = function(data) {

@@ -217,7 +217,9 @@ class MumTableMap extends TableMap
         $this->addRelation('Letter', '\\Letter', RelationMap::MANY_TO_ONE, array('letter1_id' => 'id', 'letter2_id' => 'id', ), null, null);
         $this->addRelation('Status', '\\Status', RelationMap::MANY_TO_ONE, array('status_id' => 'id', ), null, null);
         $this->addRelation('MumTrinket', '\\MumTrinket', RelationMap::ONE_TO_MANY, array('id' => 'mum_id', ), null, null, 'MumTrinkets');
+        $this->addRelation('MumBear', '\\MumBear', RelationMap::ONE_TO_MANY, array('id' => 'mum_id', ), null, null, 'MumBears');
         $this->addRelation('Trinket', '\\Trinket', RelationMap::MANY_TO_MANY, array(), null, null, 'Trinkets');
+        $this->addRelation('Bear', '\\Bear', RelationMap::MANY_TO_MANY, array(), null, null, 'Bears');
     } // buildRelations()
 
     /**

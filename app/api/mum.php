@@ -14,7 +14,8 @@
 			'Product' => $mum->getBacking() && $mum->getBacking()->getSize() ? $mum->getBacking()->getSize()->getProduct() : null,
 			'Accent_bow' => $mum->getAccentBow(),
 			'Status' => $mum->getStatus(),
-			'Trinkets' => $mum->getTrinkets()	
+			'Trinkets' => $mum->getTrinkets(),
+			'Bears' => $mum->getBears()
 		);
 
 		foreach ($res as $key => $value) {
@@ -71,6 +72,28 @@
 		if (!$mum) return;
 		$trinket = TrinketQuery::create()->findPK($trinketId);
 		$mum->removeTrinket($trinket);
+
+		$mum->save();
+		echo json_encode($encodeMum($mum));
+	});
+
+	$app->put('/api/mum/:mumId/bear/:bearId', function($mumId, $bearId) use ($app, $encodeMum) {
+		$mum = MumQuery::create()->findPK($mumId);
+		if (!$mum) return;
+		$bear = BearQuery::create()->findPK($bearId);
+		if (!$bear) return;
+		if(!$mum->getBears(BearQuery::create()->filterById($bearId))) return;
+		$mum->addBear($bear);
+		$mum->save();
+
+		echo json_encode(array('message' => 'Success'));
+	});
+
+	$app->delete('/api/mum/:mumId/bear/:bearId', function($mumId, $bearId) use ($app, $encodeMum) {
+		$mum = MumQuery::create()->findPK($mumId);
+		if (!$mum) return;
+		$bear = BearQuery::create()->findPK($bearId);
+		$mum->removeBear($bear);
 
 		$mum->save();
 		echo json_encode($encodeMum($mum));

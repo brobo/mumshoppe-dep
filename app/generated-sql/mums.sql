@@ -160,7 +160,7 @@ CREATE TABLE `bear`
 (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL,
-    `senior` TINYINT(1),
+    `senior` TINYINT(1) DEFAULT 0,
     `price` DECIMAL(10,2) NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
@@ -228,6 +228,26 @@ CREATE TABLE `mum_trinket`
     CONSTRAINT `mum_trinket_FK_2`
         FOREIGN KEY (`trinket_id`)
         REFERENCES `trinket` (`id`)
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- mum_bear
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `mum_bear`;
+
+CREATE TABLE `mum_bear`
+(
+    `mum_id` INTEGER NOT NULL,
+    `bear_id` INTEGER NOT NULL,
+    PRIMARY KEY (`mum_id`,`bear_id`),
+    INDEX `mum_bear_FI_2` (`bear_id`),
+    CONSTRAINT `mum_bear_FK_1`
+        FOREIGN KEY (`mum_id`)
+        REFERENCES `mum` (`id`),
+    CONSTRAINT `mum_bear_FK_2`
+        FOREIGN KEY (`bear_id`)
+        REFERENCES `bear` (`id`)
 ) ENGINE=InnoDB;
 
 # This restores the fkey checks, after having unset them earlier

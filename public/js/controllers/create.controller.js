@@ -14,6 +14,65 @@ angular.module('create.controller', [])
 
 	})
 
+	.controller('createBearsController', function($scope, $state, $stateParams, $filter, promiseTracker, AlertsService, BearsService, MumService) {
+		$scope.updateMum = function() {
+			MumService.fetch($stateParams.mumId)
+				.success(function(data) {
+					$scope.mum = data;
+
+					var total = 0;
+					for (var i=0; i<$scope.mum.Bears.length; i++) {
+						total += parseFloat($scope.mum.Bears[i].Price);
+					}
+					$scope.totalPrice = total;
+
+					$scope.predicate = $scope.mum.Grade.Name == 'Senior' ? {} : {Senior: false};
+				});
+		}
+		$scope.updateMum();
+
+		BearsService.get()
+			.success(function(data) {
+				$scope.bears = data;
+			});
+
+		$scope.hasBear = function(bear) {
+			if (!$scope.mum) return false;
+			for (var i=0; i<$scope.mum.Bears.length; i++) {
+				if (bear.Id === $scope.mum.Bears[i].Id) return true;
+			}
+			return false;
+		}
+
+		$scope.addBear = function(bear) {
+			if (!bear.tracker) bear.tracker = promiseTracker();
+			var defered = bear.tracker.createPromise();
+			MumService.addBear($stateParams.mumId, bear.Id)
+				.success(function(data) {
+					$scope.updateMum();
+				}).error(function(data) {
+					console.log(data);
+					AlertsService.add('danger', 'An error occured. Please try again.');
+				}).finally(function() {
+					defered.resolve();
+				});
+		}
+
+		$scope.removeBear = function(bear) {
+			if (!bear.tracker) bear.tracker = promiseTracker();
+			var defered = bear.tracker.createPromise();
+			MumService.removeBear($stateParams.mumId, bear.Id)
+				.success(function(data) {
+					$scope.updateMum();
+				}).error(function(data) {
+					console.log(data);
+					AlertsService.add('danger', 'An error occured. Please try again.');
+				}).finally(function() {
+					defered.resolve();
+				});
+		}
+	})
+
 	.controller('createNameRibbonController', function($scope, $state, $stateParams, promiseTracker, AlertsService, LettersService, MumService) {
 		$scope.hasRibbonOne = true;
 		$scope.REGEX_ALPHABETIC = /^[a-zA-Z ]*$/
@@ -43,12 +102,16 @@ angular.module('create.controller', [])
 				data.NameRibbon2 = "";
 			}
 			
+			var defered = $scope.tracker.createPromise();
+
 			MumService.update($stateParams.mumId, data)
 				.success(function(data) {
-					console.log(data);
+					$state.go('^.bears');
 				}).error(function(data) {
 					console.log(data);
 					AlertsService.add('danger', 'An error occured. Please try again.');
+				}).finally(function(data) {
+					defered.resolve();
 				});
 		}
 	})
