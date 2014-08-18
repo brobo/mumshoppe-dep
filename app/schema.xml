@@ -54,7 +54,6 @@
 	<table name="letter" phpName="Letter">
 		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
 		<column name="name" type="varchar" size="64" required="true" />
-		<column name="maxlength" type="integer" required="true" />
 		<column name="price" type="decimal" size="10" scale="2" required="true" />
 	</table>
 
@@ -78,7 +77,7 @@
 		<column name="backing_id" type="integer" />
 		<column name="accent_bow_id" type="integer" />
 		<column name="letter1_id" type="integer" />
-		<column name="name_ribbion1" type="varchar" length="64" />
+		<column name="name_ribbon1" type="varchar" length="64" />
 		<column name="letter2_id" type="integer" />
 		<column name="name_ribbon2" type="varchar" length="64" />
 		<column name="status_id" type="integer" />

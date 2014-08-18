@@ -14,7 +14,46 @@ angular.module('create.controller', [])
 
 	})
 
-	.controller('createAccentBowController', function($scope, $state, MumService, AccentBowsService, promiseTracker) {
+	.controller('createNameRibbonController', function($scope, $state, $stateParams, promiseTracker, AlertsService, LettersService, MumService) {
+		$scope.hasRibbonOne = true;
+		$scope.REGEX_ALPHABETIC = /^[a-zA-Z ]*$/
+		$scope.tracker = promiseTracker();
+
+		LettersService.get()
+			.success(function(data) {
+				$scope.letters = data;
+				$scope.letterOne = $scope.letters[0];
+				$scope.letterTwo = $scope.letters[0];
+			});
+
+		$scope.next = function() {
+			var data = {};
+			if ($scope.hasRibbonOne) {
+				data.Letter1Id = $scope.letterOne.Id;
+				data.NameRibbon1 = $scope.nameOne;
+			} else {
+				data.Letter1Id = 0;
+				data.NameRibbon1 = "";
+			}
+			if ($scope.hasRibbonTwo) {
+				data.Letter2Id = $scope.letterTwo.Id;
+				data.NameRibbon2 = $scope.NameTwo;
+			} else {
+				data.Letter2Id = 0;
+				data.NameRibbon2 = "";
+			}
+			
+			MumService.update($stateParams.mumId, data)
+				.success(function(data) {
+					console.log(data);
+				}).error(function(data) {
+					console.log(data);
+					AlertsService.add('danger', 'An error occured. Please try again.');
+				});
+		}
+	})
+
+	.controller('createAccentBowController', function($scope, $state, $stateParams, MumService, AccentBowsService, promiseTracker) {
 		$scope.tracker = promiseTracker();
 		$scope.updateMum();
 

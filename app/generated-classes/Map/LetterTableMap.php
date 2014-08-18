@@ -57,7 +57,7 @@ class LetterTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 4;
+    const NUM_COLUMNS = 3;
 
     /**
      * The number of lazy-loaded columns
@@ -67,7 +67,7 @@ class LetterTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 4;
+    const NUM_HYDRATE_COLUMNS = 3;
 
     /**
      * the column name for the ID field
@@ -78,11 +78,6 @@ class LetterTableMap extends TableMap
      * the column name for the NAME field
      */
     const NAME = 'letter.NAME';
-
-    /**
-     * the column name for the MAXLENGTH field
-     */
-    const MAXLENGTH = 'letter.MAXLENGTH';
 
     /**
      * the column name for the PRICE field
@@ -101,12 +96,12 @@ class LetterTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Name', 'Maxlength', 'Price', ),
-        self::TYPE_STUDLYPHPNAME => array('id', 'name', 'maxlength', 'price', ),
-        self::TYPE_COLNAME       => array(LetterTableMap::ID, LetterTableMap::NAME, LetterTableMap::MAXLENGTH, LetterTableMap::PRICE, ),
-        self::TYPE_RAW_COLNAME   => array('ID', 'NAME', 'MAXLENGTH', 'PRICE', ),
-        self::TYPE_FIELDNAME     => array('id', 'name', 'maxlength', 'price', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Id', 'Name', 'Price', ),
+        self::TYPE_STUDLYPHPNAME => array('id', 'name', 'price', ),
+        self::TYPE_COLNAME       => array(LetterTableMap::ID, LetterTableMap::NAME, LetterTableMap::PRICE, ),
+        self::TYPE_RAW_COLNAME   => array('ID', 'NAME', 'PRICE', ),
+        self::TYPE_FIELDNAME     => array('id', 'name', 'price', ),
+        self::TYPE_NUM           => array(0, 1, 2, )
     );
 
     /**
@@ -116,12 +111,12 @@ class LetterTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Name' => 1, 'Maxlength' => 2, 'Price' => 3, ),
-        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'name' => 1, 'maxlength' => 2, 'price' => 3, ),
-        self::TYPE_COLNAME       => array(LetterTableMap::ID => 0, LetterTableMap::NAME => 1, LetterTableMap::MAXLENGTH => 2, LetterTableMap::PRICE => 3, ),
-        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'NAME' => 1, 'MAXLENGTH' => 2, 'PRICE' => 3, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'name' => 1, 'maxlength' => 2, 'price' => 3, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Name' => 1, 'Price' => 2, ),
+        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'name' => 1, 'price' => 2, ),
+        self::TYPE_COLNAME       => array(LetterTableMap::ID => 0, LetterTableMap::NAME => 1, LetterTableMap::PRICE => 2, ),
+        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'NAME' => 1, 'PRICE' => 2, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'name' => 1, 'price' => 2, ),
+        self::TYPE_NUM           => array(0, 1, 2, )
     );
 
     /**
@@ -142,7 +137,6 @@ class LetterTableMap extends TableMap
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
         $this->addColumn('NAME', 'Name', 'VARCHAR', true, 64, null);
-        $this->addColumn('MAXLENGTH', 'Maxlength', 'INTEGER', true, null, null);
         $this->addColumn('PRICE', 'Price', 'DECIMAL', true, 10, null);
     } // initialize()
 
@@ -294,12 +288,10 @@ class LetterTableMap extends TableMap
         if (null === $alias) {
             $criteria->addSelectColumn(LetterTableMap::ID);
             $criteria->addSelectColumn(LetterTableMap::NAME);
-            $criteria->addSelectColumn(LetterTableMap::MAXLENGTH);
             $criteria->addSelectColumn(LetterTableMap::PRICE);
         } else {
             $criteria->addSelectColumn($alias . '.ID');
             $criteria->addSelectColumn($alias . '.NAME');
-            $criteria->addSelectColumn($alias . '.MAXLENGTH');
             $criteria->addSelectColumn($alias . '.PRICE');
         }
     }

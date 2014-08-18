@@ -20,13 +20,6 @@
 				<span class="fa form-control-feedback" ng-class="{'fa-warning': invalid.Name}"></span>
 			</div>
 		</div>
-		<div class="form-group has-feedback" ng-class="{'has-error': invalid.Maxlength}">
-			<label for="Maxlength" class="control-label col-lg-3">Maximum number of letters</label>
-			<div class="col-lg-12">
-				<input type="number" class="form-control col-lg-10" id="Maxlength" name="Maxlength" ng-model="letter.Maxlength" ng-blur="validate(letterForm, 'Maxlength')" min="1" required>
-			</div>
-			<span class="fa form-control-feedback" ng-class="{'fa-warning': invalid.Maxlength}"></span>
-		</div>
 		<div class="form-group has-feedback" ng-class="{'has-error': invalid.Price}">
 			<label for="Price" class="control-label col-lg-1">Price</label>
 			<div class="col-lg-12">

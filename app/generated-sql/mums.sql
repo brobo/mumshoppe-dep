@@ -114,7 +114,6 @@ CREATE TABLE `letter`
 (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(64) NOT NULL,
-    `maxlength` INTEGER NOT NULL,
     `price` DECIMAL(10,2) NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
@@ -163,7 +162,7 @@ CREATE TABLE `mum`
     `backing_id` INTEGER,
     `accent_bow_id` INTEGER,
     `letter1_id` INTEGER,
-    `name_ribbion1` VARCHAR(255),
+    `name_ribbon1` VARCHAR(255),
     `letter2_id` INTEGER,
     `name_ribbon2` VARCHAR(255),
     `status_id` INTEGER,

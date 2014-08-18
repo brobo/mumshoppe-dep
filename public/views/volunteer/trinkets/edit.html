@@ -1,8 +1,8 @@
 <form class="form-horizontal" name="trinketForm" ng-submit="save(trinketForm)" novalidate>
 	<h1>Edit trinket</h1>
-	<div class="form-group has-feedback col-xs-12" ng-class="{'has-error': invalid.Name}" ng-maxLength="5">
+	<div class="form-group has-feedback col-xs-12" ng-class="{'has-error': invalid.Name}">
 		<label for="Name" class="control-label">Name</label>
-		<input type="text" class="form-control" id="Name" name="Name" ng-model="trinket.Name" ng-blur="validate('Name')" required>
+		<input type="text" class="form-control" id="Name" name="Name" ng-model="trinket.Name" ng-blur="validate('Name')"  ng-maxLength="5" required>
 		<i class="fa form-control-feedback" ng-class="{'fa-warning': invalid.Name}"></i>
 	</div>
 

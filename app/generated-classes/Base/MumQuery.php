@@ -26,7 +26,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMumQuery orderByBackingId($order = Criteria::ASC) Order by the backing_id column
  * @method     ChildMumQuery orderByAccentBowId($order = Criteria::ASC) Order by the accent_bow_id column
  * @method     ChildMumQuery orderByLetter1Id($order = Criteria::ASC) Order by the letter1_id column
- * @method     ChildMumQuery orderByNameRibbion1($order = Criteria::ASC) Order by the name_ribbion1 column
+ * @method     ChildMumQuery orderByNameRibbon1($order = Criteria::ASC) Order by the name_ribbon1 column
  * @method     ChildMumQuery orderByLetter2Id($order = Criteria::ASC) Order by the letter2_id column
  * @method     ChildMumQuery orderByNameRibbon2($order = Criteria::ASC) Order by the name_ribbon2 column
  * @method     ChildMumQuery orderByStatusId($order = Criteria::ASC) Order by the status_id column
@@ -41,7 +41,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMumQuery groupByBackingId() Group by the backing_id column
  * @method     ChildMumQuery groupByAccentBowId() Group by the accent_bow_id column
  * @method     ChildMumQuery groupByLetter1Id() Group by the letter1_id column
- * @method     ChildMumQuery groupByNameRibbion1() Group by the name_ribbion1 column
+ * @method     ChildMumQuery groupByNameRibbon1() Group by the name_ribbon1 column
  * @method     ChildMumQuery groupByLetter2Id() Group by the letter2_id column
  * @method     ChildMumQuery groupByNameRibbon2() Group by the name_ribbon2 column
  * @method     ChildMumQuery groupByStatusId() Group by the status_id column
@@ -87,7 +87,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMum findOneByBackingId(int $backing_id) Return the first ChildMum filtered by the backing_id column
  * @method     ChildMum findOneByAccentBowId(int $accent_bow_id) Return the first ChildMum filtered by the accent_bow_id column
  * @method     ChildMum findOneByLetter1Id(int $letter1_id) Return the first ChildMum filtered by the letter1_id column
- * @method     ChildMum findOneByNameRibbion1(string $name_ribbion1) Return the first ChildMum filtered by the name_ribbion1 column
+ * @method     ChildMum findOneByNameRibbon1(string $name_ribbon1) Return the first ChildMum filtered by the name_ribbon1 column
  * @method     ChildMum findOneByLetter2Id(int $letter2_id) Return the first ChildMum filtered by the letter2_id column
  * @method     ChildMum findOneByNameRibbon2(string $name_ribbon2) Return the first ChildMum filtered by the name_ribbon2 column
  * @method     ChildMum findOneByStatusId(int $status_id) Return the first ChildMum filtered by the status_id column
@@ -102,7 +102,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     array findByBackingId(int $backing_id) Return ChildMum objects filtered by the backing_id column
  * @method     array findByAccentBowId(int $accent_bow_id) Return ChildMum objects filtered by the accent_bow_id column
  * @method     array findByLetter1Id(int $letter1_id) Return ChildMum objects filtered by the letter1_id column
- * @method     array findByNameRibbion1(string $name_ribbion1) Return ChildMum objects filtered by the name_ribbion1 column
+ * @method     array findByNameRibbon1(string $name_ribbon1) Return ChildMum objects filtered by the name_ribbon1 column
  * @method     array findByLetter2Id(int $letter2_id) Return ChildMum objects filtered by the letter2_id column
  * @method     array findByNameRibbon2(string $name_ribbon2) Return ChildMum objects filtered by the name_ribbon2 column
  * @method     array findByStatusId(int $status_id) Return ChildMum objects filtered by the status_id column
@@ -199,7 +199,7 @@ abstract class MumQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT ID, CUSTOMER_ID, BACKING_ID, ACCENT_BOW_ID, LETTER1_ID, NAME_RIBBION1, LETTER2_ID, NAME_RIBBON2, STATUS_ID, PAID, ORDER_DATE, DEPOSITE_DATE, PAID_DATE, DELIVERY_DATE FROM mum WHERE ID = :p0';
+        $sql = 'SELECT ID, CUSTOMER_ID, BACKING_ID, ACCENT_BOW_ID, LETTER1_ID, NAME_RIBBON1, LETTER2_ID, NAME_RIBBON2, STATUS_ID, PAID, ORDER_DATE, DEPOSITE_DATE, PAID_DATE, DELIVERY_DATE FROM mum WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -502,32 +502,32 @@ abstract class MumQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the name_ribbion1 column
+     * Filter the query on the name_ribbon1 column
      *
      * Example usage:
      * <code>
-     * $query->filterByNameRibbion1('fooValue');   // WHERE name_ribbion1 = 'fooValue'
-     * $query->filterByNameRibbion1('%fooValue%'); // WHERE name_ribbion1 LIKE '%fooValue%'
+     * $query->filterByNameRibbon1('fooValue');   // WHERE name_ribbon1 = 'fooValue'
+     * $query->filterByNameRibbon1('%fooValue%'); // WHERE name_ribbon1 LIKE '%fooValue%'
      * </code>
      *
-     * @param     string $nameRibbion1 The value to use as filter.
+     * @param     string $nameRibbon1 The value to use as filter.
      *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildMumQuery The current query, for fluid interface
      */
-    public function filterByNameRibbion1($nameRibbion1 = null, $comparison = null)
+    public function filterByNameRibbon1($nameRibbon1 = null, $comparison = null)
     {
         if (null === $comparison) {
-            if (is_array($nameRibbion1)) {
+            if (is_array($nameRibbon1)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $nameRibbion1)) {
-                $nameRibbion1 = str_replace('*', '%', $nameRibbion1);
+            } elseif (preg_match('/[\%\*]/', $nameRibbon1)) {
+                $nameRibbon1 = str_replace('*', '%', $nameRibbon1);
                 $comparison = Criteria::LIKE;
             }
         }
 
-        return $this->addUsingAlias(MumTableMap::NAME_RIBBION1, $nameRibbion1, $comparison);
+        return $this->addUsingAlias(MumTableMap::NAME_RIBBON1, $nameRibbon1, $comparison);
     }
 
     /**

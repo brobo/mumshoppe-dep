@@ -23,12 +23,10 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     ChildLetterQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildLetterQuery orderByName($order = Criteria::ASC) Order by the name column
- * @method     ChildLetterQuery orderByMaxlength($order = Criteria::ASC) Order by the maxlength column
  * @method     ChildLetterQuery orderByPrice($order = Criteria::ASC) Order by the price column
  *
  * @method     ChildLetterQuery groupById() Group by the id column
  * @method     ChildLetterQuery groupByName() Group by the name column
- * @method     ChildLetterQuery groupByMaxlength() Group by the maxlength column
  * @method     ChildLetterQuery groupByPrice() Group by the price column
  *
  * @method     ChildLetterQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
@@ -44,12 +42,10 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     ChildLetter findOneById(int $id) Return the first ChildLetter filtered by the id column
  * @method     ChildLetter findOneByName(string $name) Return the first ChildLetter filtered by the name column
- * @method     ChildLetter findOneByMaxlength(int $maxlength) Return the first ChildLetter filtered by the maxlength column
  * @method     ChildLetter findOneByPrice(string $price) Return the first ChildLetter filtered by the price column
  *
  * @method     array findById(int $id) Return ChildLetter objects filtered by the id column
  * @method     array findByName(string $name) Return ChildLetter objects filtered by the name column
- * @method     array findByMaxlength(int $maxlength) Return ChildLetter objects filtered by the maxlength column
  * @method     array findByPrice(string $price) Return ChildLetter objects filtered by the price column
  *
  */
@@ -139,7 +135,7 @@ abstract class LetterQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT ID, NAME, MAXLENGTH, PRICE FROM letter WHERE ID = :p0';
+        $sql = 'SELECT ID, NAME, PRICE FROM letter WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -296,47 +292,6 @@ abstract class LetterQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(LetterTableMap::NAME, $name, $comparison);
-    }
-
-    /**
-     * Filter the query on the maxlength column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByMaxlength(1234); // WHERE maxlength = 1234
-     * $query->filterByMaxlength(array(12, 34)); // WHERE maxlength IN (12, 34)
-     * $query->filterByMaxlength(array('min' => 12)); // WHERE maxlength > 12
-     * </code>
-     *
-     * @param     mixed $maxlength The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return ChildLetterQuery The current query, for fluid interface
-     */
-    public function filterByMaxlength($maxlength = null, $comparison = null)
-    {
-        if (is_array($maxlength)) {
-            $useMinMax = false;
-            if (isset($maxlength['min'])) {
-                $this->addUsingAlias(LetterTableMap::MAXLENGTH, $maxlength['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($maxlength['max'])) {
-                $this->addUsingAlias(LetterTableMap::MAXLENGTH, $maxlength['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(LetterTableMap::MAXLENGTH, $maxlength, $comparison);
     }
 
     /**

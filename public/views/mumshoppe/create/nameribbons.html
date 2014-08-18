@@ -1,0 +1,30 @@
+<h3>What would you like your name ribbons to say?</h3>
+<form class="form-horizontal" name="ribbon1">
+	<div class="form-group has-feedback" ng-class="{'has-error': ribbon1.Name.$invalid && ribbon1.Name.$dirty}">
+		<label class="lead control-label"><input type="checkbox" ng-model="hasRibbonOne">
+			Name Ribbon One <span class="badge" ng-hide="!hasRibbonOne">{{nameOne.length * letterOne.Price | currency}}</span>
+		</input></label>
+		<fieldset ng-disabled="!hasRibbonOne">
+			<label class="control-label" for="Type">Type</label>
+			<select type="select" class="form-control" ng-model="letterOne" ng-options="letter.Name + ' ($' + letter.Price + ' each)' for letter in letters" required></select>
+			<label class="control-label" for="Name">Name</label>
+			<input class="form-control" name="Name" id="Name" ng-model="nameOne" ng-maxlength="12" ng-pattern="REGEX_ALPHABETIC" required>
+		</fieldset>
+	</div>
+</form>
+<form class="form-horizontal" name="ribbon2">
+	<div class="form-group has-feedback" ng-class="{'has-error': ribbon2.Name.$invalid && ribbon2.Name.$dirty}">
+		<label class="lead control-label"><input type="checkbox" ng-model="hasRibbonTwo">
+			Name Ribbon Two <span class="badge" ng-hide="!hasRibbonTwo">{{nameTwo.length * letterTwo.Price | currency}}</span>
+		</input></label>
+		<fieldset ng-disabled="!hasRibbonTwo">
+			<label class="control-label" for="Type">Type</label>
+			<select type="select" class="form-control" ng-model="letterTwo" ng-options="letter.Name + ' ($' + letter.Price + ' each)' for letter in letters" required></select>
+			<label class="control-label" for="Name">Name</label>
+			<input class="form-control" name="Name" id="Name" ng-model="nameTwo" ng-maxlength="12" ng-pattern="REGEX_ALPHABETIC" required>
+		</fieldset>
+	</div>
+</form>
+
+<button class="btn btn-success" ng-click="next()" ng-show="!tracker.active()">Next</button>
+<button class="btn btn-success" ng-click="next()" ng-show="tracker.active()" disabled><i class="fa fa-spin fa-circle-o-notch" ng-show="tracker.active()"></i></button>

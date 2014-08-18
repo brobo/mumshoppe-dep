@@ -87,7 +87,7 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 		.state('create.nameribbons', {
 			templateUrl: 'public/views/mumshoppe/create/nameribbons.html',
 			url: '/nameribbons',
-			controller: 'createNameRibbion'
+			controller: 'createNameRibbonController'
 		});
 
 	$httpProvider.defaults.transformRequest = function(data) {

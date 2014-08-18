@@ -68,12 +68,6 @@ abstract class Letter implements ActiveRecordInterface
     protected $name;
 
     /**
-     * The value for the maxlength field.
-     * @var        int
-     */
-    protected $maxlength;
-
-    /**
      * The value for the price field.
      * @var        string
      */
@@ -380,17 +374,6 @@ abstract class Letter implements ActiveRecordInterface
     }
 
     /**
-     * Get the [maxlength] column value.
-     *
-     * @return   int
-     */
-    public function getMaxlength()
-    {
-
-        return $this->maxlength;
-    }
-
-    /**
      * Get the [price] column value.
      *
      * @return   string
@@ -442,27 +425,6 @@ abstract class Letter implements ActiveRecordInterface
 
         return $this;
     } // setName()
-
-    /**
-     * Set the value of [maxlength] column.
-     *
-     * @param      int $v new value
-     * @return   \Letter The current object (for fluent API support)
-     */
-    public function setMaxlength($v)
-    {
-        if ($v !== null) {
-            $v = (int) $v;
-        }
-
-        if ($this->maxlength !== $v) {
-            $this->maxlength = $v;
-            $this->modifiedColumns[] = LetterTableMap::MAXLENGTH;
-        }
-
-
-        return $this;
-    } // setMaxlength()
 
     /**
      * Set the value of [price] column.
@@ -528,10 +490,7 @@ abstract class Letter implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : LetterTableMap::translateFieldName('Name', TableMap::TYPE_PHPNAME, $indexType)];
             $this->name = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : LetterTableMap::translateFieldName('Maxlength', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->maxlength = (null !== $col) ? (int) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : LetterTableMap::translateFieldName('Price', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : LetterTableMap::translateFieldName('Price', TableMap::TYPE_PHPNAME, $indexType)];
             $this->price = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
@@ -541,7 +500,7 @@ abstract class Letter implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 4; // 4 = LetterTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 3; // 3 = LetterTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating \Letter object", 0, $e);
@@ -776,9 +735,6 @@ abstract class Letter implements ActiveRecordInterface
         if ($this->isColumnModified(LetterTableMap::NAME)) {
             $modifiedColumns[':p' . $index++]  = 'NAME';
         }
-        if ($this->isColumnModified(LetterTableMap::MAXLENGTH)) {
-            $modifiedColumns[':p' . $index++]  = 'MAXLENGTH';
-        }
         if ($this->isColumnModified(LetterTableMap::PRICE)) {
             $modifiedColumns[':p' . $index++]  = 'PRICE';
         }
@@ -798,9 +754,6 @@ abstract class Letter implements ActiveRecordInterface
                         break;
                     case 'NAME':
                         $stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
-                        break;
-                    case 'MAXLENGTH':
-                        $stmt->bindValue($identifier, $this->maxlength, PDO::PARAM_INT);
                         break;
                     case 'PRICE':
                         $stmt->bindValue($identifier, $this->price, PDO::PARAM_STR);
@@ -874,9 +827,6 @@ abstract class Letter implements ActiveRecordInterface
                 return $this->getName();
                 break;
             case 2:
-                return $this->getMaxlength();
-                break;
-            case 3:
                 return $this->getPrice();
                 break;
             default:
@@ -910,8 +860,7 @@ abstract class Letter implements ActiveRecordInterface
         $result = array(
             $keys[0] => $this->getId(),
             $keys[1] => $this->getName(),
-            $keys[2] => $this->getMaxlength(),
-            $keys[3] => $this->getPrice(),
+            $keys[2] => $this->getPrice(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -963,9 +912,6 @@ abstract class Letter implements ActiveRecordInterface
                 $this->setName($value);
                 break;
             case 2:
-                $this->setMaxlength($value);
-                break;
-            case 3:
                 $this->setPrice($value);
                 break;
         } // switch()
@@ -994,8 +940,7 @@ abstract class Letter implements ActiveRecordInterface
 
         if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
         if (array_key_exists($keys[1], $arr)) $this->setName($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setMaxlength($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setPrice($arr[$keys[3]]);
+        if (array_key_exists($keys[2], $arr)) $this->setPrice($arr[$keys[2]]);
     }
 
     /**
@@ -1009,7 +954,6 @@ abstract class Letter implements ActiveRecordInterface
 
         if ($this->isColumnModified(LetterTableMap::ID)) $criteria->add(LetterTableMap::ID, $this->id);
         if ($this->isColumnModified(LetterTableMap::NAME)) $criteria->add(LetterTableMap::NAME, $this->name);
-        if ($this->isColumnModified(LetterTableMap::MAXLENGTH)) $criteria->add(LetterTableMap::MAXLENGTH, $this->maxlength);
         if ($this->isColumnModified(LetterTableMap::PRICE)) $criteria->add(LetterTableMap::PRICE, $this->price);
 
         return $criteria;
@@ -1075,7 +1019,6 @@ abstract class Letter implements ActiveRecordInterface
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
         $copyObj->setName($this->getName());
-        $copyObj->setMaxlength($this->getMaxlength());
         $copyObj->setPrice($this->getPrice());
 
         if ($deepCopy) {
@@ -1460,7 +1403,6 @@ abstract class Letter implements ActiveRecordInterface
     {
         $this->id = null;
         $this->name = null;
-        $this->maxlength = null;
         $this->price = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
