@@ -39,6 +39,7 @@ CREATE TABLE `size`
 (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(32) NOT NULL,
+    `bear_limit` INTEGER NOT NULL,
     `product_id` INTEGER NOT NULL,
     PRIMARY KEY (`id`),
     INDEX `size_FI_1` (`product_id`),
@@ -146,6 +147,21 @@ CREATE TABLE `status`
 (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- bear
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `bear`;
+
+CREATE TABLE `bear`
+(
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(255) NOT NULL,
+    `senior` TINYINT(1),
+    `price` DECIMAL(10,2) NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 

@@ -5,6 +5,7 @@ var app = angular.module('volunteer', [
 	'ui.router',
 	'accentbows.controller',
 	'alerts.controller',
+	'bears.controller',
 	'confirm.controller',
 	'letters.controller',
 	'mumtypes.controller',
@@ -13,6 +14,7 @@ var app = angular.module('volunteer', [
 	'trinketsEdit.controller',
 	'accentbows.service',
 	'alerts.service',
+	'bears.service',
 	'confirm.service',
 	'letters.service',
 	'mumtypes.service',
@@ -27,6 +29,11 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 			url: '/accentbows',
 			templateUrl: 'public/views/volunteer/accentbows/index.html',
 			controller: 'accentbowsController'
+		})
+		.state('bears', {
+			url: '/bears',
+			templateUrl: 'public/views/volunteer/bears/index.html',
+			controller: 'bearsController'
 		})
 		.state('letters', {
 			url: '/letters',

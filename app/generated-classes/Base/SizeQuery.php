@@ -23,10 +23,12 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     ChildSizeQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildSizeQuery orderByName($order = Criteria::ASC) Order by the name column
+ * @method     ChildSizeQuery orderByBearLimit($order = Criteria::ASC) Order by the bear_limit column
  * @method     ChildSizeQuery orderByProductId($order = Criteria::ASC) Order by the product_id column
  *
  * @method     ChildSizeQuery groupById() Group by the id column
  * @method     ChildSizeQuery groupByName() Group by the name column
+ * @method     ChildSizeQuery groupByBearLimit() Group by the bear_limit column
  * @method     ChildSizeQuery groupByProductId() Group by the product_id column
  *
  * @method     ChildSizeQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
@@ -46,10 +48,12 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     ChildSize findOneById(int $id) Return the first ChildSize filtered by the id column
  * @method     ChildSize findOneByName(string $name) Return the first ChildSize filtered by the name column
+ * @method     ChildSize findOneByBearLimit(int $bear_limit) Return the first ChildSize filtered by the bear_limit column
  * @method     ChildSize findOneByProductId(int $product_id) Return the first ChildSize filtered by the product_id column
  *
  * @method     array findById(int $id) Return ChildSize objects filtered by the id column
  * @method     array findByName(string $name) Return ChildSize objects filtered by the name column
+ * @method     array findByBearLimit(int $bear_limit) Return ChildSize objects filtered by the bear_limit column
  * @method     array findByProductId(int $product_id) Return ChildSize objects filtered by the product_id column
  *
  */
@@ -139,7 +143,7 @@ abstract class SizeQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT ID, NAME, PRODUCT_ID FROM size WHERE ID = :p0';
+        $sql = 'SELECT ID, NAME, BEAR_LIMIT, PRODUCT_ID FROM size WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -296,6 +300,47 @@ abstract class SizeQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(SizeTableMap::NAME, $name, $comparison);
+    }
+
+    /**
+     * Filter the query on the bear_limit column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByBearLimit(1234); // WHERE bear_limit = 1234
+     * $query->filterByBearLimit(array(12, 34)); // WHERE bear_limit IN (12, 34)
+     * $query->filterByBearLimit(array('min' => 12)); // WHERE bear_limit > 12
+     * </code>
+     *
+     * @param     mixed $bearLimit The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildSizeQuery The current query, for fluid interface
+     */
+    public function filterByBearLimit($bearLimit = null, $comparison = null)
+    {
+        if (is_array($bearLimit)) {
+            $useMinMax = false;
+            if (isset($bearLimit['min'])) {
+                $this->addUsingAlias(SizeTableMap::BEAR_LIMIT, $bearLimit['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($bearLimit['max'])) {
+                $this->addUsingAlias(SizeTableMap::BEAR_LIMIT, $bearLimit['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(SizeTableMap::BEAR_LIMIT, $bearLimit, $comparison);
     }
 
     /**

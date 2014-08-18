@@ -1,6 +1,7 @@
 <?php
 
 	$encodeMum = function($mum) {
+
 		$res = array(
 			'Mum' => $mum,
 			'Customer' => array(
@@ -48,6 +49,28 @@
 		foreach ($app->request->put() as $key => $value) {
 			$mum->setByName($key, $value);
 		}
+
+		$mum->save();
+		echo json_encode($encodeMum($mum));
+	});
+
+	$app->put('/api/mum/:mumId/trinket/:trinketId', function($mumId, $trinketId) use ($app, $encodeMum) {
+		$mum = MumQuery::create()->findPK($mumId);
+		if (!$mum) return;
+		$trinket = TrinketQuery::create()->findPK($trinketId);
+		if (!$trinket) return;
+		if(!$mum->getTrinkets(TrinketQuery::create()->filterById($trinketId))) return;
+		$mum->addTrinket($trinket);
+		$mum->save();
+
+		echo json_encode(array('message' => 'Success'));
+	});
+
+	$app->delete('/api/mum/:mumId/trinket/:trinketId', function($mumId, $trinketId) use ($app, $encodeMum) {
+		$mum = MumQuery::create()->findPK($mumId);
+		if (!$mum) return;
+		$trinket = TrinketQuery::create()->findPK($trinketId);
+		$mum->removeTrinket($trinket);
 
 		$mum->save();
 		echo json_encode($encodeMum($mum));

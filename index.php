@@ -27,15 +27,16 @@
 	});
 
 	require('app/api/accentbow.php');
-	require('app/api/customer.php');
-	require('app/api/trinket.php');
 	require('app/api/backing.php');
+	require('app/api/bear.php');
 	require('app/api/customer.php');
+	require('app/api/customer.php');
+	require('app/api/grade.php');
+	require('app/api/letter.php');
+	require('app/api/mum.php');
 	require('app/api/product.php');
 	require('app/api/size.php');
-	require('app/api/grade.php');
-	require('app/api/mum.php');
-	require('app/api/letter.php');
+	require('app/api/trinket.php');
 
 	$app->run();
 ?>

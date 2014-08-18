@@ -51,6 +51,6 @@
 		$trinket->delete();
 		
 		echo $trinket->toJson();
-	})
+	});
 
 ?>
