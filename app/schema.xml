@@ -117,7 +117,7 @@
 	</table>
 
 	<table name="mum_trinket" phpName="MumTrinket">
-		<column name="id" type="integer" primaryKey="true" required="true" />
+		<column name="id" type="integer" primaryKey="true" required="true" autoIncrement="true" />
 		<column name="mum_id" type="integer" required="true" />
 		<column name="trinket_id" type="integer" required="true" />
 		<column name="quantity" type="integer" />

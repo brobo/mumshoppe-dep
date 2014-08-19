@@ -223,7 +223,7 @@ DROP TABLE IF EXISTS `mum_trinket`;
 
 CREATE TABLE `mum_trinket`
 (
-    `id` INTEGER NOT NULL,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `mum_id` INTEGER NOT NULL,
     `trinket_id` INTEGER NOT NULL,
     `quantity` INTEGER,

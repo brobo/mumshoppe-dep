@@ -3,13 +3,13 @@
 <div class="input-group">
 	<input type="checkbox" class="form-controll" ng-model="filterOn">
 	<label for="search">Filter by:</label>
-	<select ng-model="categorySelect" class="form-control col-lg-6" ng-options="category.Id as category.Name for category in categories"></select>
+	<select ng-model="categorySelect" class="form-control col-lg-6" ng-options="category.Id as category.Name for category in categories" ng-disabled="!filterOn"></select>
 </div>
 <div class="list-item-group">
-	<div class="list-group-item" ng-repeat="trinket in trinkets | filter: (filterOn ? {CategoryId: categorySelect} : {})">
+	<div class="list-group-item" ng-repeat="trinket in trinkets | filter:gradePredicate | filter: (filterOn ? {CategoryId: categorySelect} : {})">
 		<div class="row">
 			<h4 class="col-lg-3">
-				{{trinket.Name}}
+				{{trinket.Id}} {{trinket.Name}}
 				<small>({{trinket.Price | currency}} each)</small>
 				<span class="badge">{{trinket.Price * quantities[trinket.Id] || 0 | currency}}</span>
 			</h4>
@@ -21,3 +21,5 @@
 		</div>
 	</div>
 </div>
+<button class="btn btn-success" ng-click="next()" ng-show="!tracker.active()">Next</button>
+<button class="btn btn-success" ng-show="tracker.active()" disabled><i class="fa fa-spin fa-circle-o-notch" ng-show="tracker.active()"></i></button>

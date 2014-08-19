@@ -14,9 +14,25 @@ angular.module('create.controller', [])
 
 	})
 
-	.controller('createTrinketsController', function($scope, $state, $stateParams, TrinketsService, MumService) {
+	.controller('createTrinketsController', function($scope, $state, $stateParams, promiseTracker, AlertsService, TrinketsService, MumService) {
 		$scope.quantities = {};
 		$scope.priceLookup = {};
+		$scope.tracker = promiseTracker();
+		MumService.fetch($stateParams.mumId)
+			.success(function(data) {
+				$scope.mum = data;
+				switch ($scope.mum.Grade.Name) {
+					case "Underclassman":
+						$scope.gradePredicate = {Underclassman: true};
+						break;
+					case "Junior":
+						$scope.gradePredicate = {Junior: true};
+						break;
+					case "Senior":
+						$scope.gradePredicate = {Senior: true};
+						break;
+				}
+			});
 		TrinketsService.get()
 			.success(function(data) {
 				$scope.trinkets = data;
@@ -27,6 +43,7 @@ angular.module('create.controller', [])
 		TrinketsService.categories.get()
 			.success(function(data) {
 				$scope.categories = data;
+				$scope.categorySelect = $scope.categories[0].Id;
 			});
 		MumService.fetch($stateParams.mumId)
 			.success(function(data) {
@@ -55,6 +72,23 @@ angular.module('create.controller', [])
 				total += $scope.quantities[key] * ($scope.priceLookup[key] || 0);
 			}
 			$scope.totalPrice = total;
+		}
+
+		$scope.tracker = promiseTracker();
+
+		$scope.next = function() {
+			var defered = $scope.tracker.createPromise();
+			MumService.setTrinkets($stateParams.mumId, $scope.quantities)
+				.success(function(data) {
+					console.log(data);
+					AlertsService.add('success', 'Successfully saved mum information.');
+					$state.go('^.review');
+				}).error(function(data) {
+					console.log(data);
+					AlertsService.add('danger', 'An error occured. Please try again.');
+				}).finally(function() {
+					defered.resolve();
+				});
 		}
 	})
 

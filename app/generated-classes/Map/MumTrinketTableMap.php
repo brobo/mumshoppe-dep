@@ -138,7 +138,7 @@ class MumTrinketTableMap extends TableMap
         $this->setPhpName('MumTrinket');
         $this->setClassName('\\MumTrinket');
         $this->setPackage('');
-        $this->setUseIdGenerator(false);
+        $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
         $this->addForeignKey('MUM_ID', 'MumId', 'INTEGER', 'mum', 'ID', true, null, null);
@@ -397,6 +397,10 @@ class MumTrinketTableMap extends TableMap
             $criteria = clone $criteria; // rename for clarity
         } else {
             $criteria = $criteria->buildCriteria(); // build Criteria from MumTrinket object
+        }
+
+        if ($criteria->containsKey(MumTrinketTableMap::ID) && $criteria->keyContainsValue(MumTrinketTableMap::ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.MumTrinketTableMap::ID.')');
         }
 
 

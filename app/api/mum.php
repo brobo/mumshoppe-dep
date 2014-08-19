@@ -60,6 +60,23 @@
 		echo json_encode($encodeMum($mum));
 	});
 
+	$app->post('/api/mum/:mumId/trinket', function($mumId) use ($app, $encodeMum) {
+		$mum = MumQuery::create()->findPK($mumId);
+		if (!$mum) return;
+		foreach ($mum->getMumTrinkets() as $mumTrinket) {
+			$mumTrinket->delete();
+		}
+		foreach ($app->request->post() as $trinketId => $quantity) {
+			$mumTrinket = new MumTrinket();
+			$mumTrinket->setMumId($mumId);
+			$mumTrinket->setTrinketId($trinketId);
+			$mumTrinket->setQuantity($quantity);
+			$mumTrinket->save();
+		}
+
+		echo json_encode(array('message'=>'Successfully saved.'));
+	});
+
 	$app->post('/api/mum/:mumId/trinket/:trinketId', function($mumId, $trinketId) use ($app, $encodeMum) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;
