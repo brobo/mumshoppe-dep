@@ -1,22 +1,34 @@
 <?php
 
-	$app->get('/api/trinket', function() {
-		$trinkets = TrinketQuery::create()->joinWith('Trinket.TrinketCategory')->find();
+	$encodeTrinket = function($trinket) {
+		return array(
+			"Id" => $trinket->getId(),
+			"Name" => $trinket->getName(),
+			"Underclassman" => $trinket->getUnderclassman(),
+			"Junior" => $trinket->getJunior(),
+			"Senior" => $trinket->getSenior(),
+			"Price" => $trinket->getPrice(),
+			"TrinketCategory" => $trinket->getTrinketCategory()->toArray()
+		);
+	};
+
+	$app->get('/api/trinket', function() use ($encodeTrinket) {
+		$trinkets = TrinketQuery::create()->joinWith('TrinketCategory')->find()->getData();
 		
 		if (!$trinkets) return;
-		
-		echo json_encode($trinkets->toArray());
+
+		echo json_encode(array_map($encodeTrinket, $trinkets));
 	});
 
-	$app->get('/api/trinket/:id', function($id) {
+	$app->get('/api/trinket/:id', function($id) use ($encodeTrinket) {
 		$trinket = TrinketQuery::create()->joinWith('Trinket.TrinketCategory')->findPK($id);
 		
 		if (!$trinket) return;
 
-		echo $trinket->toJson();
+		echo json_encode($encodeTrinket($trinket));
 	});
 
-	$app->put('/api/trinket/:id', function($id) use ($app) {
+	$app->put('/api/trinket/:id', function($id) use ($app, $encodeTrinket) {
 
 		$trinket = TrinketQuery::create()->findPK($id);
 
@@ -30,10 +42,10 @@
 
 		$trinket->save();
 
-		echo $trinket->toJson();
+		echo json_encode($encodeTrinket($trinket));
 	});
 
-	$app->post('/api/trinket', function() use ($app) {
+	$app->post('/api/trinket', function() use ($app, $encodeTrinket) {
 		$trinket = new Trinket();
 
 		foreach ($app->request->post() as $key => $value) {
@@ -44,7 +56,7 @@
 
 		$trinket->save();
 
-		echo $trinket->toJson();
+		echo json_encode($encodeTrinket($trinket));
 	});
 
 	$app->delete('/api/trinket/:id', function($id) {
@@ -54,7 +66,7 @@
 
 		$trinket->delete();
 		
-		echo $trinket->toJson();
+		echo json_encode($encodeTrinket($trinket));
 	});
 
 ?>
