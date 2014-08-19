@@ -14,7 +14,7 @@
 			'Product' => $mum->getBacking() && $mum->getBacking()->getSize() ? $mum->getBacking()->getSize()->getProduct() : null,
 			'Accent_bow' => $mum->getAccentBow(),
 			'Status' => $mum->getStatus(),
-			'Trinkets' => $mum->getTrinkets(),
+			'Trinkets' => $mum->getMumTrinkets(),
 			'Bears' => $mum->getBears()
 		);
 
@@ -23,6 +23,11 @@
 			if ($res[$key]) {
 				$res[$key] = $res[$key]->toArray();
 			}
+		}
+
+		for ($i = 0; $i < count($res['Trinkets']); $i++) {
+			$res['Trinkets'][$i]['Trinket'] = 
+				TrinketQuery::create()->findPK($res['Trinkets'][$i]['TrinketId'])->toArray();
 		}
 
 		return $res;
@@ -55,14 +60,20 @@
 		echo json_encode($encodeMum($mum));
 	});
 
-	$app->put('/api/mum/:mumId/trinket/:trinketId', function($mumId, $trinketId) use ($app, $encodeMum) {
+	$app->post('/api/mum/:mumId/trinket/:trinketId', function($mumId, $trinketId) use ($app, $encodeMum) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;
 		$trinket = TrinketQuery::create()->findPK($trinketId);
 		if (!$trinket) return;
-		if(!$mum->getTrinkets(TrinketQuery::create()->filterById($trinketId))) return;
-		$mum->addTrinket($trinket);
-		$mum->save();
+		$mumTrinket = MumTrinketQuery::create()->filterByMumId($mumId)->filterByTrinketId($trinketId)->findOne();
+		if ($mumTrinket) {
+			$mumTrinket->delete();
+		}
+		$mumTrinket = new MumTrinket();
+		$mumTrinket->setMumId($mumId);
+		$mumTrinket->setTrinketId($trinketId);
+		$mumTrinket->setQuantity($app->request->post('Quantity'));
+		$mumTrinket->save();
 
 		echo json_encode(array('message' => 'Success'));
 	});

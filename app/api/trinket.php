@@ -1,7 +1,7 @@
 <?php
 
 	$app->get('/api/trinket', function() {
-		$trinkets = TrinketQuery::create()->find();
+		$trinkets = TrinketQuery::create()->joinWith('Trinket.TrinketCategory')->find();
 		
 		if (!$trinkets) return;
 		
@@ -9,7 +9,7 @@
 	});
 
 	$app->get('/api/trinket/:id', function($id) {
-		$trinket = TrinketQuery::create()->findPK($id);
+		$trinket = TrinketQuery::create()->joinWith('Trinket.TrinketCategory')->findPK($id);
 		
 		if (!$trinket) return;
 
@@ -23,7 +23,9 @@
 		if (!$trinket) return;
 
 		foreach ($app->request->put() as $key => $value) {
-			$trinket->setByName($key, $value);
+			try {
+				$trinket->setByName($key, $value);
+			} catch (Exception $ex) {}
 		}
 
 		$trinket->save();
@@ -35,7 +37,9 @@
 		$trinket = new Trinket();
 
 		foreach ($app->request->post() as $key => $value) {
-			$trinket->setByName($key, $value);
+			try {
+				$trinket->setByName($key, $value);
+			} catch (Exception $ex) {}
 		}
 
 		$trinket->save();

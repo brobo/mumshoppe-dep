@@ -102,7 +102,12 @@ CREATE TABLE `trinket`
     `junior` TINYINT(1) DEFAULT 0 NOT NULL,
     `senior` TINYINT(1) DEFAULT 0 NOT NULL,
     `price` DECIMAL(10,2) NOT NULL,
-    PRIMARY KEY (`id`)
+    `category_id` INTEGER,
+    PRIMARY KEY (`id`),
+    INDEX `trinket_FI_1` (`category_id`),
+    CONSTRAINT `trinket_FK_1`
+        FOREIGN KEY (`category_id`)
+        REFERENCES `trinket_category` (`id`)
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
@@ -218,9 +223,12 @@ DROP TABLE IF EXISTS `mum_trinket`;
 
 CREATE TABLE `mum_trinket`
 (
+    `id` INTEGER NOT NULL,
     `mum_id` INTEGER NOT NULL,
     `trinket_id` INTEGER NOT NULL,
-    PRIMARY KEY (`mum_id`,`trinket_id`),
+    `quantity` INTEGER,
+    PRIMARY KEY (`id`),
+    INDEX `mum_trinket_FI_1` (`mum_id`),
     INDEX `mum_trinket_FI_2` (`trinket_id`),
     CONSTRAINT `mum_trinket_FK_1`
         FOREIGN KEY (`mum_id`)
@@ -248,6 +256,19 @@ CREATE TABLE `mum_bear`
     CONSTRAINT `mum_bear_FK_2`
         FOREIGN KEY (`bear_id`)
         REFERENCES `bear` (`id`)
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- trinket_category
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `trinket_category`;
+
+CREATE TABLE `trinket_category`
+(
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(255) NOT NULL,
+    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
 # This restores the fkey checks, after having unset them earlier

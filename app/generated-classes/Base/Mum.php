@@ -20,8 +20,6 @@ use \MumTrinket as ChildMumTrinket;
 use \MumTrinketQuery as ChildMumTrinketQuery;
 use \Status as ChildStatus;
 use \StatusQuery as ChildStatusQuery;
-use \Trinket as ChildTrinket;
-use \TrinketQuery as ChildTrinketQuery;
 use \DateTime;
 use \Exception;
 use \PDO;
@@ -195,11 +193,6 @@ abstract class Mum implements ActiveRecordInterface
     protected $collMumBearsPartial;
 
     /**
-     * @var        ChildTrinket[] Collection to store aggregation of ChildTrinket objects.
-     */
-    protected $collTrinkets;
-
-    /**
      * @var        ChildBear[] Collection to store aggregation of ChildBear objects.
      */
     protected $collBears;
@@ -211,12 +204,6 @@ abstract class Mum implements ActiveRecordInterface
      * @var boolean
      */
     protected $alreadyInSave = false;
-
-    /**
-     * An array of objects scheduled for deletion.
-     * @var ObjectCollection
-     */
-    protected $trinketsScheduledForDeletion = null;
 
     /**
      * An array of objects scheduled for deletion.
@@ -1196,7 +1183,6 @@ abstract class Mum implements ActiveRecordInterface
 
             $this->collMumBears = null;
 
-            $this->collTrinkets = null;
             $this->collBears = null;
         } // if (deep)
     }
@@ -1358,33 +1344,6 @@ abstract class Mum implements ActiveRecordInterface
                 }
                 $affectedRows += 1;
                 $this->resetModified();
-            }
-
-            if ($this->trinketsScheduledForDeletion !== null) {
-                if (!$this->trinketsScheduledForDeletion->isEmpty()) {
-                    $pks = array();
-                    $pk  = $this->getPrimaryKey();
-                    foreach ($this->trinketsScheduledForDeletion->getPrimaryKeys(false) as $remotePk) {
-                        $pks[] = array($pk, $remotePk);
-                    }
-
-                    MumTrinketQuery::create()
-                        ->filterByPrimaryKeys($pks)
-                        ->delete($con);
-                    $this->trinketsScheduledForDeletion = null;
-                }
-
-                foreach ($this->getTrinkets() as $trinket) {
-                    if ($trinket->isModified()) {
-                        $trinket->save($con);
-                    }
-                }
-            } elseif ($this->collTrinkets) {
-                foreach ($this->collTrinkets as $trinket) {
-                    if ($trinket->isModified()) {
-                        $trinket->save($con);
-                    }
-                }
             }
 
             if ($this->bearsScheduledForDeletion !== null) {
@@ -2407,10 +2366,7 @@ abstract class Mum implements ActiveRecordInterface
         $mumTrinketsToDelete = $this->getMumTrinkets(new Criteria(), $con)->diff($mumTrinkets);
 
 
-        //since at least one column in the foreign key is at the same time a PK
-        //we can not just set a PK to NULL in the lines below. We have to store
-        //a backup of all values, so we are able to manipulate these items based on the onDelete value later.
-        $this->mumTrinketsScheduledForDeletion = clone $mumTrinketsToDelete;
+        $this->mumTrinketsScheduledForDeletion = $mumTrinketsToDelete;
 
         foreach ($mumTrinketsToDelete as $mumTrinketRemoved) {
             $mumTrinketRemoved->setMum(null);
@@ -2782,189 +2738,6 @@ abstract class Mum implements ActiveRecordInterface
     }
 
     /**
-     * Clears out the collTrinkets collection
-     *
-     * This does not modify the database; however, it will remove any associated objects, causing
-     * them to be refetched by subsequent calls to accessor method.
-     *
-     * @return void
-     * @see        addTrinkets()
-     */
-    public function clearTrinkets()
-    {
-        $this->collTrinkets = null; // important to set this to NULL since that means it is uninitialized
-        $this->collTrinketsPartial = null;
-    }
-
-    /**
-     * Initializes the collTrinkets collection.
-     *
-     * By default this just sets the collTrinkets collection to an empty collection (like clearTrinkets());
-     * however, you may wish to override this method in your stub class to provide setting appropriate
-     * to your application -- for example, setting the initial array to the values stored in database.
-     *
-     * @return void
-     */
-    public function initTrinkets()
-    {
-        $this->collTrinkets = new ObjectCollection();
-        $this->collTrinkets->setModel('\Trinket');
-    }
-
-    /**
-     * Gets a collection of ChildTrinket objects related by a many-to-many relationship
-     * to the current object by way of the mum_trinket cross-reference table.
-     *
-     * If the $criteria is not null, it is used to always fetch the results from the database.
-     * Otherwise the results are fetched from the database the first time, then cached.
-     * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this ChildMum is new, it will return
-     * an empty collection or the current collection; the criteria is ignored on a new object.
-     *
-     * @param      Criteria $criteria Optional query object to filter the query
-     * @param      ConnectionInterface $con Optional connection object
-     *
-     * @return ObjectCollection|ChildTrinket[] List of ChildTrinket objects
-     */
-    public function getTrinkets($criteria = null, ConnectionInterface $con = null)
-    {
-        if (null === $this->collTrinkets || null !== $criteria) {
-            if ($this->isNew() && null === $this->collTrinkets) {
-                // return empty collection
-                $this->initTrinkets();
-            } else {
-                $collTrinkets = ChildTrinketQuery::create(null, $criteria)
-                    ->filterByMum($this)
-                    ->find($con);
-                if (null !== $criteria) {
-                    return $collTrinkets;
-                }
-                $this->collTrinkets = $collTrinkets;
-            }
-        }
-
-        return $this->collTrinkets;
-    }
-
-    /**
-     * Sets a collection of Trinket objects related by a many-to-many relationship
-     * to the current object by way of the mum_trinket cross-reference table.
-     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
-     * and new objects from the given Propel collection.
-     *
-     * @param  Collection $trinkets A Propel collection.
-     * @param  ConnectionInterface $con Optional connection object
-     * @return ChildMum The current object (for fluent API support)
-     */
-    public function setTrinkets(Collection $trinkets, ConnectionInterface $con = null)
-    {
-        $this->clearTrinkets();
-        $currentTrinkets = $this->getTrinkets();
-
-        $this->trinketsScheduledForDeletion = $currentTrinkets->diff($trinkets);
-
-        foreach ($trinkets as $trinket) {
-            if (!$currentTrinkets->contains($trinket)) {
-                $this->doAddTrinket($trinket);
-            }
-        }
-
-        $this->collTrinkets = $trinkets;
-
-        return $this;
-    }
-
-    /**
-     * Gets the number of ChildTrinket objects related by a many-to-many relationship
-     * to the current object by way of the mum_trinket cross-reference table.
-     *
-     * @param      Criteria $criteria Optional query object to filter the query
-     * @param      boolean $distinct Set to true to force count distinct
-     * @param      ConnectionInterface $con Optional connection object
-     *
-     * @return int the number of related ChildTrinket objects
-     */
-    public function countTrinkets($criteria = null, $distinct = false, ConnectionInterface $con = null)
-    {
-        if (null === $this->collTrinkets || null !== $criteria) {
-            if ($this->isNew() && null === $this->collTrinkets) {
-                return 0;
-            } else {
-                $query = ChildTrinketQuery::create(null, $criteria);
-                if ($distinct) {
-                    $query->distinct();
-                }
-
-                return $query
-                    ->filterByMum($this)
-                    ->count($con);
-            }
-        } else {
-            return count($this->collTrinkets);
-        }
-    }
-
-    /**
-     * Associate a ChildTrinket object to this object
-     * through the mum_trinket cross reference table.
-     *
-     * @param  ChildTrinket $trinket The ChildMumTrinket object to relate
-     * @return ChildMum The current object (for fluent API support)
-     */
-    public function addTrinket(ChildTrinket $trinket)
-    {
-        if ($this->collTrinkets === null) {
-            $this->initTrinkets();
-        }
-
-        if (!$this->collTrinkets->contains($trinket)) { // only add it if the **same** object is not already associated
-            $this->doAddTrinket($trinket);
-            $this->collTrinkets[] = $trinket;
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param    Trinket $trinket The trinket object to add.
-     */
-    protected function doAddTrinket($trinket)
-    {
-        $mumTrinket = new ChildMumTrinket();
-        $mumTrinket->setTrinket($trinket);
-        $this->addMumTrinket($mumTrinket);
-        // set the back reference to this object directly as using provided method either results
-        // in endless loop or in multiple relations
-        if (!$trinket->getMums()->contains($this)) {
-            $foreignCollection   = $trinket->getMums();
-            $foreignCollection[] = $this;
-        }
-    }
-
-    /**
-     * Remove a ChildTrinket object to this object
-     * through the mum_trinket cross reference table.
-     *
-     * @param ChildTrinket $trinket The ChildMumTrinket object to relate
-     * @return ChildMum The current object (for fluent API support)
-     */
-    public function removeTrinket(ChildTrinket $trinket)
-    {
-        if ($this->getTrinkets()->contains($trinket)) {
-            $this->collTrinkets->remove($this->collTrinkets->search($trinket));
-
-            if (null === $this->trinketsScheduledForDeletion) {
-                $this->trinketsScheduledForDeletion = clone $this->collTrinkets;
-                $this->trinketsScheduledForDeletion->clear();
-            }
-
-            $this->trinketsScheduledForDeletion[] = $trinket;
-        }
-
-        return $this;
-    }
-
-    /**
      * Clears out the collBears collection
      *
      * This does not modify the database; however, it will remove any associated objects, causing
@@ -3195,11 +2968,6 @@ abstract class Mum implements ActiveRecordInterface
                     $o->clearAllReferences($deep);
                 }
             }
-            if ($this->collTrinkets) {
-                foreach ($this->collTrinkets as $o) {
-                    $o->clearAllReferences($deep);
-                }
-            }
             if ($this->collBears) {
                 foreach ($this->collBears as $o) {
                     $o->clearAllReferences($deep);
@@ -3215,10 +2983,6 @@ abstract class Mum implements ActiveRecordInterface
             $this->collMumBears->clearIterator();
         }
         $this->collMumBears = null;
-        if ($this->collTrinkets instanceof Collection) {
-            $this->collTrinkets->clearIterator();
-        }
-        $this->collTrinkets = null;
         if ($this->collBears instanceof Collection) {
             $this->collBears->clearIterator();
         }

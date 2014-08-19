@@ -21,11 +21,15 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  *
+ * @method     ChildMumTrinketQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildMumTrinketQuery orderByMumId($order = Criteria::ASC) Order by the mum_id column
  * @method     ChildMumTrinketQuery orderByTrinketId($order = Criteria::ASC) Order by the trinket_id column
+ * @method     ChildMumTrinketQuery orderByQuantity($order = Criteria::ASC) Order by the quantity column
  *
+ * @method     ChildMumTrinketQuery groupById() Group by the id column
  * @method     ChildMumTrinketQuery groupByMumId() Group by the mum_id column
  * @method     ChildMumTrinketQuery groupByTrinketId() Group by the trinket_id column
+ * @method     ChildMumTrinketQuery groupByQuantity() Group by the quantity column
  *
  * @method     ChildMumTrinketQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildMumTrinketQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -42,11 +46,15 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMumTrinket findOne(ConnectionInterface $con = null) Return the first ChildMumTrinket matching the query
  * @method     ChildMumTrinket findOneOrCreate(ConnectionInterface $con = null) Return the first ChildMumTrinket matching the query, or a new ChildMumTrinket object populated from the query conditions when no match is found
  *
+ * @method     ChildMumTrinket findOneById(int $id) Return the first ChildMumTrinket filtered by the id column
  * @method     ChildMumTrinket findOneByMumId(int $mum_id) Return the first ChildMumTrinket filtered by the mum_id column
  * @method     ChildMumTrinket findOneByTrinketId(int $trinket_id) Return the first ChildMumTrinket filtered by the trinket_id column
+ * @method     ChildMumTrinket findOneByQuantity(int $quantity) Return the first ChildMumTrinket filtered by the quantity column
  *
+ * @method     array findById(int $id) Return ChildMumTrinket objects filtered by the id column
  * @method     array findByMumId(int $mum_id) Return ChildMumTrinket objects filtered by the mum_id column
  * @method     array findByTrinketId(int $trinket_id) Return ChildMumTrinket objects filtered by the trinket_id column
+ * @method     array findByQuantity(int $quantity) Return ChildMumTrinket objects filtered by the quantity column
  *
  */
 abstract class MumTrinketQuery extends ModelCriteria
@@ -94,10 +102,10 @@ abstract class MumTrinketQuery extends ModelCriteria
      * Go fast if the query is untouched.
      *
      * <code>
-     * $obj = $c->findPk(array(12, 34), $con);
+     * $obj  = $c->findPk(12, $con);
      * </code>
      *
-     * @param array[$mum_id, $trinket_id] $key Primary key to use for the query
+     * @param mixed $key Primary key to use for the query
      * @param ConnectionInterface $con an optional connection object
      *
      * @return ChildMumTrinket|array|mixed the result, formatted by the current formatter
@@ -107,7 +115,7 @@ abstract class MumTrinketQuery extends ModelCriteria
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = MumTrinketTableMap::getInstanceFromPool(serialize(array((string) $key[0], (string) $key[1]))))) && !$this->formatter) {
+        if ((null !== ($obj = MumTrinketTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -135,11 +143,10 @@ abstract class MumTrinketQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT MUM_ID, TRINKET_ID FROM mum_trinket WHERE MUM_ID = :p0 AND TRINKET_ID = :p1';
+        $sql = 'SELECT ID, MUM_ID, TRINKET_ID, QUANTITY FROM mum_trinket WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);
-            $stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);
-            $stmt->bindValue(':p1', $key[1], PDO::PARAM_INT);
+            $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
             Propel::log($e->getMessage(), Propel::LOG_ERR);
@@ -149,7 +156,7 @@ abstract class MumTrinketQuery extends ModelCriteria
         if ($row = $stmt->fetch(\PDO::FETCH_NUM)) {
             $obj = new ChildMumTrinket();
             $obj->hydrate($row);
-            MumTrinketTableMap::addInstanceToPool($obj, serialize(array((string) $key[0], (string) $key[1])));
+            MumTrinketTableMap::addInstanceToPool($obj, (string) $key);
         }
         $stmt->closeCursor();
 
@@ -178,7 +185,7 @@ abstract class MumTrinketQuery extends ModelCriteria
     /**
      * Find objects by primary key
      * <code>
-     * $objs = $c->findPks(array(array(12, 56), array(832, 123), array(123, 456)), $con);
+     * $objs = $c->findPks(array(12, 56, 832), $con);
      * </code>
      * @param     array $keys Primary keys to use for the query
      * @param     ConnectionInterface $con an optional connection object
@@ -208,10 +215,8 @@ abstract class MumTrinketQuery extends ModelCriteria
      */
     public function filterByPrimaryKey($key)
     {
-        $this->addUsingAlias(MumTrinketTableMap::MUM_ID, $key[0], Criteria::EQUAL);
-        $this->addUsingAlias(MumTrinketTableMap::TRINKET_ID, $key[1], Criteria::EQUAL);
 
-        return $this;
+        return $this->addUsingAlias(MumTrinketTableMap::ID, $key, Criteria::EQUAL);
     }
 
     /**
@@ -223,17 +228,49 @@ abstract class MumTrinketQuery extends ModelCriteria
      */
     public function filterByPrimaryKeys($keys)
     {
-        if (empty($keys)) {
-            return $this->add(null, '1<>1', Criteria::CUSTOM);
-        }
-        foreach ($keys as $key) {
-            $cton0 = $this->getNewCriterion(MumTrinketTableMap::MUM_ID, $key[0], Criteria::EQUAL);
-            $cton1 = $this->getNewCriterion(MumTrinketTableMap::TRINKET_ID, $key[1], Criteria::EQUAL);
-            $cton0->addAnd($cton1);
-            $this->addOr($cton0);
+
+        return $this->addUsingAlias(MumTrinketTableMap::ID, $keys, Criteria::IN);
+    }
+
+    /**
+     * Filter the query on the id column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterById(1234); // WHERE id = 1234
+     * $query->filterById(array(12, 34)); // WHERE id IN (12, 34)
+     * $query->filterById(array('min' => 12)); // WHERE id > 12
+     * </code>
+     *
+     * @param     mixed $id The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildMumTrinketQuery The current query, for fluid interface
+     */
+    public function filterById($id = null, $comparison = null)
+    {
+        if (is_array($id)) {
+            $useMinMax = false;
+            if (isset($id['min'])) {
+                $this->addUsingAlias(MumTrinketTableMap::ID, $id['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($id['max'])) {
+                $this->addUsingAlias(MumTrinketTableMap::ID, $id['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
         }
 
-        return $this;
+        return $this->addUsingAlias(MumTrinketTableMap::ID, $id, $comparison);
     }
 
     /**
@@ -320,6 +357,47 @@ abstract class MumTrinketQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(MumTrinketTableMap::TRINKET_ID, $trinketId, $comparison);
+    }
+
+    /**
+     * Filter the query on the quantity column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByQuantity(1234); // WHERE quantity = 1234
+     * $query->filterByQuantity(array(12, 34)); // WHERE quantity IN (12, 34)
+     * $query->filterByQuantity(array('min' => 12)); // WHERE quantity > 12
+     * </code>
+     *
+     * @param     mixed $quantity The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildMumTrinketQuery The current query, for fluid interface
+     */
+    public function filterByQuantity($quantity = null, $comparison = null)
+    {
+        if (is_array($quantity)) {
+            $useMinMax = false;
+            if (isset($quantity['min'])) {
+                $this->addUsingAlias(MumTrinketTableMap::QUANTITY, $quantity['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($quantity['max'])) {
+                $this->addUsingAlias(MumTrinketTableMap::QUANTITY, $quantity['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(MumTrinketTableMap::QUANTITY, $quantity, $comparison);
     }
 
     /**
@@ -482,9 +560,7 @@ abstract class MumTrinketQuery extends ModelCriteria
     public function prune($mumTrinket = null)
     {
         if ($mumTrinket) {
-            $this->addCond('pruneCond0', $this->getAliasedColName(MumTrinketTableMap::MUM_ID), $mumTrinket->getMumId(), Criteria::NOT_EQUAL);
-            $this->addCond('pruneCond1', $this->getAliasedColName(MumTrinketTableMap::TRINKET_ID), $mumTrinket->getTrinketId(), Criteria::NOT_EQUAL);
-            $this->combine(array('pruneCond0', 'pruneCond1'), Criteria::LOGICAL_OR);
+            $this->addUsingAlias(MumTrinketTableMap::ID, $mumTrinket->getId(), Criteria::NOT_EQUAL);
         }
 
         return $this;

@@ -29,6 +29,7 @@
 	require('app/api/accentbow.php');
 	require('app/api/backing.php');
 	require('app/api/bear.php');
+	require('app/api/category.php');
 	require('app/api/customer.php');
 	require('app/api/customer.php');
 	require('app/api/grade.php');

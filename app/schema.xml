@@ -50,6 +50,10 @@
 		<column name="junior" type="boolean" required="true" defaultValue="false" />
 		<column name="senior" type="boolean" required="true" defaultValue="false" />
 		<column name="price" type="decimal" size="10" scale="2" required="true" />
+		<column name="category_id" type="integer" />
+		<foreign-key foreignTable="trinket_category" phpName="TrinketCategory" refPhpName="Trinket">
+			<reference local="category_id" foreign="id" />
+		</foreign-key>
 	</table>
 
 	<table name="letter" phpName="Letter">
@@ -112,9 +116,11 @@
 		</foreign-key>
 	</table>
 
-	<table name="mum_trinket" isCrossRef="true">
-		<column name="mum_id" type="integer" primaryKey="true" />
-		<column name="trinket_id" type="integer" primaryKey="true" />
+	<table name="mum_trinket" phpName="MumTrinket">
+		<column name="id" type="integer" primaryKey="true" required="true" />
+		<column name="mum_id" type="integer" required="true" />
+		<column name="trinket_id" type="integer" required="true" />
+		<column name="quantity" type="integer" />
 		<foreign-key foreignTable="mum">
 			<reference local="mum_id" foreign="id" />
 		</foreign-key>
@@ -132,6 +138,11 @@
 		<foreign-key foreignTable="bear">
 			<reference local="bear_id" foreign="id" />
 		</foreign-key>
+	</table>
+
+	<table name="trinket_category" phpName="TrinketCategory">
+		<column name="id" type="integer" primaryKey="true" autoIncrement="true" required="true" />
+		<column name="name" type="varchar" length="32" required="true" />
 	</table>
 
 </database>

@@ -2,11 +2,11 @@
 
 namespace Base;
 
-use \Mum as ChildMum;
-use \MumQuery as ChildMumQuery;
 use \MumTrinket as ChildMumTrinket;
 use \MumTrinketQuery as ChildMumTrinketQuery;
 use \Trinket as ChildTrinket;
+use \TrinketCategory as ChildTrinketCategory;
+use \TrinketCategoryQuery as ChildTrinketCategoryQuery;
 use \TrinketQuery as ChildTrinketQuery;
 use \Exception;
 use \PDO;
@@ -97,15 +97,21 @@ abstract class Trinket implements ActiveRecordInterface
     protected $price;
 
     /**
+     * The value for the category_id field.
+     * @var        int
+     */
+    protected $category_id;
+
+    /**
+     * @var        TrinketCategory
+     */
+    protected $aTrinketCategory;
+
+    /**
      * @var        ObjectCollection|ChildMumTrinket[] Collection to store aggregation of ChildMumTrinket objects.
      */
     protected $collMumTrinkets;
     protected $collMumTrinketsPartial;
-
-    /**
-     * @var        ChildMum[] Collection to store aggregation of ChildMum objects.
-     */
-    protected $collMums;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -114,12 +120,6 @@ abstract class Trinket implements ActiveRecordInterface
      * @var boolean
      */
     protected $alreadyInSave = false;
-
-    /**
-     * An array of objects scheduled for deletion.
-     * @var ObjectCollection
-     */
-    protected $mumsScheduledForDeletion = null;
 
     /**
      * An array of objects scheduled for deletion.
@@ -467,6 +467,17 @@ abstract class Trinket implements ActiveRecordInterface
     }
 
     /**
+     * Get the [category_id] column value.
+     *
+     * @return   int
+     */
+    public function getCategoryId()
+    {
+
+        return $this->category_id;
+    }
+
+    /**
      * Set the value of [id] column.
      *
      * @param      int $v new value
@@ -617,6 +628,31 @@ abstract class Trinket implements ActiveRecordInterface
     } // setPrice()
 
     /**
+     * Set the value of [category_id] column.
+     *
+     * @param      int $v new value
+     * @return   \Trinket The current object (for fluent API support)
+     */
+    public function setCategoryId($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->category_id !== $v) {
+            $this->category_id = $v;
+            $this->modifiedColumns[] = TrinketTableMap::CATEGORY_ID;
+        }
+
+        if ($this->aTrinketCategory !== null && $this->aTrinketCategory->getId() !== $v) {
+            $this->aTrinketCategory = null;
+        }
+
+
+        return $this;
+    } // setCategoryId()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -682,6 +718,9 @@ abstract class Trinket implements ActiveRecordInterface
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : TrinketTableMap::translateFieldName('Price', TableMap::TYPE_PHPNAME, $indexType)];
             $this->price = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : TrinketTableMap::translateFieldName('CategoryId', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->category_id = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -690,7 +729,7 @@ abstract class Trinket implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 6; // 6 = TrinketTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 7; // 7 = TrinketTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating \Trinket object", 0, $e);
@@ -712,6 +751,9 @@ abstract class Trinket implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
+        if ($this->aTrinketCategory !== null && $this->category_id !== $this->aTrinketCategory->getId()) {
+            $this->aTrinketCategory = null;
+        }
     } // ensureConsistency
 
     /**
@@ -751,9 +793,9 @@ abstract class Trinket implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
+            $this->aTrinketCategory = null;
             $this->collMumTrinkets = null;
 
-            $this->collMums = null;
         } // if (deep)
     }
 
@@ -865,6 +907,18 @@ abstract class Trinket implements ActiveRecordInterface
         if (!$this->alreadyInSave) {
             $this->alreadyInSave = true;
 
+            // We call the save method on the following object(s) if they
+            // were passed to this object by their corresponding set
+            // method.  This object relates to these object(s) by a
+            // foreign key reference.
+
+            if ($this->aTrinketCategory !== null) {
+                if ($this->aTrinketCategory->isModified() || $this->aTrinketCategory->isNew()) {
+                    $affectedRows += $this->aTrinketCategory->save($con);
+                }
+                $this->setTrinketCategory($this->aTrinketCategory);
+            }
+
             if ($this->isNew() || $this->isModified()) {
                 // persist changes
                 if ($this->isNew()) {
@@ -874,33 +928,6 @@ abstract class Trinket implements ActiveRecordInterface
                 }
                 $affectedRows += 1;
                 $this->resetModified();
-            }
-
-            if ($this->mumsScheduledForDeletion !== null) {
-                if (!$this->mumsScheduledForDeletion->isEmpty()) {
-                    $pks = array();
-                    $pk  = $this->getPrimaryKey();
-                    foreach ($this->mumsScheduledForDeletion->getPrimaryKeys(false) as $remotePk) {
-                        $pks[] = array($remotePk, $pk);
-                    }
-
-                    MumTrinketQuery::create()
-                        ->filterByPrimaryKeys($pks)
-                        ->delete($con);
-                    $this->mumsScheduledForDeletion = null;
-                }
-
-                foreach ($this->getMums() as $mum) {
-                    if ($mum->isModified()) {
-                        $mum->save($con);
-                    }
-                }
-            } elseif ($this->collMums) {
-                foreach ($this->collMums as $mum) {
-                    if ($mum->isModified()) {
-                        $mum->save($con);
-                    }
-                }
             }
 
             if ($this->mumTrinketsScheduledForDeletion !== null) {
@@ -964,6 +991,9 @@ abstract class Trinket implements ActiveRecordInterface
         if ($this->isColumnModified(TrinketTableMap::PRICE)) {
             $modifiedColumns[':p' . $index++]  = 'PRICE';
         }
+        if ($this->isColumnModified(TrinketTableMap::CATEGORY_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'CATEGORY_ID';
+        }
 
         $sql = sprintf(
             'INSERT INTO trinket (%s) VALUES (%s)',
@@ -992,6 +1022,9 @@ abstract class Trinket implements ActiveRecordInterface
                         break;
                     case 'PRICE':
                         $stmt->bindValue($identifier, $this->price, PDO::PARAM_STR);
+                        break;
+                    case 'CATEGORY_ID':
+                        $stmt->bindValue($identifier, $this->category_id, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -1073,6 +1106,9 @@ abstract class Trinket implements ActiveRecordInterface
             case 5:
                 return $this->getPrice();
                 break;
+            case 6:
+                return $this->getCategoryId();
+                break;
             default:
                 return null;
                 break;
@@ -1108,6 +1144,7 @@ abstract class Trinket implements ActiveRecordInterface
             $keys[3] => $this->getJunior(),
             $keys[4] => $this->getSenior(),
             $keys[5] => $this->getPrice(),
+            $keys[6] => $this->getCategoryId(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1115,6 +1152,9 @@ abstract class Trinket implements ActiveRecordInterface
         }
 
         if ($includeForeignObjects) {
+            if (null !== $this->aTrinketCategory) {
+                $result['TrinketCategory'] = $this->aTrinketCategory->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
             if (null !== $this->collMumTrinkets) {
                 $result['MumTrinkets'] = $this->collMumTrinkets->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
@@ -1170,6 +1210,9 @@ abstract class Trinket implements ActiveRecordInterface
             case 5:
                 $this->setPrice($value);
                 break;
+            case 6:
+                $this->setCategoryId($value);
+                break;
         } // switch()
     }
 
@@ -1200,6 +1243,7 @@ abstract class Trinket implements ActiveRecordInterface
         if (array_key_exists($keys[3], $arr)) $this->setJunior($arr[$keys[3]]);
         if (array_key_exists($keys[4], $arr)) $this->setSenior($arr[$keys[4]]);
         if (array_key_exists($keys[5], $arr)) $this->setPrice($arr[$keys[5]]);
+        if (array_key_exists($keys[6], $arr)) $this->setCategoryId($arr[$keys[6]]);
     }
 
     /**
@@ -1217,6 +1261,7 @@ abstract class Trinket implements ActiveRecordInterface
         if ($this->isColumnModified(TrinketTableMap::JUNIOR)) $criteria->add(TrinketTableMap::JUNIOR, $this->junior);
         if ($this->isColumnModified(TrinketTableMap::SENIOR)) $criteria->add(TrinketTableMap::SENIOR, $this->senior);
         if ($this->isColumnModified(TrinketTableMap::PRICE)) $criteria->add(TrinketTableMap::PRICE, $this->price);
+        if ($this->isColumnModified(TrinketTableMap::CATEGORY_ID)) $criteria->add(TrinketTableMap::CATEGORY_ID, $this->category_id);
 
         return $criteria;
     }
@@ -1285,6 +1330,7 @@ abstract class Trinket implements ActiveRecordInterface
         $copyObj->setJunior($this->getJunior());
         $copyObj->setSenior($this->getSenior());
         $copyObj->setPrice($this->getPrice());
+        $copyObj->setCategoryId($this->getCategoryId());
 
         if ($deepCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1325,6 +1371,57 @@ abstract class Trinket implements ActiveRecordInterface
         $this->copyInto($copyObj, $deepCopy);
 
         return $copyObj;
+    }
+
+    /**
+     * Declares an association between this object and a ChildTrinketCategory object.
+     *
+     * @param                  ChildTrinketCategory $v
+     * @return                 \Trinket The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setTrinketCategory(ChildTrinketCategory $v = null)
+    {
+        if ($v === null) {
+            $this->setCategoryId(NULL);
+        } else {
+            $this->setCategoryId($v->getId());
+        }
+
+        $this->aTrinketCategory = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildTrinketCategory object, it will not be re-added.
+        if ($v !== null) {
+            $v->addTrinket($this);
+        }
+
+
+        return $this;
+    }
+
+
+    /**
+     * Get the associated ChildTrinketCategory object
+     *
+     * @param      ConnectionInterface $con Optional Connection object.
+     * @return                 ChildTrinketCategory The associated ChildTrinketCategory object.
+     * @throws PropelException
+     */
+    public function getTrinketCategory(ConnectionInterface $con = null)
+    {
+        if ($this->aTrinketCategory === null && ($this->category_id !== null)) {
+            $this->aTrinketCategory = ChildTrinketCategoryQuery::create()->findPk($this->category_id, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aTrinketCategory->addTrinkets($this);
+             */
+        }
+
+        return $this->aTrinketCategory;
     }
 
 
@@ -1461,10 +1558,7 @@ abstract class Trinket implements ActiveRecordInterface
         $mumTrinketsToDelete = $this->getMumTrinkets(new Criteria(), $con)->diff($mumTrinkets);
 
 
-        //since at least one column in the foreign key is at the same time a PK
-        //we can not just set a PK to NULL in the lines below. We have to store
-        //a backup of all values, so we are able to manipulate these items based on the onDelete value later.
-        $this->mumTrinketsScheduledForDeletion = clone $mumTrinketsToDelete;
+        $this->mumTrinketsScheduledForDeletion = $mumTrinketsToDelete;
 
         foreach ($mumTrinketsToDelete as $mumTrinketRemoved) {
             $mumTrinketRemoved->setTrinket(null);
@@ -1590,189 +1684,6 @@ abstract class Trinket implements ActiveRecordInterface
     }
 
     /**
-     * Clears out the collMums collection
-     *
-     * This does not modify the database; however, it will remove any associated objects, causing
-     * them to be refetched by subsequent calls to accessor method.
-     *
-     * @return void
-     * @see        addMums()
-     */
-    public function clearMums()
-    {
-        $this->collMums = null; // important to set this to NULL since that means it is uninitialized
-        $this->collMumsPartial = null;
-    }
-
-    /**
-     * Initializes the collMums collection.
-     *
-     * By default this just sets the collMums collection to an empty collection (like clearMums());
-     * however, you may wish to override this method in your stub class to provide setting appropriate
-     * to your application -- for example, setting the initial array to the values stored in database.
-     *
-     * @return void
-     */
-    public function initMums()
-    {
-        $this->collMums = new ObjectCollection();
-        $this->collMums->setModel('\Mum');
-    }
-
-    /**
-     * Gets a collection of ChildMum objects related by a many-to-many relationship
-     * to the current object by way of the mum_trinket cross-reference table.
-     *
-     * If the $criteria is not null, it is used to always fetch the results from the database.
-     * Otherwise the results are fetched from the database the first time, then cached.
-     * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this ChildTrinket is new, it will return
-     * an empty collection or the current collection; the criteria is ignored on a new object.
-     *
-     * @param      Criteria $criteria Optional query object to filter the query
-     * @param      ConnectionInterface $con Optional connection object
-     *
-     * @return ObjectCollection|ChildMum[] List of ChildMum objects
-     */
-    public function getMums($criteria = null, ConnectionInterface $con = null)
-    {
-        if (null === $this->collMums || null !== $criteria) {
-            if ($this->isNew() && null === $this->collMums) {
-                // return empty collection
-                $this->initMums();
-            } else {
-                $collMums = ChildMumQuery::create(null, $criteria)
-                    ->filterByTrinket($this)
-                    ->find($con);
-                if (null !== $criteria) {
-                    return $collMums;
-                }
-                $this->collMums = $collMums;
-            }
-        }
-
-        return $this->collMums;
-    }
-
-    /**
-     * Sets a collection of Mum objects related by a many-to-many relationship
-     * to the current object by way of the mum_trinket cross-reference table.
-     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
-     * and new objects from the given Propel collection.
-     *
-     * @param  Collection $mums A Propel collection.
-     * @param  ConnectionInterface $con Optional connection object
-     * @return ChildTrinket The current object (for fluent API support)
-     */
-    public function setMums(Collection $mums, ConnectionInterface $con = null)
-    {
-        $this->clearMums();
-        $currentMums = $this->getMums();
-
-        $this->mumsScheduledForDeletion = $currentMums->diff($mums);
-
-        foreach ($mums as $mum) {
-            if (!$currentMums->contains($mum)) {
-                $this->doAddMum($mum);
-            }
-        }
-
-        $this->collMums = $mums;
-
-        return $this;
-    }
-
-    /**
-     * Gets the number of ChildMum objects related by a many-to-many relationship
-     * to the current object by way of the mum_trinket cross-reference table.
-     *
-     * @param      Criteria $criteria Optional query object to filter the query
-     * @param      boolean $distinct Set to true to force count distinct
-     * @param      ConnectionInterface $con Optional connection object
-     *
-     * @return int the number of related ChildMum objects
-     */
-    public function countMums($criteria = null, $distinct = false, ConnectionInterface $con = null)
-    {
-        if (null === $this->collMums || null !== $criteria) {
-            if ($this->isNew() && null === $this->collMums) {
-                return 0;
-            } else {
-                $query = ChildMumQuery::create(null, $criteria);
-                if ($distinct) {
-                    $query->distinct();
-                }
-
-                return $query
-                    ->filterByTrinket($this)
-                    ->count($con);
-            }
-        } else {
-            return count($this->collMums);
-        }
-    }
-
-    /**
-     * Associate a ChildMum object to this object
-     * through the mum_trinket cross reference table.
-     *
-     * @param  ChildMum $mum The ChildMumTrinket object to relate
-     * @return ChildTrinket The current object (for fluent API support)
-     */
-    public function addMum(ChildMum $mum)
-    {
-        if ($this->collMums === null) {
-            $this->initMums();
-        }
-
-        if (!$this->collMums->contains($mum)) { // only add it if the **same** object is not already associated
-            $this->doAddMum($mum);
-            $this->collMums[] = $mum;
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param    Mum $mum The mum object to add.
-     */
-    protected function doAddMum($mum)
-    {
-        $mumTrinket = new ChildMumTrinket();
-        $mumTrinket->setMum($mum);
-        $this->addMumTrinket($mumTrinket);
-        // set the back reference to this object directly as using provided method either results
-        // in endless loop or in multiple relations
-        if (!$mum->getTrinkets()->contains($this)) {
-            $foreignCollection   = $mum->getTrinkets();
-            $foreignCollection[] = $this;
-        }
-    }
-
-    /**
-     * Remove a ChildMum object to this object
-     * through the mum_trinket cross reference table.
-     *
-     * @param ChildMum $mum The ChildMumTrinket object to relate
-     * @return ChildTrinket The current object (for fluent API support)
-     */
-    public function removeMum(ChildMum $mum)
-    {
-        if ($this->getMums()->contains($mum)) {
-            $this->collMums->remove($this->collMums->search($mum));
-
-            if (null === $this->mumsScheduledForDeletion) {
-                $this->mumsScheduledForDeletion = clone $this->collMums;
-                $this->mumsScheduledForDeletion->clear();
-            }
-
-            $this->mumsScheduledForDeletion[] = $mum;
-        }
-
-        return $this;
-    }
-
-    /**
      * Clears the current object and sets all attributes to their default values
      */
     public function clear()
@@ -1783,6 +1694,7 @@ abstract class Trinket implements ActiveRecordInterface
         $this->junior = null;
         $this->senior = null;
         $this->price = null;
+        $this->category_id = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->applyDefaultValues();
@@ -1808,21 +1720,13 @@ abstract class Trinket implements ActiveRecordInterface
                     $o->clearAllReferences($deep);
                 }
             }
-            if ($this->collMums) {
-                foreach ($this->collMums as $o) {
-                    $o->clearAllReferences($deep);
-                }
-            }
         } // if ($deep)
 
         if ($this->collMumTrinkets instanceof Collection) {
             $this->collMumTrinkets->clearIterator();
         }
         $this->collMumTrinkets = null;
-        if ($this->collMums instanceof Collection) {
-            $this->collMums->clearIterator();
-        }
-        $this->collMums = null;
+        $this->aTrinketCategory = null;
     }
 
     /**

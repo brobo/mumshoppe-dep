@@ -18,7 +18,8 @@ var app = angular.module('mumshoppe', [
 	'customer.service',
 	'letters.service',
 	'mum.service',
-	'mumtypes.service']);
+	'mumtypes.service',
+	'trinkets.service']);
 
 app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 
@@ -94,6 +95,11 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 			templateUrl: 'public/views/mumshoppe/create/bears.html',
 			url: '/bears',
 			controller: 'createBearsController'
+		})
+		.state('create.trinkets', {
+			templateUrl: 'public/views/mumshoppe/create/trinkets.html',
+			url: '/trinkets',
+			controller: 'createTrinketsController'
 		});
 
 	$httpProvider.defaults.transformRequest = function(data) {

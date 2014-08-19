@@ -1364,23 +1364,6 @@ abstract class MumQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query by a related Trinket object
-     * using the mum_trinket table as cross reference
-     *
-     * @param Trinket $trinket the related object to use as filter
-     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return ChildMumQuery The current query, for fluid interface
-     */
-    public function filterByTrinket($trinket, $comparison = Criteria::EQUAL)
-    {
-        return $this
-            ->useMumTrinketQuery()
-            ->filterByTrinket($trinket, $comparison)
-            ->endUse();
-    }
-
-    /**
      * Filter the query by a related Bear object
      * using the mum_bear table as cross reference
      *

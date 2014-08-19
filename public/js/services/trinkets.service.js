@@ -15,6 +15,17 @@ angular.module('trinkets.service', [])
 			},
 			fetch: function(id) {
 				return $http.get('/mums/api/trinket/' + id);
+			},
+			categories: {
+				create: function(categoryData) {
+					return $http.post('/mums/api/category', categoryData);
+				},
+				get: function() {
+					return $http.get('/mums/api/category');
+				},
+				delete: function(id) {
+					return $http.delete('/mums/api/category/' + id);
+				}
 			}
 		}
 	});

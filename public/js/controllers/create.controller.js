@@ -14,6 +14,46 @@ angular.module('create.controller', [])
 
 	})
 
+	.controller('createTrinketsController', function($scope, $state, $stateParams, TrinketsService, MumService) {
+		$scope.quantities = {};
+		$scope.priceLookup = {};
+		TrinketsService.get()
+			.success(function(data) {
+				$scope.trinkets = data;
+				for (var i=0; i<$scope.trinkets.length; i++) {
+					$scope.priceLookup[$scope.trinkets[i].Id] = $scope.trinkets[i].Price;
+				}
+			});
+		MumService.fetch($stateParams.mumId)
+			.success(function(data) {
+				$scope.mum = data;
+				for (var i=0; i<$scope.mum.Trinkets.length; i++) {
+					$scope.quantities[$scope.mum.Trinkets[i].TrinketId] = $scope.mum.Trinkets[i].Quantity;	
+				}
+			});
+		$scope.decrement = function(trinket) {
+			if ($scope.quantities[trinket.Id])
+				$scope.quantities[trinket.Id]--;
+			else
+				$scope.quantities[trinket.Id] = 0;
+			$scope.updateTotal();
+		}
+		$scope.increment = function(trinket) {
+			if ($scope.quantities[trinket.Id])
+				$scope.quantities[trinket.Id]++;
+			else
+				$scope.quantities[trinket.Id] = 1;
+			$scope.updateTotal();
+		}
+		$scope.updateTotal = function() {
+			var total = 0;
+			for (var key in $scope.quantities) {
+				total += $scope.quantities[key] * ($scope.priceLookup[key] || 0);
+			}
+			$scope.totalPrice = total;
+		}
+	})
+
 	.controller('createBearsController', function($scope, $state, $stateParams, $filter, promiseTracker, AlertsService, BearsService, MumService) {
 		$scope.updateMum = function() {
 			MumService.fetch($stateParams.mumId)
@@ -35,6 +75,10 @@ angular.module('create.controller', [])
 			.success(function(data) {
 				$scope.bears = data;
 			});
+
+		$scope.next = function() {
+			$state.go('^.trinkets');
+		}
 
 		$scope.hasBear = function(bear) {
 			if (!$scope.mum) return false;
@@ -84,6 +128,12 @@ angular.module('create.controller', [])
 				$scope.letterOne = $scope.letters[0];
 				$scope.letterTwo = $scope.letters[0];
 			});
+
+		$scope.enforceNoRibbon =function() {
+			if (!$scope.hasRibbonOne) {
+				$scope.hasRibbonTwo = false;
+			}
+		}
 
 		$scope.next = function() {
 			var data = {};
