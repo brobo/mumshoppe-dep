@@ -8,6 +8,7 @@
 			"Junior" => $trinket->getJunior(),
 			"Senior" => $trinket->getSenior(),
 			"Price" => $trinket->getPrice(),
+			"CategoryId" => $trinket->getCategoryId(),
 			"TrinketCategory" => $trinket->getTrinketCategory()->toArray()
 		);
 	};

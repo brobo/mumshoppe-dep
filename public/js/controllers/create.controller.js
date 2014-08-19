@@ -24,6 +24,10 @@ angular.module('create.controller', [])
 					$scope.priceLookup[$scope.trinkets[i].Id] = $scope.trinkets[i].Price;
 				}
 			});
+		TrinketsService.categories.get()
+			.success(function(data) {
+				$scope.categories = data;
+			});
 		MumService.fetch($stateParams.mumId)
 			.success(function(data) {
 				$scope.mum = data;

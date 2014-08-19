@@ -1,13 +1,17 @@
 <h3>Pick your trinkets!</h3>
 <p>Total for trinkets: <span class="badge">{{totalPrice || 0 | currency}}</span></p>
+<div class="input-group">
+	<input type="checkbox" class="form-controll" ng-model="filterOn">
+	<label for="search">Filter by:</label>
+	<select ng-model="categorySelect" class="form-control col-lg-6" ng-options="category.Id as category.Name for category in categories"></select>
+</div>
 <div class="list-item-group">
-	<div class="list-group-item" ng-repeat="trinket in trinkets | filter:predicate">
+	<div class="list-group-item" ng-repeat="trinket in trinkets | filter: (filterOn ? {CategoryId: categorySelect} : {})">
 		<div class="row">
 			<h4 class="col-lg-3">
 				{{trinket.Name}}
 				<small>({{trinket.Price | currency}} each)</small>
 				<span class="badge">{{trinket.Price * quantities[trinket.Id] || 0 | currency}}</span>
-				<!--<span class="badge">{{(trinket.Price * quantities[trinket.Id] || 0) | currency}}</span>-->
 			</h4>
 			<div class="input-group col-lg-2">
 				<span class="input-group-btn"><button class="btn btn-default" ng-click="decrement(trinket)" ng-disabled="!quantities[trinket.Id]">-</button></span>
