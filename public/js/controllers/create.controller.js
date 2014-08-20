@@ -106,7 +106,6 @@ angular.module('create.controller', [])
 			MumService.setTrinkets($stateParams.mumId, $scope.quantities)
 				.success(function(data) {
 					console.log(data);
-					AlertsService.add('success', 'Successfully saved mum information.');
 					$state.go('^.review');
 				}).error(function(data) {
 					console.log(data);
@@ -184,13 +183,25 @@ angular.module('create.controller', [])
 		$scope.hasRibbonOne = true;
 		$scope.REGEX_ALPHABETIC = /^[a-zA-Z ]*$/
 		$scope.tracker = promiseTracker();
+		$scope.letterLookup = {};
 
 		LettersService.get()
 			.success(function(data) {
 				$scope.letters = data;
-				$scope.letterOne = $scope.letters[0];
-				$scope.letterTwo = $scope.letters[0];
+				$scope.letterOneId = $scope.letterOneId || $scope.letters[0].Id;
+				$scope.letterTwoId = $scope.letterTwoId || $scope.letters[0].Id;
+				for (var i=0; i<$scope.letters.length; i++) {
+					$scope.letterLookup[$scope.letters[i].Id] = $scope.letters[i];
+				}
 			});
+
+		MumService.fetch($stateParams.mumId)
+			.success(function(data) {
+				$scope.letterOneId = data.Mum.Letter1Id || $scope.letterOneId;
+				$scope.nameOne = data.Mum.NameRibbon1;
+				$scope.letterTwoId = data.Mum.Letter2Id || $scope.letterTwoId;
+				$scope.nameTwo = data.Mum.NameRibbon2;
+			})
 
 		$scope.enforceNoRibbon =function() {
 			if (!$scope.hasRibbonOne) {
@@ -201,14 +212,14 @@ angular.module('create.controller', [])
 		$scope.next = function() {
 			var data = {};
 			if ($scope.hasRibbonOne) {
-				data.Letter1Id = $scope.letterOne.Id;
+				data.Letter1Id = $scope.letterOneId;
 				data.NameRibbon1 = $scope.nameOne;
 			} else {
 				data.Letter1Id = 0;
 				data.NameRibbon1 = "";
 			}
 			if ($scope.hasRibbonTwo) {
-				data.Letter2Id = $scope.letterTwo.Id;
+				data.Letter2Id = $scope.letterTwoId;
 				data.NameRibbon2 = $scope.NameTwo;
 			} else {
 				data.Letter2Id = 0;
@@ -232,6 +243,11 @@ angular.module('create.controller', [])
 	.controller('createAccentBowController', function($scope, $state, $stateParams, MumService, AccentBowsService, promiseTracker) {
 		$scope.tracker = promiseTracker();
 		$scope.updateMum();
+
+		MumService.fetch($stateParams.mumId)
+			.success(function(data) {
+				$scope.accentBowId = data.Mum.AccentBowId;
+			});
 
 		AccentBowsService.get()
 			.success(function(data) {
@@ -272,6 +288,15 @@ angular.module('create.controller', [])
 		$scope.tracker = promiseTracker();
 
 		$scope.selectedParent = {};
+
+		MumService.fetch($stateParams.mumId)
+			.success(function(data) {
+				$scope.mum = data;
+				$scope.selectedProduct = $scope.mum.Product;
+				$scope.selectedGrade = $scope.mum.Grade;
+				$scope.selectedSize = $scope.mum.Size;
+				$scope.selectedBacking = $scope.mum.Backing;
+			});
 
 		MumtypesService.grades.get()
 			.success(function(data) {
