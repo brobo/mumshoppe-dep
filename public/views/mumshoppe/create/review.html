@@ -1,7 +1,7 @@
 <h2>Please review your mum.</h2>
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h3>Base <span class="label label-primary">{{mum.Backing.Price | currency}}</span></h3>
+		<h3><a ui-sref="^.base.product">Base</a> <span class="label label-primary">{{mum.Backing.Price | currency}}</span></h3>
 	</div>
 	<div class="panel-body">
 		<table class="table">
@@ -31,7 +31,7 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h3>Accent Bow</h3> <span class="label label-primary">{{mum.Accent_bow.Price | currency}}</span></h3>
+		<h3><a ui-sref="^.accentbow">Accent Bow</a> <span class="label label-primary">{{mum.Accent_bow.Price | currency}}</span></h3>
 	</div>
 	<div class="panel-body">
 		<p class="lead"><strong>Accent bow: </strong> {{mum.Accent_bow.Name}}</p>
@@ -40,7 +40,7 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h3>Name Ribbons <span class="label label-primary">{{(letters[mum.Mum.Letter1Id].Price * mum.Mum.NameRibbon1.length || 0) + (letters[mum.Mum.Letter2Id].Price * mum.Mum.NameRibbon2.length || 0) | currency}}</span></h3>
+		<h3><a ui-sref="^.nameribbons">Name Ribbons</a> <span class="label label-primary">{{(letters[mum.Mum.Letter1Id].Price * mum.Mum.NameRibbon1.length || 0) + (letters[mum.Mum.Letter2Id].Price * mum.Mum.NameRibbon2.length || 0) | currency}}</span></h3>
 	</div>
 	<div class="panel-body">
 		<table class="table">
@@ -60,7 +60,7 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h3>Bears <span class="label label-primary">{{bearTotal | currency}}</span></h3>
+		<h3><a ui-sref="^.bears">Bears</a> <span class="label label-primary">{{bearTotal | currency}}</span></h3>
 	</div>
 	<div class="panel-body">
 		<table class="table">
@@ -74,7 +74,7 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h3>Trinkets <span class="label label-primary">{{trinketTotal | currency}}</span></h3>
+		<h3><a ui-sref="^.trinkets">Trinkets</a> <span class="label label-primary">{{trinketTotal | currency}}</span></h3>
 	</div>
 	<div class="panel-body">
 		<table class="table">
@@ -92,4 +92,11 @@
 			</tr>
 		</table>
 	</div>
+</div>
+
+<div class="jumbotron">
+	<h1>Total price:
+	<!--We use the double negation hack here to make converting string to float easier.-->
+	{{mum.Backing.Price -- mum.Accent_bow.Price -- (letters[mum.Mum.Letter1Id].Price * mum.Mum.NameRibbon1.length || 0) + (letters[mum.Mum.Letter2Id].Price * mum.Mum.NameRibbon2.length || 0) + bearTotal + trinketTotal | currency}}</h1>
+	<button class="btn btn-block btn-success" ng-click="next()">Proceed to checkout</button>
 </div>

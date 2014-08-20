@@ -14,7 +14,7 @@ angular.module('create.controller', [])
 
 	})
 
-	.controller('createReview', function($scope, $stateParams, LettersService, MumService) {
+	.controller('createReview', function($scope, $stateParams, AlertsService, LettersService, MumService) {
 		$scope.letters = {};
 		$scope.bearTotal = 0;
 		$scope.trinketTotal = 0;
@@ -34,6 +34,9 @@ angular.module('create.controller', [])
 					$scope.letters[data[i].Id] = data[i];
 				}
 			});
+		$scope.next = function() {
+			AlertsService.add('info', 'There isn\'t actually a checkout page yet. Sorry.');
+		}
 	})
 
 	.controller('createTrinketsController', function($scope, $state, $stateParams, promiseTracker, AlertsService, TrinketsService, MumService) {
