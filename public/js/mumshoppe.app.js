@@ -100,6 +100,11 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 			templateUrl: 'public/views/mumshoppe/create/trinkets.html',
 			url: '/trinkets',
 			controller: 'createTrinketsController'
+		})
+		.state('create.review', {
+			templateUrl: 'public/views/mumshoppe/create/review.html',
+			url: '/review',
+			controller: 'createReview'
 		});
 
 	$httpProvider.defaults.transformRequest = function(data) {

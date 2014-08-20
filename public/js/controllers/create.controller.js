@@ -14,6 +14,28 @@ angular.module('create.controller', [])
 
 	})
 
+	.controller('createReview', function($scope, $stateParams, LettersService, MumService) {
+		$scope.letters = {};
+		$scope.bearTotal = 0;
+		$scope.trinketTotal = 0;
+		MumService.fetch($stateParams.mumId)
+			.success(function(data) {
+				$scope.mum = data;
+				for (var i=0; i<$scope.mum.Bears.length; i++) {
+					$scope.bearTotal += parseFloat($scope.mum.Bears[i].Price);
+				}
+				for (var i=0; i<$scope.mum.Trinkets.length; i++) {
+					$scope.trinketTotal += parseFloat($scope.mum.Trinkets[i].Trinket.Price * $scope.mum.Trinkets[i].Quantity);
+				}
+			});
+		LettersService.get()
+			.success(function(data) {
+				for (var i=0; i<data.length; i++) {
+					$scope.letters[data[i].Id] = data[i];
+				}
+			});
+	})
+
 	.controller('createTrinketsController', function($scope, $state, $stateParams, promiseTracker, AlertsService, TrinketsService, MumService) {
 		$scope.quantities = {};
 		$scope.priceLookup = {};

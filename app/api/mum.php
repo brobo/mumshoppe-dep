@@ -9,6 +9,7 @@
 				'Id' => $mum->getCustomer()->getId()
 			),
 			'Backing' => $mum->getBacking(),
+			'Bears' => $mum->getBears(),
 			'Grade' => $mum->getBacking() ? $mum->getBacking()->getGrade() : null,
 			'Size' => $mum->getBacking() ? $mum->getBacking()->getSize() : null,
 			'Product' => $mum->getBacking() && $mum->getBacking()->getSize() ? $mum->getBacking()->getSize()->getProduct() : null,
