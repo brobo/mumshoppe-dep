@@ -3,12 +3,8 @@
 	<li>Grade</li>
 </ul>
 <h3>What grade is this {{selectedProduct.Name}} for?</h3>
-{{$parent.$parent | json}}
 <div class="btn-group-vertical col-xs-12">
 	<div ng-repeat="grade in grades">
 		<label class="btn btn-block btn-primary" ng-model="$parent.$parent.selectedGrade" btn-radio="grade">{{grade.Name}}</label>
 	</div>
 </div>
-
-<button class="btn btn-default" ng-click="back()">Back</button>
-<button class="btn btn-success" ng-click="next()">Next</button>

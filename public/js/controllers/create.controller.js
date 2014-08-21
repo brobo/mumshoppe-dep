@@ -1,10 +1,11 @@
 angular.module('create.controller', [])
-	.controller('createController', function($scope, $state, $stateParams, MumService) {
+	.controller('createController', function($scope, $state, $stateParams, promiseTracker, MumService) {
 
 		$scope.updateMum = function() {
-			MumService.fetch($stateParams.mumId)
+			return MumService.fetch($stateParams.mumId)
 				.success(function(data) {
 					$scope.mum = data;
+					$scope.stagedCharges = [];
 				});
 		}
 
@@ -12,15 +13,16 @@ angular.module('create.controller', [])
 			$state.go('^.base.product');
 		}
 
+		$scope.tracker = promiseTracker();
+
 	})
 
-	.controller('createReview', function($scope, $stateParams, AlertsService, LettersService, MumService) {
+	.controller('createReview', function($scope, $state, AlertsService, LettersService, MumService) {
 		$scope.letters = {};
 		$scope.bearTotal = 0;
 		$scope.trinketTotal = 0;
-		MumService.fetch($stateParams.mumId)
-			.success(function(data) {
-				$scope.mum = data;
+		$scope.updateMum()
+			.success(function() {
 				for (var i=0; i<$scope.mum.Bears.length; i++) {
 					$scope.bearTotal += parseFloat($scope.mum.Bears[i].Price);
 				}
@@ -34,18 +36,20 @@ angular.module('create.controller', [])
 					$scope.letters[data[i].Id] = data[i];
 				}
 			});
-		$scope.next = function() {
+		$scope.$parent.next = function() {
 			AlertsService.add('info', 'There isn\'t actually a checkout page yet. Sorry.');
+		}
+
+		$scope.$parent.back = function() {
+			$state.go('^.trinkets')
 		}
 	})
 
-	.controller('createTrinketsController', function($scope, $state, $stateParams, promiseTracker, AlertsService, TrinketsService, MumService) {
+	.controller('createTrinketsController', function($scope, $state, $stateParams, AlertsService, TrinketsService, MumService) {
 		$scope.quantities = {};
 		$scope.priceLookup = {};
-		$scope.tracker = promiseTracker();
-		MumService.fetch($stateParams.mumId)
-			.success(function(data) {
-				$scope.mum = data;
+		$scope.updateMum()
+			.success(function() {
 				switch ($scope.mum.Grade.Name) {
 					case "Underclassman":
 						$scope.gradePredicate = {Underclassman: true};
@@ -70,9 +74,8 @@ angular.module('create.controller', [])
 				$scope.categories = data;
 				$scope.categorySelect = $scope.categories[0].Id;
 			});
-		MumService.fetch($stateParams.mumId)
-			.success(function(data) {
-				$scope.mum = data;
+		$scope.updateMum()
+			.success(function() {
 				for (var i=0; i<$scope.mum.Trinkets.length; i++) {
 					$scope.quantities[$scope.mum.Trinkets[i].TrinketId] = $scope.mum.Trinkets[i].Quantity;	
 				}
@@ -97,11 +100,10 @@ angular.module('create.controller', [])
 				total += $scope.quantities[key] * ($scope.priceLookup[key] || 0);
 			}
 			$scope.totalPrice = total;
+			$scope.$parent.staged = $scope.totalPrice;
 		}
 
-		$scope.tracker = promiseTracker();
-
-		$scope.next = function() {
+		$scope.$parent.next = function() {
 			var defered = $scope.tracker.createPromise();
 			MumService.setTrinkets($stateParams.mumId, $scope.quantities)
 				.success(function(data) {
@@ -114,14 +116,16 @@ angular.module('create.controller', [])
 					defered.resolve();
 				});
 		}
+
+		$scope.$parent.back = function() {
+			$state.go('^.bears');
+		}
 	})
 
 	.controller('createBearsController', function($scope, $state, $stateParams, $filter, promiseTracker, AlertsService, BearsService, MumService) {
-		$scope.updateMum = function() {
-			MumService.fetch($stateParams.mumId)
-				.success(function(data) {
-					$scope.mum = data;
-
+		$scope.updateMumWithBears = function() {
+			return $scope.updateMum()
+				.success(function() {
 					var total = 0;
 					for (var i=0; i<$scope.mum.Bears.length; i++) {
 						total += parseFloat($scope.mum.Bears[i].Price);
@@ -131,15 +135,20 @@ angular.module('create.controller', [])
 					$scope.predicate = $scope.mum.Grade.Name == 'Senior' ? {} : {Senior: false};
 				});
 		}
-		$scope.updateMum();
+
+		$scope.updateMumWithBears();
 
 		BearsService.get()
 			.success(function(data) {
 				$scope.bears = data;
 			});
 
-		$scope.next = function() {
+		$scope.$parent.next = function() {
 			$state.go('^.trinkets');
+		}
+
+		$scope.$parent.back = function() {
+			$state.go('^.nameribbons')
 		}
 
 		$scope.hasBear = function(bear) {
@@ -155,7 +164,7 @@ angular.module('create.controller', [])
 			var defered = bear.tracker.createPromise();
 			MumService.addBear($stateParams.mumId, bear.Id)
 				.success(function(data) {
-					$scope.updateMum();
+					$scope.updateMumWithBears();
 				}).error(function(data) {
 					console.log(data);
 					AlertsService.add('danger', 'An error occured. Please try again.');
@@ -169,7 +178,7 @@ angular.module('create.controller', [])
 			var defered = bear.tracker.createPromise();
 			MumService.removeBear($stateParams.mumId, bear.Id)
 				.success(function(data) {
-					$scope.updateMum();
+					$scope.updateMumWithBears();
 				}).error(function(data) {
 					console.log(data);
 					AlertsService.add('danger', 'An error occured. Please try again.');
@@ -179,10 +188,9 @@ angular.module('create.controller', [])
 		}
 	})
 
-	.controller('createNameRibbonController', function($scope, $state, $stateParams, promiseTracker, AlertsService, LettersService, MumService) {
+	.controller('createNameRibbonController', function($scope, $state, $stateParams, AlertsService, LettersService, MumService) {
 		$scope.hasRibbonOne = true;
 		$scope.REGEX_ALPHABETIC = /^[a-zA-Z ]*$/
-		$scope.tracker = promiseTracker();
 		$scope.letterLookup = {};
 
 		LettersService.get()
@@ -195,12 +203,16 @@ angular.module('create.controller', [])
 				}
 			});
 
-		MumService.fetch($stateParams.mumId)
-			.success(function(data) {
-				$scope.letterOneId = data.Mum.Letter1Id || $scope.letterOneId;
-				$scope.nameOne = data.Mum.NameRibbon1;
-				$scope.letterTwoId = data.Mum.Letter2Id || $scope.letterTwoId;
-				$scope.nameTwo = data.Mum.NameRibbon2;
+		$scope.updateMum()
+			.success(function() {
+				$scope.letterOneId = $scope.mum.Mum.Letter1Id || $scope.letterOneId;
+				$scope.nameOne = $scope.mum.Mum.NameRibbon1;
+				$scope.letterTwoId = $scope.mum.Mum.Letter2Id || $scope.letterTwoId;
+				$scope.nameTwo = $scope.mum.Mum.NameRibbon2;
+
+				//Double bang for truthy to boolean conversion
+				$scope.hasRibbonOne = !!($scope.letterOneId && $scope.nameOne);
+				$scope.hasRibbonTwo = !!($scope.letterTwoId && $scope.nameTwo);
 			})
 
 		$scope.enforceNoRibbon =function() {
@@ -209,7 +221,7 @@ angular.module('create.controller', [])
 			}
 		}
 
-		$scope.next = function() {
+		$scope.$parent.next = function() {
 			var data = {};
 			if ($scope.hasRibbonOne) {
 				data.Letter1Id = $scope.letterOneId;
@@ -220,7 +232,7 @@ angular.module('create.controller', [])
 			}
 			if ($scope.hasRibbonTwo) {
 				data.Letter2Id = $scope.letterTwoId;
-				data.NameRibbon2 = $scope.NameTwo;
+				data.NameRibbon2 = $scope.nameTwo;
 			} else {
 				data.Letter2Id = 0;
 				data.NameRibbon2 = "";
@@ -238,15 +250,18 @@ angular.module('create.controller', [])
 					defered.resolve();
 				});
 		}
+
+		$scope.$parent.back = function() {
+			$state.go('^.accentbow');
+		}
+
 	})
 
-	.controller('createAccentBowController', function($scope, $state, $stateParams, MumService, AccentBowsService, promiseTracker) {
-		$scope.tracker = promiseTracker();
-		$scope.updateMum();
+	.controller('createAccentBowController', function($scope, $state, $stateParams, MumService, AccentBowsService) {
 
-		MumService.fetch($stateParams.mumId)
-			.success(function(data) {
-				$scope.accentBowId = data.Mum.AccentBowId;
+		$scope.updateMum()
+			.success(function() {
+				$scope.accentBowId = $scope.mum.Mum.AccentBowId;
 			});
 
 		AccentBowsService.get()
@@ -254,11 +269,11 @@ angular.module('create.controller', [])
 				$scope.accentbows = data;
 			});
 
-		$scope.back = function() {
+		$scope.$parent.back = function() {
 			$state.go('create.base.product');
 		}
 
-		$scope.next = function() {
+		$scope.$parent.next = function() {
 			var defered = $scope.tracker.createPromise();
 			MumService.update($stateParams.mumId, {
 				AccentBowId: $scope.accentBowId
@@ -273,7 +288,7 @@ angular.module('create.controller', [])
 		}
 	})
 
-	.controller('createProductController', function($scope, $state, $stateParams, MumService, MumtypesService, promiseTracker) {
+	.controller('createProductController', function($scope, $state, $stateParams, MumService, MumtypesService) {
 		var back = {
 			'grade': '^.product',
 			'size': '^.grade',
@@ -282,16 +297,13 @@ angular.module('create.controller', [])
 		var forwards = {
 			'product': '^.grade',
 			'grade': '^.size',
-			'size': '^.backing',
-			'backing': 'create.accentbow'
+			'size': '^.backing'
 		};
-		$scope.tracker = promiseTracker();
 
 		$scope.selectedParent = {};
 
-		MumService.fetch($stateParams.mumId)
-			.success(function(data) {
-				$scope.mum = data;
+		$scope.updateMum()
+			.success(function() {
 				$scope.selectedProduct = $scope.mum.Product;
 				$scope.selectedGrade = $scope.mum.Grade;
 				$scope.selectedSize = $scope.mum.Size;
@@ -316,7 +328,14 @@ angular.module('create.controller', [])
 				$scope.backings = data;
 			});
 
-		$scope.save = function() {
+		$scope.$parent.next = function() {
+			for (var key in forwards) {
+				if ($state.current.name.indexOf(key) > -1) {
+					$state.go(forwards[key]);
+					return;
+				}
+			}
+
 			var defered = $scope.tracker.createPromise();
 			MumService.update($stateParams.mumId, {
 				BackingId: $scope.selectedBacking.Id
@@ -329,15 +348,7 @@ angular.module('create.controller', [])
 				defered.resolve();
 			});
 		}
-		$scope.next = function() {
-			for (var key in forwards) {
-				if ($state.current.name.indexOf(key) > -1) {
-					$state.go(forwards[key]);
-					return;
-				}
-			}
-		}
-		$scope.back = function() {
+		$scope.$parent.back = function() {
 			for (var key in back) {
 				if ($state.current.name.indexOf(key) > -1) {
 					$state.go(back[key]);

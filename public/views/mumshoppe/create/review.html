@@ -93,10 +93,3 @@
 		</table>
 	</div>
 </div>
-
-<div class="jumbotron">
-	<h1>Total price:
-	<!--We use the double negation hack here to make converting string to float easier.-->
-	{{mum.Backing.Price -- mum.Accent_bow.Price -- (letters[mum.Mum.Letter1Id].Price * mum.Mum.NameRibbon1.length || 0) + (letters[mum.Mum.Letter2Id].Price * mum.Mum.NameRibbon2.length || 0) + bearTotal + trinketTotal | currency}}</h1>
-	<button class="btn btn-block btn-success" ng-click="next()">Proceed to checkout</button>
-</div>

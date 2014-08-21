@@ -56,7 +56,9 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 		})
 		.state('create.getStarted', {
 			url: '',
-			templateUrl: 'public/views/mumshoppe/create/getstarted.html'
+			controller: function($state) {
+				$state.go('^.base.product');
+			}
 		})
 		.state('create.base', {
 			url: '/base',

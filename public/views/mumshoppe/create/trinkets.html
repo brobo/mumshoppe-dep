@@ -9,7 +9,7 @@
 	<div class="list-group-item" ng-repeat="trinket in trinkets | filter:gradePredicate | filter: (filterOn ? {CategoryId: categorySelect} : {})">
 		<div class="row">
 			<h4 class="col-lg-3">
-				{{trinket.Id}} {{trinket.Name}}
+				{{trinket.Name}}
 				<small>({{trinket.Price | currency}} each)</small>
 				<span class="badge">{{trinket.Price * quantities[trinket.Id] || 0 | currency}}</span>
 			</h4>
@@ -21,5 +21,3 @@
 		</div>
 	</div>
 </div>
-<button class="btn btn-success" ng-click="next()" ng-show="!tracker.active()">Next</button>
-<button class="btn btn-success" ng-show="tracker.active()" disabled><i class="fa fa-spin fa-circle-o-notch" ng-show="tracker.active()"></i></button>
