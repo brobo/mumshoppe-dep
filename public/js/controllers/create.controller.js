@@ -1,5 +1,5 @@
 angular.module('create.controller', [])
-	.controller('createController', function($scope, $state, $stateParams, promiseTracker, MumService) {
+	.controller('createController', function($scope, $state, $cookieStore, $stateParams, promiseTracker, MumService) {
 
 		$scope.updateMum = function() {
 			return MumService.fetch($stateParams.mumId)
@@ -13,6 +13,7 @@ angular.module('create.controller', [])
 			$state.go('^.base.product');
 		}
 
+		$scope.customer = $cookieStore.get('customer');
 		$scope.tracker = promiseTracker();
 
 	})

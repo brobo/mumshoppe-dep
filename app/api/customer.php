@@ -22,9 +22,14 @@
 
 		$customer = CustomerQuery::create()->filterByEmail($email)->findOne();
 		if (password_verify($password, $customer->getPassword())) {
-			echo json_encode(array(
+			$token = array(
 				'Email' => $customer->getEmail(),
 				'Id' => $customer->getId()
+			);
+			$jwt = JWT::encode($token, JWTKEY);
+			echo json_encode(array(
+				'Name' => $customer->getName(),
+				'jwt' => $jwt
 			));
 		} else {
 			$app->response->setStatus(401);

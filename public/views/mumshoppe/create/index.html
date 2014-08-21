@@ -1,4 +1,15 @@
-<h1 class="text-center">Create your mum!</h1>
+<div class="navbar navbar-default">
+	<div class="navbar-header">
+		<span class="navbar-brand">Create your mum!</span>
+	</div>
+	<div class="navbar-collapse collapse navbar-responsive-collapse">
+		<ul class="nav navbar-nav navbar-right">
+			<li><a>Welcome, {{customer.Name}}!</a></li>
+			<li><a ui-sref="mums">Your Mums</a></li>
+			<li><a ui-sref="home.logout">Logout</a></li>
+		</ul>
+	</div>
+</div>
 <div class="row" ui-view></div>
 <br><br>
 <div class="jumbotron">

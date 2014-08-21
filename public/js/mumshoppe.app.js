@@ -23,13 +23,16 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 
 	$stateProvider
 		.state('home', {
-			url: '',
+			url: '/home',
 			templateUrl: 'public/views/mumshoppe/home/home.html',
 			controller: 'homeController'
 		})
 		.state('home.logout', {
 			url: '/logout',
-			controller: 'logoutController'
+			onEnter: function($cookieStore, $state) {
+				$cookieStore.remove('customer');
+				$state.go('home');
+			}
 		})
 		.state('mums', {
 			url: '/mums',

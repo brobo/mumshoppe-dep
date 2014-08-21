@@ -50,12 +50,4 @@ angular.module('home.controller', [])
 			$scope.invalid.mismatchPasswords = $scope.customer.Password != $scope.confirmPassword;
 		}
 
-	})
-
-	.controller('logoutController', function($state, $cookieStore) {
-
-		$cookieStore.remove('customer');
-
-		$state.go('home.login');
-
 	});
