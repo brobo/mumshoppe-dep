@@ -1,54 +1,30 @@
 <?php
 
-	$encodeMum = function($mum) {
+	$app->get('/api/mum', function() use ($app) {
+		$mums = MumQuery::create()->find()->getData();
 
-		$res = array(
-			'Mum' => $mum,
-			'Customer' => array(
-				'Name' => $mum->getCustomer()->getName(),
-				'Id' => $mum->getCustomer()->getId()
-			),
-			'Backing' => $mum->getBacking(),
-			'Bears' => $mum->getBears(),
-			'Grade' => $mum->getBacking() ? $mum->getBacking()->getGrade() : null,
-			'Size' => $mum->getBacking() ? $mum->getBacking()->getSize() : null,
-			'Product' => $mum->getBacking() && $mum->getBacking()->getSize() ? $mum->getBacking()->getSize()->getProduct() : null,
-			'Accent_bow' => $mum->getAccentBow(),
-			'Status' => $mum->getStatus(),
-			'Trinkets' => $mum->getMumTrinkets(),
-			'Bears' => $mum->getBears()
-		);
+		$encodeMum = function($mum) {
+			return $mum->getFull();
+		};
 
-		foreach ($res as $key => $value) {
-			if ($key == 'Customer') continue;
-			if ($res[$key]) {
-				$res[$key] = $res[$key]->toArray();
-			}
-		}
+		echo json_encode(array_map($encodeMum, $mums));
+	});
 
-		for ($i = 0; $i < count($res['Trinkets']); $i++) {
-			$res['Trinkets'][$i]['Trinket'] = 
-				TrinketQuery::create()->findPK($res['Trinkets'][$i]['TrinketId'])->toArray();
-		}
-
-		return $res;
-	};
-
-	$app->get('/api/mum/:mumId', function($mumId) use ($app, $encodeMum) {
+	$app->get('/api/mum/:mumId', function($mumId) use ($app) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;
-		echo json_encode($encodeMum($mum));
+		echo json_encode($mum->getFull());
 	});
 	
-	$app->post('/api/mum', function() use ($app, $encodeMum) {
+	$app->post('/api/mum', function() use ($app) {
 		$mum = new Mum();
 		$mum->setCustomerId($app->request->post('CustomerId'));
 		$mum->save();
 
-		echo json_encode($encodeMum($mum));
+		echo json_encode($mum->getFull());
 	});
 
-	$app->put('/api/mum/:mumId', function($mumId) use ($app, $encodeMum) {
+	$app->put('/api/mum/:mumId', function($mumId) use ($app) {
 		$mum = MumQuery::create()->findPK($mumId);
 
 		if (!$mum) return;
@@ -58,10 +34,10 @@
 		}
 
 		$mum->save();
-		echo json_encode($encodeMum($mum));
+		echo json_encode($mum->getFull());
 	});
 
-	$app->post('/api/mum/:mumId/trinket', function($mumId) use ($app, $encodeMum) {
+	$app->post('/api/mum/:mumId/trinket', function($mumId) use ($app) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;
 		foreach ($mum->getMumTrinkets() as $mumTrinket) {
@@ -78,7 +54,7 @@
 		echo json_encode(array('message'=>'Successfully saved.'));
 	});
 
-	$app->post('/api/mum/:mumId/trinket/:trinketId', function($mumId, $trinketId) use ($app, $encodeMum) {
+	$app->post('/api/mum/:mumId/trinket/:trinketId', function($mumId, $trinketId) use ($app) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;
 		$trinket = TrinketQuery::create()->findPK($trinketId);
@@ -96,17 +72,17 @@
 		echo json_encode(array('message' => 'Success'));
 	});
 
-	$app->delete('/api/mum/:mumId/trinket/:trinketId', function($mumId, $trinketId) use ($app, $encodeMum) {
+	$app->delete('/api/mum/:mumId/trinket/:trinketId', function($mumId, $trinketId) use ($app) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;
 		$trinket = TrinketQuery::create()->findPK($trinketId);
 		$mum->removeTrinket($trinket);
 
 		$mum->save();
-		echo json_encode($encodeMum($mum));
+		echo json_encode($mum->getFull());
 	});
 
-	$app->put('/api/mum/:mumId/bear/:bearId', function($mumId, $bearId) use ($app, $encodeMum) {
+	$app->put('/api/mum/:mumId/bear/:bearId', function($mumId, $bearId) use ($app) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;
 		$bear = BearQuery::create()->findPK($bearId);
@@ -118,28 +94,22 @@
 		echo json_encode(array('message' => 'Success'));
 	});
 
-	$app->delete('/api/mum/:mumId/bear/:bearId', function($mumId, $bearId) use ($app, $encodeMum) {
+	$app->delete('/api/mum/:mumId/bear/:bearId', function($mumId, $bearId) use ($app) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;
 		$bear = BearQuery::create()->findPK($bearId);
 		$mum->removeBear($bear);
 
 		$mum->save();
-		echo json_encode($encodeMum($mum));
+		echo json_encode($mum->getFull());
 	});
 
-	$app->get('/api/mum', function() use ($app, $encodeMum) {
-		$mums = MumQuery::create()->find()->getData();
-
-		echo json_encode(array_map($encodeMum, $mums));
-	});
-
-	$app->delete('/api/mum/:mumId', function($mumId) use ($encodeMum) {
+	$app->delete('/api/mum/:mumId', function($mumId) {
 		$mum = MumQuery::create()->findPk($mumId);
 		if (!$mum) return;
 		$mum->delete();
 
-		echo json_encode($encodeMum($mum));
+		echo json_encode($mum->getFull());
 	});
 
 ?>
