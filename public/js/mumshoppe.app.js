@@ -7,10 +7,8 @@ var app = angular.module('mumshoppe', [
 	'alerts.controller',
 	'confirm.controller',
 	'home.controller',
-	'login.controller',
 	'mums.controller',
 	'create.controller',
-	'register.controller',
 	'accentbows.service',
 	'alerts.service',
 	'bears.service',
@@ -29,19 +27,9 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 			templateUrl: 'public/views/mumshoppe/home/home.html',
 			controller: 'homeController'
 		})
-		.state('home.login', {
-			url: '/login',
-			templateUrl: 'public/views/mumshoppe/home/login.html',
-			controller: 'loginController'
-		})
 		.state('home.logout', {
 			url: '/logout',
 			controller: 'logoutController'
-		})
-		.state('home.register', {
-			url: '/register',
-			templateUrl: 'public/views/mumshoppe/home/register.html',
-			controller: 'registerController'
 		})
 		.state('mums', {
 			url: '/mums',

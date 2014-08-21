@@ -1,4 +1,6 @@
 <?php
+	header('HTTP/1.1 500 Internal Server Error');
+
 	require_once 'app/vendor/autoload.php';
 	require_once 'app/config/propel.php';
 
