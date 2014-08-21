@@ -1,10 +1,8 @@
 <h3>What would you like your name ribbons to say?</h3>
-{{hasRibbonOne}}
-{{hasRibbonTwo}}
 <form class="form-horizontal" name="ribbon1">
 	<div class="form-group has-feedback" ng-class="{'has-error': ribbon1.Name.$invalid && ribbon1.Name.$dirty}">
 		<label class="lead control-label"><input type="checkbox" ng-model="hasRibbonOne" ng-change="enforceNoRibbon()">
-			Name Ribbon One <span class="badge" ng-hide="!hasRibbonOne">{{nameOnePrice | currency}}</span>
+			Name Ribbon One <span class="badge" ng-hide="!hasRibbonOne">{{nameOne.length * letterLookup[letterOneId].Price | currency}}</span>
 		</input></label>
 		<fieldset ng-disabled="!hasRibbonOne">
 			<label class="control-label" for="Type">Type</label>
@@ -17,7 +15,7 @@
 <form class="form-horizontal" name="ribbon2">
 	<div class="form-group has-feedback" ng-class="{'has-error': ribbon2.Name.$invalid && ribbon2.Name.$dirty}">
 		<label class="lead control-label"><input type="checkbox" ng-model="hasRibbonTwo" ng-disabled="!hasRibbonOne">
-			Name Ribbon Two <span class="badge" ng-hide="!hasRibbonTwo">{{nameTwoPrice | currency}}</span>
+			Name Ribbon Two <span class="badge" ng-hide="!hasRibbonTwo">{{nameTwo.length * letterLookup[letterTwoId].Price | currency}}</span>
 		</input></label>
 		<fieldset ng-disabled="!hasRibbonTwo">
 			<label class="control-label" for="Type">Type</label>

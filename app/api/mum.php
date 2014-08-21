@@ -105,7 +105,7 @@
 	});
 
 	$app->delete('/api/mum/:mumId', function($mumId) {
-		$mum = MumQuery::create()->findPk($mumId);
+		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;
 		$mum->delete();
 
