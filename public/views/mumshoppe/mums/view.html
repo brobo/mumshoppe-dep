@@ -1,7 +1,7 @@
-<h2>Please review your {{mum.Product.Name}}.</h2>
+<h2>Your {{mum.Product.Name}}</h2>
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h3><a ui-sref="^.base.product">Base</a> <span class="label label-primary">{{mum.Backing.Price | currency}}</span></h3>
+		<h3>Base <span class="label label-primary">{{mum.Backing.Price | currency}}</span></h3>
 	</div>
 	<div class="panel-body">
 		<table class="table">
@@ -31,7 +31,7 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h3><a ui-sref="^.accentbow">Accent Bow</a> <span class="label label-primary">{{mum.Accent_bow.Price | currency}}</span></h3>
+		<h3>Accent Bow <span class="label label-primary">{{mum.Accent_bow.Price | currency}}</span></h3>
 	</div>
 	<div class="panel-body">
 		<p class="lead"><strong>Accent bow: </strong> {{mum.Accent_bow.Name}}</p>
@@ -40,7 +40,7 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h3><a ui-sref="^.nameribbons">Name Ribbons</a> <span class="label label-primary">{{(letters[mum.Mum.Letter1Id].Price * mum.Mum.NameRibbon1.length || 0) + (letters[mum.Mum.Letter2Id].Price * mum.Mum.NameRibbon2.length || 0) | currency}}</span></h3>
+		<h3>Name Ribbons <span class="label label-primary">{{(letters[mum.Mum.Letter1Id].Price * mum.Mum.NameRibbon1.length || 0) + (letters[mum.Mum.Letter2Id].Price * mum.Mum.NameRibbon2.length || 0) | currency}}</span></h3>
 	</div>
 	<div class="panel-body">
 		<table class="table">
@@ -60,7 +60,7 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h3><a ui-sref="^.bears">Bears</a> <span class="label label-primary">{{bearTotal | currency}}</span></h3>
+		<h3>Bears <span class="label label-primary">{{bearTotal | currency}}</span></h3>
 	</div>
 	<div class="panel-body">
 		<table class="table">
@@ -74,7 +74,7 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h3><a ui-sref="^.trinkets">Trinkets</a> <span class="label label-primary">{{trinketTotal | currency}}</span></h3>
+		<h3>Trinkets <span class="label label-primary">{{trinketTotal | currency}}</span></h3>
 	</div>
 	<div class="panel-body">
 		<table class="table">
@@ -91,5 +91,32 @@
 				<td><span class="badge">{{trinket.Trinket.Price * trinket.Quantity | currency}}</span></td>
 			</tr>
 		</table>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3>Order Details</h3>
+	</div>
+	<div class="panel-body">
+		<table class="table">
+			<tr>
+				<th>Total Price</th>
+				<td>{{mum.TotalPrice | currency}}</td>
+			</tr>
+			<tr>
+				<th>Order Placed On</th>
+				<td>{{mum.Mum.OrderDate | dateToISO | date : 'MMM d, yyyy h:mm a'}}</td>
+			</tr>
+			<tr>
+				<th>Order Paid On</th>
+				<td>{{mum.Mum.PaidDate | dateToISO | date : 'MMM d, yyyy h:mm a'}}</td>
+			</tr>
+			<tr>
+				<th>{{mum.Product.Name}} delivered On</th>
+				<td>{{mum.Mum.DeliveryDate | dateToISO | date : 'MMM d, yyyy h:mm a'}}</td>
+			</tr>
+		</table>
+		<progressbar class="progress-striped active" type="success" value="mum.Status.Id" max="7">Current Status: {{mum.Status.Name}}</progressbar>
 	</div>
 </div>

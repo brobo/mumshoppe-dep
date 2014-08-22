@@ -14,8 +14,11 @@
 		<td>{{mum.Grade.Name}}</td>
 		<td>{{mum.Size.Name}} {{mum.Product.Name}}</td>
 		<td>{{mum.Backing.Name}}</td>
-		<td><button class="btn btn-info btn-xs" ng-click="editMum(mum.Mum.Id)"><i class="fa fa-pencil"></i> Edit</button>
-			<button class="btn btn-danger btn-xs" ng-click="deleteMum(mum.Mum.Id)" ng-show="mum.Status.Id === 1"><i class="fa fa-bomb"></i> Delete</button></td>
+		<td>
+			<button class="btn btn-info btn-xs" ui-sref="^.view({mumId: mum.Mum.Id})"><i class="fa fa-eye"></i> View</button>
+			<button class="btn btn-warning btn-xs" ui-sref="create.start({mumId: mum.Mum.Id})"><i class="fa fa-pencil"></i> Edit</button>
+			<button class="btn btn-danger btn-xs" ng-click="deleteMum(mum.Mum.Id)" ng-show="mum.Status.Id === 1"><i class="fa fa-bomb"></i> Delete</button>
+		</td>
 	</tr>
 </tbody>
 </table>

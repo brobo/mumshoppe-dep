@@ -47,13 +47,18 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 			templateUrl: 'public/views/mumshoppe/mums/all.html',
 			controller: 'mumsController'
 		})
+		.state('mums.view', {
+			url: '/view/:mumId',
+			templateUrl: 'public/views/mumshoppe/mums/view.html',
+			controller: 'mumsViewController'
+		})
 		.state('create', {
 			url: '/create/:mumId',
 			templateUrl: 'public/views/mumshoppe/create/index.html',
 			controller: 'createController',
 			abstract: true
 		})
-		.state('create.getStarted', {
+		.state('create.start', {
 			url: '',
 			controller: function($state) {
 				$state.go('^.base.product');
@@ -144,4 +149,16 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 	//PHP does not play nice with this feature. It's no big deal.
 	//$locationProvider.html5Mode(true);
 
+});
+
+//This filter is used to convert MySQL datetimes into AngularJS a readable ISO format.
+app.filter('dateToISO', function() {
+  return function(badTime) {
+  	if (!badTime) return "";
+  	if (badTime.date) {
+  		return badTime.date.replace(/(.+) (.+)/, "$1T$2Z");
+  	} else {
+  		return badTime.replace(/(.+) (.+)/, "$1T$2Z");
+  	}
+  };
 });
