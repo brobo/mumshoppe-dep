@@ -4,10 +4,9 @@ angular.module('home.controller', [])
 		$scope.login = function() {
 			CustomerService.login($scope.customer.Email, $scope.customer.Password)
 				.success(function(data) {
-					console.log(data);
 					$cookieStore.put("customer", data);
 					AlertsService.add('success', 'Successfully logged in.');
-					$state.go('mums');
+					$state.go('mums.all');
 				}).error(function(data) {
 					console.log(data);
 					AlertsService.add('warning', 'Incorrect username or password.');

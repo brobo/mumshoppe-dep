@@ -6,6 +6,6 @@
 <h3>What size {{selectedProduct.Name}} would you like?</h3>
 <div class="btn-group-vertical col-xs-12">
 	<div ng-repeat="size in sizes | filter:{ProductId:selectedProduct.Id}">
-		<label class="btn btn-block btn-primary" ng-model="$parent.$parent.selectedSize" btn-radio="size">{{size.Name}}</label>
+		<label class="btn btn-block btn-default" ng-model="$parent.$parent.selectedSize" btn-radio="size">{{size.Name}}</label>
 	</div>
 </div>

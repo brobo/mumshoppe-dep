@@ -23,10 +23,10 @@ class Mum extends BaseMum
 	public function getFull() {
 		$res = array(
 			'Mum' => $this,
-			'Customer' => array(
-				'Name' => $this->getCustomer()->getName(),
+			'Customer' => $this->getCustomer() ? array(
+				'Name' => $this->getCustomer(),
 				'Id' => $this->getCustomer()->getId()
-			),
+			) : null,
 			'Accent_bow' => $this->getAccentBow(),
 			'Backing' => $this->getBacking(),
 			'Bears' => $this->getBears(),

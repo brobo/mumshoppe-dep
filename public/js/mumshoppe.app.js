@@ -37,6 +37,14 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 		.state('mums', {
 			url: '/mums',
 			templateUrl: 'public/views/mumshoppe/mums/index.html',
+			controller: function($scope, $cookieStore) {
+				$scope.customer = $cookieStore.get('customer');
+			},
+			abstract: true
+		})
+		.state('mums.all', {
+			url: '',
+			templateUrl: 'public/views/mumshoppe/mums/all.html',
 			controller: 'mumsController'
 		})
 		.state('create', {

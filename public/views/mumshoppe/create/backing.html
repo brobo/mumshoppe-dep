@@ -7,7 +7,7 @@
 <h3>What type of backing would you like?</h3>
 <div class="btn-group-vertical col-xs-12">
 	<div ng-repeat="backing in backings | filter:{SizeId:selectedSize.Id, GradeId:selectedGrade.Id}">
-		<label class="btn btn-block btn-primary" ng-model="$parent.$parent.selectedBacking" btn-radio="backing">
+		<label class="btn btn-block btn-default" ng-model="$parent.$parent.selectedBacking" btn-radio="backing">
 			{{backing.Name}}
 			<span class="badge">{{backing.Price | currency}}</span>
 		</label>

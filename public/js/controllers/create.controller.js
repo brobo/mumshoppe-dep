@@ -291,6 +291,7 @@ angular.module('create.controller', [])
 
 	.controller('createProductController', function($scope, $state, $stateParams, MumService, MumtypesService) {
 		var back = {
+			'product': 'mums.all',
 			'grade': '^.product',
 			'size': '^.grade',
 			'backing': '^.size'
