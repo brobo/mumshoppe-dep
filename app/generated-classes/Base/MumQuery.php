@@ -32,7 +32,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMumQuery orderByStatusId($order = Criteria::ASC) Order by the status_id column
  * @method     ChildMumQuery orderByPaid($order = Criteria::ASC) Order by the paid column
  * @method     ChildMumQuery orderByOrderDate($order = Criteria::ASC) Order by the order_date column
- * @method     ChildMumQuery orderByDepositeDate($order = Criteria::ASC) Order by the deposite_date column
  * @method     ChildMumQuery orderByPaidDate($order = Criteria::ASC) Order by the paid_date column
  * @method     ChildMumQuery orderByDeliveryDate($order = Criteria::ASC) Order by the delivery_date column
  *
@@ -47,7 +46,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMumQuery groupByStatusId() Group by the status_id column
  * @method     ChildMumQuery groupByPaid() Group by the paid column
  * @method     ChildMumQuery groupByOrderDate() Group by the order_date column
- * @method     ChildMumQuery groupByDepositeDate() Group by the deposite_date column
  * @method     ChildMumQuery groupByPaidDate() Group by the paid_date column
  * @method     ChildMumQuery groupByDeliveryDate() Group by the delivery_date column
  *
@@ -97,7 +95,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMum findOneByStatusId(int $status_id) Return the first ChildMum filtered by the status_id column
  * @method     ChildMum findOneByPaid(boolean $paid) Return the first ChildMum filtered by the paid column
  * @method     ChildMum findOneByOrderDate(string $order_date) Return the first ChildMum filtered by the order_date column
- * @method     ChildMum findOneByDepositeDate(string $deposite_date) Return the first ChildMum filtered by the deposite_date column
  * @method     ChildMum findOneByPaidDate(string $paid_date) Return the first ChildMum filtered by the paid_date column
  * @method     ChildMum findOneByDeliveryDate(string $delivery_date) Return the first ChildMum filtered by the delivery_date column
  *
@@ -112,7 +109,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     array findByStatusId(int $status_id) Return ChildMum objects filtered by the status_id column
  * @method     array findByPaid(boolean $paid) Return ChildMum objects filtered by the paid column
  * @method     array findByOrderDate(string $order_date) Return ChildMum objects filtered by the order_date column
- * @method     array findByDepositeDate(string $deposite_date) Return ChildMum objects filtered by the deposite_date column
  * @method     array findByPaidDate(string $paid_date) Return ChildMum objects filtered by the paid_date column
  * @method     array findByDeliveryDate(string $delivery_date) Return ChildMum objects filtered by the delivery_date column
  *
@@ -203,7 +199,7 @@ abstract class MumQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT ID, CUSTOMER_ID, BACKING_ID, ACCENT_BOW_ID, LETTER1_ID, NAME_RIBBON1, LETTER2_ID, NAME_RIBBON2, STATUS_ID, PAID, ORDER_DATE, DEPOSITE_DATE, PAID_DATE, DELIVERY_DATE FROM mum WHERE ID = :p0';
+        $sql = 'SELECT ID, CUSTOMER_ID, BACKING_ID, ACCENT_BOW_ID, LETTER1_ID, NAME_RIBBON1, LETTER2_ID, NAME_RIBBON2, STATUS_ID, PAID, ORDER_DATE, PAID_DATE, DELIVERY_DATE FROM mum WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -717,49 +713,6 @@ abstract class MumQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(MumTableMap::ORDER_DATE, $orderDate, $comparison);
-    }
-
-    /**
-     * Filter the query on the deposite_date column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByDepositeDate('2011-03-14'); // WHERE deposite_date = '2011-03-14'
-     * $query->filterByDepositeDate('now'); // WHERE deposite_date = '2011-03-14'
-     * $query->filterByDepositeDate(array('max' => 'yesterday')); // WHERE deposite_date > '2011-03-13'
-     * </code>
-     *
-     * @param     mixed $depositeDate The value to use as filter.
-     *              Values can be integers (unix timestamps), DateTime objects, or strings.
-     *              Empty strings are treated as NULL.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return ChildMumQuery The current query, for fluid interface
-     */
-    public function filterByDepositeDate($depositeDate = null, $comparison = null)
-    {
-        if (is_array($depositeDate)) {
-            $useMinMax = false;
-            if (isset($depositeDate['min'])) {
-                $this->addUsingAlias(MumTableMap::DEPOSITE_DATE, $depositeDate['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($depositeDate['max'])) {
-                $this->addUsingAlias(MumTableMap::DEPOSITE_DATE, $depositeDate['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(MumTableMap::DEPOSITE_DATE, $depositeDate, $comparison);
     }
 
     /**

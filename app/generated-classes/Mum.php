@@ -24,7 +24,7 @@ class Mum extends BaseMum
 		$res = array(
 			'Mum' => $this,
 			'Customer' => $this->getCustomer() ? array(
-				'Name' => $this->getCustomer(),
+				'Name' => $this->getCustomer()->getName(),
 				'Id' => $this->getCustomer()->getId()
 			) : null,
 			'Accent_bow' => $this->getAccentBow(),

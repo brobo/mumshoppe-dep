@@ -1,7 +1,25 @@
 <?php
 
 	$app->get('/api/mum', function() use ($app) {
-		$mums = MumQuery::create()->find()->getData();
+		$mums = MumQuery::create();
+
+		foreach ($app->request->get() as $key => $value) {
+			switch ($key) {
+			case 'CustomerId':
+				$mums = $mums->filterByCustomerId($value);
+				break;
+			case 'Year':
+				$mums = $mums->filterByOrderDate(array('min' => $value . '-01-01 00:00:00', 'max' => $value . '-12-31 23:59:59'));
+				break;
+			case 'Ordered':
+				if ($value && $value != "false") {
+					$mums = $mums->filterByStatusId(array('min' => 2));
+				}
+				break;
+			}
+		}
+
+		$mums = $mums->find()->getData();
 
 		$encodeMum = function($mum) {
 			return $mum->getFull();

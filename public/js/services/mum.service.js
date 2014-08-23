@@ -6,8 +6,8 @@ angular.module('mum.service', [])
 					CustomerId: customerId
 				});
 			},
-			get: function() {
-				return $http.get('/mums/api/mum');
+			get: function(criteria) {
+				return $http.get('/mums/api/mum', criteria);
 			},
 			update: function(mumId, mumData) {
 				return $http.put('/mums/api/mum/' + mumId, mumData);

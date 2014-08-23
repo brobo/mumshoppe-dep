@@ -189,7 +189,6 @@ CREATE TABLE `mum`
     `status_id` INTEGER,
     `paid` TINYINT(1),
     `order_date` DATETIME,
-    `deposite_date` DATETIME,
     `paid_date` DATETIME,
     `delivery_date` DATETIME,
     PRIMARY KEY (`id`),

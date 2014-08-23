@@ -8,6 +8,7 @@ var app = angular.module('volunteer', [
 	'bears.controller',
 	'confirm.controller',
 	'letters.controller',
+	'mums.volunteer.controller',
 	'mumtypes.controller',
 	'trinketsAdd.controller',
 	'trinketsAll.controller',
@@ -17,6 +18,7 @@ var app = angular.module('volunteer', [
 	'bears.service',
 	'confirm.service',
 	'letters.service',
+	'mum.service',
 	'mumtypes.service',
 	'trinkets.service']);
 
@@ -39,6 +41,17 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 			url: '/letters',
 			templateUrl: 'public/views/volunteer/letters/index.html',
 			controller: 'lettersController'
+		})
+		.state('mums', {
+			url: '/mums',
+			templateUrl: 'public/views/volunteer/mums/index.html',
+			controller: 'mumsController',
+			abstract: true
+		})
+		.state('mums.all', {
+			url: '',
+			templateUrl: 'public/views/volunteer/mums/all.html',
+			controller: 'mumsAllController'
 		})
 		.state('mumtypes', {
 			url: '/mumtypes',
@@ -214,4 +227,16 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 	//PHP does not play nice with this feature. It's no big deal.
 	//$locationProvider.html5Mode(true);
 
+});
+
+//This filter is used to convert MySQL datetimes into AngularJS a readable ISO format.
+app.filter('dateToISO', function() {
+  return function(badTime) {
+  	if (!badTime) return "";
+  	if (badTime.date) {
+  		return badTime.date.replace(/(.+) (.+)/, "$1T$2Z");
+  	} else {
+  		return badTime.replace(/(.+) (.+)/, "$1T$2Z");
+  	}
+  };
 });

@@ -7,7 +7,7 @@ var app = angular.module('mumshoppe', [
 	'alerts.controller',
 	'confirm.controller',
 	'home.controller',
-	'mums.controller',
+	'mums.mumshoppe.controller',
 	'create.controller',
 	'accentbows.service',
 	'alerts.service',

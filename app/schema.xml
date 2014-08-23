@@ -95,7 +95,6 @@
 		<column name="status_id" type="integer" />
 		<column name="paid" type="boolean" />
 		<column name="order_date" type="timestamp" />
-		<column name="deposite_date" type="timestamp" />
 		<column name="paid_date" type="timestamp" />
 		<column name="delivery_date" type="timestamp" />
 		<foreign-key foreignTable="customer" phpName="Customer" refPhpName="Mum">

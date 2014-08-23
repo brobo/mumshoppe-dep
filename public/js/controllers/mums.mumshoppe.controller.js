@@ -1,4 +1,4 @@
-angular.module('mums.controller', [])
+angular.module('mums.mumshoppe.controller', [])
 	.controller('mumsController', function($scope, $state, $http, $cookieStore, AlertsService, ConfirmService, MumService) {
 
 		$scope.updateMums = function() {
