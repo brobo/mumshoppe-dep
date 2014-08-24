@@ -49,10 +49,10 @@
 				<td>{{mum.Mum.NameRibbon1}}</td>
 				<td><span class="badge">{{letters[mum.Mum.Letter1Id].Price * mum.Mum.NameRibbon1.length | currency}}</span></td>
 			</tr>
-			<tr ng-show="mum.Letter2Id && mum.RibbonName2">
+			<tr ng-show="mum.Mum.Letter2Id && mum.Mum.NameRibbon2">
 				<td>{{letters[mum.Mum.Letter2Id].Name}}</td>
-				<td>{{mum.Mum.RibbonName2}}</td>
-				<td><span class="badge">{{letters[mum.Mum.Letter2Id].Price | currency}}</span></td>
+				<td>{{mum.Mum.NameRibbon2}}</td>
+				<td><span class="badge">{{letters[mum.Mum.Letter2Id].Price * mum.Mum.NameRibbon2.length | currency}}</span></td>
 			</tr>
 		</table>
 	</div>
