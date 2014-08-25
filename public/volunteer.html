@@ -4,10 +4,12 @@
 
 	<link rel="stylesheet" href="public/css/bootstrap.min.css">
 	<link rel="stylesheet" href="public/css/font-awesome.min.css">
+	<link rel="stylesheet" href="public/libs/angular-off-canvas/off-canvas.css">
 
 	<script type="text/javascript" src="public/libs/angular/angular.js"></script>
 	<script type="text/javascript" src="public/libs/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 	<script type="text/javascript" src="public/libs/angular-breadcrumb/release/angular-breadcrumb.js"></script>
+	<script type="text/javascript" src="public/libs/angular-off-canvas/off-canvas.js"></script>
 	<script type="text/javascript" src="public/libs/angular-promise-tracker/promise-tracker.js"></script>
 	<script type="text/javascript" src="public/libs/angular-ui-router/release/angular-ui-router.js"></script>
 	<script type="text/javascript" src="public/libs/angular-route/angular-route.js"></script>
@@ -34,14 +36,16 @@
 
 </head>
 <body ng-app="volunteer">
-	<div ng-controller="AlertsController">
-		<div ng-repeat="alert in alerts">
-			<alert type="{{alert.type}}" class="alert" ng-click="closeAlert(alert)">
-				{{alert.msg}}
-				<small>Click to dismiss</small>
-			</alert>
+	<div class="off-canvas__content off-canvas__container">
+		<div ng-controller="AlertsController">
+			<div ng-repeat="alert in alerts">
+				<alert type="{{alert.type}}" class="alert" ng-click="closeAlert(alert)">
+					{{alert.msg}}
+					<small>Click to dismiss</small>
+				</alert>
+			</div>
 		</div>
+		<div ui-view></div>
 	</div>
-	<div ui-view></div>
 </body>
 </html>

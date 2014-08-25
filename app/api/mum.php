@@ -5,15 +5,21 @@
 
 		foreach ($app->request->get() as $key => $value) {
 			switch ($key) {
-			case 'CustomerId':
-				$mums = $mums->filterByCustomerId($value);
+			case 'CustomerName':
+				$mums = $mums->joinWith('Mum.Customer')->where('Customer.Name LIKE ?', "%$value%");
 				break;
 			case 'Year':
-				$mums = $mums->filterByOrderDate(array('min' => $value . '-01-01 00:00:00', 'max' => $value . '-12-31 23:59:59'));
+				if ($value)
+					$mums = $mums->filterByOrderDate(array('min' => $value . '-01-01 00:00:00', 'max' => $value . '-12-31 23:59:59'));
 				break;
 			case 'Ordered':
 				if ($value && $value != "false") {
 					$mums = $mums->filterByStatusId(array('min' => 2));
+				}
+				break;
+			case 'Unordered':
+				if ($value && $value != "false") {
+					$mums = $mums->filterByStatusId(1);
 				}
 				break;
 			}

@@ -1,5 +1,6 @@
 var app = angular.module('volunteer', [
 	'ajoslin.promise-tracker',
+	'cn.offCanvas',
 	'ncy-angular-breadcrumb',
 	'ui.bootstrap',
 	'ui.router',
@@ -52,6 +53,11 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 			url: '',
 			templateUrl: 'public/views/volunteer/mums/all.html',
 			controller: 'mumsAllController'
+		})
+		.state('mums.view', {
+			url: '/view/:mumId',
+			templateUrl: 'public/views/volunteer/mums/view.html',
+			controller: 'mumsViewController'
 		})
 		.state('mumtypes', {
 			url: '/mumtypes',

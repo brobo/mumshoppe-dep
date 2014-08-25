@@ -47,11 +47,6 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 			templateUrl: 'public/views/mumshoppe/mums/all.html',
 			controller: 'mumsController'
 		})
-		.state('mums.view', {
-			url: '/view/:mumId',
-			templateUrl: 'public/views/mumshoppe/mums/view.html',
-			controller: 'mumsViewController'
-		})
 		.state('create', {
 			url: '/create/:mumId',
 			templateUrl: 'public/views/mumshoppe/create/index.html',

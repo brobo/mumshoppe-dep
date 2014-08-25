@@ -1,0 +1,7 @@
+<nav class="off-canvas__nav">
+	<label for="Name">Customer Name</label>
+	<input type="text" class="form-control" ng-model="criteria.CustomerName">
+	<label for="Year">Year</label>
+	<select class="form-control" ng-model="criteria.Year" ng-options="year.value as year.label for year in years"></select>
+	<button class="btn btn-default" ng-click="search()">Search</button>
+</nav>

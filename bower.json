@@ -20,6 +20,7 @@
     "angular-bootstrap": "latest",
     "angular-breadcrumb": "latest",
     "angular-cookies": "latest",
+    "angular-off-canvas": "latest",
     "angular-promise-tracker": "latest",
     "angular-route": "latest",
     "angular-ui-router": "latest"

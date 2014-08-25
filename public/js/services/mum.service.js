@@ -7,7 +7,7 @@ angular.module('mum.service', [])
 				});
 			},
 			get: function(criteria) {
-				return $http.get('/mums/api/mum', criteria);
+				return $http.get('/mums/api/mum', {params: criteria});
 			},
 			update: function(mumId, mumData) {
 				return $http.put('/mums/api/mum/' + mumId, mumData);
