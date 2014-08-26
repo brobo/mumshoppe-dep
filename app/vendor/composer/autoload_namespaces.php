@@ -15,5 +15,6 @@ return array(
     'Slim' => array($vendorDir . '/slim/slim'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),
     'Propel' => array($vendorDir . '/propel/propel/src'),
+    'PayPal' => array($vendorDir . '/paypal/sdk-core-php/lib', $vendorDir . '/paypal/rest-api-sdk-php/lib'),
     'League\\OAuth2\\Server' => array($vendorDir . '/league/oauth2-server/src'),
 );

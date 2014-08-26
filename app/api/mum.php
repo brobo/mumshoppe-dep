@@ -61,6 +61,17 @@
 		echo json_encode($mum->getFull());
 	});
 
+	$app->put('/api/mum/:mumId/status', function($mumId) use ($app) {
+		$mum = MumQuery::create()->findPK($mumId);
+
+		if (!$mum) return;
+
+		$mum->setStatusId($app->request->put('StatusId'));
+
+		$mum->save();
+		echo json_encode($mum->getFull());
+	});
+
 	$app->post('/api/mum/:mumId/trinket', function($mumId) use ($app) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;

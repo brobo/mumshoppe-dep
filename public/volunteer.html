@@ -26,6 +26,7 @@
 	<script type="text/javascript" src="public/js/controllers/accentbows.controller.js"></script>
 	<script type="text/javascript" src="public/js/controllers/alerts.controller.js"></script>
 	<script type="text/javascript" src="public/js/controllers/bears.controller.js"></script>
+	<script type="text/javascript" src="public/js/controllers/configure.controller.js"></script>
 	<script type="text/javascript" src="public/js/controllers/confirm.controller.js"></script>
 	<script type="text/javascript" src="public/js/controllers/letters.controller.js"></script>
 	<script type="text/javascript" src="public/js/controllers/mums.volunteer.controller.js"></script>
@@ -37,6 +38,19 @@
 </head>
 <body ng-app="volunteer">
 	<div class="off-canvas__content off-canvas__container">
+		<div class="navbar navbar-default">
+			<div class="navbar-header">
+				<span class="navbar-brand">Welcome to the MumShoppe!</span>
+			</div>
+			<div class="navbar-collapse collapse navbar-responsive-collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a>Welcome, {{volunteer.Name}}!</a></li>
+					<li><a ui-sref="mums.all">View Mums</a></li>
+					<li><a ui-sref="configure">Configure</a></li>
+					<li><a ui-sref="home.logout">Logout</a></li>
+				</ul>
+			</div>
+		</div>
 		<div ng-controller="AlertsController">
 			<div ng-repeat="alert in alerts">
 				<alert type="{{alert.type}}" class="alert" ng-click="closeAlert(alert)">

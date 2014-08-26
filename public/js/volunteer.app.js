@@ -7,6 +7,7 @@ var app = angular.module('volunteer', [
 	'accentbows.controller',
 	'alerts.controller',
 	'bears.controller',
+	'configure.controller',
 	'confirm.controller',
 	'letters.controller',
 	'mums.volunteer.controller',
@@ -33,12 +34,17 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 			templateUrl: 'public/views/volunteer/accentbows/index.html',
 			controller: 'accentbowsController'
 		})
-		.state('bears', {
+		.state('configure', {
+			url: '/configure',
+			templateUrl: 'public/views/volunteer/configure/index.html',
+			controller: 'configureController'
+		})
+		.state('configure.bears', {
 			url: '/bears',
 			templateUrl: 'public/views/volunteer/bears/index.html',
 			controller: 'bearsController'
 		})
-		.state('letters', {
+		.state('configure.letters', {
 			url: '/letters',
 			templateUrl: 'public/views/volunteer/letters/index.html',
 			controller: 'lettersController'
@@ -59,13 +65,13 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 			templateUrl: 'public/views/volunteer/mums/view.html',
 			controller: 'mumsViewController'
 		})
-		.state('mumtypes', {
+		.state('configure.mumtypes', {
 			url: '/mumtypes',
 			templateUrl: 'public/views/volunteer/mumtypes/index.html',
 			controller: 'mumtypesController',
 			abstract: true
 		})
-		.state('mumtypes.grade', {
+		.state('configure.mumtypes.grade', {
 			url: '',
 			templateUrl: 'public/views/volunteer/mumtypes/grade.html',
 			controller: 'mumtypesItemsController',
@@ -77,12 +83,9 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 						fetch: []
 					};
 				}
-			},
-			data: {
-				ncyBreadcrumbLabel: 'Home'
 			}
 		})
-		.state('mumtypes.product', {
+		.state('configure.mumtypes.product', {
 			url: '/:gradeId',
 			templateUrl: 'public/views/volunteer/mumtypes/product.html',
 			controller: 'mumtypesItemsController',
@@ -101,13 +104,9 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 						]
 					};
 				}
-			},
-			data: {
-				ncyBreadcrumbParent: 'mumtypes.grade',
-				ncyBreadcrumbLabel: '{{grade.Name}}'
 			}
 		})
-		.state('mumtypes.size', {
+		.state('configure.mumtypes.size', {
 			url: '/:gradeId/:productId',
 			templateUrl: 'public/views/volunteer/mumtypes/size.html',
 			controller: 'mumtypesItemsController',
@@ -132,13 +131,9 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 						]
 					};
 				}
-			},
-			data: {
-				ncyBreadcrumbParent: 'mumtypes.product',
-				ncyBreadcrumbLabel: '{{product.Name}}'
 			}
 		})
-		.state('mumtypes.backing', {
+		.state('configure.mumtypes.backing', {
 			url: '/:gradeId/:productId/:sizeId',
 			templateUrl: 'public/views/volunteer/mumtypes/backing.html',
 			controller: 'mumtypesItemsController',
@@ -169,29 +164,25 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 						]
 					}
 				}
-			},
-			data: {
-				ncyBreadcrumbParent: 'mumtypes.size',
-				ncyBreadcrumbLabel: '{{size.Name}}'
 			}
 		})
 
-		.state('trinkets', {
+		.state('configure.trinkets', {
 			url: '/trinkets',
 			template: '<ui-view />',
 			abstract: true
 		})
-		.state('trinkets.all', {
+		.state('configure.trinkets.all', {
 			url: '',
 			templateUrl: 'public/views/volunteer/trinkets/all.html',
 			controller: 'trinketsAllController'
 		})
-		.state('trinkets.add', {
+		.state('configure.trinkets.add', {
 			url: '/add',
 			templateUrl: 'public/views/volunteer/trinkets/edit.html',
 			controller: 'trinketsAddController'
 		})
-		.state('trinkets.edit', {
+		.state('configure.trinkets.edit', {
 			url: '/edit/:trinketId',
 			templateUrl: 'public/views/volunteer/trinkets/edit.html',
 			controller: 'trinketsEditController'

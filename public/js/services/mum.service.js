@@ -18,6 +18,9 @@ angular.module('mum.service', [])
 			delete: function(id) {
 				return $http.delete('/mums/api/mum/' + id);
 			},
+			setStatus: function(mumId, statusId) {
+				return $http.put('/mums/api/mum/' + mumId + '/status', {StatusId: statusId});
+			},
 			addBear: function(mumId, bearId) {
 				return $http.put('/mums/api/mum/' + mumId + '/bear/' + bearId);
 			},

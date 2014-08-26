@@ -38,6 +38,54 @@ angular.module('mums.volunteer.controller', [])
 		}
 	})
 
+	.controller('mumsViewController', function($scope, $state, $stateParams, promiseTracker, MumService, LettersService) {
+		var updateMum = function() {
+			return MumService.fetch($stateParams.mumId)
+				.success(function(data) {
+					$scope.mum = data;
+				});
+		}
+
+		$scope.letters = {};
+		$scope.bearTotal = 0;
+		$scope.trinketTotal = 0;
+		$scope.statuses = ["", "Designed", "Ordered", "Name ribbons made", "Bagged", "Assembled", "Quality controlled", "Devilvered"];
+		$scope.forwardTracker = promiseTracker();
+		$scope.backTracker = promiseTracker();
+		updateMum()
+			.success(function() {
+				for (var i=0; i<$scope.mum.Bears.length; i++) {
+					$scope.bearTotal += parseFloat($scope.mum.Bears[i].Price);
+				}
+				for (var i=0; i<$scope.mum.Trinkets.length; i++) {
+					$scope.trinketTotal += parseFloat($scope.mum.Trinkets[i].Trinket.Price * $scope.mum.Trinkets[i].Quantity);
+				}
+			});
+		LettersService.get()
+			.success(function(data) {
+				for (var i=0; i<data.length; i++) {
+					$scope.letters[data[i].Id] = data[i];
+				}
+			});
+		$scope.$parent.next = function() {
+			AlertsService.add('info', 'There isn\'t actually a checkout page yet. Sorry.');
+		}
+
+		$scope.$parent.back = function() {
+			$state.go('^.trinkets');
+		}
+
+		$scope.setStatus = function(statusId, tracker) {
+			var defered = tracker.createPromise();
+			MumService.setStatus($stateParams.mumId, statusId)
+				.success(function(data) {
+					$scope.mum = data;
+				}).finally(function() {
+					defered.resolve();
+				});
+		}
+	})
+
 	.factory('SearchService', function(cnOffCanvas, MumService) {
 		var service;
 		return service = {

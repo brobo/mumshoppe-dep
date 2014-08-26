@@ -1,3 +1,9 @@
+<ul class="breadcrumb">
+	<li>{{grade.Name}}</li>
+	<li>{{product.Name}}</li>
+	<li>{{size.Name}}</li>
+	<li>Backing</li>
+</ul>
 <h2>Backing</h2>
 <div class="list-group">
 	<div ng-repeat="backing in items | filter:{GradeId:grade.Id, SizeId:size.Id}" class="row">
