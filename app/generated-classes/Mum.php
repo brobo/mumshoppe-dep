@@ -47,7 +47,9 @@ class Mum extends BaseMum
 
 		for ($i = 0; $i < count($res['Trinkets']); $i++) {
 			$res['Trinkets'][$i]['Trinket'] = 
-				TrinketQuery::create()->findPK($res['Trinkets'][$i]['TrinketId'])->toArray();
+				TrinketQuery::create()
+					->select(array('Id', 'Name', 'Underclassman', 'Junior', 'Senior', 'Price', 'CategoryId'))
+					->findPK($res['Trinkets'][$i]['TrinketId']);
 		}
 
 		$res['Letter1'] = $res['Mum']['Letter1Id']

@@ -26,6 +26,18 @@ angular.module('trinkets.service', [])
 				delete: function(id) {
 					return $http.delete('/mums/api/category/' + id);
 				}
+			},
+			image: {
+				upload: function(id, images) {
+					var fd = new FormData();
+					fd.append("image", images[0]);
+
+					return $http.post('/mums/api/trinket/' + id + '/image', fd, {
+						withCredentials: true,
+						headers: {'Content-Type': undefined},
+						transformRequest: angular.identity
+					});
+				}
 			}
 		}
 	});

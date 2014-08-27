@@ -57,12 +57,12 @@ class TrinketTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 7;
+    const NUM_COLUMNS = 9;
 
     /**
      * The number of lazy-loaded columns
      */
-    const NUM_LAZY_LOAD_COLUMNS = 0;
+    const NUM_LAZY_LOAD_COLUMNS = 2;
 
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
@@ -105,6 +105,16 @@ class TrinketTableMap extends TableMap
     const CATEGORY_ID = 'trinket.CATEGORY_ID';
 
     /**
+     * the column name for the IMAGE field
+     */
+    const IMAGE = 'trinket.IMAGE';
+
+    /**
+     * the column name for the IMAGE_MIME field
+     */
+    const IMAGE_MIME = 'trinket.IMAGE_MIME';
+
+    /**
      * The default string format for model objects of the related table
      */
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -116,12 +126,12 @@ class TrinketTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Name', 'Underclassman', 'Junior', 'Senior', 'Price', 'CategoryId', ),
-        self::TYPE_STUDLYPHPNAME => array('id', 'name', 'underclassman', 'junior', 'senior', 'price', 'categoryId', ),
-        self::TYPE_COLNAME       => array(TrinketTableMap::ID, TrinketTableMap::NAME, TrinketTableMap::UNDERCLASSMAN, TrinketTableMap::JUNIOR, TrinketTableMap::SENIOR, TrinketTableMap::PRICE, TrinketTableMap::CATEGORY_ID, ),
-        self::TYPE_RAW_COLNAME   => array('ID', 'NAME', 'UNDERCLASSMAN', 'JUNIOR', 'SENIOR', 'PRICE', 'CATEGORY_ID', ),
-        self::TYPE_FIELDNAME     => array('id', 'name', 'underclassman', 'junior', 'senior', 'price', 'category_id', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, )
+        self::TYPE_PHPNAME       => array('Id', 'Name', 'Underclassman', 'Junior', 'Senior', 'Price', 'CategoryId', 'Image', 'ImageMime', ),
+        self::TYPE_STUDLYPHPNAME => array('id', 'name', 'underclassman', 'junior', 'senior', 'price', 'categoryId', 'image', 'imageMime', ),
+        self::TYPE_COLNAME       => array(TrinketTableMap::ID, TrinketTableMap::NAME, TrinketTableMap::UNDERCLASSMAN, TrinketTableMap::JUNIOR, TrinketTableMap::SENIOR, TrinketTableMap::PRICE, TrinketTableMap::CATEGORY_ID, TrinketTableMap::IMAGE, TrinketTableMap::IMAGE_MIME, ),
+        self::TYPE_RAW_COLNAME   => array('ID', 'NAME', 'UNDERCLASSMAN', 'JUNIOR', 'SENIOR', 'PRICE', 'CATEGORY_ID', 'IMAGE', 'IMAGE_MIME', ),
+        self::TYPE_FIELDNAME     => array('id', 'name', 'underclassman', 'junior', 'senior', 'price', 'category_id', 'image', 'image_mime', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, )
     );
 
     /**
@@ -131,12 +141,12 @@ class TrinketTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Name' => 1, 'Underclassman' => 2, 'Junior' => 3, 'Senior' => 4, 'Price' => 5, 'CategoryId' => 6, ),
-        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'name' => 1, 'underclassman' => 2, 'junior' => 3, 'senior' => 4, 'price' => 5, 'categoryId' => 6, ),
-        self::TYPE_COLNAME       => array(TrinketTableMap::ID => 0, TrinketTableMap::NAME => 1, TrinketTableMap::UNDERCLASSMAN => 2, TrinketTableMap::JUNIOR => 3, TrinketTableMap::SENIOR => 4, TrinketTableMap::PRICE => 5, TrinketTableMap::CATEGORY_ID => 6, ),
-        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'NAME' => 1, 'UNDERCLASSMAN' => 2, 'JUNIOR' => 3, 'SENIOR' => 4, 'PRICE' => 5, 'CATEGORY_ID' => 6, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'name' => 1, 'underclassman' => 2, 'junior' => 3, 'senior' => 4, 'price' => 5, 'category_id' => 6, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Name' => 1, 'Underclassman' => 2, 'Junior' => 3, 'Senior' => 4, 'Price' => 5, 'CategoryId' => 6, 'Image' => 7, 'ImageMime' => 8, ),
+        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'name' => 1, 'underclassman' => 2, 'junior' => 3, 'senior' => 4, 'price' => 5, 'categoryId' => 6, 'image' => 7, 'imageMime' => 8, ),
+        self::TYPE_COLNAME       => array(TrinketTableMap::ID => 0, TrinketTableMap::NAME => 1, TrinketTableMap::UNDERCLASSMAN => 2, TrinketTableMap::JUNIOR => 3, TrinketTableMap::SENIOR => 4, TrinketTableMap::PRICE => 5, TrinketTableMap::CATEGORY_ID => 6, TrinketTableMap::IMAGE => 7, TrinketTableMap::IMAGE_MIME => 8, ),
+        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'NAME' => 1, 'UNDERCLASSMAN' => 2, 'JUNIOR' => 3, 'SENIOR' => 4, 'PRICE' => 5, 'CATEGORY_ID' => 6, 'IMAGE' => 7, 'IMAGE_MIME' => 8, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'name' => 1, 'underclassman' => 2, 'junior' => 3, 'senior' => 4, 'price' => 5, 'category_id' => 6, 'image' => 7, 'image_mime' => 8, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, )
     );
 
     /**
@@ -162,6 +172,8 @@ class TrinketTableMap extends TableMap
         $this->addColumn('SENIOR', 'Senior', 'BOOLEAN', true, 1, false);
         $this->addColumn('PRICE', 'Price', 'DECIMAL', true, 10, null);
         $this->addForeignKey('CATEGORY_ID', 'CategoryId', 'INTEGER', 'trinket_category', 'ID', false, null, null);
+        $this->addColumn('IMAGE', 'Image', 'BLOB', false, null, null);
+        $this->addColumn('IMAGE_MIME', 'ImageMime', 'VARCHAR', false, 31, null);
     } // initialize()
 
     /**

@@ -28,6 +28,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildTrinketQuery orderBySenior($order = Criteria::ASC) Order by the senior column
  * @method     ChildTrinketQuery orderByPrice($order = Criteria::ASC) Order by the price column
  * @method     ChildTrinketQuery orderByCategoryId($order = Criteria::ASC) Order by the category_id column
+ * @method     ChildTrinketQuery orderByImage($order = Criteria::ASC) Order by the image column
+ * @method     ChildTrinketQuery orderByImageMime($order = Criteria::ASC) Order by the image_mime column
  *
  * @method     ChildTrinketQuery groupById() Group by the id column
  * @method     ChildTrinketQuery groupByName() Group by the name column
@@ -36,6 +38,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildTrinketQuery groupBySenior() Group by the senior column
  * @method     ChildTrinketQuery groupByPrice() Group by the price column
  * @method     ChildTrinketQuery groupByCategoryId() Group by the category_id column
+ * @method     ChildTrinketQuery groupByImage() Group by the image column
+ * @method     ChildTrinketQuery groupByImageMime() Group by the image_mime column
  *
  * @method     ChildTrinketQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildTrinketQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -59,6 +63,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildTrinket findOneBySenior(boolean $senior) Return the first ChildTrinket filtered by the senior column
  * @method     ChildTrinket findOneByPrice(string $price) Return the first ChildTrinket filtered by the price column
  * @method     ChildTrinket findOneByCategoryId(int $category_id) Return the first ChildTrinket filtered by the category_id column
+ * @method     ChildTrinket findOneByImage(resource $image) Return the first ChildTrinket filtered by the image column
+ * @method     ChildTrinket findOneByImageMime(string $image_mime) Return the first ChildTrinket filtered by the image_mime column
  *
  * @method     array findById(int $id) Return ChildTrinket objects filtered by the id column
  * @method     array findByName(string $name) Return ChildTrinket objects filtered by the name column
@@ -67,6 +73,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     array findBySenior(boolean $senior) Return ChildTrinket objects filtered by the senior column
  * @method     array findByPrice(string $price) Return ChildTrinket objects filtered by the price column
  * @method     array findByCategoryId(int $category_id) Return ChildTrinket objects filtered by the category_id column
+ * @method     array findByImage(resource $image) Return ChildTrinket objects filtered by the image column
+ * @method     array findByImageMime(string $image_mime) Return ChildTrinket objects filtered by the image_mime column
  *
  */
 abstract class TrinketQuery extends ModelCriteria
@@ -477,6 +485,49 @@ abstract class TrinketQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(TrinketTableMap::CATEGORY_ID, $categoryId, $comparison);
+    }
+
+    /**
+     * Filter the query on the image column
+     *
+     * @param     mixed $image The value to use as filter
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildTrinketQuery The current query, for fluid interface
+     */
+    public function filterByImage($image = null, $comparison = null)
+    {
+
+        return $this->addUsingAlias(TrinketTableMap::IMAGE, $image, $comparison);
+    }
+
+    /**
+     * Filter the query on the image_mime column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByImageMime('fooValue');   // WHERE image_mime = 'fooValue'
+     * $query->filterByImageMime('%fooValue%'); // WHERE image_mime LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $imageMime The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildTrinketQuery The current query, for fluid interface
+     */
+    public function filterByImageMime($imageMime = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($imageMime)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $imageMime)) {
+                $imageMime = str_replace('*', '%', $imageMime);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(TrinketTableMap::IMAGE_MIME, $imageMime, $comparison);
     }
 
     /**

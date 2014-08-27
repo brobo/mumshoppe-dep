@@ -103,6 +103,8 @@ CREATE TABLE `trinket`
     `senior` TINYINT(1) DEFAULT 0 NOT NULL,
     `price` DECIMAL(10,2) NOT NULL,
     `category_id` INTEGER,
+    `image` BLOB,
+    `image_mime` VARCHAR(31),
     PRIMARY KEY (`id`),
     INDEX `trinket_FI_1` (`category_id`),
     CONSTRAINT `trinket_FK_1`

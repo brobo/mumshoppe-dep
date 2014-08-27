@@ -8,6 +8,8 @@
 <div class="list-item-group">
 	<div class="list-group-item" ng-repeat="trinket in trinkets | filter:gradePredicate | filter: (filterOn ? {CategoryId: categorySelect} : {})">
 		<div class="row">
+			<img class="col-lg-1" src='/mums/api/trinket/{{trinket.Id}}/image' ng-show="trinket.HasImage" />
+			<div class="col-lg-1" ng-show="!trinket.HasImage"></div>
 			<h4 class="col-lg-3">
 				{{trinket.Name}}
 				<small>({{trinket.Price | currency}} each)</small>

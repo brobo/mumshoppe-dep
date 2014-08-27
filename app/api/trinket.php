@@ -8,6 +8,7 @@
 			"Junior" => $trinket->getJunior(),
 			"Senior" => $trinket->getSenior(),
 			"Price" => $trinket->getPrice(),
+			"HasImage" => $trinket->getImageMime() !== "",
 			"CategoryId" => $trinket->getCategoryId(),
 			"TrinketCategory" => $trinket->getTrinketCategory()->toArray()
 		);
@@ -68,6 +69,34 @@
 		$trinket->delete();
 		
 		echo json_encode($encodeTrinket($trinket));
+	});
+
+	$app->post('/api/trinket/:id/image', function($id) {
+		$trinket = TrinketQuery::create()->findPK($id);
+		if (!$trinket) return;
+
+		$content = file_get_contents($_FILES['image']['tmp_name']);
+		$trinket->setImage($content);
+		$trinket->setImageMime($_FILES['image']['type']);
+
+		$trinket->save();
+		echo json_encode(array('message' => 'Success!'));
+	});
+
+	$app->get('/api/trinket/:id/image', function($id) use ($app) {
+		$app->response->header('Content-Type', 'content-type: image/jpg');
+
+		$trinket = TrinketQuery::create()->findPK($id);
+		if (!$trinket) return;
+
+		$fp = $trinket->getImage();
+
+		$res = $app->response();
+		if ($fp !== null) {
+			$content = stream_get_contents($fp, -1, 0);
+			$res->header('Content-Type', 'content-type: ' . $trinket->getImageMime());
+			echo $content;
+		}
 	});
 
 ?>

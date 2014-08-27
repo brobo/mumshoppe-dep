@@ -51,6 +51,8 @@
 		<column name="senior" type="boolean" required="true" defaultValue="false" />
 		<column name="price" type="decimal" size="10" scale="2" required="true" />
 		<column name="category_id" type="integer" />
+		<column name="image" type="blob" lazyLoad="true" />
+		<column name="image_mime" type="varchar" size="31" lazyLoad="true" />
 		<foreign-key foreignTable="trinket_category" phpName="TrinketCategory" refPhpName="Trinket">
 			<reference local="category_id" foreign="id" />
 		</foreign-key>

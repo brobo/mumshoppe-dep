@@ -1,5 +1,5 @@
 angular.module('trinketsAll.controller', [])
-	.controller('trinketsAllController', function($scope, $state, $http, AlertsService, ConfirmService, TrinketsService) {
+	.controller('trinketsAllController', function($scope, $state, $http, $modal, AlertsService, ConfirmService, TrinketsService) {
 		
 		function updateTrinketList() {
 			TrinketsService.get().success(function(data) {
@@ -15,6 +15,19 @@ angular.module('trinketsAll.controller', [])
 
 		$scope.editTrinket = function(id) {
 			$state.go('^.edit', { trinketId: id});
+		}
+
+		$scope.imageTrinket = function(id) {
+			$modal.open({
+				templateUrl: 'imageForm',
+				controller: 'imageTrinketController',
+				size: 'lg',
+				resolve: {
+					id: function() {
+						return id;
+					}
+				}
+			});
 		}
 
 		$scope.deleteTrinket = function(trinket) {
@@ -36,4 +49,26 @@ angular.module('trinketsAll.controller', [])
 			});
 		}
 
+	})
+
+	.controller('imageTrinketController', function($scope, $modalInstance, AlertsService, TrinketsService, promiseTracker, id) {
+		$scope.tracker = promiseTracker();
+		$scope.id = id;
+		$scope.cancel = function() {
+			$modalInstance.dismiss();
+		}
+
+		$scope.uploadFile = function(files) {
+			var defered = $scope.tracker.createPromise();
+			TrinketsService.image.upload(id, files)
+				.success(function(data) {
+					AlertsService.add('success', 'Successfully added image.');
+				}).error(function(data) {
+					AlertsService.add('danger', 'Something went wrong. Please try again.');
+					console.log(data);
+				}).finally(function() {
+					$modalInstance.close();
+					defered.resolve();
+				});
+		}
 	});
