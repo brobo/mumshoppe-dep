@@ -45,6 +45,7 @@
 	require('app/api/product.php');
 	require('app/api/size.php');
 	require('app/api/trinket.php');
+	require('app/api/volunteer.php');
 
 	$app->run();
 ?>

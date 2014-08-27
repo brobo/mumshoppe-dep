@@ -2,6 +2,7 @@ var app = angular.module('volunteer', [
 	'ajoslin.promise-tracker',
 	'cn.offCanvas',
 	'ncy-angular-breadcrumb',
+	'ngCookies',
 	'ui.bootstrap',
 	'ui.router',
 	'accentbows.controller',
@@ -9,6 +10,7 @@ var app = angular.module('volunteer', [
 	'bears.controller',
 	'configure.controller',
 	'confirm.controller',
+	'home.volunteer.controller',
 	'letters.controller',
 	'mums.volunteer.controller',
 	'mumtypes.controller',
@@ -22,22 +24,36 @@ var app = angular.module('volunteer', [
 	'letters.service',
 	'mum.service',
 	'mumtypes.service',
-	'trinkets.service']);
+	'trinkets.service',
+	'volunteer.service']);
 
 app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 
-	$urlRouterProvider.otherwise('/trinkets');
+	$urlRouterProvider.otherwise('/mums');
 
 	$stateProvider
-		.state('accentbows', {
-			url: '/accentbows',
-			templateUrl: 'public/views/volunteer/accentbows/index.html',
-			controller: 'accentbowsController'
+		.state('home', {
+			url: '/home',
+			templateUrl: 'public/views/volunteer/home/index.html',
+			controller: 'homeController'
+		})
+		.state('home.logout', {
+			url: '/logout',
+			onEnter: function($cookieStore, $rootScope, $state) {
+				$cookieStore.remove('volunteerToken');
+				$rootScope.updateHeader();
+				$state.go('home');
+			}
 		})
 		.state('configure', {
 			url: '/configure',
 			templateUrl: 'public/views/volunteer/configure/index.html',
 			controller: 'configureController'
+		})
+		.state('configure.accentbows', {
+			url: '/accentbows',
+			templateUrl: 'public/views/volunteer/accentbows/index.html',
+			controller: 'accentbowsController'
 		})
 		.state('configure.bears', {
 			url: '/bears',
@@ -224,6 +240,13 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 	//PHP does not play nice with this feature. It's no big deal.
 	//$locationProvider.html5Mode(true);
 
+});
+
+app.controller('headerController', function($rootScope, $cookieStore) {
+	$rootScope.updateHeader = function() {
+		$rootScope.volunteer = $cookieStore.get('volunteerToken');
+	};
+	$rootScope.updateHeader();
 });
 
 //This filter is used to convert MySQL datetimes into AngularJS a readable ISO format.

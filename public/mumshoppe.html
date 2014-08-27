@@ -31,6 +31,18 @@
 	
 </head>
 <body ng-app="mumshoppe">
+	<div class="navbar navbar-default" ng-controller="headerController">
+		<div class="navbar-header">
+			<span class="navbar-brand">Welcome to the MumShoppe!</span>
+		</div>
+		<div class="navbar-collapse collapse navbar-responsive-collapse">
+			<ul class="nav navbar-nav navbar-right ng-hide" ng-show="customer">
+				<li><a>Welcome, {{customer.Name}}!</a></li>
+				<li><a ui-sref="mums.all">Your Mums</a></li>
+				<li><a ui-sref="home.logout">Logout</a></li>
+			</ul>
+		</div>
+	</div>
 	<div ng-controller="AlertsController">
 		<div ng-repeat="alert in alerts">
 			<alert type="{{alert.type}}" class="alert" ng-click="closeAlert(alert)">

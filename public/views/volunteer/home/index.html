@@ -1,12 +1,12 @@
-<h1 class="text-center">Welcome to the Mum Shoppe!</h1>
+<h1 class="text-center">Welcome, Mum Shoppe Volunteer!</h1>
 <tabset>
 	<tab heading="Register">
-		<form name="customerForm" ng-submit="register(customerForm)" novalidate>
+		<form name="volunteerForm" ng-submit="register(volunteerForm)" ng-init="setForm(this)" novalidate>
 			<div class="form-group" ng-class="{'has-error': invalid.Email || invalid.duplicateEmail}">
 				<label for="Email">Email</label>
 				<div class="input-group">
 					<div class="input-group-addon">@</div>
-					<input type="email" class="form-control" name="Email" ng-model="customer.Email" ng-maxlength="64" ng-blur="validate(customerForm, 'Email'); verifyEmail()" required>
+					<input type="email" class="form-control" name="Email" ng-model="volunteer.Email" ng-maxlength="64" ng-blur="validate(volunteerForm, 'Email'); verifyEmail()" required>
 					<p ng-show="invalid.Email" class="text-danger">Please enter a valid email address.</p>
 					<p ng-show="invalid.duplicateEmail" class="text-danger">That email address has already been used.</p>
 				</div>
@@ -15,14 +15,14 @@
 				<label for="Password">Password</label>
 				<div class="input-group">
 					<div class="input-group-addon"><i class="fa fa-question"></i></div>
-					<input type="password" class="form-control" name="Password" ng-model="customer.Password" ng-minlength="5" ng-change="validate(customerForm, 'Password'); verifyPasswords()" required>
+					<input type="password" class="form-control" name="Password" ng-model="volunteer.Password" ng-minlength="5" ng-blur="validate(volunteerForm, 'Password'); verifyPasswords()" required>
 				</div>
 			</div>
 			<div class="form-group" ng-class="{'has-error': invalid.confirmPassword || invalid.mismatchPasswords}">
 				<label for="confirmPassword">Confirm Password</label>
 				<div class="input-group">
 					<div class="input-group-addon"><i class="fa fa-question"></i></div>
-					<input type="password" class="form-control" name="confirmPassword" ng-model="confirmPassword.value" ng-change="validate(customerForm, 'confirmPassword'); verifyPasswords()" required>
+					<input type="password" class="form-control" name="confirmPassword" ng-model="confirmPassword.value" ng-blur="validate(volunteerForm, 'confirmPassword'); verifyPasswords()" required>
 					<p ng-show="invalid.mismatchPasswords" class="text-danger">The passwords that you entered do not match.</p>
 				</div>
 			</div>
@@ -30,17 +30,17 @@
 				<label for="Name">Name</label>
 				<div class="input-group">
 					<div class="input-group-addon"><i class="fa fa-user"></i></div>
-					<input type="text" class="form-control" name="Name" ng-model="customer.Name" ng-maxlength="64" ng-blur="validate(customerForm, 'Name')" required>			
+					<input type="text" class="form-control" name="Name" ng-model="volunteer.Name" ng-maxlength="64" ng-blur="validate(volunteerForm, 'Name')" required>			
 				</div>
 			</div>
 			<div class="form-group" ng-class="{'has-error': invalid.Phone}">
 				<label for="Phone">Phone Number</label>
 				<div class="input-group">
 					<div class="input-group-addon"><i class="fa fa-phone"></i></div>
-					<input type="text" class="form-control" name="Phone" ng-model="customer.Phone" ng-blur="validate(customerForm, 'Phone')" ng-pattern="REGEX_PHONE">
+					<input type="text" class="form-control" name="Phone" ng-model="volunteer.Phone" ng-blur="validate(volunteerForm, 'Phone')" ng-pattern="REGEX_PHONE">
 				</div>
 			</div>
-			<button type="submit" class="btn btn-success col-xs-2 col-xs-offset-5" ng-disabled="customerForm.$invalid || invalid.mismatchPasswords || invalid.duplicateEmail">
+			<button type="submit" class="btn btn-success col-xs-2 col-xs-offset-5" ng-disabled="volunteerForm.$invalid || invalid.mismatchPasswords || invalid.duplicateEmail">
 				<i class="fa fa-long-arrow-right fa-2x"></i></button>
 		</form>
 	</tab>
@@ -50,14 +50,14 @@
 				<label for="Email">Email</label>
 				<div class="input-group">
 					<div class="input-group-addon">@</div>
-					<input type="email" class="form-control" name="Email" ng-model="customer.Email" required>
+					<input type="email" class="form-control" name="Email" ng-model="volunteer.Email" required>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="Password">Password</label>
 				<div class="input-group">
 					<div class="input-group-addon"><i class="fa fa-question"></i></div>
-					<input type="password" class="form-control" name="Password" ng-model="customer.Password" required>
+					<input type="password" class="form-control" name="Password" ng-model="volunteer.Password" required>
 				</div>
 			</div>
 			<button type="submit" class="btn btn-success col-xs-2 col-xs-offset-5" ng-disabled="loginForm.$invalid"><i class="fa fa-long-arrow-right fa-2x"></i></button>

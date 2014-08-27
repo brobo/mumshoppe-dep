@@ -29,17 +29,15 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 		})
 		.state('home.logout', {
 			url: '/logout',
-			onEnter: function($cookieStore, $state) {
-				$cookieStore.remove('customer');
+			onEnter: function($cookieStore, $rootScope, $state) {
+				$cookieStore.remove('customerToken');
+				$rootScope.updateHeader();
 				$state.go('home');
 			}
 		})
 		.state('mums', {
 			url: '/mums',
 			templateUrl: 'public/views/mumshoppe/mums/index.html',
-			controller: function($scope, $cookieStore) {
-				$scope.customer = $cookieStore.get('customer');
-			},
 			abstract: true
 		})
 		.state('mums.all', {
@@ -150,6 +148,13 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 	//$locationProvider.html5Mode(true);
 
 });
+
+app.controller('headerController', function($scope, $rootScope, $cookieStore) {
+	$rootScope.updateHeader = function() {
+		$rootScope.customer = $cookieStore.get('customerToken');
+	}
+	$rootScope.updateHeader();
+})
 
 //This filter is used to convert MySQL datetimes into AngularJS a readable ISO format.
 app.filter('dateToISO', function() {

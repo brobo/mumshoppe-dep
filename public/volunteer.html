@@ -9,6 +9,7 @@
 	<script type="text/javascript" src="public/libs/angular/angular.js"></script>
 	<script type="text/javascript" src="public/libs/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 	<script type="text/javascript" src="public/libs/angular-breadcrumb/release/angular-breadcrumb.js"></script>
+	<script type="text/javascript" src="public/libs/angular-cookies/angular-cookies.js"></script>
 	<script type="text/javascript" src="public/libs/angular-off-canvas/off-canvas.js"></script>
 	<script type="text/javascript" src="public/libs/angular-promise-tracker/promise-tracker.js"></script>
 	<script type="text/javascript" src="public/libs/angular-ui-router/release/angular-ui-router.js"></script>
@@ -23,6 +24,7 @@
 	<script type="text/javascript" src="public/js/services/mum.service.js"></script>
 	<script type="text/javascript" src="public/js/services/mumtypes.service.js"></script>
 	<script type="text/javascript" src="public/js/services/trinkets.service.js"></script>
+	<script type="text/javascript" src="public/js/services/volunteer.service.js"></script>
 	<script type="text/javascript" src="public/js/controllers/accentbows.controller.js"></script>
 	<script type="text/javascript" src="public/js/controllers/alerts.controller.js"></script>
 	<script type="text/javascript" src="public/js/controllers/bears.controller.js"></script>
@@ -34,19 +36,20 @@
 	<script type="text/javascript" src="public/js/controllers/trinkets_add.controller.js"></script>
 	<script type="text/javascript" src="public/js/controllers/trinkets_all.controller.js"></script>
 	<script type="text/javascript" src="public/js/controllers/trinkets_edit.controller.js"></script>
+	<script type="text/javascript" src="public/js/controllers/home.volunteer.controller.js"></script>
 
 </head>
 <body ng-app="volunteer">
 	<div class="off-canvas__content off-canvas__container">
-		<div class="navbar navbar-default">
+		<div class="navbar navbar-default" ng-controller="headerController">
 			<div class="navbar-header">
 				<span class="navbar-brand">Welcome to the MumShoppe!</span>
 			</div>
 			<div class="navbar-collapse collapse navbar-responsive-collapse">
-				<ul class="nav navbar-nav navbar-right">
+				<ul class="nav navbar-nav navbar-right" ng-show="volunteer">
 					<li><a>Welcome, {{volunteer.Name}}!</a></li>
 					<li><a ui-sref="mums.all">View Mums</a></li>
-					<li><a ui-sref="configure">Configure</a></li>
+					<li><a ui-sref="configure.trinkets.all">Configure</a></li>
 					<li><a ui-sref="home.logout">Logout</a></li>
 				</ul>
 			</div>

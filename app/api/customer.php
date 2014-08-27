@@ -24,7 +24,8 @@
 		if (password_verify($password, $customer->getPassword())) {
 			$token = array(
 				'Email' => $customer->getEmail(),
-				'Id' => $customer->getId()
+				'Id' => $customer->getId(),
+				'Type' => 'Customer'
 			);
 			$jwt = JWT::encode($token, JWTKEY);
 			echo json_encode(array(

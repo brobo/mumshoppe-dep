@@ -7,9 +7,8 @@
 		$oauthCredential = new PayPal\Auth\OAuthTokenCredential(CLIENT_ID, SECRET);
 		$accessToken = $oauthCredential->getAccessToken($paypalSdkConfig);
 
-		print_r($accessToken);
-
-		$apiContext = new PayPal\Rest\ApiContext("Bearer $accessToken", 'Request' . time());
+		// $apiContext = new PayPal\Rest\ApiContext("Bearer $accessToken", 'Request' . time());
+		$apiContext = new PayPal\Rest\ApiContext($oauthCredential);
 		$apiContext->setConfig($paypalSdkConfig);
 
 		$payer = new PayPal\Api\Payer();
@@ -33,11 +32,9 @@
 		$payment->setRedirect_urls($redirectUrls);
 		$payment->setTransactions(array($transaction));
 
-		print_r($apiContext);
+		$response = $payment->create($apiContext);
 
-		$payment->create($apiContext);
-
-		print_r($payment);
+		print_r($response);
 	});
 
 ?>

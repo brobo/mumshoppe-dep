@@ -1,0 +1,48 @@
+<?php
+	$app->post('/api/volunteer', function() use ($app) {
+		$volunteer = new Volunteer();
+
+		$volunteer->setName($app->request->post('Name'));
+		$volunteer->setEmail($app->request->post('Email'));
+		$volunteer->setPassword(password_hash($app->request->post('Password'), PASSWORD_BCRYPT));
+		$volunteer->setPhone($app->request->post('Phone'));
+
+		$volunteer->save();
+
+		$res = array(
+			"Name" => $volunteer->getName(),
+			"Email" => $volunteer->getEmail(),
+			"Phone" => $volunteer->getPhone());
+		echo json_encode($res);
+	});
+
+	$app->post('/api/volunteer/login', function() use ($app) {
+		$email = $app->request->post('Email');
+		$password = $app->request->post('Password');
+
+		$volunteer = VolunteerQuery::create()->filterByEmail($email)->findOne();
+		if (password_verify($password, $volunteer->getPassword())) {
+			$token = array(
+				'Email' => $volunteer->getEmail(),
+				'Id' => $volunteer->getId(),
+				'Type' => 'Volunteer'
+			);
+			$jwt = JWT::encode($token, JWTKEY);
+			echo json_encode(array(
+				'Name' => $volunteer->getName(),
+				'jwt' => $jwt
+			));
+		} else {
+			$app->response->setStatus(401);
+		}
+	});
+
+	$app->post('/api/volunteer/verify', function() use ($app) {
+		$volunteers = VolunteerQuery::create()->filterByEmail($app->request->post('Email'))->count();
+		if ($volunteers > 0) {
+			echo json_encode(array('valid' => false));	
+		} else {
+			echo json_encode(array('valid' => true));
+		}
+	});
+?>

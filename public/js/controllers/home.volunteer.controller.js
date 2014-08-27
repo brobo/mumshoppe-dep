@@ -1,10 +1,10 @@
-angular.module('home.controller', [])
-	.controller('homeController', function($scope, $rootScope, $state, $cookieStore, AlertsService, CustomerService) {
+angular.module('home.volunteer.controller', [])
+	.controller('homeController', function($scope, $rootScope, $state, $cookieStore, AlertsService, VolunteerService) {
 
 		$scope.login = function() {
-			CustomerService.login($scope.customer.Email, $scope.customer.Password)
+			VolunteerService.login($scope.volunteer.Email, $scope.volunteer.Password)
 				.success(function(data) {
-					$cookieStore.put("customerToken", data);
+					$cookieStore.put("volunteerToken", data);
 					AlertsService.add('success', 'Successfully logged in.');
 					$rootScope.updateHeader();
 					$state.go('mums.all');
@@ -14,7 +14,7 @@ angular.module('home.controller', [])
 				});
 		}
 
-		$scope.customer = {};
+		$scope.volunteer = {};
 		$scope.invalid = {};
 		$scope.confirmPassword = {};
 		$scope.REGEX_PHONE = /^(\([0-9]{3}\) |[0-9]{3}[- ]?)[0-9]{3}[- ]?[0-9]{4}$/;
@@ -25,10 +25,10 @@ angular.module('home.controller', [])
 
 		$scope.register = function(form) {
 			if (form.$valid) {
-				CustomerService.register($scope.customer)
+				VolunteerService.register($scope.volunteer)
 					.success(function(data) {
 						AlertsService.add('success', 'Successfully registered! You may now log in.');
-						$state.go('home.login');
+						$scope.volunteer = {};
 					}).error(function(data) {
 						AlertsService.add('danger', 'Something went wrong. Please try again.');
 					});
@@ -36,7 +36,7 @@ angular.module('home.controller', [])
 		}
 
 		$scope.verifyEmail = function() {
-			CustomerService.verifyEmail($scope.customer.Email)
+			VolunteerService.verifyEmail($scope.volunteer.Email)
 				.success(function(data) {
 					if (!data.valid) {
 						$scope.invalid.duplicateEmail = true;
@@ -47,7 +47,7 @@ angular.module('home.controller', [])
 		}
 
 		$scope.verifyPasswords = function() {
-			$scope.invalid.mismatchPasswords = $scope.customer.Password != $scope.confirmPassword.value;
+			$scope.invalid.mismatchPasswords = $scope.volunteer.Password != $scope.confirmPassword.value;
 		}
 
 	});

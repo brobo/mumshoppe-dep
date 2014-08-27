@@ -11,7 +11,7 @@ angular.module('mums.mumshoppe.controller', [])
 		$scope.updateMums();
 
 		$scope.createMum = function() {
-			MumService.create($cookieStore.get('customer').Id)
+			MumService.create($cookieStore.get('customerToken').Id)
 				.success(function(data) {
 					$state.go('create.start', {mumId: data.Mum.Id});
 				}).error(function(data) {

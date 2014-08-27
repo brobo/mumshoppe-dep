@@ -38,6 +38,8 @@ return array(
     'Base\\TrinketCategory' => $baseDir . '/generated-classes/Base/TrinketCategory.php',
     'Base\\TrinketCategoryQuery' => $baseDir . '/generated-classes/Base/TrinketCategoryQuery.php',
     'Base\\TrinketQuery' => $baseDir . '/generated-classes/Base/TrinketQuery.php',
+    'Base\\Volunteer' => $baseDir . '/generated-classes/Base/Volunteer.php',
+    'Base\\VolunteerQuery' => $baseDir . '/generated-classes/Base/VolunteerQuery.php',
     'Bear' => $baseDir . '/generated-classes/Bear.php',
     'BearQuery' => $baseDir . '/generated-classes/BearQuery.php',
     'Customer' => $baseDir . '/generated-classes/Customer.php',
@@ -61,6 +63,7 @@ return array(
     'Map\\StatusTableMap' => $baseDir . '/generated-classes/Map/StatusTableMap.php',
     'Map\\TrinketCategoryTableMap' => $baseDir . '/generated-classes/Map/TrinketCategoryTableMap.php',
     'Map\\TrinketTableMap' => $baseDir . '/generated-classes/Map/TrinketTableMap.php',
+    'Map\\VolunteerTableMap' => $baseDir . '/generated-classes/Map/VolunteerTableMap.php',
     'Mum' => $baseDir . '/generated-classes/Mum.php',
     'MumBear' => $baseDir . '/generated-classes/MumBear.php',
     'MumBearQuery' => $baseDir . '/generated-classes/MumBearQuery.php',
@@ -77,4 +80,6 @@ return array(
     'TrinketCategory' => $baseDir . '/generated-classes/TrinketCategory.php',
     'TrinketCategoryQuery' => $baseDir . '/generated-classes/TrinketCategoryQuery.php',
     'TrinketQuery' => $baseDir . '/generated-classes/TrinketQuery.php',
+    'Volunteer' => $baseDir . '/generated-classes/Volunteer.php',
+    'VolunteerQuery' => $baseDir . '/generated-classes/VolunteerQuery.php',
 );

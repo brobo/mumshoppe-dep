@@ -270,5 +270,21 @@ CREATE TABLE `trinket_category`
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
+-- ---------------------------------------------------------------------
+-- volunteer
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `volunteer`;
+
+CREATE TABLE `volunteer`
+(
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `email` VARCHAR(64),
+    `password` VARCHAR(255) NOT NULL,
+    `name` VARCHAR(64) NOT NULL,
+    `phone` VARCHAR(16),
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
 # This restores the fkey checks, after having unset them earlier
 SET FOREIGN_KEY_CHECKS = 1;

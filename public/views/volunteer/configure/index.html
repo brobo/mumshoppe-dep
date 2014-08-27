@@ -1,6 +1,6 @@
 <h2>Configure the Mum Shoppe!</h2>
 <tabset>
-	<tab ng-repeat="t in tabs" heading="{{t.heading}}" select="go(t)" ng-active="active == t">
+	<tab ng-repeat="t in tabs" heading="{{t.heading}}" ui-sref="{{t.route}}" active="isActive(t)">
 	</tab>
 </tabset>
 <div ui-view></div>

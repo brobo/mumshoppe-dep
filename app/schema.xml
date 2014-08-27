@@ -144,4 +144,11 @@
 		<column name="name" type="varchar" length="32" required="true" />
 	</table>
 
+	<table name="volunteer" phpName="Volunteer">
+		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
+		<column name="email" type="varchar" size="64" />
+		<column name="password" type="varchar" size="255" required="true" />
+		<column name="name" type="varchar" size="64" required="true" />
+		<column name="phone" type="varchar" size="16" />
+	</table>
 </database>
