@@ -81,7 +81,7 @@ angular.module('trinketsEdit.controller', [])
 		}
 
 		$scope.cancel = function() {
-			$modalInstance.close();
+			$modalInstance.dismiss();
 		}
 
 	});

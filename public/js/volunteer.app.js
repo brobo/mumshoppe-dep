@@ -202,7 +202,7 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 		.state('configure.trinkets.add', {
 			url: '/add',
 			templateUrl: 'public/views/volunteer/trinkets/edit.html',
-			controller: 'trinketsAddController'
+			controller: 'trinketsEditController'
 		})
 		.state('configure.trinkets.edit', {
 			url: '/edit/:trinketId',
