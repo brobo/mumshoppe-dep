@@ -38,7 +38,7 @@ angular.module('mums.volunteer.controller', [])
 		}
 	})
 
-	.controller('mumsViewController', function($scope, $state, $stateParams, promiseTracker, MumService, LettersService) {
+	.controller('mumsViewController', function($scope, $state, $stateParams, promiseTracker, MumService, LettersService, PayService) {
 		var updateMum = function() {
 			return MumService.fetch($stateParams.mumId)
 				.success(function(data) {
@@ -52,6 +52,7 @@ angular.module('mums.volunteer.controller', [])
 		$scope.statuses = ["", "Designed", "Ordered", "Name ribbons made", "Bagged", "Assembled", "Quality controlled", "Devilvered"];
 		$scope.forwardTracker = promiseTracker();
 		$scope.backTracker = promiseTracker();
+		$scope.paidTracker = promiseTracker();
 		updateMum()
 			.success(function() {
 				for (var i=0; i<$scope.mum.Bears.length; i++) {
@@ -80,6 +81,16 @@ angular.module('mums.volunteer.controller', [])
 			MumService.setStatus($stateParams.mumId, statusId)
 				.success(function(data) {
 					$scope.mum = data;
+				}).finally(function() {
+					defered.resolve();
+				});
+		}
+
+		$scope.markPaid = function() {
+			var defered = $scope.paidTracker.createPromise();
+			PayService.full.markPaid($stateParams.mumId)
+				.success(function() {
+					updateMum();
 				}).finally(function() {
 					defered.resolve();
 				});

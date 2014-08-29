@@ -6,6 +6,7 @@
 		<th>Customer</th>
 		<th>Grade</th>
 		<th>Date Ordered</th>
+		<th>Paid</th>
 		<th>Product</th>
 	</tr>
 </thead>
@@ -15,6 +16,7 @@
 		<td>{{mum.Customer.Name}}</td>
 		<td>{{mum.Grade.Name}}</td>
 		<td>{{mum.Mum.OrderDate | dateToISO | date : 'MMM d, yyyy h:mm a'}}</td>
+		<td><i class="fa fa-check" ng-show="mum.Mum.Paid"></i></td>
 		<td>{{mum.Product.Name}}</td>
 		<td>
 			<button class="btn btn-info btn-xs" ui-sref="^.view({mumId: mum.Mum.Id})"><i class="fa fa-eye"></i> View</button>

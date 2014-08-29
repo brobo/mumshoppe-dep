@@ -110,7 +110,11 @@
 			</tr>
 			<tr>
 				<th>Order Paid On</th>
-				<td>{{mum.Mum.PaidDate | dateToISO | date : 'MMM d, yyyy h:mm a'}}</td>
+				<td>
+					{{mum.Mum.PaidDate | dateToISO | date : 'MMM d, yyyy h:mm a'}}
+					<button class="btn btn-success" ng-show="!mum.Mum.Paid && !paidTracker.active()" ng-click="markPaid()">Mark Paid</button>
+					<button class="btn btn-success" ng-show="!mum.Mum.Paid && paidTracker.active()" disabled><i class="fa fa-spin fa-circle-o-notch"></i></button>
+				</td>
 			</tr>
 			<tr>
 				<th>{{mum.Product.Name}} delivered On</th>

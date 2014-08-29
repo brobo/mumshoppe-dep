@@ -24,6 +24,7 @@ var app = angular.module('volunteer', [
 	'letters.service',
 	'mum.service',
 	'mumtypes.service',
+	'pay.service',
 	'trinkets.service',
 	'volunteer.service']);
 

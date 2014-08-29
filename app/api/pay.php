@@ -1,4 +1,13 @@
 <?php
+
+	$app->get('/api/pay/mark/:mumId', function($mumId) {
+		$mum = MumQuery::create()->findPK($mumId);
+		if (!$mum) return;
+
+		$mum->setPaid(true);
+		$mum->setPaidDate(new DateTime('now'));
+		$mum->save();
+	});
 	
 	$app->get('/api/pay/deposit/:mumId', function($mumId) use ($app, $paypalSdkConfig) {
 		$mum = MumQuery::create()->findPK($mumId);

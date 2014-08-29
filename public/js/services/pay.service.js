@@ -19,7 +19,11 @@ angular.module('pay.service', [])
 					return $http.post('/mums/api/pay/full/' + mumId, {
 						PayerId: payerId
 					});
+				},
+				markPaid: function(mumId) {
+					return $http.get('/mums/api/pay/mark/' + mumId);
 				}
 			}
 		};
 	});
+	
