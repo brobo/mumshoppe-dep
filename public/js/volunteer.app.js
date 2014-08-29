@@ -30,7 +30,7 @@ var app = angular.module('volunteer', [
 
 app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 
-	$urlRouterProvider.otherwise('/mums');
+	$urlRouterProvider.otherwise('/home');
 
 	$stateProvider
 		.state('home', {
