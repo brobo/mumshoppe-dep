@@ -18,7 +18,63 @@ angular.module('create.controller', [])
 
 	})
 
-	.controller('createReview', function($scope, $state, AlertsService, LettersService, MumService) {
+	.controller('createThankYouController', function($state) {
+		$state.$parent.next = function() {
+			$state.go('mums.all');
+		}
+	})
+
+	.controller('createFinalizeController', function($scope, $stateParams, $location, promiseTracker, AlertsService, PayService) {
+		$scope.tracker = promiseTracker();
+		$scope.redirecting = false;
+		$scope.finalize = function() {
+			var defered = $scope.tracker.createPromise();
+			PayService.deposite.finalize($stateParams.mumId, $location.search().PayerID)
+				.success(function(data) {
+					console.log(data);
+					if (data.success)
+						$state.go('^.thankyou');
+					else
+						AlertsService.add('warning', 'The payment was not approved. Try again or visit the Mum Shoppe.');
+				}).error(function(data) {
+					console.log(data);
+					AlertsService.add('danger', 'An error occured. Please try again.');
+				}).finally(function(data) {
+					defered.resolve();
+				});
+		}
+
+		$scope.$parent.back = function() {
+			$state.go('^.deposit');
+		}
+	})
+
+	.controller('createDepositController', function($scope, $stateParams, $window, promiseTracker, AlertsService, PayService) {
+		$scope.tracker = promiseTracker();
+		$scope.redirecting = false;
+		$scope.startPayFlow = function() {
+			var defered = $scope.tracker.createPromise();
+			PayService.deposite.startPayFlow($stateParams.mumId)
+				.success(function(data) {
+					if (data.location) {
+						$scope.redirecting = true;
+						$scope.approvalUrl = data.location;
+						$window.location.href = $scope.approvalUrl;
+					}
+				})
+				.error(function() {
+					AlertsService.add('danger', 'An error has occured. Please try again.');
+				}).finally(function() {
+					defered.resolve();
+				});
+		}
+
+		$scope.$parent.back = function() {
+			$state.go('^.review');
+		}
+	})
+
+	.controller('createReviewController', function($scope, $state, AlertsService, LettersService, MumService) {
 		$scope.letters = {};
 		$scope.bearTotal = 0;
 		$scope.trinketTotal = 0;
@@ -38,7 +94,7 @@ angular.module('create.controller', [])
 				}
 			});
 		$scope.$parent.next = function() {
-			AlertsService.add('info', 'There isn\'t actually a checkout page yet. Sorry.');
+			$state.go('^.deposit');
 		}
 
 		$scope.$parent.back = function() {

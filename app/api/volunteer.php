@@ -1,4 +1,39 @@
 <?php
+
+	$app->get('/api/volunteer', function() {
+		$volunteers = VolunteerQuery::create()->find();
+
+		$encodeVolunteer = function($volunteer) {
+			return array(
+				"Id" => $volunteer->getId(),
+				"Name" => $volunteer->getName(),
+				"Email" => $volunteer->getEmail(),
+				"Phone" => $volunteer->getPhone()
+			);
+		};
+
+		echo json_encode(array_map($encodeVolunteer, $volunteers->getData()));
+	});
+
+	$app->put('/api/volunteer/:volunteerId', function($volunteerId) use ($app) {
+		$volunteer = VolunteerQuery::create()->findPK($volunteerId);
+		if (!$volunteer) return;
+
+		if ($app->request->put('Name')) {
+			echo $app->request->put('Name');
+			$volunteer->setName($app->request->put('Name'));
+		}
+		if ($app->request->put('Phone')) {
+			$volunteer->setPhone($app->request->put('Phone'));
+		}
+
+		$volunteer->save();
+
+		echo json_encode(array(
+			"message" => "Success!"
+		));
+	});
+
 	$app->post('/api/volunteer', function() use ($app) {
 		$volunteer = new Volunteer();
 
@@ -10,6 +45,7 @@
 		$volunteer->save();
 
 		$res = array(
+			"Id" => $volunteer->getId(),
 			"Name" => $volunteer->getName(),
 			"Email" => $volunteer->getEmail(),
 			"Phone" => $volunteer->getPhone());

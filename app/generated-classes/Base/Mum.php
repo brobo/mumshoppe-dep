@@ -144,6 +144,18 @@ abstract class Mum implements ActiveRecordInterface
     protected $paid_date;
 
     /**
+     * The value for the deposit_sale_id field.
+     * @var        string
+     */
+    protected $deposit_sale_id;
+
+    /**
+     * The value for the paid_sale_id field.
+     * @var        string
+     */
+    protected $paid_sale_id;
+
+    /**
      * The value for the delivery_date field.
      * @var        string
      */
@@ -626,6 +638,28 @@ abstract class Mum implements ActiveRecordInterface
     }
 
     /**
+     * Get the [deposit_sale_id] column value.
+     *
+     * @return   string
+     */
+    public function getDepositSaleId()
+    {
+
+        return $this->deposit_sale_id;
+    }
+
+    /**
+     * Get the [paid_sale_id] column value.
+     *
+     * @return   string
+     */
+    public function getPaidSaleId()
+    {
+
+        return $this->paid_sale_id;
+    }
+
+    /**
      * Get the [optionally formatted] temporal [delivery_date] column value.
      *
      *
@@ -930,6 +964,48 @@ abstract class Mum implements ActiveRecordInterface
     } // setPaidDate()
 
     /**
+     * Set the value of [deposit_sale_id] column.
+     *
+     * @param      string $v new value
+     * @return   \Mum The current object (for fluent API support)
+     */
+    public function setDepositSaleId($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->deposit_sale_id !== $v) {
+            $this->deposit_sale_id = $v;
+            $this->modifiedColumns[] = MumTableMap::DEPOSIT_SALE_ID;
+        }
+
+
+        return $this;
+    } // setDepositSaleId()
+
+    /**
+     * Set the value of [paid_sale_id] column.
+     *
+     * @param      string $v new value
+     * @return   \Mum The current object (for fluent API support)
+     */
+    public function setPaidSaleId($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->paid_sale_id !== $v) {
+            $this->paid_sale_id = $v;
+            $this->modifiedColumns[] = MumTableMap::PAID_SALE_ID;
+        }
+
+
+        return $this;
+    } // setPaidSaleId()
+
+    /**
      * Sets the value of [delivery_date] column to a normalized version of the date/time value specified.
      *
      * @param      mixed $v string, integer (timestamp), or \DateTime value.
@@ -1029,7 +1105,13 @@ abstract class Mum implements ActiveRecordInterface
             }
             $this->paid_date = (null !== $col) ? PropelDateTime::newInstance($col, null, '\DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 12 + $startcol : MumTableMap::translateFieldName('DeliveryDate', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 12 + $startcol : MumTableMap::translateFieldName('DepositSaleId', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->deposit_sale_id = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 13 + $startcol : MumTableMap::translateFieldName('PaidSaleId', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->paid_sale_id = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 14 + $startcol : MumTableMap::translateFieldName('DeliveryDate', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
@@ -1042,7 +1124,7 @@ abstract class Mum implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 13; // 13 = MumTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 15; // 15 = MumTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating \Mum object", 0, $e);
@@ -1416,6 +1498,12 @@ abstract class Mum implements ActiveRecordInterface
         if ($this->isColumnModified(MumTableMap::PAID_DATE)) {
             $modifiedColumns[':p' . $index++]  = 'PAID_DATE';
         }
+        if ($this->isColumnModified(MumTableMap::DEPOSIT_SALE_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'DEPOSIT_SALE_ID';
+        }
+        if ($this->isColumnModified(MumTableMap::PAID_SALE_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'PAID_SALE_ID';
+        }
         if ($this->isColumnModified(MumTableMap::DELIVERY_DATE)) {
             $modifiedColumns[':p' . $index++]  = 'DELIVERY_DATE';
         }
@@ -1465,6 +1553,12 @@ abstract class Mum implements ActiveRecordInterface
                         break;
                     case 'PAID_DATE':
                         $stmt->bindValue($identifier, $this->paid_date ? $this->paid_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                        break;
+                    case 'DEPOSIT_SALE_ID':
+                        $stmt->bindValue($identifier, $this->deposit_sale_id, PDO::PARAM_STR);
+                        break;
+                    case 'PAID_SALE_ID':
+                        $stmt->bindValue($identifier, $this->paid_sale_id, PDO::PARAM_STR);
                         break;
                     case 'DELIVERY_DATE':
                         $stmt->bindValue($identifier, $this->delivery_date ? $this->delivery_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
@@ -1568,6 +1662,12 @@ abstract class Mum implements ActiveRecordInterface
                 return $this->getPaidDate();
                 break;
             case 12:
+                return $this->getDepositSaleId();
+                break;
+            case 13:
+                return $this->getPaidSaleId();
+                break;
+            case 14:
                 return $this->getDeliveryDate();
                 break;
             default:
@@ -1611,7 +1711,9 @@ abstract class Mum implements ActiveRecordInterface
             $keys[9] => $this->getPaid(),
             $keys[10] => $this->getOrderDate(),
             $keys[11] => $this->getPaidDate(),
-            $keys[12] => $this->getDeliveryDate(),
+            $keys[12] => $this->getDepositSaleId(),
+            $keys[13] => $this->getPaidSaleId(),
+            $keys[14] => $this->getDeliveryDate(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1711,6 +1813,12 @@ abstract class Mum implements ActiveRecordInterface
                 $this->setPaidDate($value);
                 break;
             case 12:
+                $this->setDepositSaleId($value);
+                break;
+            case 13:
+                $this->setPaidSaleId($value);
+                break;
+            case 14:
                 $this->setDeliveryDate($value);
                 break;
         } // switch()
@@ -1749,7 +1857,9 @@ abstract class Mum implements ActiveRecordInterface
         if (array_key_exists($keys[9], $arr)) $this->setPaid($arr[$keys[9]]);
         if (array_key_exists($keys[10], $arr)) $this->setOrderDate($arr[$keys[10]]);
         if (array_key_exists($keys[11], $arr)) $this->setPaidDate($arr[$keys[11]]);
-        if (array_key_exists($keys[12], $arr)) $this->setDeliveryDate($arr[$keys[12]]);
+        if (array_key_exists($keys[12], $arr)) $this->setDepositSaleId($arr[$keys[12]]);
+        if (array_key_exists($keys[13], $arr)) $this->setPaidSaleId($arr[$keys[13]]);
+        if (array_key_exists($keys[14], $arr)) $this->setDeliveryDate($arr[$keys[14]]);
     }
 
     /**
@@ -1773,6 +1883,8 @@ abstract class Mum implements ActiveRecordInterface
         if ($this->isColumnModified(MumTableMap::PAID)) $criteria->add(MumTableMap::PAID, $this->paid);
         if ($this->isColumnModified(MumTableMap::ORDER_DATE)) $criteria->add(MumTableMap::ORDER_DATE, $this->order_date);
         if ($this->isColumnModified(MumTableMap::PAID_DATE)) $criteria->add(MumTableMap::PAID_DATE, $this->paid_date);
+        if ($this->isColumnModified(MumTableMap::DEPOSIT_SALE_ID)) $criteria->add(MumTableMap::DEPOSIT_SALE_ID, $this->deposit_sale_id);
+        if ($this->isColumnModified(MumTableMap::PAID_SALE_ID)) $criteria->add(MumTableMap::PAID_SALE_ID, $this->paid_sale_id);
         if ($this->isColumnModified(MumTableMap::DELIVERY_DATE)) $criteria->add(MumTableMap::DELIVERY_DATE, $this->delivery_date);
 
         return $criteria;
@@ -1848,6 +1960,8 @@ abstract class Mum implements ActiveRecordInterface
         $copyObj->setPaid($this->getPaid());
         $copyObj->setOrderDate($this->getOrderDate());
         $copyObj->setPaidDate($this->getPaidDate());
+        $copyObj->setDepositSaleId($this->getDepositSaleId());
+        $copyObj->setPaidSaleId($this->getPaidSaleId());
         $copyObj->setDeliveryDate($this->getDeliveryDate());
 
         if ($deepCopy) {
@@ -2868,6 +2982,8 @@ abstract class Mum implements ActiveRecordInterface
         $this->paid = null;
         $this->order_date = null;
         $this->paid_date = null;
+        $this->deposit_sale_id = null;
+        $this->paid_sale_id = null;
         $this->delivery_date = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();

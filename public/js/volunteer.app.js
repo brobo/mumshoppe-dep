@@ -65,6 +65,11 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 			templateUrl: 'public/views/volunteer/letters/index.html',
 			controller: 'lettersController'
 		})
+		.state('configure.volunteers', {
+			url: '/volunteers',
+			templateUrl: 'public/views/volunteer/configure/volunteers.html',
+			controller: 'configureVolunteerController'
+		})
 		.state('mums', {
 			url: '/mums',
 			templateUrl: 'public/views/volunteer/mums/index.html',
@@ -204,8 +209,24 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 			controller: 'trinketsEditController'
 		});
 
-    $httpProvider.defaults.transformRequest = function(data) {
-        if (data === undefined) {
+    $httpProvider.defaults.headers.post = {'Content-Type': 'application/x-www-form-urlencoded'};
+    $httpProvider.defaults.headers.put = {'Content-Type': 'application/x-www-form-urlencoded'};
+
+	//PHP does not play nice with this feature. It's no big deal.
+	//$locationProvider.html5Mode(true);
+
+});
+
+app.run(['$cookieStore', '$injector', function($cookieStore, $injector) {
+	$injector.get("$http").defaults.transformRequest.unshift(function(data, headersGetter) {
+
+		var token = $cookieStore.get('customerToken');
+		if (token) {
+			headersGetter()['Authorization'] = token.jwt;
+			console.log(headersGetter()['Authorization']);
+		}
+
+		if (data === undefined) {
             return data;
         }
 
@@ -232,15 +253,9 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 	    // Serialize the buffer and clean it up for transportation.
 	    var source = buffer.join( "&" ).replace( /%20/g, "+" ); 
 	    return( source );
-    }
+    });
 
-    $httpProvider.defaults.headers.post = {'Content-Type': 'application/x-www-form-urlencoded'};
-    $httpProvider.defaults.headers.put = {'Content-Type': 'application/x-www-form-urlencoded'};
-
-	//PHP does not play nice with this feature. It's no big deal.
-	//$locationProvider.html5Mode(true);
-
-});
+}]);
 
 app.controller('headerController', function($rootScope, $cookieStore) {
 	$rootScope.updateHeader = function() {

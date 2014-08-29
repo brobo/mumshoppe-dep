@@ -17,6 +17,7 @@ var app = angular.module('mumshoppe', [
 	'letters.service',
 	'mum.service',
 	'mumtypes.service',
+	'pay.service',
 	'trinkets.service']);
 
 app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
@@ -108,10 +109,41 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 		.state('create.review', {
 			templateUrl: 'public/views/mumshoppe/create/review.html',
 			url: '/review',
-			controller: 'createReview'
+			controller: 'createReviewController'
+		})
+		.state('create.deposit', {
+			templateUrl: 'public/views/mumshoppe/create/deposit.html',
+			url: '/deposit',
+			controller: 'createDepositController'
+		})
+		.state('create.finalize', {
+			templateUrl: 'public/views/mumshoppe/create/finalize.html',
+			url: '/finalize',
+			controller: 'createFinalizeController'
+		})
+		.state('create.thankyou', {
+			templateUrl: 'public/views/mumshoppe/create/thankyou.html',
+			url: '/thankyou',
+			controller: 'createThankYouController'
 		});
 
-	$httpProvider.defaults.transformRequest = function(data) {
+		$httpProvider.defaults.headers.post = {'Content-Type': 'application/x-www-form-urlencoded'};
+	    $httpProvider.defaults.headers.put = {'Content-Type': 'application/x-www-form-urlencoded'};
+
+		//PHP does not play nice with this feature. It's no big deal.
+		//$locationProvider.html5Mode(true);
+
+	});
+
+app.run(['$cookieStore', '$injector', function($cookieStore, $injector) {
+	$injector.get("$http").defaults.transformRequest.unshift(function(data, headersGetter) {
+
+		var token = $cookieStore.get('customerToken');
+		if (token) {
+			headersGetter()['Authorization'] = token.jwt;
+			console.log(headersGetter()['Authorization']);
+		}
+
 		if (data === undefined) {
             return data;
         }
@@ -139,15 +171,9 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 	    // Serialize the buffer and clean it up for transportation.
 	    var source = buffer.join( "&" ).replace( /%20/g, "+" ); 
 	    return( source );
-    }
+    });
 
-    $httpProvider.defaults.headers.post = {'Content-Type': 'application/x-www-form-urlencoded'};
-    $httpProvider.defaults.headers.put = {'Content-Type': 'application/x-www-form-urlencoded'};
-
-	//PHP does not play nice with this feature. It's no big deal.
-	//$locationProvider.html5Mode(true);
-
-});
+}]);
 
 app.controller('headerController', function($scope, $rootScope, $cookieStore) {
 	$rootScope.updateHeader = function() {

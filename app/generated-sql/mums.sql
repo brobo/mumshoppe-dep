@@ -192,6 +192,8 @@ CREATE TABLE `mum`
     `paid` TINYINT(1),
     `order_date` DATETIME,
     `paid_date` DATETIME,
+    `deposit_sale_id` VARCHAR(255),
+    `paid_sale_id` VARCHAR(255),
     `delivery_date` DATETIME,
     PRIMARY KEY (`id`),
     INDEX `mum_FI_1` (`customer_id`),
@@ -285,6 +287,7 @@ CREATE TABLE `volunteer`
     `password` VARCHAR(255) NOT NULL,
     `name` VARCHAR(64) NOT NULL,
     `phone` VARCHAR(16),
+    `token_expiration` DATETIME,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 

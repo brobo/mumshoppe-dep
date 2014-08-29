@@ -3,6 +3,7 @@
 namespace Base;
 
 use \VolunteerQuery as ChildVolunteerQuery;
+use \DateTime;
 use \Exception;
 use \PDO;
 use Map\VolunteerTableMap;
@@ -16,6 +17,7 @@ use Propel\Runtime\Exception\BadMethodCallException;
 use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
+use Propel\Runtime\Util\PropelDateTime;
 
 abstract class Volunteer implements ActiveRecordInterface
 {
@@ -64,6 +66,13 @@ abstract class Volunteer implements ActiveRecordInterface
     protected $email;
 
     /**
+     * Whether the lazy-loaded $email value has been loaded from database.
+     * This is necessary to avoid repeated lookups if $email column is NULL in the db.
+     * @var boolean
+     */
+    protected $email_isLoaded = false;
+
+    /**
      * The value for the password field.
      * @var        string
      */
@@ -80,6 +89,19 @@ abstract class Volunteer implements ActiveRecordInterface
      * @var        string
      */
     protected $phone;
+
+    /**
+     * The value for the token_expiration field.
+     * @var        string
+     */
+    protected $token_expiration;
+
+    /**
+     * Whether the lazy-loaded $token_expiration value has been loaded from database.
+     * This is necessary to avoid repeated lookups if $token_expiration column is NULL in the db.
+     * @var boolean
+     */
+    protected $token_expiration_isLoaded = false;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -361,14 +383,47 @@ abstract class Volunteer implements ActiveRecordInterface
     /**
      * Get the [email] column value.
      *
+     * @param      ConnectionInterface An optional ConnectionInterface connection to use for fetching this lazy-loaded column.
      * @return   string
      */
-    public function getEmail()
+    public function getEmail(ConnectionInterface $con = null)
     {
+        if (!$this->email_isLoaded && $this->email === null && !$this->isNew()) {
+            $this->loadEmail($con);
+        }
+
 
         return $this->email;
     }
 
+    /**
+     * Load the value for the lazy-loaded [email] column.
+     *
+     * This method performs an additional query to return the value for
+     * the [email] column, since it is not populated by
+     * the hydrate() method.
+     *
+     * @param      $con ConnectionInterface (optional) The ConnectionInterface connection to use.
+     * @return void
+     * @throws PropelException - any underlying error will be wrapped and re-thrown.
+     */
+    protected function loadEmail(ConnectionInterface $con = null)
+    {
+        $c = $this->buildPkeyCriteria();
+        $c->addSelectColumn(VolunteerTableMap::EMAIL);
+        try {
+            $dataFetcher = ChildVolunteerQuery::create(null, $c)->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
+            $row = $dataFetcher->fetch();
+            $dataFetcher->close();
+
+        $firstColumn = $row ? current($row) : null;
+
+            $this->email = ($firstColumn !== null) ? (string) $firstColumn : null;
+            $this->email_isLoaded = true;
+        } catch (Exception $e) {
+            throw new PropelException("Error loading value for [email] column on demand.", 0, $e);
+        }
+    }
     /**
      * Get the [password] column value.
      *
@@ -403,6 +458,58 @@ abstract class Volunteer implements ActiveRecordInterface
     }
 
     /**
+     * Get the [optionally formatted] temporal [token_expiration] column value.
+     *
+     *
+     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     *                            If format is NULL, then the raw \DateTime object will be returned.
+     *
+     * @return mixed Formatted date/time value as string or \DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
+     *
+     * @throws PropelException - if unable to parse/validate the date/time value.
+     */
+    public function getTokenExpiration($format = NULL, $con = null)
+    {
+        if (!$this->token_expiration_isLoaded && $this->token_expiration === null && !$this->isNew()) {
+            $this->loadTokenExpiration($con);
+        }
+
+        if ($format === null) {
+            return $this->token_expiration;
+        } else {
+            return $this->token_expiration instanceof \DateTime ? $this->token_expiration->format($format) : null;
+        }
+    }
+
+    /**
+     * Load the value for the lazy-loaded [token_expiration] column.
+     *
+     * This method performs an additional query to return the value for
+     * the [token_expiration] column, since it is not populated by
+     * the hydrate() method.
+     *
+     * @param      $con ConnectionInterface (optional) The ConnectionInterface connection to use.
+     * @return void
+     * @throws PropelException - any underlying error will be wrapped and re-thrown.
+     */
+    protected function loadTokenExpiration(ConnectionInterface $con = null)
+    {
+        $c = $this->buildPkeyCriteria();
+        $c->addSelectColumn(VolunteerTableMap::TOKEN_EXPIRATION);
+        try {
+            $dataFetcher = ChildVolunteerQuery::create(null, $c)->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
+            $row = $dataFetcher->fetch();
+            $dataFetcher->close();
+
+        $firstColumn = $row ? current($row) : null;
+
+            $this->token_expiration = ($firstColumn !== null) ? (string) $firstColumn : null;
+            $this->token_expiration_isLoaded = true;
+        } catch (Exception $e) {
+            throw new PropelException("Error loading value for [token_expiration] column on demand.", 0, $e);
+        }
+    }
+    /**
      * Set the value of [id] column.
      *
      * @param      int $v new value
@@ -431,6 +538,12 @@ abstract class Volunteer implements ActiveRecordInterface
      */
     public function setEmail($v)
     {
+        // explicitly set the is-loaded flag to true for this lazy load col;
+        // it doesn't matter if the value is actually set or not (logic below) as
+        // any attempt to set the value means that no db lookup should be performed
+        // when the getEmail() method is called.
+        $this->email_isLoaded = true;
+
         if ($v !== null) {
             $v = (string) $v;
         }
@@ -508,6 +621,33 @@ abstract class Volunteer implements ActiveRecordInterface
     } // setPhone()
 
     /**
+     * Sets the value of [token_expiration] column to a normalized version of the date/time value specified.
+     *
+     * @param      mixed $v string, integer (timestamp), or \DateTime value.
+     *               Empty strings are treated as NULL.
+     * @return   \Volunteer The current object (for fluent API support)
+     */
+    public function setTokenExpiration($v)
+    {
+        // explicitly set the is-loaded flag to true for this lazy load col;
+        // it doesn't matter if the value is actually set or not (logic below) as
+        // any attempt to set the value means that no db lookup should be performed
+        // when the getTokenExpiration() method is called.
+        $this->token_expiration_isLoaded = true;
+
+        $dt = PropelDateTime::newInstance($v, null, '\DateTime');
+        if ($this->token_expiration !== null || $dt !== null) {
+            if ($dt !== $this->token_expiration) {
+                $this->token_expiration = $dt;
+                $this->modifiedColumns[] = VolunteerTableMap::TOKEN_EXPIRATION;
+            }
+        } // if either are not null
+
+
+        return $this;
+    } // setTokenExpiration()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -547,16 +687,13 @@ abstract class Volunteer implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : VolunteerTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : VolunteerTableMap::translateFieldName('Email', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->email = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : VolunteerTableMap::translateFieldName('Password', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : VolunteerTableMap::translateFieldName('Password', TableMap::TYPE_PHPNAME, $indexType)];
             $this->password = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : VolunteerTableMap::translateFieldName('Name', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : VolunteerTableMap::translateFieldName('Name', TableMap::TYPE_PHPNAME, $indexType)];
             $this->name = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : VolunteerTableMap::translateFieldName('Phone', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : VolunteerTableMap::translateFieldName('Phone', TableMap::TYPE_PHPNAME, $indexType)];
             $this->phone = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
@@ -566,7 +703,7 @@ abstract class Volunteer implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 5; // 5 = VolunteerTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 4; // 4 = VolunteerTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating \Volunteer object", 0, $e);
@@ -624,6 +761,14 @@ abstract class Volunteer implements ActiveRecordInterface
             throw new PropelException('Cannot find matching row in the database to reload object values.');
         }
         $this->hydrate($row, 0, true, $dataFetcher->getIndexType()); // rehydrate
+
+        // Reset the email lazy-load column
+        $this->email = null;
+        $this->email_isLoaded = false;
+
+        // Reset the token_expiration lazy-load column
+        $this->token_expiration = null;
+        $this->token_expiration_isLoaded = false;
 
         if ($deep) {  // also de-associate any related objects?
 
@@ -790,6 +935,9 @@ abstract class Volunteer implements ActiveRecordInterface
         if ($this->isColumnModified(VolunteerTableMap::PHONE)) {
             $modifiedColumns[':p' . $index++]  = 'PHONE';
         }
+        if ($this->isColumnModified(VolunteerTableMap::TOKEN_EXPIRATION)) {
+            $modifiedColumns[':p' . $index++]  = 'TOKEN_EXPIRATION';
+        }
 
         $sql = sprintf(
             'INSERT INTO volunteer (%s) VALUES (%s)',
@@ -815,6 +963,9 @@ abstract class Volunteer implements ActiveRecordInterface
                         break;
                     case 'PHONE':
                         $stmt->bindValue($identifier, $this->phone, PDO::PARAM_STR);
+                        break;
+                    case 'TOKEN_EXPIRATION':
+                        $stmt->bindValue($identifier, $this->token_expiration ? $this->token_expiration->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -893,6 +1044,9 @@ abstract class Volunteer implements ActiveRecordInterface
             case 4:
                 return $this->getPhone();
                 break;
+            case 5:
+                return $this->getTokenExpiration();
+                break;
             default:
                 return null;
                 break;
@@ -922,10 +1076,11 @@ abstract class Volunteer implements ActiveRecordInterface
         $keys = VolunteerTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getEmail(),
+            $keys[1] => ($includeLazyLoadColumns) ? $this->getEmail() : null,
             $keys[2] => $this->getPassword(),
             $keys[3] => $this->getName(),
             $keys[4] => $this->getPhone(),
+            $keys[5] => ($includeLazyLoadColumns) ? $this->getTokenExpiration() : null,
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -980,6 +1135,9 @@ abstract class Volunteer implements ActiveRecordInterface
             case 4:
                 $this->setPhone($value);
                 break;
+            case 5:
+                $this->setTokenExpiration($value);
+                break;
         } // switch()
     }
 
@@ -1009,6 +1167,7 @@ abstract class Volunteer implements ActiveRecordInterface
         if (array_key_exists($keys[2], $arr)) $this->setPassword($arr[$keys[2]]);
         if (array_key_exists($keys[3], $arr)) $this->setName($arr[$keys[3]]);
         if (array_key_exists($keys[4], $arr)) $this->setPhone($arr[$keys[4]]);
+        if (array_key_exists($keys[5], $arr)) $this->setTokenExpiration($arr[$keys[5]]);
     }
 
     /**
@@ -1025,6 +1184,7 @@ abstract class Volunteer implements ActiveRecordInterface
         if ($this->isColumnModified(VolunteerTableMap::PASSWORD)) $criteria->add(VolunteerTableMap::PASSWORD, $this->password);
         if ($this->isColumnModified(VolunteerTableMap::NAME)) $criteria->add(VolunteerTableMap::NAME, $this->name);
         if ($this->isColumnModified(VolunteerTableMap::PHONE)) $criteria->add(VolunteerTableMap::PHONE, $this->phone);
+        if ($this->isColumnModified(VolunteerTableMap::TOKEN_EXPIRATION)) $criteria->add(VolunteerTableMap::TOKEN_EXPIRATION, $this->token_expiration);
 
         return $criteria;
     }
@@ -1092,6 +1252,7 @@ abstract class Volunteer implements ActiveRecordInterface
         $copyObj->setPassword($this->getPassword());
         $copyObj->setName($this->getName());
         $copyObj->setPhone($this->getPhone());
+        $copyObj->setTokenExpiration($this->getTokenExpiration());
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -1127,9 +1288,12 @@ abstract class Volunteer implements ActiveRecordInterface
     {
         $this->id = null;
         $this->email = null;
+        $this->email_isLoaded = false;
         $this->password = null;
         $this->name = null;
         $this->phone = null;
+        $this->token_expiration = null;
+        $this->token_expiration_isLoaded = false;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();

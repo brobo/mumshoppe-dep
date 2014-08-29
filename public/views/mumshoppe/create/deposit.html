@@ -1,0 +1,6 @@
+<h3>Place your order!</h3>
+<p class="lead">You must place a <strong>$25</strong> deposit on your mum. You may pay the remaining balance at a later time.</p>
+<p>You may either pay your deposit through PayPal, or you may pay at the Mum Shoppe. To pay via PayPal, click on the "Pay" button below.</p>
+<button class="btn btn-success btn-block" ng-click="startPayFlow()" ng-show="!tracker.active() && !redirecting">Pay via PayPal</button>
+<button class="btn btn-success btn-block" ng-show="tracker.active()" disabled><i class="fa fa-spin fa-circle-o-notch"></i></button>
+<a ng-href="{{approvalUrl}}"><button class="btn btn-success btn-block" ng-show="redirecting">Click here if you are not redirected to PayPal.</button></a>

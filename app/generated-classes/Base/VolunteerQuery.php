@@ -23,12 +23,14 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildVolunteerQuery orderByPassword($order = Criteria::ASC) Order by the password column
  * @method     ChildVolunteerQuery orderByName($order = Criteria::ASC) Order by the name column
  * @method     ChildVolunteerQuery orderByPhone($order = Criteria::ASC) Order by the phone column
+ * @method     ChildVolunteerQuery orderByTokenExpiration($order = Criteria::ASC) Order by the token_expiration column
  *
  * @method     ChildVolunteerQuery groupById() Group by the id column
  * @method     ChildVolunteerQuery groupByEmail() Group by the email column
  * @method     ChildVolunteerQuery groupByPassword() Group by the password column
  * @method     ChildVolunteerQuery groupByName() Group by the name column
  * @method     ChildVolunteerQuery groupByPhone() Group by the phone column
+ * @method     ChildVolunteerQuery groupByTokenExpiration() Group by the token_expiration column
  *
  * @method     ChildVolunteerQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildVolunteerQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -42,12 +44,14 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildVolunteer findOneByPassword(string $password) Return the first ChildVolunteer filtered by the password column
  * @method     ChildVolunteer findOneByName(string $name) Return the first ChildVolunteer filtered by the name column
  * @method     ChildVolunteer findOneByPhone(string $phone) Return the first ChildVolunteer filtered by the phone column
+ * @method     ChildVolunteer findOneByTokenExpiration(string $token_expiration) Return the first ChildVolunteer filtered by the token_expiration column
  *
  * @method     array findById(int $id) Return ChildVolunteer objects filtered by the id column
  * @method     array findByEmail(string $email) Return ChildVolunteer objects filtered by the email column
  * @method     array findByPassword(string $password) Return ChildVolunteer objects filtered by the password column
  * @method     array findByName(string $name) Return ChildVolunteer objects filtered by the name column
  * @method     array findByPhone(string $phone) Return ChildVolunteer objects filtered by the phone column
+ * @method     array findByTokenExpiration(string $token_expiration) Return ChildVolunteer objects filtered by the token_expiration column
  *
  */
 abstract class VolunteerQuery extends ModelCriteria
@@ -136,7 +140,7 @@ abstract class VolunteerQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT ID, EMAIL, PASSWORD, NAME, PHONE FROM volunteer WHERE ID = :p0';
+        $sql = 'SELECT ID, PASSWORD, NAME, PHONE FROM volunteer WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -380,6 +384,49 @@ abstract class VolunteerQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(VolunteerTableMap::PHONE, $phone, $comparison);
+    }
+
+    /**
+     * Filter the query on the token_expiration column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByTokenExpiration('2011-03-14'); // WHERE token_expiration = '2011-03-14'
+     * $query->filterByTokenExpiration('now'); // WHERE token_expiration = '2011-03-14'
+     * $query->filterByTokenExpiration(array('max' => 'yesterday')); // WHERE token_expiration > '2011-03-13'
+     * </code>
+     *
+     * @param     mixed $tokenExpiration The value to use as filter.
+     *              Values can be integers (unix timestamps), DateTime objects, or strings.
+     *              Empty strings are treated as NULL.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildVolunteerQuery The current query, for fluid interface
+     */
+    public function filterByTokenExpiration($tokenExpiration = null, $comparison = null)
+    {
+        if (is_array($tokenExpiration)) {
+            $useMinMax = false;
+            if (isset($tokenExpiration['min'])) {
+                $this->addUsingAlias(VolunteerTableMap::TOKEN_EXPIRATION, $tokenExpiration['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($tokenExpiration['max'])) {
+                $this->addUsingAlias(VolunteerTableMap::TOKEN_EXPIRATION, $tokenExpiration['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(VolunteerTableMap::TOKEN_EXPIRATION, $tokenExpiration, $comparison);
     }
 
     /**

@@ -1,0 +1,88 @@
+<button class="btn btn-default" ng-click="register()">Register</button>
+<table class="table table-striped table-hover">
+<thead>
+	<tr>
+		<th>Name</th>
+		<th>Email</th>
+		<th>Phone</th>
+	</tr>
+</thead>
+<tbody>
+	<tr ng-repeat="volunteer in volunteers">
+		<td>{{volunteer.Name}}</td>
+		<td>{{volunteer.Email}}</td>
+		<td>{{volunteer.Phone}}</td>
+		<td>
+			<button class="btn btn-info btn-xs" ng-click="update(volunteer)"><i class="fa fa-pencil"></i> Update</button>
+			<button class="btn btn-danger btn-xs" ng-click="delete(volunteer)"><i class="fa fa-bomb"></i> Delete</button></td>
+	</tr>
+</tbody>
+</table>
+
+<script type="text/ng-template" id="newVolunteerForm">
+	<form name="volunteerForm" ng-submit="register(volunteerForm)" novalidate>
+		<div class="form-group" ng-class="{'has-error': invalid.Email || invalid.duplicateEmail}">
+			<label for="Email">Email</label>
+			<div class="input-group">
+				<div class="input-group-addon">@</div>
+				<input type="email" class="form-control" name="Email" ng-model="volunteer.Email" ng-maxlength="64" ng-blur="validate(volunteerForm, 'Email'); verifyEmail()" required>
+				<p ng-show="invalid.Email" class="text-danger">Please enter a valid email address.</p>
+				<p ng-show="invalid.duplicateEmail" class="text-danger">That email address has already been used.</p>
+			</div>
+		</div>
+		<div class="form-group" ng-class="{'has-error': invalid.Password}">
+			<label for="Password">Password</label>
+			<div class="input-group">
+				<div class="input-group-addon"><i class="fa fa-question"></i></div>
+				<input type="password" class="form-control" name="Password" ng-model="volunteer.Password" ng-minlength="5" ng-blur="validate(volunteerForm, 'Password'); verifyPasswords()" required>
+			</div>
+		</div>
+		<div class="form-group" ng-class="{'has-error': invalid.confirmPassword || invalid.mismatchPasswords}">
+			<label for="confirmPassword">Confirm Password</label>
+			<div class="input-group">
+				<div class="input-group-addon"><i class="fa fa-question"></i></div>
+				<input type="password" class="form-control" name="confirmPassword" ng-model="confirmPassword.value" ng-blur="validate(volunteerForm, 'confirmPassword'); verifyPasswords()" required>
+				<p ng-show="invalid.mismatchPasswords" class="text-danger">The passwords that you entered do not match.</p>
+			</div>
+		</div>
+		<div class="form-group" ng-class="{'has-error': invalid.Name}">
+			<label for="Name">Name</label>
+			<div class="input-group">
+				<div class="input-group-addon"><i class="fa fa-user"></i></div>
+				<input type="text" class="form-control" name="Name" ng-model="volunteer.Name" ng-maxlength="64" ng-blur="validate(volunteerForm, 'Name')" required>			
+			</div>
+		</div>
+		<div class="form-group" ng-class="{'has-error': invalid.Phone}">
+			<label for="Phone">Phone Number</label>
+			<div class="input-group">
+				<div class="input-group-addon"><i class="fa fa-phone"></i></div>
+				<input type="text" class="form-control" name="Phone" ng-model="volunteer.Phone" ng-blur="validate(volunteerForm, 'Phone')" ng-pattern="REGEX_PHONE">
+			</div>
+		</div>
+		<button class="btn btn-default" ng-click="cancel()">Cancel</button>
+		<button type="submit" ng-show="tracker.active()" class="btn btn-success" disabled><i class="fa fa-spin fa-circle-o-notch"></i></button>
+		<button type="submit" ng-show="!tracker.active()" class="btn btn-success" ng-disabled="bowForm.$invalid">Save</button>
+	</form>
+</script>
+
+<script type="text/ng-template" id="updateVolunteerForm">
+	<form name="volunteerForm" ng-submit="register(volunteerForm)" novalidate>
+		<div class="form-group" ng-class="{'has-error': invalid.Name}">
+			<label for="Name">Name</label>
+			<div class="input-group">
+				<div class="input-group-addon"><i class="fa fa-user"></i></div>
+				<input type="text" class="form-control" name="Name" ng-model="volunteer.Name" ng-maxlength="64" ng-blur="validate(volunteerForm, 'Name')" required>			
+			</div>
+		</div>
+		<div class="form-group" ng-class="{'has-error': invalid.Phone}">
+			<label for="Phone">Phone Number</label>
+			<div class="input-group">
+				<div class="input-group-addon"><i class="fa fa-phone"></i></div>
+				<input type="text" class="form-control" name="Phone" ng-model="volunteer.Phone" ng-blur="validate(volunteerForm, 'Phone')" ng-pattern="REGEX_PHONE">
+			</div>
+		</div>
+		<button class="btn btn-default" ng-click="cancel()">Cancel</button>
+		<button type="submit" ng-show="tracker.active()" class="btn btn-success" disabled><i class="fa fa-spin fa-circle-o-notch"></i></button>
+		<button type="submit" ng-show="!tracker.active()" class="btn btn-success" ng-disabled="bowForm.$invalid">Save</button>
+	</form>
+</script>

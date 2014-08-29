@@ -33,6 +33,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMumQuery orderByPaid($order = Criteria::ASC) Order by the paid column
  * @method     ChildMumQuery orderByOrderDate($order = Criteria::ASC) Order by the order_date column
  * @method     ChildMumQuery orderByPaidDate($order = Criteria::ASC) Order by the paid_date column
+ * @method     ChildMumQuery orderByDepositSaleId($order = Criteria::ASC) Order by the deposit_sale_id column
+ * @method     ChildMumQuery orderByPaidSaleId($order = Criteria::ASC) Order by the paid_sale_id column
  * @method     ChildMumQuery orderByDeliveryDate($order = Criteria::ASC) Order by the delivery_date column
  *
  * @method     ChildMumQuery groupById() Group by the id column
@@ -47,6 +49,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMumQuery groupByPaid() Group by the paid column
  * @method     ChildMumQuery groupByOrderDate() Group by the order_date column
  * @method     ChildMumQuery groupByPaidDate() Group by the paid_date column
+ * @method     ChildMumQuery groupByDepositSaleId() Group by the deposit_sale_id column
+ * @method     ChildMumQuery groupByPaidSaleId() Group by the paid_sale_id column
  * @method     ChildMumQuery groupByDeliveryDate() Group by the delivery_date column
  *
  * @method     ChildMumQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
@@ -96,6 +100,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMum findOneByPaid(boolean $paid) Return the first ChildMum filtered by the paid column
  * @method     ChildMum findOneByOrderDate(string $order_date) Return the first ChildMum filtered by the order_date column
  * @method     ChildMum findOneByPaidDate(string $paid_date) Return the first ChildMum filtered by the paid_date column
+ * @method     ChildMum findOneByDepositSaleId(string $deposit_sale_id) Return the first ChildMum filtered by the deposit_sale_id column
+ * @method     ChildMum findOneByPaidSaleId(string $paid_sale_id) Return the first ChildMum filtered by the paid_sale_id column
  * @method     ChildMum findOneByDeliveryDate(string $delivery_date) Return the first ChildMum filtered by the delivery_date column
  *
  * @method     array findById(int $id) Return ChildMum objects filtered by the id column
@@ -110,6 +116,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     array findByPaid(boolean $paid) Return ChildMum objects filtered by the paid column
  * @method     array findByOrderDate(string $order_date) Return ChildMum objects filtered by the order_date column
  * @method     array findByPaidDate(string $paid_date) Return ChildMum objects filtered by the paid_date column
+ * @method     array findByDepositSaleId(string $deposit_sale_id) Return ChildMum objects filtered by the deposit_sale_id column
+ * @method     array findByPaidSaleId(string $paid_sale_id) Return ChildMum objects filtered by the paid_sale_id column
  * @method     array findByDeliveryDate(string $delivery_date) Return ChildMum objects filtered by the delivery_date column
  *
  */
@@ -199,7 +207,7 @@ abstract class MumQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT ID, CUSTOMER_ID, BACKING_ID, ACCENT_BOW_ID, LETTER1_ID, NAME_RIBBON1, LETTER2_ID, NAME_RIBBON2, STATUS_ID, PAID, ORDER_DATE, PAID_DATE, DELIVERY_DATE FROM mum WHERE ID = :p0';
+        $sql = 'SELECT ID, CUSTOMER_ID, BACKING_ID, ACCENT_BOW_ID, LETTER1_ID, NAME_RIBBON1, LETTER2_ID, NAME_RIBBON2, STATUS_ID, PAID, ORDER_DATE, PAID_DATE, DEPOSIT_SALE_ID, PAID_SALE_ID, DELIVERY_DATE FROM mum WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -756,6 +764,64 @@ abstract class MumQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(MumTableMap::PAID_DATE, $paidDate, $comparison);
+    }
+
+    /**
+     * Filter the query on the deposit_sale_id column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByDepositSaleId('fooValue');   // WHERE deposit_sale_id = 'fooValue'
+     * $query->filterByDepositSaleId('%fooValue%'); // WHERE deposit_sale_id LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $depositSaleId The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildMumQuery The current query, for fluid interface
+     */
+    public function filterByDepositSaleId($depositSaleId = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($depositSaleId)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $depositSaleId)) {
+                $depositSaleId = str_replace('*', '%', $depositSaleId);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(MumTableMap::DEPOSIT_SALE_ID, $depositSaleId, $comparison);
+    }
+
+    /**
+     * Filter the query on the paid_sale_id column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByPaidSaleId('fooValue');   // WHERE paid_sale_id = 'fooValue'
+     * $query->filterByPaidSaleId('%fooValue%'); // WHERE paid_sale_id LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $paidSaleId The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildMumQuery The current query, for fluid interface
+     */
+    public function filterByPaidSaleId($paidSaleId = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($paidSaleId)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $paidSaleId)) {
+                $paidSaleId = str_replace('*', '%', $paidSaleId);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(MumTableMap::PAID_SALE_ID, $paidSaleId, $comparison);
     }
 
     /**

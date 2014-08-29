@@ -98,6 +98,8 @@
 		<column name="paid" type="boolean" />
 		<column name="order_date" type="timestamp" />
 		<column name="paid_date" type="timestamp" />
+		<column name="deposit_sale_id" type="varchar" length="127" />
+		<column name="paid_sale_id" type="varchar" length="127" />
 		<column name="delivery_date" type="timestamp" />
 		<foreign-key foreignTable="customer" phpName="Customer" refPhpName="Mum">
 			<reference local="customer_id" foreign="id" />
@@ -148,9 +150,10 @@
 
 	<table name="volunteer" phpName="Volunteer">
 		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
-		<column name="email" type="varchar" size="64" />
+		<column name="email" type="varchar" size="64" lazyLoad="true" />
 		<column name="password" type="varchar" size="255" required="true" />
 		<column name="name" type="varchar" size="64" required="true" />
 		<column name="phone" type="varchar" size="16" />
+		<column name="token_expiration" type="timestamp" lazyLoad="true" />
 	</table>
 </database>
