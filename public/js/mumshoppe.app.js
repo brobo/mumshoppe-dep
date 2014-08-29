@@ -23,6 +23,8 @@ var app = angular.module('mumshoppe', [
 
 app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 
+	$urlRouterProvider.otherwise('/home');
+
 	$stateProvider
 		.state('home', {
 			url: '/home',
@@ -161,7 +163,6 @@ app.run(['$cookieStore', '$injector', function($cookieStore, $injector) {
 		var token = $cookieStore.get('customerToken');
 		if (token) {
 			headersGetter()['Authorization'] = token.jwt;
-			console.log(headersGetter()['Authorization']);
 		}
 
 		if (data === undefined) {

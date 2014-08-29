@@ -24,7 +24,7 @@ angular.module('create.controller', [])
 		}
 	})
 
-	.controller('createFinalizeController', function($scope, $stateParams, $location, promiseTracker, AlertsService, PayService) {
+	.controller('createFinalizeController', function($scope, $state, $stateParams, $location, promiseTracker, AlertsService, PayService) {
 		$scope.tracker = promiseTracker();
 		$scope.redirecting = false;
 		$scope.finalize = function() {
