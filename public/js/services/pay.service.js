@@ -10,6 +10,16 @@ angular.module('pay.service', [])
 						PayerId: payerId
 					});
 				}
+			},
+			full: {
+				startPayFlow: function(mumId) {
+					return $http.get('/mums/api/pay/full/' + mumId);
+				},
+				finalize: function(mumId, payerId) {
+					return $http.post('/mums/api/pay/full/' + mumId, {
+						PayerId: payerId
+					});
+				}
 			}
 		};
 	});

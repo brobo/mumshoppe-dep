@@ -1,0 +1,5 @@
+<h3>Pay for your mum!</h3>
+<p class="lead">You still owe <strong>{{mum.TotalPrice - 25 | currency}}</strong> for your mum. You can pay the remaining balance of your mum via PayPal or at the Mum Shoppe. To pay via PayPal, click on the button below.</p>
+<button class="btn btn-success btn-block" ng-click="startPayFlow()" ng-show="!tracker.active() && !redirecting">Pay via PayPal</button>
+<button class="btn btn-success btn-block" ng-show="tracker.active()" disabled><i class="fa fa-spin fa-circle-o-notch"></i></button>
+<a ng-href="{{approvalUrl}}"><button class="btn btn-success btn-block" ng-show="redirecting">Click here if you are not redirected to PayPal.</button></a>

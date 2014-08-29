@@ -40,6 +40,10 @@ angular.module('mums.mumshoppe.controller', [])
 			});
 		}
 
+		$scope.payMum = function(mumId) {
+			$state.go('pay.start', {mumId: mumId});
+		}
+
 	})
 
 	.controller('mumsViewController', function($scope, $state, $stateParams, MumService, LettersService) {

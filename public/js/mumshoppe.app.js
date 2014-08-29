@@ -8,6 +8,7 @@ var app = angular.module('mumshoppe', [
 	'confirm.controller',
 	'home.controller',
 	'mums.mumshoppe.controller',
+	'pay.controller',
 	'create.controller',
 	'accentbows.service',
 	'alerts.service',
@@ -50,6 +51,25 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 			url: '/view/:mumId',
 			templateUrl: 'public/views/mumshoppe/mums/view.html',
 			controller: 'mumsViewController'
+		})
+		.state('pay', {
+			url: '/pay/:mumId',
+			template: '<div ui-view></div>',
+			abstract: true
+		})
+		.state('pay.start', {
+			url: '',
+			templateUrl: 'public/views/mumshoppe/pay/index.html',
+			controller: 'payIndexController'
+		})
+		.state('pay.finalize', {
+			url: '/finalize',
+			templateUrl: 'public/views/mumshoppe/pay/finalize.html',
+			controller: 'payFinalizeController'
+		})
+		.state('pay.thankyou', {
+			url: '/thankyou',
+			templateUrl: 'public/views/mumshoppe/pay/thankyou.html'
 		})
 		.state('create', {
 			url: '/create/:mumId',
