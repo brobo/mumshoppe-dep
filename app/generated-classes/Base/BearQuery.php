@@ -23,11 +23,15 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     ChildBearQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildBearQuery orderByName($order = Criteria::ASC) Order by the name column
+ * @method     ChildBearQuery orderByUnderclassman($order = Criteria::ASC) Order by the underclassman column
+ * @method     ChildBearQuery orderByJunior($order = Criteria::ASC) Order by the junior column
  * @method     ChildBearQuery orderBySenior($order = Criteria::ASC) Order by the senior column
  * @method     ChildBearQuery orderByPrice($order = Criteria::ASC) Order by the price column
  *
  * @method     ChildBearQuery groupById() Group by the id column
  * @method     ChildBearQuery groupByName() Group by the name column
+ * @method     ChildBearQuery groupByUnderclassman() Group by the underclassman column
+ * @method     ChildBearQuery groupByJunior() Group by the junior column
  * @method     ChildBearQuery groupBySenior() Group by the senior column
  * @method     ChildBearQuery groupByPrice() Group by the price column
  *
@@ -44,11 +48,15 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     ChildBear findOneById(int $id) Return the first ChildBear filtered by the id column
  * @method     ChildBear findOneByName(string $name) Return the first ChildBear filtered by the name column
+ * @method     ChildBear findOneByUnderclassman(boolean $underclassman) Return the first ChildBear filtered by the underclassman column
+ * @method     ChildBear findOneByJunior(boolean $junior) Return the first ChildBear filtered by the junior column
  * @method     ChildBear findOneBySenior(boolean $senior) Return the first ChildBear filtered by the senior column
  * @method     ChildBear findOneByPrice(string $price) Return the first ChildBear filtered by the price column
  *
  * @method     array findById(int $id) Return ChildBear objects filtered by the id column
  * @method     array findByName(string $name) Return ChildBear objects filtered by the name column
+ * @method     array findByUnderclassman(boolean $underclassman) Return ChildBear objects filtered by the underclassman column
+ * @method     array findByJunior(boolean $junior) Return ChildBear objects filtered by the junior column
  * @method     array findBySenior(boolean $senior) Return ChildBear objects filtered by the senior column
  * @method     array findByPrice(string $price) Return ChildBear objects filtered by the price column
  *
@@ -139,7 +147,7 @@ abstract class BearQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT ID, NAME, SENIOR, PRICE FROM bear WHERE ID = :p0';
+        $sql = 'SELECT ID, NAME, UNDERCLASSMAN, JUNIOR, SENIOR, PRICE FROM bear WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -296,6 +304,60 @@ abstract class BearQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(BearTableMap::NAME, $name, $comparison);
+    }
+
+    /**
+     * Filter the query on the underclassman column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByUnderclassman(true); // WHERE underclassman = true
+     * $query->filterByUnderclassman('yes'); // WHERE underclassman = true
+     * </code>
+     *
+     * @param     boolean|string $underclassman The value to use as filter.
+     *              Non-boolean arguments are converted using the following rules:
+     *                * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *                * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildBearQuery The current query, for fluid interface
+     */
+    public function filterByUnderclassman($underclassman = null, $comparison = null)
+    {
+        if (is_string($underclassman)) {
+            $underclassman = in_array(strtolower($underclassman), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+        }
+
+        return $this->addUsingAlias(BearTableMap::UNDERCLASSMAN, $underclassman, $comparison);
+    }
+
+    /**
+     * Filter the query on the junior column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByJunior(true); // WHERE junior = true
+     * $query->filterByJunior('yes'); // WHERE junior = true
+     * </code>
+     *
+     * @param     boolean|string $junior The value to use as filter.
+     *              Non-boolean arguments are converted using the following rules:
+     *                * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *                * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildBearQuery The current query, for fluid interface
+     */
+    public function filterByJunior($junior = null, $comparison = null)
+    {
+        if (is_string($junior)) {
+            $junior = in_array(strtolower($junior), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+        }
+
+        return $this->addUsingAlias(BearTableMap::JUNIOR, $junior, $comparison);
     }
 
     /**

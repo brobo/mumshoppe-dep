@@ -74,7 +74,7 @@ angular.module('create.controller', [])
 		}
 	})
 
-	.controller('createReviewController', function($scope, $state, AlertsService, LettersService, MumService) {
+	.controller('createReviewController', function($scope, $state, AlertsService, LettersService, MumService, TrinketsService) {
 		$scope.letters = {};
 		$scope.bearTotal = 0;
 		$scope.trinketTotal = 0;
@@ -92,6 +92,10 @@ angular.module('create.controller', [])
 				for (var i=0; i<data.length; i++) {
 					$scope.letters[data[i].Id] = data[i];
 				}
+			});
+		TrinketsService.categories.get()
+			.success(function(data) {
+				$scope.categories = data;
 			});
 		$scope.$parent.next = function() {
 			$state.go('^.deposit');
@@ -189,7 +193,8 @@ angular.module('create.controller', [])
 					}
 					$scope.totalPrice = total;
 
-					$scope.predicate = $scope.mum.Grade.Name == 'Senior' ? {} : {Senior: false};
+					$scope.predicate = {};
+					$scope.predicate[$scope.mum.Grade.Name] = true;
 				});
 		}
 

@@ -70,6 +70,20 @@ abstract class Bear implements ActiveRecordInterface
     protected $name;
 
     /**
+     * The value for the underclassman field.
+     * Note: this column has a database default value of: false
+     * @var        boolean
+     */
+    protected $underclassman;
+
+    /**
+     * The value for the junior field.
+     * Note: this column has a database default value of: false
+     * @var        boolean
+     */
+    protected $junior;
+
+    /**
      * The value for the senior field.
      * Note: this column has a database default value of: false
      * @var        boolean
@@ -121,6 +135,8 @@ abstract class Bear implements ActiveRecordInterface
      */
     public function applyDefaultValues()
     {
+        $this->underclassman = false;
+        $this->junior = false;
         $this->senior = false;
     }
 
@@ -407,6 +423,28 @@ abstract class Bear implements ActiveRecordInterface
     }
 
     /**
+     * Get the [underclassman] column value.
+     *
+     * @return   boolean
+     */
+    public function getUnderclassman()
+    {
+
+        return $this->underclassman;
+    }
+
+    /**
+     * Get the [junior] column value.
+     *
+     * @return   boolean
+     */
+    public function getJunior()
+    {
+
+        return $this->junior;
+    }
+
+    /**
      * Get the [senior] column value.
      *
      * @return   boolean
@@ -471,6 +509,64 @@ abstract class Bear implements ActiveRecordInterface
     } // setName()
 
     /**
+     * Sets the value of the [underclassman] column.
+     * Non-boolean arguments are converted using the following rules:
+     *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     *
+     * @param      boolean|integer|string $v The new value
+     * @return   \Bear The current object (for fluent API support)
+     */
+    public function setUnderclassman($v)
+    {
+        if ($v !== null) {
+            if (is_string($v)) {
+                $v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+            } else {
+                $v = (boolean) $v;
+            }
+        }
+
+        if ($this->underclassman !== $v) {
+            $this->underclassman = $v;
+            $this->modifiedColumns[] = BearTableMap::UNDERCLASSMAN;
+        }
+
+
+        return $this;
+    } // setUnderclassman()
+
+    /**
+     * Sets the value of the [junior] column.
+     * Non-boolean arguments are converted using the following rules:
+     *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     *
+     * @param      boolean|integer|string $v The new value
+     * @return   \Bear The current object (for fluent API support)
+     */
+    public function setJunior($v)
+    {
+        if ($v !== null) {
+            if (is_string($v)) {
+                $v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+            } else {
+                $v = (boolean) $v;
+            }
+        }
+
+        if ($this->junior !== $v) {
+            $this->junior = $v;
+            $this->modifiedColumns[] = BearTableMap::JUNIOR;
+        }
+
+
+        return $this;
+    } // setJunior()
+
+    /**
      * Sets the value of the [senior] column.
      * Non-boolean arguments are converted using the following rules:
      *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
@@ -530,6 +626,14 @@ abstract class Bear implements ActiveRecordInterface
      */
     public function hasOnlyDefaultValues()
     {
+            if ($this->underclassman !== false) {
+                return false;
+            }
+
+            if ($this->junior !== false) {
+                return false;
+            }
+
             if ($this->senior !== false) {
                 return false;
             }
@@ -567,10 +671,16 @@ abstract class Bear implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : BearTableMap::translateFieldName('Name', TableMap::TYPE_PHPNAME, $indexType)];
             $this->name = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : BearTableMap::translateFieldName('Senior', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : BearTableMap::translateFieldName('Underclassman', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->underclassman = (null !== $col) ? (boolean) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : BearTableMap::translateFieldName('Junior', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->junior = (null !== $col) ? (boolean) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : BearTableMap::translateFieldName('Senior', TableMap::TYPE_PHPNAME, $indexType)];
             $this->senior = (null !== $col) ? (boolean) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : BearTableMap::translateFieldName('Price', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : BearTableMap::translateFieldName('Price', TableMap::TYPE_PHPNAME, $indexType)];
             $this->price = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
@@ -580,7 +690,7 @@ abstract class Bear implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 4; // 4 = BearTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 6; // 6 = BearTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating \Bear object", 0, $e);
@@ -842,6 +952,12 @@ abstract class Bear implements ActiveRecordInterface
         if ($this->isColumnModified(BearTableMap::NAME)) {
             $modifiedColumns[':p' . $index++]  = 'NAME';
         }
+        if ($this->isColumnModified(BearTableMap::UNDERCLASSMAN)) {
+            $modifiedColumns[':p' . $index++]  = 'UNDERCLASSMAN';
+        }
+        if ($this->isColumnModified(BearTableMap::JUNIOR)) {
+            $modifiedColumns[':p' . $index++]  = 'JUNIOR';
+        }
         if ($this->isColumnModified(BearTableMap::SENIOR)) {
             $modifiedColumns[':p' . $index++]  = 'SENIOR';
         }
@@ -864,6 +980,12 @@ abstract class Bear implements ActiveRecordInterface
                         break;
                     case 'NAME':
                         $stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
+                        break;
+                    case 'UNDERCLASSMAN':
+                        $stmt->bindValue($identifier, (int) $this->underclassman, PDO::PARAM_INT);
+                        break;
+                    case 'JUNIOR':
+                        $stmt->bindValue($identifier, (int) $this->junior, PDO::PARAM_INT);
                         break;
                     case 'SENIOR':
                         $stmt->bindValue($identifier, (int) $this->senior, PDO::PARAM_INT);
@@ -940,9 +1062,15 @@ abstract class Bear implements ActiveRecordInterface
                 return $this->getName();
                 break;
             case 2:
-                return $this->getSenior();
+                return $this->getUnderclassman();
                 break;
             case 3:
+                return $this->getJunior();
+                break;
+            case 4:
+                return $this->getSenior();
+                break;
+            case 5:
                 return $this->getPrice();
                 break;
             default:
@@ -976,8 +1104,10 @@ abstract class Bear implements ActiveRecordInterface
         $result = array(
             $keys[0] => $this->getId(),
             $keys[1] => $this->getName(),
-            $keys[2] => $this->getSenior(),
-            $keys[3] => $this->getPrice(),
+            $keys[2] => $this->getUnderclassman(),
+            $keys[3] => $this->getJunior(),
+            $keys[4] => $this->getSenior(),
+            $keys[5] => $this->getPrice(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1029,9 +1159,15 @@ abstract class Bear implements ActiveRecordInterface
                 $this->setName($value);
                 break;
             case 2:
-                $this->setSenior($value);
+                $this->setUnderclassman($value);
                 break;
             case 3:
+                $this->setJunior($value);
+                break;
+            case 4:
+                $this->setSenior($value);
+                break;
+            case 5:
                 $this->setPrice($value);
                 break;
         } // switch()
@@ -1060,8 +1196,10 @@ abstract class Bear implements ActiveRecordInterface
 
         if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
         if (array_key_exists($keys[1], $arr)) $this->setName($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setSenior($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setPrice($arr[$keys[3]]);
+        if (array_key_exists($keys[2], $arr)) $this->setUnderclassman($arr[$keys[2]]);
+        if (array_key_exists($keys[3], $arr)) $this->setJunior($arr[$keys[3]]);
+        if (array_key_exists($keys[4], $arr)) $this->setSenior($arr[$keys[4]]);
+        if (array_key_exists($keys[5], $arr)) $this->setPrice($arr[$keys[5]]);
     }
 
     /**
@@ -1075,6 +1213,8 @@ abstract class Bear implements ActiveRecordInterface
 
         if ($this->isColumnModified(BearTableMap::ID)) $criteria->add(BearTableMap::ID, $this->id);
         if ($this->isColumnModified(BearTableMap::NAME)) $criteria->add(BearTableMap::NAME, $this->name);
+        if ($this->isColumnModified(BearTableMap::UNDERCLASSMAN)) $criteria->add(BearTableMap::UNDERCLASSMAN, $this->underclassman);
+        if ($this->isColumnModified(BearTableMap::JUNIOR)) $criteria->add(BearTableMap::JUNIOR, $this->junior);
         if ($this->isColumnModified(BearTableMap::SENIOR)) $criteria->add(BearTableMap::SENIOR, $this->senior);
         if ($this->isColumnModified(BearTableMap::PRICE)) $criteria->add(BearTableMap::PRICE, $this->price);
 
@@ -1141,6 +1281,8 @@ abstract class Bear implements ActiveRecordInterface
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
         $copyObj->setName($this->getName());
+        $copyObj->setUnderclassman($this->getUnderclassman());
+        $copyObj->setJunior($this->getJunior());
         $copyObj->setSenior($this->getSenior());
         $copyObj->setPrice($this->getPrice());
 
@@ -1637,6 +1779,8 @@ abstract class Bear implements ActiveRecordInterface
     {
         $this->id = null;
         $this->name = null;
+        $this->underclassman = null;
+        $this->junior = null;
         $this->senior = null;
         $this->price = null;
         $this->alreadyInSave = false;

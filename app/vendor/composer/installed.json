@@ -542,52 +542,6 @@
         ]
     },
     {
-        "name": "firebase/php-jwt",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "target-dir": "Firebase/PHP-JWT",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/firebase/php-jwt.git",
-            "reference": "fa7e362eeeec5ee808124626c3f1a612aadbce52"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/firebase/php-jwt/zipball/fa7e362eeeec5ee808124626c3f1a612aadbce52",
-            "reference": "fa7e362eeeec5ee808124626c3f1a612aadbce52",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.2.0"
-        },
-        "time": "2014-06-25 21:20:33",
-        "type": "library",
-        "installation-source": "source",
-        "autoload": {
-            "classmap": [
-                "Authentication/"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "BSD-3-Clause"
-        ],
-        "authors": [
-            {
-                "name": "Neuman Vong",
-                "email": "neuman+pear@twilio.com",
-                "role": "Developer"
-            },
-            {
-                "name": "Anant Narayanan",
-                "email": "anant@php.net",
-                "role": "Developer"
-            }
-        ],
-        "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
-        "homepage": "https://github.com/firebase/php-jwt"
-    },
-    {
         "name": "paypal/sdk-core-php",
         "version": "v2.4.3",
         "version_normalized": "2.4.3.0",
@@ -639,12 +593,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/paypal/rest-api-sdk-php.git",
-            "reference": "9aff596bb5a3893465af5cf6bfbf5e28f7b785c1"
+            "reference": "755d25572183c5196ff406ff4337ce6f213c8465"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/paypal/rest-api-sdk-php/zipball/9aff596bb5a3893465af5cf6bfbf5e28f7b785c1",
-            "reference": "9aff596bb5a3893465af5cf6bfbf5e28f7b785c1",
+            "url": "https://api.github.com/repos/paypal/rest-api-sdk-php/zipball/755d25572183c5196ff406ff4337ce6f213c8465",
+            "reference": "755d25572183c5196ff406ff4337ce6f213c8465",
             "shasum": ""
         },
         "require": {
@@ -656,7 +610,7 @@
         "require-dev": {
             "phpunit/phpunit": "3.7.*"
         },
-        "time": "2014-08-12 15:15:43",
+        "time": "2014-08-26 21:08:23",
         "type": "library",
         "installation-source": "source",
         "autoload": {
@@ -682,5 +636,51 @@
             "rest",
             "sdk"
         ]
+    },
+    {
+        "name": "firebase/php-jwt",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "Firebase/PHP-JWT",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/firebase/php-jwt.git",
+            "reference": "9e5ae039440bc0806ba85ab887ab9701b5e55ffb"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/firebase/php-jwt/zipball/9e5ae039440bc0806ba85ab887ab9701b5e55ffb",
+            "reference": "9e5ae039440bc0806ba85ab887ab9701b5e55ffb",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2.0"
+        },
+        "time": "2014-08-28 17:20:29",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "classmap": [
+                "Authentication/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Neuman Vong",
+                "email": "neuman+pear@twilio.com",
+                "role": "Developer"
+            },
+            {
+                "name": "Anant Narayanan",
+                "email": "anant@php.net",
+                "role": "Developer"
+            }
+        ],
+        "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
+        "homepage": "https://github.com/firebase/php-jwt"
     }
 ]
