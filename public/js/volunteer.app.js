@@ -224,7 +224,6 @@ app.run(['$cookieStore', '$injector', function($cookieStore, $injector) {
 		var token = $cookieStore.get('customerToken');
 		if (token) {
 			headersGetter()['Authorization'] = token.jwt;
-			console.log(headersGetter()['Authorization']);
 		}
 
 		if (data === undefined) {

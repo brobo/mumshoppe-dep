@@ -38,7 +38,7 @@ angular.module('mums.volunteer.controller', [])
 		}
 	})
 
-	.controller('mumsViewController', function($scope, $state, $stateParams, promiseTracker, MumService, LettersService, PayService) {
+	.controller('mumsViewController', function($scope, $state, $stateParams, promiseTracker, MumService, LettersService, TrinketsService, PayService) {
 		var updateMum = function() {
 			return MumService.fetch($stateParams.mumId)
 				.success(function(data) {
@@ -67,6 +67,10 @@ angular.module('mums.volunteer.controller', [])
 				for (var i=0; i<data.length; i++) {
 					$scope.letters[data[i].Id] = data[i];
 				}
+			});
+		TrinketsService.categories.get()
+			.success(function(data) {
+				$scope.categories = data;
 			});
 		$scope.$parent.next = function() {
 			AlertsService.add('info', 'There isn\'t actually a checkout page yet. Sorry.');
