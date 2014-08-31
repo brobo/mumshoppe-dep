@@ -56,7 +56,7 @@ angular.module('mumtypes.service', [])
 						var fd = new FormData();
 						fd.append("image", images[0]);
 
-						return $http.post('/mums/api/accessory/' + id + '/image', fd, {
+						return $http.post('/mums/api/size/' + id + '/image', fd, {
 							withCredentials: true,
 							headers: {'Content-Type': undefined},
 							transformRequest: angular.identity
@@ -85,7 +85,7 @@ angular.module('mumtypes.service', [])
 						var fd = new FormData();
 						fd.append("image", images[0]);
 
-						return $http.post('/mums/api/accessory/' + id + '/image', fd, {
+						return $http.post('/mums/api/backing/' + id + '/image', fd, {
 							withCredentials: true,
 							headers: {'Content-Type': undefined},
 							transformRequest: angular.identity

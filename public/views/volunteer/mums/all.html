@@ -16,11 +16,11 @@
 			<td>{{mum.Status.Name}}</td>
 			<td>{{mum.Customer.Name}}</td>
 			<td>{{mum.Grade.Name}}</td>
-			<td>{{mum.Mum.OrderDate | dateToISO | date : 'MMM d, yyyy h:mm a'}}</td>
-			<td><i class="fa fa-check" ng-show="mum.Mum.Paid"></i></td>
+			<td>{{mum.OrderDate | dateToISO | date : 'MMM d, yyyy h:mm a'}}</td>
+			<td><i class="fa fa-check" ng-show="mum.Paid"></i></td>
 			<td>{{mum.Product.Name}}</td>
 			<td>
-				<button class="btn btn-info btn-xs" ui-sref="^.view({mumId: mum.Mum.Id})"><i class="fa fa-eye"></i> View</button>
+				<button class="btn btn-info btn-xs" ui-sref="^.view({mumId: mum.Id})"><i class="fa fa-eye"></i> View</button>
 			</td>
 		</tr>
 	</tbody>

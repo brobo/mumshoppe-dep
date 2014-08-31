@@ -52,6 +52,7 @@ return array(
     'CustomerQuery' => $baseDir . '/generated-classes/CustomerQuery.php',
     'Grade' => $baseDir . '/generated-classes/Grade.php',
     'GradeQuery' => $baseDir . '/generated-classes/GradeQuery.php',
+    'JWT' => $vendorDir . '/firebase/php-jwt/Firebase/PHP-JWT/Authentication/JWT.php',
     'Letter' => $baseDir . '/generated-classes/Letter.php',
     'LetterQuery' => $baseDir . '/generated-classes/LetterQuery.php',
     'Map\\AccentBowTableMap' => $baseDir . '/generated-classes/Map/AccentBowTableMap.php',

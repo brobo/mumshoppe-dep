@@ -12,7 +12,8 @@ class Backing extends BaseBacking
 			'Name' => $this->getName(),
 			'Price' => $this->getPrice(),
 			'SizeId' => $this->getSizeId(),
-			'GradeId' => $this->getGradeId()
+			'GradeId' => $this->getGradeId(),
+			'HasImage' => !!$this->getImageMime()
 		);
 
 		return $res;

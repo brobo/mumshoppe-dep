@@ -12,7 +12,7 @@ angular.module('accentbows.controller', [])
 
 		$scope.updateItems();
 
-		$scope.imageAccentbow = function(id) {
+		$scope.imageBow = function(id) {
 			$modal.open({
 				templateUrl: 'imageForm',
 				controller: 'imageAccentbowController',
@@ -83,7 +83,7 @@ angular.module('accentbows.controller', [])
 		}
 	})
 
-	.controller('imageAccentbowController', function($scope, $modalInstance, AlertsService, AccentbowService, promiseTracker, id) {
+	.controller('imageAccentbowController', function($scope, $modalInstance, AlertsService, AccentBowsService, promiseTracker, id) {
 		$scope.tracker = promiseTracker();
 		$scope.id = id;
 		$scope.cancel = function() {
@@ -92,7 +92,7 @@ angular.module('accentbows.controller', [])
 
 		$scope.uploadFile = function(files) {
 			var defered = $scope.tracker.createPromise();
-			AccentbowService.image.upload(id, files)
+			AccentBowsService.image.upload(id, files)
 				.success(function(data) {
 					AlertsService.add('success', 'Successfully added image.');
 				}).error(function(data) {

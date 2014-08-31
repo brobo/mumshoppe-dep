@@ -16,6 +16,32 @@ angular.module('mumtypes.controller', [])
 			itemDetails.fetch[i]($scope);
 		}
 
+		$scope.imageSize = function(id) {
+			$modal.open({
+				templateUrl: 'imageForm',
+				controller: 'imageSizeController',
+				size: 'lg',
+				resolve: {
+					id: function() {
+						return id;
+					}
+				}
+			});
+		}
+
+		$scope.imageBacking = function(id) {
+			$modal.open({
+				templateUrl: 'imageForm',
+				controller: 'imageBackingController',
+				size: 'lg',
+				resolve: {
+					id: function() {
+						return id;
+					}
+				}
+			});
+		}
+
 		$scope.addItem = function(meta) {
 			$modal.open({
 				templateUrl: 'itemForm',
@@ -156,19 +182,6 @@ angular.module('mumtypes.controller', [])
 			$scope.invalid[field] = form[field].$invalid;
 		}
 
-		$scope.imageSize = function(id) {
-			$modal.open({
-				templateUrl: 'imageForm',
-				controller: 'imageSizeController',
-				size: 'lg',
-				resolve: {
-					id: function() {
-						return id;
-					}
-				}
-			});
-		}
-
 		$scope.create = function(form) {
 			if (form.$valid) {
 				console.log($scope.size);
@@ -206,19 +219,6 @@ angular.module('mumtypes.controller', [])
 			$scope.invalid[field] = form[field].$invalid;
 		}
 
-		$scope.imageBacking = function(id) {
-			$modal.open({
-				templateUrl: 'imageForm',
-				controller: 'imageBackingController',
-				size: 'lg',
-				resolve: {
-					id: function() {
-						return id;
-					}
-				}
-			});
-		}
-
 		$scope.create = function(form) {
 			if (form.$valid) {
 				var defered = $scope.tracker.createPromise();
@@ -252,7 +252,7 @@ angular.module('mumtypes.controller', [])
 
 		$scope.uploadFile = function(files) {
 			var defered = $scope.tracker.createPromise();
-			MumtypesService.images.image.upload(id, files)
+			MumtypesService.sizes.image.upload(id, files)
 				.success(function(data) {
 					AlertsService.add('success', 'Successfully added image.');
 				}).error(function(data) {

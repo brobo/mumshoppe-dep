@@ -17,7 +17,7 @@
 
 		if (!$size) return;
 
-		echo json_encode($size->toFull());
+		echo json_encode($size->getFull());
 	});
 
 	$app->put('/api/size/:id', function($id) use ($app) {
@@ -31,7 +31,7 @@
 
 		$size->save();
 
-		echo json_encode($size->toFull());
+		echo json_encode($size->getFull());
 	});
 
 	$app->post('/api/size', function() use ($app) {
@@ -43,7 +43,7 @@
 
 		$size->save();
 
-		echo json_encode($size->toFull());
+		echo json_encode($size->getFull());
 	});
 
 	$app->delete('/api/size/:id', function($id) {
@@ -53,7 +53,7 @@
 
 		$size->delete();
 
-		echo json_encode($size->toFull());
+		echo json_encode($size->getFull());
 	});
 
 	$app->post('/api/size/:id/image', function($id) {
