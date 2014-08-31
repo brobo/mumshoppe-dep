@@ -225,8 +225,11 @@ CREATE TABLE `mum`
         FOREIGN KEY (`accent_bow_id`)
         REFERENCES `accent_bow` (`id`),
     CONSTRAINT `mum_FK_4`
-        FOREIGN KEY (`letter1_id`,`letter2_id`)
-        REFERENCES `letter` (`id`,`id`),
+        FOREIGN KEY (`letter1_id`)
+        REFERENCES `letter` (`id`),
+	CONSTRAINT `mum_FK_6`
+		FOREIGN KEY (`letter2_id`)
+		REFERENCES `letter` (`id`),
     CONSTRAINT `mum_FK_5`
         FOREIGN KEY (`status_id`)
         REFERENCES `status` (`id`)
