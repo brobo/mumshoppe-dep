@@ -4,8 +4,12 @@
 		$bows = AccentBowQuery::create()->find();
 		
 		if (!$bows) return;
+
+		$encodeBow = function($bow) {
+			return $bow->getFull();
+		};
 		
-		echo json_encode($bows->toArray());
+		echo json_encode(array_map($encodeBow, $bows->getData()));
 	});
 
 	$app->get('/api/accentbow/:id', function($id) {
@@ -13,7 +17,7 @@
 		
 		if (!$bow) return;
 
-		echo $bow->toJson();
+		echo json_encode($bow->toFull());
 	});
 
 	$app->put('/api/accentbow/:id', function($id) use ($app) {
@@ -28,7 +32,7 @@
 
 		$bow->save();
 
-		echo $bow->toJson();
+		echo json_encode($bow->toFull());
 	});
 
 	$app->post('/api/accentbow', function() use ($app) {
@@ -40,7 +44,7 @@
 
 		$bow->save();
 
-		echo $bow->toJson();
+		echo json_encode($bow->toFull());
 	});
 
 	$app->delete('/api/accentbow/:id', function($id) {
@@ -50,7 +54,7 @@
 
 		$bow->delete();
 		
-		echo $bow->toJson();
+		echo json_encode($bow->toFull());
 	});
 
 	$app->post('/api/accentbow/:id/image', function($id) {

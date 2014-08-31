@@ -15,6 +15,18 @@ angular.module('bears.service', [])
 			},
 			fetch: function(id) {
 				return $http.get('/mums/api/bear/' + id);
+			},
+			image: {
+				upload: function(id, images) {
+					var fd = new FormData();
+					fd.append("image", images[0]);
+
+					return $http.post('/mums/api/bear/' + id + '/image', fd, {
+						withCredentials: true,
+						headers: {'Content-Type': undefined},
+						transformRequest: angular.identity
+					});
+				}
 			}
 		}
 	});

@@ -28,7 +28,7 @@
 		$mums = $mums->find()->getData();
 
 		$encodeMum = function($mum) {
-			return $mum->getFull();
+			return $mum->getMini();
 		};
 
 		echo json_encode(array_map($encodeMum, $mums));

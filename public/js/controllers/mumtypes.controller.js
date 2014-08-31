@@ -156,6 +156,19 @@ angular.module('mumtypes.controller', [])
 			$scope.invalid[field] = form[field].$invalid;
 		}
 
+		$scope.imageSize = function(id) {
+			$modal.open({
+				templateUrl: 'imageForm',
+				controller: 'imageSizeController',
+				size: 'lg',
+				resolve: {
+					id: function() {
+						return id;
+					}
+				}
+			});
+		}
+
 		$scope.create = function(form) {
 			if (form.$valid) {
 				console.log($scope.size);
@@ -193,6 +206,19 @@ angular.module('mumtypes.controller', [])
 			$scope.invalid[field] = form[field].$invalid;
 		}
 
+		$scope.imageBacking = function(id) {
+			$modal.open({
+				templateUrl: 'imageForm',
+				controller: 'imageBackingController',
+				size: 'lg',
+				resolve: {
+					id: function() {
+						return id;
+					}
+				}
+			});
+		}
+
 		$scope.create = function(form) {
 			if (form.$valid) {
 				var defered = $scope.tracker.createPromise();
@@ -216,3 +242,47 @@ angular.module('mumtypes.controller', [])
 			$modalInstance.dismiss();
 		}
 	})
+
+	.controller('imageSizeController', function($scope, $modalInstance, AlertsService, MumtypesService, promiseTracker, id) {
+		$scope.tracker = promiseTracker();
+		$scope.id = id;
+		$scope.cancel = function() {
+			$modalInstance.dismiss();
+		}
+
+		$scope.uploadFile = function(files) {
+			var defered = $scope.tracker.createPromise();
+			MumtypesService.images.image.upload(id, files)
+				.success(function(data) {
+					AlertsService.add('success', 'Successfully added image.');
+				}).error(function(data) {
+					AlertsService.add('danger', 'Something went wrong. Please try again.');
+					console.log(data);
+				}).finally(function() {
+					$modalInstance.close();
+					defered.resolve();
+				});
+		}
+	})
+
+	.controller('imageBackingController', function($scope, $modalInstance, AlertsService, MumtypesService, promiseTracker, id) {
+		$scope.tracker = promiseTracker();
+		$scope.id = id;
+		$scope.cancel = function() {
+			$modalInstance.dismiss();
+		}
+
+		$scope.uploadFile = function(files) {
+			var defered = $scope.tracker.createPromise();
+			MumtypesService.backings.image.upload(id, files)
+				.success(function(data) {
+					AlertsService.add('success', 'Successfully added image.');
+				}).error(function(data) {
+					AlertsService.add('danger', 'Something went wrong. Please try again.');
+					console.log(data);
+				}).finally(function() {
+					$modalInstance.close();
+					defered.resolve();
+				});
+		}
+	});

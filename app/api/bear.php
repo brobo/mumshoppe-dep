@@ -4,8 +4,12 @@
 		$bears = BearQuery::create()->find();
 		
 		if (!$bears) return;
-		
-		echo json_encode($bears->toArray());
+
+		$encodeBear = function($bear) {
+			return $bear->getFull();
+		};
+
+		echo json_encode(array_map($encodeBear, $bears->getData()));
 	});
 
 	$app->get('/api/bear/:id', function($id) {
@@ -13,7 +17,7 @@
 		
 		if (!$bear) return;
 
-		echo $bear->toJson();
+		echo json_encode($bear->getFull());
 	});
 
 	$app->put('/api/bear/:id', function($id) use ($app) {
@@ -28,7 +32,7 @@
 
 		$bear->save();
 
-		echo $bear->toJson();
+		echo json_encode($bear->getFull());
 	});
 
 	$app->post('/api/bear', function() use ($app) {
@@ -40,7 +44,7 @@
 
 		$bear->save();
 
-		echo $bear->toJson();
+		echo json_encode($bear->getFull());
 	});
 
 	$app->delete('/api/bear/:id', function($id) {
@@ -50,7 +54,7 @@
 
 		$bear->delete();
 		
-		echo $bear->toJson();
+		echo json_encode($bear->getFull());
 	});
 
 	$app->post('/api/bear/:id/image', function($id) {

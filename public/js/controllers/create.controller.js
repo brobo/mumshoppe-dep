@@ -5,6 +5,7 @@ angular.module('create.controller', [])
 			return MumService.fetch($stateParams.mumId)
 				.success(function(data) {
 					$scope.mum = data;
+					console.log($scope.mum);
 					$scope.stagedCharges = [];
 				});
 		}

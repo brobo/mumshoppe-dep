@@ -5,7 +5,11 @@
 
 		if (!$sizes) return;
 
-		echo json_encode($sizes->toArray());
+		$encodeSize = function($size) {
+			return $size->getFull();
+		};
+
+		echo json_encode(array_map($encodeSize, $sizes->getData()));
 	});
 
 	$app->get('/api/size/:id', function($id) {
@@ -13,7 +17,7 @@
 
 		if (!$size) return;
 
-		echo $size->toJson();
+		echo json_encode($size->toFull());
 	});
 
 	$app->put('/api/size/:id', function($id) use ($app) {
@@ -27,7 +31,7 @@
 
 		$size->save();
 
-		echo $size->toJson();
+		echo json_encode($size->toFull());
 	});
 
 	$app->post('/api/size', function() use ($app) {
@@ -39,7 +43,7 @@
 
 		$size->save();
 
-		echo $size->toJson();
+		echo json_encode($size->toFull());
 	});
 
 	$app->delete('/api/size/:id', function($id) {
@@ -49,7 +53,7 @@
 
 		$size->delete();
 
-		echo $size->toJson();
+		echo json_encode($size->toFull());
 	});
 
 	$app->post('/api/size/:id/image', function($id) {

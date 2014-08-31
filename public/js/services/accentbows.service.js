@@ -15,6 +15,18 @@ angular.module('accentbows.service', [])
 			},
 			fetch: function(id) {
 				return $http.get('/mums/api/accentbow/' + id);
+			},
+			image: {
+				upload: function(id, images) {
+					var fd = new FormData();
+					fd.append("image", images[0]);
+
+					return $http.post('/mums/api/accentbow/' + id + '/image', fd, {
+						withCredentials: true,
+						headers: {'Content-Type': undefined},
+						transformRequest: angular.identity
+					});
+				}
 			}
 		}
 	});

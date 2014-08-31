@@ -27,19 +27,20 @@ class Mum extends BaseMum
 				'Name' => $this->getCustomer()->getName(),
 				'Id' => $this->getCustomer()->getId()
 			) : null,
-			'Accent_bow' => $this->getAccentBow(),
-			'Backing' => $this->getBacking(),
-			'Bears' => $this->getBears(),
-			'Bears' => $this->getBears(),
+			'Accent_bow' => $this->getAccentBow()->getFull(),
+			'Backing' => $this->getBacking()->getFull(),
+			'Bears' => array_map(function($bear) {
+							return $bear->getFull();
+						}, $this->getBears()->getData()),
 			'Grade' => $this->getBacking() ? $this->getBacking()->getGrade() : null,
 			'Product' => $this->getBacking() && $this->getBacking()->getSize() ? $this->getBacking()->getSize()->getProduct() : null,
-			'Size' => $this->getBacking() ? $this->getBacking()->getSize() : null,
+			'Size' => $this->getBacking() ? $this->getBacking()->getSize()->getFull() : null,
 			'Status' => $this->getStatus(),
 			'Accessories' => $this->getMumAccessories()
 		);
 
 		foreach ($res as $key => $value) {
-			if ($key == 'Customer') continue;
+			if (!method_exists($res[$key], 'toArray')) continue;
 			if ($res[$key]) {
 				$res[$key] = $res[$key]->toArray();
 			}
@@ -62,6 +63,23 @@ class Mum extends BaseMum
 
 		$res['TotalPrice'] = $this->calculatePrice($res);
 
+		return $res;
+	}
+
+	public function getMini() {
+		$full = $this->getFull();
+
+		$res = array(
+			'Id' => $full['Mum']['Id'],
+			'Status' => $full['Status'],
+			'Grade' => $full['Grade'],
+			'OrderDate' => $full['Mum']['OrderDate'],
+			'Paid' => $full['Mum']['Paid'],
+			'Backing' => $full['Backing'],
+			'Customer' => $full['Customer'],
+			'TotalPrice' => $full['TotalPrice']
+		);
+	
 		return $res;
 	}
 }

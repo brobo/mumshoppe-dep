@@ -5,7 +5,11 @@
 
 		if (!$backings) return;
 
-		echo json_encode($backings->toArray());
+		$encodeBacking = function($backing) {
+			return $backing->getFull();
+		};
+
+		echo json_encode(array_map($encodeBacking, $backings->getData()));
 	});
 
 	$app->get('/api/backing/:id', function($id) {
@@ -13,7 +17,7 @@
 
 		if (!$backing) return;
 
-		echo $backing->toJson();
+		echo json_encode($backing->toFull());
 	});
 
 	$app->put('/api/backing/:id', function($id) use ($app) {
@@ -27,7 +31,7 @@
 
 		$backing->save();
 
-		echo $backing->toJson();
+		echo json_encode($backing->toFull());
 	});
 
 	$app->post('/api/backing', function() use ($app) {
@@ -39,7 +43,7 @@
 
 		$backing->save();
 
-		echo $backing->toJson();
+		echo json_encode($backing->toFull());
 	});
 
 	$app->delete('/api/backing/:id', function($id) {
@@ -49,7 +53,7 @@
 
 		$backing->delete();
 
-		echo $backing->toJson();
+		echo json_encode($backing->toFull());
 	});
 
 	$app->post('/api/backing/:id/image', function($id) {

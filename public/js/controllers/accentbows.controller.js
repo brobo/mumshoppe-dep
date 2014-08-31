@@ -12,6 +12,19 @@ angular.module('accentbows.controller', [])
 
 		$scope.updateItems();
 
+		$scope.imageAccentbow = function(id) {
+			$modal.open({
+				templateUrl: 'imageForm',
+				controller: 'imageAccentbowController',
+				size: 'lg',
+				resolve: {
+					id: function() {
+						return id;
+					}
+				}
+			});
+		}
+
 		$scope.addBow = function(grade) {
 			$modal.open({
 				templateUrl: 'bowForm',
@@ -67,6 +80,28 @@ angular.module('accentbows.controller', [])
 						$scope.updateItems();
 					});
 			});
+		}
+	})
+
+	.controller('imageAccentbowController', function($scope, $modalInstance, AlertsService, AccentbowService, promiseTracker, id) {
+		$scope.tracker = promiseTracker();
+		$scope.id = id;
+		$scope.cancel = function() {
+			$modalInstance.dismiss();
+		}
+
+		$scope.uploadFile = function(files) {
+			var defered = $scope.tracker.createPromise();
+			AccentbowService.image.upload(id, files)
+				.success(function(data) {
+					AlertsService.add('success', 'Successfully added image.');
+				}).error(function(data) {
+					AlertsService.add('danger', 'Something went wrong. Please try again.');
+					console.log(data);
+				}).finally(function() {
+					$modalInstance.close();
+					defered.resolve();
+				});
 		}
 	})
 
