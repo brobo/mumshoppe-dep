@@ -13,7 +13,7 @@
 	</thead>
 	<tbody>
 		<tr ng-repeat="accessory in accessories">
-			<td>{{accessory.Name}}</td>
+			<td><h4>{{accessory.Name}} <small>{{accessory.ItemId}}</small></td>
 			<td><small>{{accessory.AccessoriesCategory.Name}}</small></td>
 			<td><span class="fa" ng-class="{'fa-check': accessory.Underclassman}"></span></td>
 			<td><span class="fa" ng-class="{'fa-check': accessory.Junior}"></span></td>

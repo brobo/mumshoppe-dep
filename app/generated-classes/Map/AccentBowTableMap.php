@@ -57,22 +57,27 @@ class AccentBowTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 3;
+    const NUM_COLUMNS = 6;
 
     /**
      * The number of lazy-loaded columns
      */
-    const NUM_LAZY_LOAD_COLUMNS = 0;
+    const NUM_LAZY_LOAD_COLUMNS = 2;
 
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 3;
+    const NUM_HYDRATE_COLUMNS = 4;
 
     /**
      * the column name for the ID field
      */
     const ID = 'accent_bow.ID';
+
+    /**
+     * the column name for the ITEM_ID field
+     */
+    const ITEM_ID = 'accent_bow.ITEM_ID';
 
     /**
      * the column name for the NAME field
@@ -83,6 +88,16 @@ class AccentBowTableMap extends TableMap
      * the column name for the GRADE_ID field
      */
     const GRADE_ID = 'accent_bow.GRADE_ID';
+
+    /**
+     * the column name for the IMAGE field
+     */
+    const IMAGE = 'accent_bow.IMAGE';
+
+    /**
+     * the column name for the IMAGE_MIME field
+     */
+    const IMAGE_MIME = 'accent_bow.IMAGE_MIME';
 
     /**
      * The default string format for model objects of the related table
@@ -96,12 +111,12 @@ class AccentBowTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Name', 'GradeId', ),
-        self::TYPE_STUDLYPHPNAME => array('id', 'name', 'gradeId', ),
-        self::TYPE_COLNAME       => array(AccentBowTableMap::ID, AccentBowTableMap::NAME, AccentBowTableMap::GRADE_ID, ),
-        self::TYPE_RAW_COLNAME   => array('ID', 'NAME', 'GRADE_ID', ),
-        self::TYPE_FIELDNAME     => array('id', 'name', 'grade_id', ),
-        self::TYPE_NUM           => array(0, 1, 2, )
+        self::TYPE_PHPNAME       => array('Id', 'ItemId', 'Name', 'GradeId', 'Image', 'ImageMime', ),
+        self::TYPE_STUDLYPHPNAME => array('id', 'itemId', 'name', 'gradeId', 'image', 'imageMime', ),
+        self::TYPE_COLNAME       => array(AccentBowTableMap::ID, AccentBowTableMap::ITEM_ID, AccentBowTableMap::NAME, AccentBowTableMap::GRADE_ID, AccentBowTableMap::IMAGE, AccentBowTableMap::IMAGE_MIME, ),
+        self::TYPE_RAW_COLNAME   => array('ID', 'ITEM_ID', 'NAME', 'GRADE_ID', 'IMAGE', 'IMAGE_MIME', ),
+        self::TYPE_FIELDNAME     => array('id', 'item_id', 'name', 'grade_id', 'image', 'image_mime', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
     );
 
     /**
@@ -111,12 +126,12 @@ class AccentBowTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Name' => 1, 'GradeId' => 2, ),
-        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'name' => 1, 'gradeId' => 2, ),
-        self::TYPE_COLNAME       => array(AccentBowTableMap::ID => 0, AccentBowTableMap::NAME => 1, AccentBowTableMap::GRADE_ID => 2, ),
-        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'NAME' => 1, 'GRADE_ID' => 2, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'name' => 1, 'grade_id' => 2, ),
-        self::TYPE_NUM           => array(0, 1, 2, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'ItemId' => 1, 'Name' => 2, 'GradeId' => 3, 'Image' => 4, 'ImageMime' => 5, ),
+        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'itemId' => 1, 'name' => 2, 'gradeId' => 3, 'image' => 4, 'imageMime' => 5, ),
+        self::TYPE_COLNAME       => array(AccentBowTableMap::ID => 0, AccentBowTableMap::ITEM_ID => 1, AccentBowTableMap::NAME => 2, AccentBowTableMap::GRADE_ID => 3, AccentBowTableMap::IMAGE => 4, AccentBowTableMap::IMAGE_MIME => 5, ),
+        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'ITEM_ID' => 1, 'NAME' => 2, 'GRADE_ID' => 3, 'IMAGE' => 4, 'IMAGE_MIME' => 5, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'item_id' => 1, 'name' => 2, 'grade_id' => 3, 'image' => 4, 'image_mime' => 5, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
     );
 
     /**
@@ -136,8 +151,11 @@ class AccentBowTableMap extends TableMap
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
+        $this->addColumn('ITEM_ID', 'ItemId', 'VARCHAR', false, 15, null);
         $this->addColumn('NAME', 'Name', 'VARCHAR', true, 255, null);
         $this->addForeignKey('GRADE_ID', 'GradeId', 'INTEGER', 'grade', 'ID', true, null, null);
+        $this->addColumn('IMAGE', 'Image', 'BLOB', false, null, null);
+        $this->addColumn('IMAGE_MIME', 'ImageMime', 'VARCHAR', false, 31, null);
     } // initialize()
 
     /**
@@ -288,10 +306,12 @@ class AccentBowTableMap extends TableMap
     {
         if (null === $alias) {
             $criteria->addSelectColumn(AccentBowTableMap::ID);
+            $criteria->addSelectColumn(AccentBowTableMap::ITEM_ID);
             $criteria->addSelectColumn(AccentBowTableMap::NAME);
             $criteria->addSelectColumn(AccentBowTableMap::GRADE_ID);
         } else {
             $criteria->addSelectColumn($alias . '.ID');
+            $criteria->addSelectColumn($alias . '.ITEM_ID');
             $criteria->addSelectColumn($alias . '.NAME');
             $criteria->addSelectColumn($alias . '.GRADE_ID');
         }

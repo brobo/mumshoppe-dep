@@ -22,7 +22,7 @@
 			</tr>
 			<tr>
 				<th>Backing</th>
-				<td>{{mum.Backing.Name}}</td>
+				<td>{{mum.Backing.Name}} <small>{{mum.Backing.ItemId}}</small></td>
 				<td><span class="badge">{{mum.Backing.Price | currency}}</span></td>
 			</tr>
 		</table>
@@ -34,7 +34,7 @@
 		<h3><a ui-sref="^.accentbow">Accent Bow</a> <span class="label label-primary">{{mum.Accent_bow.Price | currency}}</span></h3>
 	</div>
 	<div class="panel-body">
-		<p class="lead"><strong>Accent bow: </strong> {{mum.Accent_bow.Name}}</p>
+		<p class="lead"><strong>Accent bow: </strong> {{mum.Accent_bow.Name}} <small>{{mum.Accent_bow.ItemId}}</small></p>
 	</div>
 </div>
 
@@ -65,7 +65,7 @@
 	<div class="panel-body">
 		<table class="table">
 			<tr ng-repeat="bear in mum.Bears">
-				<th>{{bear.Name}}</th>
+				<th>{{bear.Name}} <small>{{bear.ItemId}}</small></th>
 				<td><span class="badge">{{bear.Price | currency}}</span><td>
 			</tr>
 		</table>
@@ -88,7 +88,7 @@
 						<th>Total Price</th>
 					</tr>
 					<tr ng-repeat="accessory in filtered">
-						<th>{{accessory.Accessory.Name}}</th>
+						<th>{{accessory.Accessory.Name}} <small>{{accessory.Accessory.ItemId}}</small></th>
 						<td>{{accessory.Accessory.Price | currency}}</td>
 						<td>{{accessory.Quantity}}</td>
 						<td><span class="badge">{{accessory.Accessory.Price * accessory.Quantity | currency}}</span></td>

@@ -57,12 +57,12 @@ class SizeTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 4;
+    const NUM_COLUMNS = 6;
 
     /**
      * The number of lazy-loaded columns
      */
-    const NUM_LAZY_LOAD_COLUMNS = 0;
+    const NUM_LAZY_LOAD_COLUMNS = 2;
 
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
@@ -90,6 +90,16 @@ class SizeTableMap extends TableMap
     const PRODUCT_ID = 'size.PRODUCT_ID';
 
     /**
+     * the column name for the IMAGE field
+     */
+    const IMAGE = 'size.IMAGE';
+
+    /**
+     * the column name for the IMAGE_MIME field
+     */
+    const IMAGE_MIME = 'size.IMAGE_MIME';
+
+    /**
      * The default string format for model objects of the related table
      */
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -101,12 +111,12 @@ class SizeTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Name', 'BearLimit', 'ProductId', ),
-        self::TYPE_STUDLYPHPNAME => array('id', 'name', 'bearLimit', 'productId', ),
-        self::TYPE_COLNAME       => array(SizeTableMap::ID, SizeTableMap::NAME, SizeTableMap::BEAR_LIMIT, SizeTableMap::PRODUCT_ID, ),
-        self::TYPE_RAW_COLNAME   => array('ID', 'NAME', 'BEAR_LIMIT', 'PRODUCT_ID', ),
-        self::TYPE_FIELDNAME     => array('id', 'name', 'bear_limit', 'product_id', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Id', 'Name', 'BearLimit', 'ProductId', 'Image', 'ImageMime', ),
+        self::TYPE_STUDLYPHPNAME => array('id', 'name', 'bearLimit', 'productId', 'image', 'imageMime', ),
+        self::TYPE_COLNAME       => array(SizeTableMap::ID, SizeTableMap::NAME, SizeTableMap::BEAR_LIMIT, SizeTableMap::PRODUCT_ID, SizeTableMap::IMAGE, SizeTableMap::IMAGE_MIME, ),
+        self::TYPE_RAW_COLNAME   => array('ID', 'NAME', 'BEAR_LIMIT', 'PRODUCT_ID', 'IMAGE', 'IMAGE_MIME', ),
+        self::TYPE_FIELDNAME     => array('id', 'name', 'bear_limit', 'product_id', 'image', 'image_mime', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
     );
 
     /**
@@ -116,12 +126,12 @@ class SizeTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Name' => 1, 'BearLimit' => 2, 'ProductId' => 3, ),
-        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'name' => 1, 'bearLimit' => 2, 'productId' => 3, ),
-        self::TYPE_COLNAME       => array(SizeTableMap::ID => 0, SizeTableMap::NAME => 1, SizeTableMap::BEAR_LIMIT => 2, SizeTableMap::PRODUCT_ID => 3, ),
-        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'NAME' => 1, 'BEAR_LIMIT' => 2, 'PRODUCT_ID' => 3, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'name' => 1, 'bear_limit' => 2, 'product_id' => 3, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Name' => 1, 'BearLimit' => 2, 'ProductId' => 3, 'Image' => 4, 'ImageMime' => 5, ),
+        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'name' => 1, 'bearLimit' => 2, 'productId' => 3, 'image' => 4, 'imageMime' => 5, ),
+        self::TYPE_COLNAME       => array(SizeTableMap::ID => 0, SizeTableMap::NAME => 1, SizeTableMap::BEAR_LIMIT => 2, SizeTableMap::PRODUCT_ID => 3, SizeTableMap::IMAGE => 4, SizeTableMap::IMAGE_MIME => 5, ),
+        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'NAME' => 1, 'BEAR_LIMIT' => 2, 'PRODUCT_ID' => 3, 'IMAGE' => 4, 'IMAGE_MIME' => 5, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'name' => 1, 'bear_limit' => 2, 'product_id' => 3, 'image' => 4, 'image_mime' => 5, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
     );
 
     /**
@@ -144,6 +154,8 @@ class SizeTableMap extends TableMap
         $this->addColumn('NAME', 'Name', 'VARCHAR', true, 32, null);
         $this->addColumn('BEAR_LIMIT', 'BearLimit', 'INTEGER', true, null, null);
         $this->addForeignKey('PRODUCT_ID', 'ProductId', 'INTEGER', 'product', 'ID', true, null, null);
+        $this->addColumn('IMAGE', 'Image', 'BLOB', false, null, null);
+        $this->addColumn('IMAGE_MIME', 'ImageMime', 'VARCHAR', false, 31, null);
     } // initialize()
 
     /**

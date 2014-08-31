@@ -22,16 +22,22 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  * @method     ChildBackingQuery orderById($order = Criteria::ASC) Order by the id column
+ * @method     ChildBackingQuery orderByItemId($order = Criteria::ASC) Order by the item_id column
  * @method     ChildBackingQuery orderByName($order = Criteria::ASC) Order by the name column
  * @method     ChildBackingQuery orderByPrice($order = Criteria::ASC) Order by the price column
  * @method     ChildBackingQuery orderBySizeId($order = Criteria::ASC) Order by the size_id column
  * @method     ChildBackingQuery orderByGradeId($order = Criteria::ASC) Order by the grade_id column
+ * @method     ChildBackingQuery orderByImage($order = Criteria::ASC) Order by the image column
+ * @method     ChildBackingQuery orderByImageMime($order = Criteria::ASC) Order by the image_mime column
  *
  * @method     ChildBackingQuery groupById() Group by the id column
+ * @method     ChildBackingQuery groupByItemId() Group by the item_id column
  * @method     ChildBackingQuery groupByName() Group by the name column
  * @method     ChildBackingQuery groupByPrice() Group by the price column
  * @method     ChildBackingQuery groupBySizeId() Group by the size_id column
  * @method     ChildBackingQuery groupByGradeId() Group by the grade_id column
+ * @method     ChildBackingQuery groupByImage() Group by the image column
+ * @method     ChildBackingQuery groupByImageMime() Group by the image_mime column
  *
  * @method     ChildBackingQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildBackingQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -53,16 +59,22 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildBacking findOneOrCreate(ConnectionInterface $con = null) Return the first ChildBacking matching the query, or a new ChildBacking object populated from the query conditions when no match is found
  *
  * @method     ChildBacking findOneById(int $id) Return the first ChildBacking filtered by the id column
+ * @method     ChildBacking findOneByItemId(string $item_id) Return the first ChildBacking filtered by the item_id column
  * @method     ChildBacking findOneByName(string $name) Return the first ChildBacking filtered by the name column
  * @method     ChildBacking findOneByPrice(string $price) Return the first ChildBacking filtered by the price column
  * @method     ChildBacking findOneBySizeId(int $size_id) Return the first ChildBacking filtered by the size_id column
  * @method     ChildBacking findOneByGradeId(int $grade_id) Return the first ChildBacking filtered by the grade_id column
+ * @method     ChildBacking findOneByImage(resource $image) Return the first ChildBacking filtered by the image column
+ * @method     ChildBacking findOneByImageMime(string $image_mime) Return the first ChildBacking filtered by the image_mime column
  *
  * @method     array findById(int $id) Return ChildBacking objects filtered by the id column
+ * @method     array findByItemId(string $item_id) Return ChildBacking objects filtered by the item_id column
  * @method     array findByName(string $name) Return ChildBacking objects filtered by the name column
  * @method     array findByPrice(string $price) Return ChildBacking objects filtered by the price column
  * @method     array findBySizeId(int $size_id) Return ChildBacking objects filtered by the size_id column
  * @method     array findByGradeId(int $grade_id) Return ChildBacking objects filtered by the grade_id column
+ * @method     array findByImage(resource $image) Return ChildBacking objects filtered by the image column
+ * @method     array findByImageMime(string $image_mime) Return ChildBacking objects filtered by the image_mime column
  *
  */
 abstract class BackingQuery extends ModelCriteria
@@ -151,7 +163,7 @@ abstract class BackingQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT ID, NAME, PRICE, SIZE_ID, GRADE_ID FROM backing WHERE ID = :p0';
+        $sql = 'SELECT ID, ITEM_ID, NAME, PRICE, SIZE_ID, GRADE_ID FROM backing WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -279,6 +291,35 @@ abstract class BackingQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(BackingTableMap::ID, $id, $comparison);
+    }
+
+    /**
+     * Filter the query on the item_id column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByItemId('fooValue');   // WHERE item_id = 'fooValue'
+     * $query->filterByItemId('%fooValue%'); // WHERE item_id LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $itemId The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildBackingQuery The current query, for fluid interface
+     */
+    public function filterByItemId($itemId = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($itemId)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $itemId)) {
+                $itemId = str_replace('*', '%', $itemId);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(BackingTableMap::ITEM_ID, $itemId, $comparison);
     }
 
     /**
@@ -435,6 +476,49 @@ abstract class BackingQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(BackingTableMap::GRADE_ID, $gradeId, $comparison);
+    }
+
+    /**
+     * Filter the query on the image column
+     *
+     * @param     mixed $image The value to use as filter
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildBackingQuery The current query, for fluid interface
+     */
+    public function filterByImage($image = null, $comparison = null)
+    {
+
+        return $this->addUsingAlias(BackingTableMap::IMAGE, $image, $comparison);
+    }
+
+    /**
+     * Filter the query on the image_mime column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByImageMime('fooValue');   // WHERE image_mime = 'fooValue'
+     * $query->filterByImageMime('%fooValue%'); // WHERE image_mime LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $imageMime The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildBackingQuery The current query, for fluid interface
+     */
+    public function filterByImageMime($imageMime = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($imageMime)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $imageMime)) {
+                $imageMime = str_replace('*', '%', $imageMime);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(BackingTableMap::IMAGE_MIME, $imageMime, $comparison);
     }
 
     /**

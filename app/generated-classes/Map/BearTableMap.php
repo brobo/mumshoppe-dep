@@ -57,22 +57,27 @@ class BearTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 6;
+    const NUM_COLUMNS = 9;
 
     /**
      * The number of lazy-loaded columns
      */
-    const NUM_LAZY_LOAD_COLUMNS = 0;
+    const NUM_LAZY_LOAD_COLUMNS = 2;
 
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 6;
+    const NUM_HYDRATE_COLUMNS = 7;
 
     /**
      * the column name for the ID field
      */
     const ID = 'bear.ID';
+
+    /**
+     * the column name for the ITEM_ID field
+     */
+    const ITEM_ID = 'bear.ITEM_ID';
 
     /**
      * the column name for the NAME field
@@ -100,6 +105,16 @@ class BearTableMap extends TableMap
     const PRICE = 'bear.PRICE';
 
     /**
+     * the column name for the IMAGE field
+     */
+    const IMAGE = 'bear.IMAGE';
+
+    /**
+     * the column name for the IMAGE_MIME field
+     */
+    const IMAGE_MIME = 'bear.IMAGE_MIME';
+
+    /**
      * The default string format for model objects of the related table
      */
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -111,12 +126,12 @@ class BearTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Name', 'Underclassman', 'Junior', 'Senior', 'Price', ),
-        self::TYPE_STUDLYPHPNAME => array('id', 'name', 'underclassman', 'junior', 'senior', 'price', ),
-        self::TYPE_COLNAME       => array(BearTableMap::ID, BearTableMap::NAME, BearTableMap::UNDERCLASSMAN, BearTableMap::JUNIOR, BearTableMap::SENIOR, BearTableMap::PRICE, ),
-        self::TYPE_RAW_COLNAME   => array('ID', 'NAME', 'UNDERCLASSMAN', 'JUNIOR', 'SENIOR', 'PRICE', ),
-        self::TYPE_FIELDNAME     => array('id', 'name', 'underclassman', 'junior', 'senior', 'price', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
+        self::TYPE_PHPNAME       => array('Id', 'ItemId', 'Name', 'Underclassman', 'Junior', 'Senior', 'Price', 'Image', 'ImageMime', ),
+        self::TYPE_STUDLYPHPNAME => array('id', 'itemId', 'name', 'underclassman', 'junior', 'senior', 'price', 'image', 'imageMime', ),
+        self::TYPE_COLNAME       => array(BearTableMap::ID, BearTableMap::ITEM_ID, BearTableMap::NAME, BearTableMap::UNDERCLASSMAN, BearTableMap::JUNIOR, BearTableMap::SENIOR, BearTableMap::PRICE, BearTableMap::IMAGE, BearTableMap::IMAGE_MIME, ),
+        self::TYPE_RAW_COLNAME   => array('ID', 'ITEM_ID', 'NAME', 'UNDERCLASSMAN', 'JUNIOR', 'SENIOR', 'PRICE', 'IMAGE', 'IMAGE_MIME', ),
+        self::TYPE_FIELDNAME     => array('id', 'item_id', 'name', 'underclassman', 'junior', 'senior', 'price', 'image', 'image_mime', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, )
     );
 
     /**
@@ -126,12 +141,12 @@ class BearTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Name' => 1, 'Underclassman' => 2, 'Junior' => 3, 'Senior' => 4, 'Price' => 5, ),
-        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'name' => 1, 'underclassman' => 2, 'junior' => 3, 'senior' => 4, 'price' => 5, ),
-        self::TYPE_COLNAME       => array(BearTableMap::ID => 0, BearTableMap::NAME => 1, BearTableMap::UNDERCLASSMAN => 2, BearTableMap::JUNIOR => 3, BearTableMap::SENIOR => 4, BearTableMap::PRICE => 5, ),
-        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'NAME' => 1, 'UNDERCLASSMAN' => 2, 'JUNIOR' => 3, 'SENIOR' => 4, 'PRICE' => 5, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'name' => 1, 'underclassman' => 2, 'junior' => 3, 'senior' => 4, 'price' => 5, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'ItemId' => 1, 'Name' => 2, 'Underclassman' => 3, 'Junior' => 4, 'Senior' => 5, 'Price' => 6, 'Image' => 7, 'ImageMime' => 8, ),
+        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'itemId' => 1, 'name' => 2, 'underclassman' => 3, 'junior' => 4, 'senior' => 5, 'price' => 6, 'image' => 7, 'imageMime' => 8, ),
+        self::TYPE_COLNAME       => array(BearTableMap::ID => 0, BearTableMap::ITEM_ID => 1, BearTableMap::NAME => 2, BearTableMap::UNDERCLASSMAN => 3, BearTableMap::JUNIOR => 4, BearTableMap::SENIOR => 5, BearTableMap::PRICE => 6, BearTableMap::IMAGE => 7, BearTableMap::IMAGE_MIME => 8, ),
+        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'ITEM_ID' => 1, 'NAME' => 2, 'UNDERCLASSMAN' => 3, 'JUNIOR' => 4, 'SENIOR' => 5, 'PRICE' => 6, 'IMAGE' => 7, 'IMAGE_MIME' => 8, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'item_id' => 1, 'name' => 2, 'underclassman' => 3, 'junior' => 4, 'senior' => 5, 'price' => 6, 'image' => 7, 'image_mime' => 8, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, )
     );
 
     /**
@@ -151,11 +166,14 @@ class BearTableMap extends TableMap
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
+        $this->addColumn('ITEM_ID', 'ItemId', 'VARCHAR', false, 15, null);
         $this->addColumn('NAME', 'Name', 'VARCHAR', true, 255, null);
         $this->addColumn('UNDERCLASSMAN', 'Underclassman', 'BOOLEAN', true, 1, false);
         $this->addColumn('JUNIOR', 'Junior', 'BOOLEAN', true, 1, false);
         $this->addColumn('SENIOR', 'Senior', 'BOOLEAN', true, 1, false);
         $this->addColumn('PRICE', 'Price', 'DECIMAL', true, 10, null);
+        $this->addColumn('IMAGE', 'Image', 'BLOB', false, null, null);
+        $this->addColumn('IMAGE_MIME', 'ImageMime', 'VARCHAR', false, 31, null);
     } // initialize()
 
     /**
@@ -306,6 +324,7 @@ class BearTableMap extends TableMap
     {
         if (null === $alias) {
             $criteria->addSelectColumn(BearTableMap::ID);
+            $criteria->addSelectColumn(BearTableMap::ITEM_ID);
             $criteria->addSelectColumn(BearTableMap::NAME);
             $criteria->addSelectColumn(BearTableMap::UNDERCLASSMAN);
             $criteria->addSelectColumn(BearTableMap::JUNIOR);
@@ -313,6 +332,7 @@ class BearTableMap extends TableMap
             $criteria->addSelectColumn(BearTableMap::PRICE);
         } else {
             $criteria->addSelectColumn($alias . '.ID');
+            $criteria->addSelectColumn($alias . '.ITEM_ID');
             $criteria->addSelectColumn($alias . '.NAME');
             $criteria->addSelectColumn($alias . '.UNDERCLASSMAN');
             $criteria->addSelectColumn($alias . '.JUNIOR');

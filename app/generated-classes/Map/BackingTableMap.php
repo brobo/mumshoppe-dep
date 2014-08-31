@@ -57,22 +57,27 @@ class BackingTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 5;
+    const NUM_COLUMNS = 8;
 
     /**
      * The number of lazy-loaded columns
      */
-    const NUM_LAZY_LOAD_COLUMNS = 0;
+    const NUM_LAZY_LOAD_COLUMNS = 2;
 
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 5;
+    const NUM_HYDRATE_COLUMNS = 6;
 
     /**
      * the column name for the ID field
      */
     const ID = 'backing.ID';
+
+    /**
+     * the column name for the ITEM_ID field
+     */
+    const ITEM_ID = 'backing.ITEM_ID';
 
     /**
      * the column name for the NAME field
@@ -95,6 +100,16 @@ class BackingTableMap extends TableMap
     const GRADE_ID = 'backing.GRADE_ID';
 
     /**
+     * the column name for the IMAGE field
+     */
+    const IMAGE = 'backing.IMAGE';
+
+    /**
+     * the column name for the IMAGE_MIME field
+     */
+    const IMAGE_MIME = 'backing.IMAGE_MIME';
+
+    /**
      * The default string format for model objects of the related table
      */
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -106,12 +121,12 @@ class BackingTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Name', 'Price', 'SizeId', 'GradeId', ),
-        self::TYPE_STUDLYPHPNAME => array('id', 'name', 'price', 'sizeId', 'gradeId', ),
-        self::TYPE_COLNAME       => array(BackingTableMap::ID, BackingTableMap::NAME, BackingTableMap::PRICE, BackingTableMap::SIZE_ID, BackingTableMap::GRADE_ID, ),
-        self::TYPE_RAW_COLNAME   => array('ID', 'NAME', 'PRICE', 'SIZE_ID', 'GRADE_ID', ),
-        self::TYPE_FIELDNAME     => array('id', 'name', 'price', 'size_id', 'grade_id', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
+        self::TYPE_PHPNAME       => array('Id', 'ItemId', 'Name', 'Price', 'SizeId', 'GradeId', 'Image', 'ImageMime', ),
+        self::TYPE_STUDLYPHPNAME => array('id', 'itemId', 'name', 'price', 'sizeId', 'gradeId', 'image', 'imageMime', ),
+        self::TYPE_COLNAME       => array(BackingTableMap::ID, BackingTableMap::ITEM_ID, BackingTableMap::NAME, BackingTableMap::PRICE, BackingTableMap::SIZE_ID, BackingTableMap::GRADE_ID, BackingTableMap::IMAGE, BackingTableMap::IMAGE_MIME, ),
+        self::TYPE_RAW_COLNAME   => array('ID', 'ITEM_ID', 'NAME', 'PRICE', 'SIZE_ID', 'GRADE_ID', 'IMAGE', 'IMAGE_MIME', ),
+        self::TYPE_FIELDNAME     => array('id', 'item_id', 'name', 'price', 'size_id', 'grade_id', 'image', 'image_mime', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
     );
 
     /**
@@ -121,12 +136,12 @@ class BackingTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Name' => 1, 'Price' => 2, 'SizeId' => 3, 'GradeId' => 4, ),
-        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'name' => 1, 'price' => 2, 'sizeId' => 3, 'gradeId' => 4, ),
-        self::TYPE_COLNAME       => array(BackingTableMap::ID => 0, BackingTableMap::NAME => 1, BackingTableMap::PRICE => 2, BackingTableMap::SIZE_ID => 3, BackingTableMap::GRADE_ID => 4, ),
-        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'NAME' => 1, 'PRICE' => 2, 'SIZE_ID' => 3, 'GRADE_ID' => 4, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'name' => 1, 'price' => 2, 'size_id' => 3, 'grade_id' => 4, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'ItemId' => 1, 'Name' => 2, 'Price' => 3, 'SizeId' => 4, 'GradeId' => 5, 'Image' => 6, 'ImageMime' => 7, ),
+        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'itemId' => 1, 'name' => 2, 'price' => 3, 'sizeId' => 4, 'gradeId' => 5, 'image' => 6, 'imageMime' => 7, ),
+        self::TYPE_COLNAME       => array(BackingTableMap::ID => 0, BackingTableMap::ITEM_ID => 1, BackingTableMap::NAME => 2, BackingTableMap::PRICE => 3, BackingTableMap::SIZE_ID => 4, BackingTableMap::GRADE_ID => 5, BackingTableMap::IMAGE => 6, BackingTableMap::IMAGE_MIME => 7, ),
+        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'ITEM_ID' => 1, 'NAME' => 2, 'PRICE' => 3, 'SIZE_ID' => 4, 'GRADE_ID' => 5, 'IMAGE' => 6, 'IMAGE_MIME' => 7, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'item_id' => 1, 'name' => 2, 'price' => 3, 'size_id' => 4, 'grade_id' => 5, 'image' => 6, 'image_mime' => 7, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
     );
 
     /**
@@ -146,10 +161,13 @@ class BackingTableMap extends TableMap
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
+        $this->addColumn('ITEM_ID', 'ItemId', 'VARCHAR', false, 15, null);
         $this->addColumn('NAME', 'Name', 'VARCHAR', true, 32, null);
         $this->addColumn('PRICE', 'Price', 'DECIMAL', true, 10, null);
         $this->addForeignKey('SIZE_ID', 'SizeId', 'INTEGER', 'size', 'ID', true, null, null);
         $this->addForeignKey('GRADE_ID', 'GradeId', 'INTEGER', 'grade', 'ID', true, null, null);
+        $this->addColumn('IMAGE', 'Image', 'BLOB', false, null, null);
+        $this->addColumn('IMAGE_MIME', 'ImageMime', 'VARCHAR', false, 31, null);
     } // initialize()
 
     /**
@@ -301,12 +319,14 @@ class BackingTableMap extends TableMap
     {
         if (null === $alias) {
             $criteria->addSelectColumn(BackingTableMap::ID);
+            $criteria->addSelectColumn(BackingTableMap::ITEM_ID);
             $criteria->addSelectColumn(BackingTableMap::NAME);
             $criteria->addSelectColumn(BackingTableMap::PRICE);
             $criteria->addSelectColumn(BackingTableMap::SIZE_ID);
             $criteria->addSelectColumn(BackingTableMap::GRADE_ID);
         } else {
             $criteria->addSelectColumn($alias . '.ID');
+            $criteria->addSelectColumn($alias . '.ITEM_ID');
             $criteria->addSelectColumn($alias . '.NAME');
             $criteria->addSelectColumn($alias . '.PRICE');
             $criteria->addSelectColumn($alias . '.SIZE_ID');

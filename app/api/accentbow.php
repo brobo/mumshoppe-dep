@@ -51,6 +51,34 @@
 		$bow->delete();
 		
 		echo $bow->toJson();
-	})
+	});
+
+	$app->post('/api/accentbow/:id/image', function($id) {
+		$accentbow = AccentBowQuery::create()->findPK($id);
+		if (!$accentbow) return;
+
+		$content = file_get_contents($_FILES['image']['tmp_name']);
+		$accentbow->setImage($content);
+		$accentbow->setImageMime($_FILES['image']['type']);
+
+		$accentbow->save();
+		echo json_encode(array('message' => 'Success!'));
+	});
+
+	$app->get('/api/accentbow/:id/image', function($id) use ($app) {
+		$app->response->header('Content-Type', 'content-type: image/jpg');
+
+		$accentbow = AccentBowQuery::create()->findPK($id);
+		if (!$accentbow) return;
+
+		$fp = $accentbow->getImage();
+
+		$res = $app->response();
+		if ($fp !== null) {
+			$content = stream_get_contents($fp, -1, 0);
+			$res->header('Content-Type', 'content-type: ' . $accentbow->getImageMime());
+			echo $content;
+		}
+	});
 
 ?>

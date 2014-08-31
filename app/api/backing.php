@@ -50,5 +50,33 @@
 		$backing->delete();
 
 		echo $backing->toJson();
-	})
+	});
+
+	$app->post('/api/backing/:id/image', function($id) {
+		$backing = BackingQuery::create()->findPK($id);
+		if (!$backing) return;
+
+		$content = file_get_contents($_FILES['image']['tmp_name']);
+		$backing->setImage($content);
+		$backing->setImageMime($_FILES['image']['type']);
+
+		$backing->save();
+		echo json_encode(array('message' => 'Success!'));
+	});
+
+	$app->get('/api/backing/:id/image', function($id) use ($app) {
+		$app->response->header('Content-Type', 'content-type: image/jpg');
+
+		$backing = BackingQuery::create()->findPK($id);
+		if (!$backing) return;
+
+		$fp = $backing->getImage();
+
+		$res = $app->response();
+		if ($fp !== null) {
+			$content = stream_get_contents($fp, -1, 0);
+			$res->header('Content-Type', 'content-type: ' . $backing->getImageMime());
+			echo $content;
+		}
+	});
 ?>

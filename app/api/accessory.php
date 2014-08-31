@@ -3,6 +3,7 @@
 	$encodeAccessory = function($accessory) {
 		return array(
 			"Id" => $accessory->getId(),
+			"ItemId" => $accessory->getItemId(),
 			"Name" => $accessory->getName(),
 			"Underclassman" => $accessory->getUnderclassman(),
 			"Junior" => $accessory->getJunior(),

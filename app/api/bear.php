@@ -53,4 +53,32 @@
 		echo $bear->toJson();
 	});
 
+	$app->post('/api/bear/:id/image', function($id) {
+		$bear = BearQuery::create()->findPK($id);
+		if (!$bear) return;
+
+		$content = file_get_contents($_FILES['image']['tmp_name']);
+		$bear->setImage($content);
+		$bear->setImageMime($_FILES['image']['type']);
+
+		$bear->save();
+		echo json_encode(array('message' => 'Success!'));
+	});
+
+	$app->get('/api/bear/:id/image', function($id) use ($app) {
+		$app->response->header('Content-Type', 'content-type: image/jpg');
+
+		$bear = BearQuery::create()->findPK($id);
+		if (!$bear) return;
+
+		$fp = $bear->getImage();
+
+		$res = $app->response();
+		if ($fp !== null) {
+			$content = stream_get_contents($fp, -1, 0);
+			$res->header('Content-Type', 'content-type: ' . $bear->getImageMime());
+			echo $content;
+		}
+	});
+
 ?>

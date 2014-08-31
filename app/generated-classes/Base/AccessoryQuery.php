@@ -22,6 +22,7 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  * @method     ChildAccessoryQuery orderById($order = Criteria::ASC) Order by the id column
+ * @method     ChildAccessoryQuery orderByItemId($order = Criteria::ASC) Order by the item_id column
  * @method     ChildAccessoryQuery orderByName($order = Criteria::ASC) Order by the name column
  * @method     ChildAccessoryQuery orderByUnderclassman($order = Criteria::ASC) Order by the underclassman column
  * @method     ChildAccessoryQuery orderByJunior($order = Criteria::ASC) Order by the junior column
@@ -32,6 +33,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildAccessoryQuery orderByImageMime($order = Criteria::ASC) Order by the image_mime column
  *
  * @method     ChildAccessoryQuery groupById() Group by the id column
+ * @method     ChildAccessoryQuery groupByItemId() Group by the item_id column
  * @method     ChildAccessoryQuery groupByName() Group by the name column
  * @method     ChildAccessoryQuery groupByUnderclassman() Group by the underclassman column
  * @method     ChildAccessoryQuery groupByJunior() Group by the junior column
@@ -57,6 +59,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildAccessory findOneOrCreate(ConnectionInterface $con = null) Return the first ChildAccessory matching the query, or a new ChildAccessory object populated from the query conditions when no match is found
  *
  * @method     ChildAccessory findOneById(int $id) Return the first ChildAccessory filtered by the id column
+ * @method     ChildAccessory findOneByItemId(string $item_id) Return the first ChildAccessory filtered by the item_id column
  * @method     ChildAccessory findOneByName(string $name) Return the first ChildAccessory filtered by the name column
  * @method     ChildAccessory findOneByUnderclassman(boolean $underclassman) Return the first ChildAccessory filtered by the underclassman column
  * @method     ChildAccessory findOneByJunior(boolean $junior) Return the first ChildAccessory filtered by the junior column
@@ -67,6 +70,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildAccessory findOneByImageMime(string $image_mime) Return the first ChildAccessory filtered by the image_mime column
  *
  * @method     array findById(int $id) Return ChildAccessory objects filtered by the id column
+ * @method     array findByItemId(string $item_id) Return ChildAccessory objects filtered by the item_id column
  * @method     array findByName(string $name) Return ChildAccessory objects filtered by the name column
  * @method     array findByUnderclassman(boolean $underclassman) Return ChildAccessory objects filtered by the underclassman column
  * @method     array findByJunior(boolean $junior) Return ChildAccessory objects filtered by the junior column
@@ -163,7 +167,7 @@ abstract class AccessoryQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT ID, NAME, UNDERCLASSMAN, JUNIOR, SENIOR, PRICE, CATEGORY_ID FROM accessory WHERE ID = :p0';
+        $sql = 'SELECT ID, ITEM_ID, NAME, UNDERCLASSMAN, JUNIOR, SENIOR, PRICE, CATEGORY_ID FROM accessory WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -291,6 +295,35 @@ abstract class AccessoryQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(AccessoryTableMap::ID, $id, $comparison);
+    }
+
+    /**
+     * Filter the query on the item_id column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByItemId('fooValue');   // WHERE item_id = 'fooValue'
+     * $query->filterByItemId('%fooValue%'); // WHERE item_id LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $itemId The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildAccessoryQuery The current query, for fluid interface
+     */
+    public function filterByItemId($itemId = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($itemId)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $itemId)) {
+                $itemId = str_replace('*', '%', $itemId);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(AccessoryTableMap::ITEM_ID, $itemId, $comparison);
     }
 
     /**

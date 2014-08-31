@@ -6,7 +6,7 @@
 		<button class="btn btn-success" ng-click="addBow(grade)"><i class="fa fa-plus"></i> Add</button>
 		<div class="list-group">
 			<div ng-repeat="bow in bows | filter:{GradeId: grade.Id}" class="list-group-item">
-				<h4 class="list-group-item-heading">{{bow.Name}}</h4>
+				<h4 class="list-group-item-heading">{{bow.Name}} <small>{{bow.ItemId}}</small></h4>
 				<button class="btn btn-info btn-xs" ng-click="editBow(bow)"><i class="fa fa-pencil"></i> Edit</button>
 				<button class="btn btn-danger btn-xs" ng-click="deleteBow(bow)"><i class="fa fa-bomb"></i> Delete</button>
 			</div>
@@ -22,6 +22,12 @@
 			<div class="col-lg-10">
 				<input type="text" class="form-control col-lg-10" id="Name" name="Name" ng-model="bow.Name" ng-blur="validate(bowForm, 'Name')" ng-maxlength="32" required>
 				<span class="fa form-control-feedback" ng-class="{'fa-warning': invalid.Name}"></span>
+			</div>
+		</div>
+		<div class="form-group has-feedback" ng-class="{'has-error': invalid.Name}">
+			<label for="ItemId" class="col-lg-1 control-label">Item ID</label>
+			<div class="col-lg-10">
+				<input type="text" class="form-control col-lg-10" id="ItemId" name="ItemId" ng-model="bow.ItemId" ng-blur="validate(bowForm, 'ItemId')" ng-maxlength="15" required>
 			</div>
 		</div>
 		<button class="btn btn-default" ng-click="cancel()">Cancel</button>

@@ -11,8 +11,11 @@
 			<img class="col-lg-1" src='/mums/api/accessory/{{accessory.Id}}/image' ng-show="accessory.HasImage" />
 			<div class="col-lg-1" ng-show="!accessory.HasImage"></div>
 			<h4 class="col-lg-3">
-				{{accessory.Name}}
-				<small>({{accessory.Price | currency}} each)</small>
+				{{accessory.Name}} 
+				<small>
+					{{accessory.ItemId}}
+					({{accessory.Price | currency}} each)
+				</small>
 				<span class="badge">{{accessory.Price * quantities[accessory.Id] || 0 | currency}}</span>
 			</h4>
 			<div class="input-group col-lg-2">

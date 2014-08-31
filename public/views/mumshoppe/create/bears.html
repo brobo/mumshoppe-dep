@@ -4,7 +4,7 @@
 <div class="list-item-group">
 	<div class="list-group-item" ng-repeat="bear in bears | filter:predicate">
 		<div class="row">
-			<h4 class="col-lg-10">{{bear.Name}} <span class="badge">{{bear.Price | currency}}</span></h4>
+			<h4 class="col-lg-10">{{bear.Name}} <small>{{bear.ItemId}}</small> <span class="badge">{{bear.Price | currency}}</span></h4>
 			<button class="btn btn-success" ng-click="addBear(bear)" ng-show="!hasBear(bear) && (!bear.tracker || !bear.tracker.active())" ng-disabled="mum.Size.BearLimit - mum.Bears.length == 0">Add bear</button>
 			<button class="btn btn-success" ng-show="!hasBear(bear) && bear.tracker && bear.tracker.active()" disabled><i class="fa fa-spin fa-circle-o-notch"></i></button>
 			<button class="btn btn-danger" ng-click="removeBear(bear)" ng-show="hasBear(bear) && (!bear.tracker || !bear.tracker.active())">Remove Bear</button>

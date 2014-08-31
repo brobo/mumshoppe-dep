@@ -64,6 +64,12 @@ abstract class Accessory implements ActiveRecordInterface
     protected $id;
 
     /**
+     * The value for the item_id field.
+     * @var        string
+     */
+    protected $item_id;
+
+    /**
      * The value for the name field.
      * @var        string
      */
@@ -438,6 +444,17 @@ abstract class Accessory implements ActiveRecordInterface
     }
 
     /**
+     * Get the [item_id] column value.
+     *
+     * @return   string
+     */
+    public function getItemId()
+    {
+
+        return $this->item_id;
+    }
+
+    /**
      * Get the [name] column value.
      *
      * @return   string
@@ -617,6 +634,27 @@ abstract class Accessory implements ActiveRecordInterface
 
         return $this;
     } // setId()
+
+    /**
+     * Set the value of [item_id] column.
+     *
+     * @param      string $v new value
+     * @return   \Accessory The current object (for fluent API support)
+     */
+    public function setItemId($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->item_id !== $v) {
+            $this->item_id = $v;
+            $this->modifiedColumns[] = AccessoryTableMap::ITEM_ID;
+        }
+
+
+        return $this;
+    } // setItemId()
 
     /**
      * Set the value of [name] column.
@@ -881,22 +919,25 @@ abstract class Accessory implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : AccessoryTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : AccessoryTableMap::translateFieldName('Name', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : AccessoryTableMap::translateFieldName('ItemId', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->item_id = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : AccessoryTableMap::translateFieldName('Name', TableMap::TYPE_PHPNAME, $indexType)];
             $this->name = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : AccessoryTableMap::translateFieldName('Underclassman', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : AccessoryTableMap::translateFieldName('Underclassman', TableMap::TYPE_PHPNAME, $indexType)];
             $this->underclassman = (null !== $col) ? (boolean) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : AccessoryTableMap::translateFieldName('Junior', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : AccessoryTableMap::translateFieldName('Junior', TableMap::TYPE_PHPNAME, $indexType)];
             $this->junior = (null !== $col) ? (boolean) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : AccessoryTableMap::translateFieldName('Senior', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : AccessoryTableMap::translateFieldName('Senior', TableMap::TYPE_PHPNAME, $indexType)];
             $this->senior = (null !== $col) ? (boolean) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : AccessoryTableMap::translateFieldName('Price', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : AccessoryTableMap::translateFieldName('Price', TableMap::TYPE_PHPNAME, $indexType)];
             $this->price = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : AccessoryTableMap::translateFieldName('CategoryId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : AccessoryTableMap::translateFieldName('CategoryId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->category_id = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
@@ -906,7 +947,7 @@ abstract class Accessory implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 7; // 7 = AccessoryTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 8; // 8 = AccessoryTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating \Accessory object", 0, $e);
@@ -1166,6 +1207,9 @@ abstract class Accessory implements ActiveRecordInterface
         if ($this->isColumnModified(AccessoryTableMap::ID)) {
             $modifiedColumns[':p' . $index++]  = 'ID';
         }
+        if ($this->isColumnModified(AccessoryTableMap::ITEM_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'ITEM_ID';
+        }
         if ($this->isColumnModified(AccessoryTableMap::NAME)) {
             $modifiedColumns[':p' . $index++]  = 'NAME';
         }
@@ -1203,6 +1247,9 @@ abstract class Accessory implements ActiveRecordInterface
                 switch ($columnName) {
                     case 'ID':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
+                        break;
+                    case 'ITEM_ID':
+                        $stmt->bindValue($identifier, $this->item_id, PDO::PARAM_STR);
                         break;
                     case 'NAME':
                         $stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
@@ -1297,27 +1344,30 @@ abstract class Accessory implements ActiveRecordInterface
                 return $this->getId();
                 break;
             case 1:
-                return $this->getName();
+                return $this->getItemId();
                 break;
             case 2:
-                return $this->getUnderclassman();
+                return $this->getName();
                 break;
             case 3:
-                return $this->getJunior();
+                return $this->getUnderclassman();
                 break;
             case 4:
-                return $this->getSenior();
+                return $this->getJunior();
                 break;
             case 5:
-                return $this->getPrice();
+                return $this->getSenior();
                 break;
             case 6:
-                return $this->getCategoryId();
+                return $this->getPrice();
                 break;
             case 7:
-                return $this->getImage();
+                return $this->getCategoryId();
                 break;
             case 8:
+                return $this->getImage();
+                break;
+            case 9:
                 return $this->getImageMime();
                 break;
             default:
@@ -1350,14 +1400,15 @@ abstract class Accessory implements ActiveRecordInterface
         $keys = AccessoryTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getName(),
-            $keys[2] => $this->getUnderclassman(),
-            $keys[3] => $this->getJunior(),
-            $keys[4] => $this->getSenior(),
-            $keys[5] => $this->getPrice(),
-            $keys[6] => $this->getCategoryId(),
-            $keys[7] => ($includeLazyLoadColumns) ? $this->getImage() : null,
-            $keys[8] => ($includeLazyLoadColumns) ? $this->getImageMime() : null,
+            $keys[1] => $this->getItemId(),
+            $keys[2] => $this->getName(),
+            $keys[3] => $this->getUnderclassman(),
+            $keys[4] => $this->getJunior(),
+            $keys[5] => $this->getSenior(),
+            $keys[6] => $this->getPrice(),
+            $keys[7] => $this->getCategoryId(),
+            $keys[8] => ($includeLazyLoadColumns) ? $this->getImage() : null,
+            $keys[9] => ($includeLazyLoadColumns) ? $this->getImageMime() : null,
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1409,27 +1460,30 @@ abstract class Accessory implements ActiveRecordInterface
                 $this->setId($value);
                 break;
             case 1:
-                $this->setName($value);
+                $this->setItemId($value);
                 break;
             case 2:
-                $this->setUnderclassman($value);
+                $this->setName($value);
                 break;
             case 3:
-                $this->setJunior($value);
+                $this->setUnderclassman($value);
                 break;
             case 4:
-                $this->setSenior($value);
+                $this->setJunior($value);
                 break;
             case 5:
-                $this->setPrice($value);
+                $this->setSenior($value);
                 break;
             case 6:
-                $this->setCategoryId($value);
+                $this->setPrice($value);
                 break;
             case 7:
-                $this->setImage($value);
+                $this->setCategoryId($value);
                 break;
             case 8:
+                $this->setImage($value);
+                break;
+            case 9:
                 $this->setImageMime($value);
                 break;
         } // switch()
@@ -1457,14 +1511,15 @@ abstract class Accessory implements ActiveRecordInterface
         $keys = AccessoryTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-        if (array_key_exists($keys[1], $arr)) $this->setName($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setUnderclassman($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setJunior($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setSenior($arr[$keys[4]]);
-        if (array_key_exists($keys[5], $arr)) $this->setPrice($arr[$keys[5]]);
-        if (array_key_exists($keys[6], $arr)) $this->setCategoryId($arr[$keys[6]]);
-        if (array_key_exists($keys[7], $arr)) $this->setImage($arr[$keys[7]]);
-        if (array_key_exists($keys[8], $arr)) $this->setImageMime($arr[$keys[8]]);
+        if (array_key_exists($keys[1], $arr)) $this->setItemId($arr[$keys[1]]);
+        if (array_key_exists($keys[2], $arr)) $this->setName($arr[$keys[2]]);
+        if (array_key_exists($keys[3], $arr)) $this->setUnderclassman($arr[$keys[3]]);
+        if (array_key_exists($keys[4], $arr)) $this->setJunior($arr[$keys[4]]);
+        if (array_key_exists($keys[5], $arr)) $this->setSenior($arr[$keys[5]]);
+        if (array_key_exists($keys[6], $arr)) $this->setPrice($arr[$keys[6]]);
+        if (array_key_exists($keys[7], $arr)) $this->setCategoryId($arr[$keys[7]]);
+        if (array_key_exists($keys[8], $arr)) $this->setImage($arr[$keys[8]]);
+        if (array_key_exists($keys[9], $arr)) $this->setImageMime($arr[$keys[9]]);
     }
 
     /**
@@ -1477,6 +1532,7 @@ abstract class Accessory implements ActiveRecordInterface
         $criteria = new Criteria(AccessoryTableMap::DATABASE_NAME);
 
         if ($this->isColumnModified(AccessoryTableMap::ID)) $criteria->add(AccessoryTableMap::ID, $this->id);
+        if ($this->isColumnModified(AccessoryTableMap::ITEM_ID)) $criteria->add(AccessoryTableMap::ITEM_ID, $this->item_id);
         if ($this->isColumnModified(AccessoryTableMap::NAME)) $criteria->add(AccessoryTableMap::NAME, $this->name);
         if ($this->isColumnModified(AccessoryTableMap::UNDERCLASSMAN)) $criteria->add(AccessoryTableMap::UNDERCLASSMAN, $this->underclassman);
         if ($this->isColumnModified(AccessoryTableMap::JUNIOR)) $criteria->add(AccessoryTableMap::JUNIOR, $this->junior);
@@ -1548,6 +1604,7 @@ abstract class Accessory implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
+        $copyObj->setItemId($this->getItemId());
         $copyObj->setName($this->getName());
         $copyObj->setUnderclassman($this->getUnderclassman());
         $copyObj->setJunior($this->getJunior());
@@ -1914,6 +1971,7 @@ abstract class Accessory implements ActiveRecordInterface
     public function clear()
     {
         $this->id = null;
+        $this->item_id = null;
         $this->name = null;
         $this->underclassman = null;
         $this->junior = null;

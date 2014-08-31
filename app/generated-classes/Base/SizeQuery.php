@@ -25,11 +25,15 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSizeQuery orderByName($order = Criteria::ASC) Order by the name column
  * @method     ChildSizeQuery orderByBearLimit($order = Criteria::ASC) Order by the bear_limit column
  * @method     ChildSizeQuery orderByProductId($order = Criteria::ASC) Order by the product_id column
+ * @method     ChildSizeQuery orderByImage($order = Criteria::ASC) Order by the image column
+ * @method     ChildSizeQuery orderByImageMime($order = Criteria::ASC) Order by the image_mime column
  *
  * @method     ChildSizeQuery groupById() Group by the id column
  * @method     ChildSizeQuery groupByName() Group by the name column
  * @method     ChildSizeQuery groupByBearLimit() Group by the bear_limit column
  * @method     ChildSizeQuery groupByProductId() Group by the product_id column
+ * @method     ChildSizeQuery groupByImage() Group by the image column
+ * @method     ChildSizeQuery groupByImageMime() Group by the image_mime column
  *
  * @method     ChildSizeQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildSizeQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -50,11 +54,15 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSize findOneByName(string $name) Return the first ChildSize filtered by the name column
  * @method     ChildSize findOneByBearLimit(int $bear_limit) Return the first ChildSize filtered by the bear_limit column
  * @method     ChildSize findOneByProductId(int $product_id) Return the first ChildSize filtered by the product_id column
+ * @method     ChildSize findOneByImage(resource $image) Return the first ChildSize filtered by the image column
+ * @method     ChildSize findOneByImageMime(string $image_mime) Return the first ChildSize filtered by the image_mime column
  *
  * @method     array findById(int $id) Return ChildSize objects filtered by the id column
  * @method     array findByName(string $name) Return ChildSize objects filtered by the name column
  * @method     array findByBearLimit(int $bear_limit) Return ChildSize objects filtered by the bear_limit column
  * @method     array findByProductId(int $product_id) Return ChildSize objects filtered by the product_id column
+ * @method     array findByImage(resource $image) Return ChildSize objects filtered by the image column
+ * @method     array findByImageMime(string $image_mime) Return ChildSize objects filtered by the image_mime column
  *
  */
 abstract class SizeQuery extends ModelCriteria
@@ -384,6 +392,49 @@ abstract class SizeQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(SizeTableMap::PRODUCT_ID, $productId, $comparison);
+    }
+
+    /**
+     * Filter the query on the image column
+     *
+     * @param     mixed $image The value to use as filter
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildSizeQuery The current query, for fluid interface
+     */
+    public function filterByImage($image = null, $comparison = null)
+    {
+
+        return $this->addUsingAlias(SizeTableMap::IMAGE, $image, $comparison);
+    }
+
+    /**
+     * Filter the query on the image_mime column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByImageMime('fooValue');   // WHERE image_mime = 'fooValue'
+     * $query->filterByImageMime('%fooValue%'); // WHERE image_mime LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $imageMime The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildSizeQuery The current query, for fluid interface
+     */
+    public function filterByImageMime($imageMime = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($imageMime)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $imageMime)) {
+                $imageMime = str_replace('*', '%', $imageMime);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(SizeTableMap::IMAGE_MIME, $imageMime, $comparison);
     }
 
     /**

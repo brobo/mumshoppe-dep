@@ -8,7 +8,7 @@
 <div class="btn-group-vertical col-xs-12">
 	<div ng-repeat="backing in backings | filter:{SizeId:selectedSize.Id, GradeId:selectedGrade.Id}">
 		<label class="btn btn-block btn-default" ng-model="$parent.$parent.selectedBacking" btn-radio="backing">
-			{{backing.Name}}
+			{{backing.Name}} <small>{{backing.ItemId}}</small>
 			<span class="badge">{{backing.Price | currency}}</span>
 		</label>
 	</div>
