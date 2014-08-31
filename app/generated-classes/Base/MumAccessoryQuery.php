@@ -2,11 +2,11 @@
 
 namespace Base;
 
-use \MumTrinket as ChildMumTrinket;
-use \MumTrinketQuery as ChildMumTrinketQuery;
+use \MumAccessory as ChildMumAccessory;
+use \MumAccessoryQuery as ChildMumAccessoryQuery;
 use \Exception;
 use \PDO;
-use Map\MumTrinketTableMap;
+use Map\MumAccessoryTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -17,75 +17,75 @@ use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
 
 /**
- * Base class that represents a query for the 'mum_trinket' table.
+ * Base class that represents a query for the 'mum_accessory' table.
  *
  *
  *
- * @method     ChildMumTrinketQuery orderById($order = Criteria::ASC) Order by the id column
- * @method     ChildMumTrinketQuery orderByMumId($order = Criteria::ASC) Order by the mum_id column
- * @method     ChildMumTrinketQuery orderByTrinketId($order = Criteria::ASC) Order by the trinket_id column
- * @method     ChildMumTrinketQuery orderByQuantity($order = Criteria::ASC) Order by the quantity column
+ * @method     ChildMumAccessoryQuery orderById($order = Criteria::ASC) Order by the id column
+ * @method     ChildMumAccessoryQuery orderByMumId($order = Criteria::ASC) Order by the mum_id column
+ * @method     ChildMumAccessoryQuery orderByAccessoryId($order = Criteria::ASC) Order by the accessory_id column
+ * @method     ChildMumAccessoryQuery orderByQuantity($order = Criteria::ASC) Order by the quantity column
  *
- * @method     ChildMumTrinketQuery groupById() Group by the id column
- * @method     ChildMumTrinketQuery groupByMumId() Group by the mum_id column
- * @method     ChildMumTrinketQuery groupByTrinketId() Group by the trinket_id column
- * @method     ChildMumTrinketQuery groupByQuantity() Group by the quantity column
+ * @method     ChildMumAccessoryQuery groupById() Group by the id column
+ * @method     ChildMumAccessoryQuery groupByMumId() Group by the mum_id column
+ * @method     ChildMumAccessoryQuery groupByAccessoryId() Group by the accessory_id column
+ * @method     ChildMumAccessoryQuery groupByQuantity() Group by the quantity column
  *
- * @method     ChildMumTrinketQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
- * @method     ChildMumTrinketQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
- * @method     ChildMumTrinketQuery innerJoin($relation) Adds a INNER JOIN clause to the query
+ * @method     ChildMumAccessoryQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
+ * @method     ChildMumAccessoryQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
+ * @method     ChildMumAccessoryQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     ChildMumTrinketQuery leftJoinMum($relationAlias = null) Adds a LEFT JOIN clause to the query using the Mum relation
- * @method     ChildMumTrinketQuery rightJoinMum($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Mum relation
- * @method     ChildMumTrinketQuery innerJoinMum($relationAlias = null) Adds a INNER JOIN clause to the query using the Mum relation
+ * @method     ChildMumAccessoryQuery leftJoinMum($relationAlias = null) Adds a LEFT JOIN clause to the query using the Mum relation
+ * @method     ChildMumAccessoryQuery rightJoinMum($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Mum relation
+ * @method     ChildMumAccessoryQuery innerJoinMum($relationAlias = null) Adds a INNER JOIN clause to the query using the Mum relation
  *
- * @method     ChildMumTrinketQuery leftJoinTrinket($relationAlias = null) Adds a LEFT JOIN clause to the query using the Trinket relation
- * @method     ChildMumTrinketQuery rightJoinTrinket($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Trinket relation
- * @method     ChildMumTrinketQuery innerJoinTrinket($relationAlias = null) Adds a INNER JOIN clause to the query using the Trinket relation
+ * @method     ChildMumAccessoryQuery leftJoinAccessory($relationAlias = null) Adds a LEFT JOIN clause to the query using the Accessory relation
+ * @method     ChildMumAccessoryQuery rightJoinAccessory($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Accessory relation
+ * @method     ChildMumAccessoryQuery innerJoinAccessory($relationAlias = null) Adds a INNER JOIN clause to the query using the Accessory relation
  *
- * @method     ChildMumTrinket findOne(ConnectionInterface $con = null) Return the first ChildMumTrinket matching the query
- * @method     ChildMumTrinket findOneOrCreate(ConnectionInterface $con = null) Return the first ChildMumTrinket matching the query, or a new ChildMumTrinket object populated from the query conditions when no match is found
+ * @method     ChildMumAccessory findOne(ConnectionInterface $con = null) Return the first ChildMumAccessory matching the query
+ * @method     ChildMumAccessory findOneOrCreate(ConnectionInterface $con = null) Return the first ChildMumAccessory matching the query, or a new ChildMumAccessory object populated from the query conditions when no match is found
  *
- * @method     ChildMumTrinket findOneById(int $id) Return the first ChildMumTrinket filtered by the id column
- * @method     ChildMumTrinket findOneByMumId(int $mum_id) Return the first ChildMumTrinket filtered by the mum_id column
- * @method     ChildMumTrinket findOneByTrinketId(int $trinket_id) Return the first ChildMumTrinket filtered by the trinket_id column
- * @method     ChildMumTrinket findOneByQuantity(int $quantity) Return the first ChildMumTrinket filtered by the quantity column
+ * @method     ChildMumAccessory findOneById(int $id) Return the first ChildMumAccessory filtered by the id column
+ * @method     ChildMumAccessory findOneByMumId(int $mum_id) Return the first ChildMumAccessory filtered by the mum_id column
+ * @method     ChildMumAccessory findOneByAccessoryId(int $accessory_id) Return the first ChildMumAccessory filtered by the accessory_id column
+ * @method     ChildMumAccessory findOneByQuantity(int $quantity) Return the first ChildMumAccessory filtered by the quantity column
  *
- * @method     array findById(int $id) Return ChildMumTrinket objects filtered by the id column
- * @method     array findByMumId(int $mum_id) Return ChildMumTrinket objects filtered by the mum_id column
- * @method     array findByTrinketId(int $trinket_id) Return ChildMumTrinket objects filtered by the trinket_id column
- * @method     array findByQuantity(int $quantity) Return ChildMumTrinket objects filtered by the quantity column
+ * @method     array findById(int $id) Return ChildMumAccessory objects filtered by the id column
+ * @method     array findByMumId(int $mum_id) Return ChildMumAccessory objects filtered by the mum_id column
+ * @method     array findByAccessoryId(int $accessory_id) Return ChildMumAccessory objects filtered by the accessory_id column
+ * @method     array findByQuantity(int $quantity) Return ChildMumAccessory objects filtered by the quantity column
  *
  */
-abstract class MumTrinketQuery extends ModelCriteria
+abstract class MumAccessoryQuery extends ModelCriteria
 {
 
     /**
-     * Initializes internal state of \Base\MumTrinketQuery object.
+     * Initializes internal state of \Base\MumAccessoryQuery object.
      *
      * @param     string $dbName The database name
      * @param     string $modelName The phpName of a model, e.g. 'Book'
      * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
      */
-    public function __construct($dbName = 'mums', $modelName = '\\MumTrinket', $modelAlias = null)
+    public function __construct($dbName = 'mums', $modelName = '\\MumAccessory', $modelAlias = null)
     {
         parent::__construct($dbName, $modelName, $modelAlias);
     }
 
     /**
-     * Returns a new ChildMumTrinketQuery object.
+     * Returns a new ChildMumAccessoryQuery object.
      *
      * @param     string $modelAlias The alias of a model in the query
      * @param     Criteria $criteria Optional Criteria to build the query from
      *
-     * @return ChildMumTrinketQuery
+     * @return ChildMumAccessoryQuery
      */
     public static function create($modelAlias = null, $criteria = null)
     {
-        if ($criteria instanceof \MumTrinketQuery) {
+        if ($criteria instanceof \MumAccessoryQuery) {
             return $criteria;
         }
-        $query = new \MumTrinketQuery();
+        $query = new \MumAccessoryQuery();
         if (null !== $modelAlias) {
             $query->setModelAlias($modelAlias);
         }
@@ -108,19 +108,19 @@ abstract class MumTrinketQuery extends ModelCriteria
      * @param mixed $key Primary key to use for the query
      * @param ConnectionInterface $con an optional connection object
      *
-     * @return ChildMumTrinket|array|mixed the result, formatted by the current formatter
+     * @return ChildMumAccessory|array|mixed the result, formatted by the current formatter
      */
     public function findPk($key, $con = null)
     {
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = MumTrinketTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
+        if ((null !== ($obj = MumAccessoryTableMap::getInstanceFromPool((string) $key))) && !$this->formatter) {
             // the object is already in the instance pool
             return $obj;
         }
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(MumTrinketTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(MumAccessoryTableMap::DATABASE_NAME);
         }
         $this->basePreSelect($con);
         if ($this->formatter || $this->modelAlias || $this->with || $this->select
@@ -139,11 +139,11 @@ abstract class MumTrinketQuery extends ModelCriteria
      * @param     mixed $key Primary key to use for the query
      * @param     ConnectionInterface $con A connection object
      *
-     * @return   ChildMumTrinket A model object, or null if the key is not found
+     * @return   ChildMumAccessory A model object, or null if the key is not found
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT ID, MUM_ID, TRINKET_ID, QUANTITY FROM mum_trinket WHERE ID = :p0';
+        $sql = 'SELECT ID, MUM_ID, ACCESSORY_ID, QUANTITY FROM mum_accessory WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -154,9 +154,9 @@ abstract class MumTrinketQuery extends ModelCriteria
         }
         $obj = null;
         if ($row = $stmt->fetch(\PDO::FETCH_NUM)) {
-            $obj = new ChildMumTrinket();
+            $obj = new ChildMumAccessory();
             $obj->hydrate($row);
-            MumTrinketTableMap::addInstanceToPool($obj, (string) $key);
+            MumAccessoryTableMap::addInstanceToPool($obj, (string) $key);
         }
         $stmt->closeCursor();
 
@@ -169,7 +169,7 @@ abstract class MumTrinketQuery extends ModelCriteria
      * @param     mixed $key Primary key to use for the query
      * @param     ConnectionInterface $con A connection object
      *
-     * @return ChildMumTrinket|array|mixed the result, formatted by the current formatter
+     * @return ChildMumAccessory|array|mixed the result, formatted by the current formatter
      */
     protected function findPkComplex($key, $con)
     {
@@ -211,12 +211,12 @@ abstract class MumTrinketQuery extends ModelCriteria
      *
      * @param     mixed $key Primary key to use for the query
      *
-     * @return ChildMumTrinketQuery The current query, for fluid interface
+     * @return ChildMumAccessoryQuery The current query, for fluid interface
      */
     public function filterByPrimaryKey($key)
     {
 
-        return $this->addUsingAlias(MumTrinketTableMap::ID, $key, Criteria::EQUAL);
+        return $this->addUsingAlias(MumAccessoryTableMap::ID, $key, Criteria::EQUAL);
     }
 
     /**
@@ -224,12 +224,12 @@ abstract class MumTrinketQuery extends ModelCriteria
      *
      * @param     array $keys The list of primary key to use for the query
      *
-     * @return ChildMumTrinketQuery The current query, for fluid interface
+     * @return ChildMumAccessoryQuery The current query, for fluid interface
      */
     public function filterByPrimaryKeys($keys)
     {
 
-        return $this->addUsingAlias(MumTrinketTableMap::ID, $keys, Criteria::IN);
+        return $this->addUsingAlias(MumAccessoryTableMap::ID, $keys, Criteria::IN);
     }
 
     /**
@@ -248,18 +248,18 @@ abstract class MumTrinketQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildMumTrinketQuery The current query, for fluid interface
+     * @return ChildMumAccessoryQuery The current query, for fluid interface
      */
     public function filterById($id = null, $comparison = null)
     {
         if (is_array($id)) {
             $useMinMax = false;
             if (isset($id['min'])) {
-                $this->addUsingAlias(MumTrinketTableMap::ID, $id['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(MumAccessoryTableMap::ID, $id['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($id['max'])) {
-                $this->addUsingAlias(MumTrinketTableMap::ID, $id['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(MumAccessoryTableMap::ID, $id['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -270,7 +270,7 @@ abstract class MumTrinketQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(MumTrinketTableMap::ID, $id, $comparison);
+        return $this->addUsingAlias(MumAccessoryTableMap::ID, $id, $comparison);
     }
 
     /**
@@ -291,18 +291,18 @@ abstract class MumTrinketQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildMumTrinketQuery The current query, for fluid interface
+     * @return ChildMumAccessoryQuery The current query, for fluid interface
      */
     public function filterByMumId($mumId = null, $comparison = null)
     {
         if (is_array($mumId)) {
             $useMinMax = false;
             if (isset($mumId['min'])) {
-                $this->addUsingAlias(MumTrinketTableMap::MUM_ID, $mumId['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(MumAccessoryTableMap::MUM_ID, $mumId['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($mumId['max'])) {
-                $this->addUsingAlias(MumTrinketTableMap::MUM_ID, $mumId['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(MumAccessoryTableMap::MUM_ID, $mumId['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -313,39 +313,39 @@ abstract class MumTrinketQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(MumTrinketTableMap::MUM_ID, $mumId, $comparison);
+        return $this->addUsingAlias(MumAccessoryTableMap::MUM_ID, $mumId, $comparison);
     }
 
     /**
-     * Filter the query on the trinket_id column
+     * Filter the query on the accessory_id column
      *
      * Example usage:
      * <code>
-     * $query->filterByTrinketId(1234); // WHERE trinket_id = 1234
-     * $query->filterByTrinketId(array(12, 34)); // WHERE trinket_id IN (12, 34)
-     * $query->filterByTrinketId(array('min' => 12)); // WHERE trinket_id > 12
+     * $query->filterByAccessoryId(1234); // WHERE accessory_id = 1234
+     * $query->filterByAccessoryId(array(12, 34)); // WHERE accessory_id IN (12, 34)
+     * $query->filterByAccessoryId(array('min' => 12)); // WHERE accessory_id > 12
      * </code>
      *
-     * @see       filterByTrinket()
+     * @see       filterByAccessory()
      *
-     * @param     mixed $trinketId The value to use as filter.
+     * @param     mixed $accessoryId The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildMumTrinketQuery The current query, for fluid interface
+     * @return ChildMumAccessoryQuery The current query, for fluid interface
      */
-    public function filterByTrinketId($trinketId = null, $comparison = null)
+    public function filterByAccessoryId($accessoryId = null, $comparison = null)
     {
-        if (is_array($trinketId)) {
+        if (is_array($accessoryId)) {
             $useMinMax = false;
-            if (isset($trinketId['min'])) {
-                $this->addUsingAlias(MumTrinketTableMap::TRINKET_ID, $trinketId['min'], Criteria::GREATER_EQUAL);
+            if (isset($accessoryId['min'])) {
+                $this->addUsingAlias(MumAccessoryTableMap::ACCESSORY_ID, $accessoryId['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($trinketId['max'])) {
-                $this->addUsingAlias(MumTrinketTableMap::TRINKET_ID, $trinketId['max'], Criteria::LESS_EQUAL);
+            if (isset($accessoryId['max'])) {
+                $this->addUsingAlias(MumAccessoryTableMap::ACCESSORY_ID, $accessoryId['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -356,7 +356,7 @@ abstract class MumTrinketQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(MumTrinketTableMap::TRINKET_ID, $trinketId, $comparison);
+        return $this->addUsingAlias(MumAccessoryTableMap::ACCESSORY_ID, $accessoryId, $comparison);
     }
 
     /**
@@ -375,18 +375,18 @@ abstract class MumTrinketQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildMumTrinketQuery The current query, for fluid interface
+     * @return ChildMumAccessoryQuery The current query, for fluid interface
      */
     public function filterByQuantity($quantity = null, $comparison = null)
     {
         if (is_array($quantity)) {
             $useMinMax = false;
             if (isset($quantity['min'])) {
-                $this->addUsingAlias(MumTrinketTableMap::QUANTITY, $quantity['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(MumAccessoryTableMap::QUANTITY, $quantity['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($quantity['max'])) {
-                $this->addUsingAlias(MumTrinketTableMap::QUANTITY, $quantity['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(MumAccessoryTableMap::QUANTITY, $quantity['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -397,7 +397,7 @@ abstract class MumTrinketQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(MumTrinketTableMap::QUANTITY, $quantity, $comparison);
+        return $this->addUsingAlias(MumAccessoryTableMap::QUANTITY, $quantity, $comparison);
     }
 
     /**
@@ -406,20 +406,20 @@ abstract class MumTrinketQuery extends ModelCriteria
      * @param \Mum|ObjectCollection $mum The related object(s) to use as filter
      * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildMumTrinketQuery The current query, for fluid interface
+     * @return ChildMumAccessoryQuery The current query, for fluid interface
      */
     public function filterByMum($mum, $comparison = null)
     {
         if ($mum instanceof \Mum) {
             return $this
-                ->addUsingAlias(MumTrinketTableMap::MUM_ID, $mum->getId(), $comparison);
+                ->addUsingAlias(MumAccessoryTableMap::MUM_ID, $mum->getId(), $comparison);
         } elseif ($mum instanceof ObjectCollection) {
             if (null === $comparison) {
                 $comparison = Criteria::IN;
             }
 
             return $this
-                ->addUsingAlias(MumTrinketTableMap::MUM_ID, $mum->toKeyValue('PrimaryKey', 'Id'), $comparison);
+                ->addUsingAlias(MumAccessoryTableMap::MUM_ID, $mum->toKeyValue('PrimaryKey', 'Id'), $comparison);
         } else {
             throw new PropelException('filterByMum() only accepts arguments of type \Mum or Collection');
         }
@@ -431,7 +431,7 @@ abstract class MumTrinketQuery extends ModelCriteria
      * @param     string $relationAlias optional alias for the relation
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return ChildMumTrinketQuery The current query, for fluid interface
+     * @return ChildMumAccessoryQuery The current query, for fluid interface
      */
     public function joinMum($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
@@ -476,42 +476,42 @@ abstract class MumTrinketQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query by a related \Trinket object
+     * Filter the query by a related \Accessory object
      *
-     * @param \Trinket|ObjectCollection $trinket The related object(s) to use as filter
+     * @param \Accessory|ObjectCollection $accessory The related object(s) to use as filter
      * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildMumTrinketQuery The current query, for fluid interface
+     * @return ChildMumAccessoryQuery The current query, for fluid interface
      */
-    public function filterByTrinket($trinket, $comparison = null)
+    public function filterByAccessory($accessory, $comparison = null)
     {
-        if ($trinket instanceof \Trinket) {
+        if ($accessory instanceof \Accessory) {
             return $this
-                ->addUsingAlias(MumTrinketTableMap::TRINKET_ID, $trinket->getId(), $comparison);
-        } elseif ($trinket instanceof ObjectCollection) {
+                ->addUsingAlias(MumAccessoryTableMap::ACCESSORY_ID, $accessory->getId(), $comparison);
+        } elseif ($accessory instanceof ObjectCollection) {
             if (null === $comparison) {
                 $comparison = Criteria::IN;
             }
 
             return $this
-                ->addUsingAlias(MumTrinketTableMap::TRINKET_ID, $trinket->toKeyValue('PrimaryKey', 'Id'), $comparison);
+                ->addUsingAlias(MumAccessoryTableMap::ACCESSORY_ID, $accessory->toKeyValue('PrimaryKey', 'Id'), $comparison);
         } else {
-            throw new PropelException('filterByTrinket() only accepts arguments of type \Trinket or Collection');
+            throw new PropelException('filterByAccessory() only accepts arguments of type \Accessory or Collection');
         }
     }
 
     /**
-     * Adds a JOIN clause to the query using the Trinket relation
+     * Adds a JOIN clause to the query using the Accessory relation
      *
      * @param     string $relationAlias optional alias for the relation
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return ChildMumTrinketQuery The current query, for fluid interface
+     * @return ChildMumAccessoryQuery The current query, for fluid interface
      */
-    public function joinTrinket($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinAccessory($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('Trinket');
+        $relationMap = $tableMap->getRelation('Accessory');
 
         // create a ModelJoin object for this join
         $join = new ModelJoin();
@@ -526,14 +526,14 @@ abstract class MumTrinketQuery extends ModelCriteria
             $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
             $this->addJoinObject($join, $relationAlias);
         } else {
-            $this->addJoinObject($join, 'Trinket');
+            $this->addJoinObject($join, 'Accessory');
         }
 
         return $this;
     }
 
     /**
-     * Use the Trinket relation Trinket object
+     * Use the Accessory relation Accessory object
      *
      * @see useQuery()
      *
@@ -541,33 +541,33 @@ abstract class MumTrinketQuery extends ModelCriteria
      *                                   to be used as main alias in the secondary query
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return   \TrinketQuery A secondary query class using the current class as primary query
+     * @return   \AccessoryQuery A secondary query class using the current class as primary query
      */
-    public function useTrinketQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function useAccessoryQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         return $this
-            ->joinTrinket($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'Trinket', '\TrinketQuery');
+            ->joinAccessory($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Accessory', '\AccessoryQuery');
     }
 
     /**
      * Exclude object from result
      *
-     * @param   ChildMumTrinket $mumTrinket Object to remove from the list of results
+     * @param   ChildMumAccessory $mumAccessory Object to remove from the list of results
      *
-     * @return ChildMumTrinketQuery The current query, for fluid interface
+     * @return ChildMumAccessoryQuery The current query, for fluid interface
      */
-    public function prune($mumTrinket = null)
+    public function prune($mumAccessory = null)
     {
-        if ($mumTrinket) {
-            $this->addUsingAlias(MumTrinketTableMap::ID, $mumTrinket->getId(), Criteria::NOT_EQUAL);
+        if ($mumAccessory) {
+            $this->addUsingAlias(MumAccessoryTableMap::ID, $mumAccessory->getId(), Criteria::NOT_EQUAL);
         }
 
         return $this;
     }
 
     /**
-     * Deletes all rows from the mum_trinket table.
+     * Deletes all rows from the mum_accessory table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
@@ -575,7 +575,7 @@ abstract class MumTrinketQuery extends ModelCriteria
     public function doDeleteAll(ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(MumTrinketTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(MumAccessoryTableMap::DATABASE_NAME);
         }
         $affectedRows = 0; // initialize var to track total num of affected rows
         try {
@@ -586,8 +586,8 @@ abstract class MumTrinketQuery extends ModelCriteria
             // Because this db requires some delete cascade/set null emulation, we have to
             // clear the cached instance *after* the emulation has happened (since
             // instances get re-added by the select statement contained therein).
-            MumTrinketTableMap::clearInstancePool();
-            MumTrinketTableMap::clearRelatedInstancePool();
+            MumAccessoryTableMap::clearInstancePool();
+            MumAccessoryTableMap::clearRelatedInstancePool();
 
             $con->commit();
         } catch (PropelException $e) {
@@ -599,9 +599,9 @@ abstract class MumTrinketQuery extends ModelCriteria
     }
 
     /**
-     * Performs a DELETE on the database, given a ChildMumTrinket or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a ChildMumAccessory or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or ChildMumTrinket object or primary key or array of primary keys
+     * @param mixed               $values Criteria or ChildMumAccessory object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -612,13 +612,13 @@ abstract class MumTrinketQuery extends ModelCriteria
      public function delete(ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(MumTrinketTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(MumAccessoryTableMap::DATABASE_NAME);
         }
 
         $criteria = $this;
 
         // Set the correct dbName
-        $criteria->setDbName(MumTrinketTableMap::DATABASE_NAME);
+        $criteria->setDbName(MumAccessoryTableMap::DATABASE_NAME);
 
         $affectedRows = 0; // initialize var to track total num of affected rows
 
@@ -628,10 +628,10 @@ abstract class MumTrinketQuery extends ModelCriteria
             $con->beginTransaction();
 
 
-        MumTrinketTableMap::removeInstanceFromPool($criteria);
+        MumAccessoryTableMap::removeInstanceFromPool($criteria);
 
             $affectedRows += ModelCriteria::delete($con);
-            MumTrinketTableMap::clearRelatedInstancePool();
+            MumAccessoryTableMap::clearRelatedInstancePool();
             $con->commit();
 
             return $affectedRows;
@@ -641,4 +641,4 @@ abstract class MumTrinketQuery extends ModelCriteria
         }
     }
 
-} // MumTrinketQuery
+} // MumAccessoryQuery

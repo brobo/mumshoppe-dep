@@ -33,6 +33,7 @@
 	});
 
 	require('app/api/accentbow.php');
+	require('app/api/accessory.php');
 	require('app/api/backing.php');
 	require('app/api/bear.php');
 	require('app/api/category.php');
@@ -44,7 +45,6 @@
 	require('app/api/pay.php');
 	require('app/api/product.php');
 	require('app/api/size.php');
-	require('app/api/trinket.php');
 	require('app/api/volunteer.php');
 
 	$app->run();

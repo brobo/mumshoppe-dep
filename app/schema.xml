@@ -43,7 +43,7 @@
 		<column name="phone" type="varchar" size="16" required="true" />
 	</table>
 
-	<table name="trinket" phpName="Trinket">
+	<table name="accessory" phpName="Accessory">
 		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
 		<column name="name" type="varchar" size="64" required="true" />
 		<column name="underclassman" type="boolean" required="true" defaultValue="false" />
@@ -53,7 +53,7 @@
 		<column name="category_id" type="integer" />
 		<column name="image" type="blob" lazyLoad="true" />
 		<column name="image_mime" type="varchar" size="31" lazyLoad="true" />
-		<foreign-key foreignTable="trinket_category" phpName="TrinketCategory" refPhpName="Trinket">
+		<foreign-key foreignTable="accessory_category" phpName="AccessoryCategory" refPhpName="Accessory">
 			<reference local="category_id" foreign="id" />
 		</foreign-key>
 	</table>
@@ -81,7 +81,9 @@
 	<table name="bear" phpName="Bear">
 		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
 		<column name="name" type="varchar" length="32" required="true" />
-		<column name="senior" type="boolean" defaultValue="false" />
+		<column name="underclassman" type="boolean" required="true" defaultValue="false" />
+		<column name="junior" type="boolean" required="true" defaultValue="false" />
+		<column name="senior" type="boolean" required="true" defaultValue="false" />
 		<column name="price" type="decimal" size="10" scale="2" required="true" />
 	</table>
 
@@ -119,16 +121,16 @@
 		</foreign-key>
 	</table>
 
-	<table name="mum_trinket" phpName="MumTrinket">
+	<table name="mum_accessory" phpName="MumAccessory">
 		<column name="id" type="integer" primaryKey="true" required="true" autoIncrement="true" />
 		<column name="mum_id" type="integer" required="true" />
-		<column name="trinket_id" type="integer" required="true" />
+		<column name="accessory_id" type="integer" required="true" />
 		<column name="quantity" type="integer" />
 		<foreign-key foreignTable="mum">
 			<reference local="mum_id" foreign="id" />
 		</foreign-key>
-		<foreign-key foreignTable="trinket">
-			<reference local="trinket_id" foreign="id" />
+		<foreign-key foreignTable="accessory">
+			<reference local="accessory_id" foreign="id" />
 		</foreign-key>
 	</table>
 
@@ -143,7 +145,7 @@
 		</foreign-key>
 	</table>
 
-	<table name="trinket_category" phpName="TrinketCategory">
+	<table name="accessory_category" phpName="AccessoryCategory">
 		<column name="id" type="integer" primaryKey="true" autoIncrement="true" required="true" />
 		<column name="name" type="varchar" length="32" required="true" />
 	</table>

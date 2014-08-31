@@ -1,10 +1,10 @@
 <?php
 
-use Base\TrinketQuery as BaseTrinketQuery;
+use Base\AccessoryQuery as BaseAccessoryQuery;
 
 
 /**
- * Skeleton subclass for performing query and update operations on the 'trinket' table.
+ * Skeleton subclass for performing query and update operations on the 'accessory' table.
  *
  *
  *
@@ -13,7 +13,7 @@ use Base\TrinketQuery as BaseTrinketQuery;
  * long as it does not already exist in the output directory.
  *
  */
-class TrinketQuery extends BaseTrinketQuery
+class AccessoryQuery extends BaseAccessoryQuery
 {
 
-} // TrinketQuery
+} // AccessoryQuery

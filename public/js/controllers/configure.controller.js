@@ -4,7 +4,7 @@ angular.module('configure.controller', [])
 		$scope.tabs = [
 			{heading: "Accent Bows",	route:"configure.accentbows"},
 			{heading: "Bears",			route:"configure.bears"},
-			{heading: "Trinkets",		route:"configure.trinkets.all"},
+			{heading: "Accessories",		route:"configure.accessories.all"},
 			{heading: "Letters",		route:"configure.letters"},
 			{heading: "Mum Types",		route:"configure.mumtypes.grade"},
 			{heading: "Volunteers",		route:"configure.volunteers"}

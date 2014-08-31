@@ -74,24 +74,24 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h3>Accessories <span class="label label-primary">{{trinketTotal | currency}}</span></h3>
+		<h3>Accessories <span class="label label-primary">{{accessoryTotal | currency}}</span></h3>
 	</div>
 	<div class="panel-body">
 		<div ng-repeat="category in categories | orderBy : 'Name'">
 			<strong>{{category.Name}}</strong>
-			<div class="well" ng-init="filtered = (mum.Trinkets | filter : {Trinket : {CategoryId : '' + category.Id}})">
+			<div class="well" ng-init="filtered = (mum.Accessories | filter : {Accessory : {CategoryId : '' + category.Id}})">
 				<table class="table" ng-show="filtered.length">
 					<tr>
-						<th>Trinket</th>
+						<th>Accessory</th>
 						<th>Unit Price</th>
 						<th>Quantity</th>
 						<th>Total Price</th>
 					</tr>
-					<tr ng-repeat="trinket in filtered">
-						<th>{{trinket.Trinket.Name}}</th>
-						<td>{{trinket.Trinket.Price | currency}}</td>
-						<td>{{trinket.Quantity}}</td>
-						<td><span class="badge">{{trinket.Trinket.Price * trinket.Quantity | currency}}</span></td>
+					<tr ng-repeat="accessory in filtered">
+						<th>{{accessory.Accessory.Name}}</th>
+						<td>{{accessory.Accessory.Price | currency}}</td>
+						<td>{{accessory.Quantity}}</td>
+						<td><span class="badge">{{accessory.Accessory.Price * accessory.Quantity | currency}}</span></td>
 					</tr>
 					<p ng-show="!filtered.length">You didn't select any {{category.Name}}!</p>
 				</table>

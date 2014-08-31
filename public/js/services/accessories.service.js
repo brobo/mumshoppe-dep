@@ -1,20 +1,20 @@
-angular.module('trinkets.service', [])
-	.factory('TrinketsService', function($http) {
+angular.module('accessories.service', [])
+	.factory('AccessoriesService', function($http) {
 		return {
 			get: function() {
-				return $http.get('/mums/api/trinket');
+				return $http.get('/mums/api/accessory');
 			},
-			create: function(trinketData) {
-				return $http.post('/mums/api/trinket', angular.copy(trinketData));
+			create: function(accessoryData) {
+				return $http.post('/mums/api/accessory', angular.copy(accessoryData));
 			},
-			update: function(id, trinketData) {
-				return $http.put('/mums/api/trinket/' + id, angular.copy(trinketData));
+			update: function(id, accessoryData) {
+				return $http.put('/mums/api/accessory/' + id, angular.copy(accessoryData));
 			},
 			delete: function(id) {
-				return $http.delete('/mums/api/trinket/' + id);
+				return $http.delete('/mums/api/accessory/' + id);
 			},
 			fetch: function(id) {
-				return $http.get('/mums/api/trinket/' + id);
+				return $http.get('/mums/api/accessory/' + id);
 			},
 			categories: {
 				create: function(categoryData) {
@@ -32,7 +32,7 @@ angular.module('trinkets.service', [])
 					var fd = new FormData();
 					fd.append("image", images[0]);
 
-					return $http.post('/mums/api/trinket/' + id + '/image', fd, {
+					return $http.post('/mums/api/accessory/' + id + '/image', fd, {
 						withCredentials: true,
 						headers: {'Content-Type': undefined},
 						transformRequest: angular.identity

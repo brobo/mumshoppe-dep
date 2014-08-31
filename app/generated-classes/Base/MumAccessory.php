@@ -2,14 +2,14 @@
 
 namespace Base;
 
+use \Accessory as ChildAccessory;
+use \AccessoryQuery as ChildAccessoryQuery;
 use \Mum as ChildMum;
+use \MumAccessoryQuery as ChildMumAccessoryQuery;
 use \MumQuery as ChildMumQuery;
-use \MumTrinketQuery as ChildMumTrinketQuery;
-use \Trinket as ChildTrinket;
-use \TrinketQuery as ChildTrinketQuery;
 use \Exception;
 use \PDO;
-use Map\MumTrinketTableMap;
+use Map\MumAccessoryTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -21,12 +21,12 @@ use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 
-abstract class MumTrinket implements ActiveRecordInterface
+abstract class MumAccessory implements ActiveRecordInterface
 {
     /**
      * TableMap class name
      */
-    const TABLE_MAP = '\\Map\\MumTrinketTableMap';
+    const TABLE_MAP = '\\Map\\MumAccessoryTableMap';
 
 
     /**
@@ -68,10 +68,10 @@ abstract class MumTrinket implements ActiveRecordInterface
     protected $mum_id;
 
     /**
-     * The value for the trinket_id field.
+     * The value for the accessory_id field.
      * @var        int
      */
-    protected $trinket_id;
+    protected $accessory_id;
 
     /**
      * The value for the quantity field.
@@ -85,9 +85,9 @@ abstract class MumTrinket implements ActiveRecordInterface
     protected $aMum;
 
     /**
-     * @var        Trinket
+     * @var        Accessory
      */
-    protected $aTrinket;
+    protected $aAccessory;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -98,7 +98,7 @@ abstract class MumTrinket implements ActiveRecordInterface
     protected $alreadyInSave = false;
 
     /**
-     * Initializes internal state of Base\MumTrinket object.
+     * Initializes internal state of Base\MumAccessory object.
      */
     public function __construct()
     {
@@ -193,9 +193,9 @@ abstract class MumTrinket implements ActiveRecordInterface
     }
 
     /**
-     * Compares this with another <code>MumTrinket</code> instance.  If
-     * <code>obj</code> is an instance of <code>MumTrinket</code>, delegates to
-     * <code>equals(MumTrinket)</code>.  Otherwise, returns <code>false</code>.
+     * Compares this with another <code>MumAccessory</code> instance.  If
+     * <code>obj</code> is an instance of <code>MumAccessory</code>, delegates to
+     * <code>equals(MumAccessory)</code>.  Otherwise, returns <code>false</code>.
      *
      * @param  mixed   $obj The object to compare to.
      * @return boolean Whether equal to the object specified.
@@ -278,7 +278,7 @@ abstract class MumTrinket implements ActiveRecordInterface
      * @param string $name  The virtual column name
      * @param mixed  $value The value to give to the virtual column
      *
-     * @return MumTrinket The current object, for fluid interface
+     * @return MumAccessory The current object, for fluid interface
      */
     public function setVirtualColumn($name, $value)
     {
@@ -310,7 +310,7 @@ abstract class MumTrinket implements ActiveRecordInterface
      *                       or a format name ('XML', 'YAML', 'JSON', 'CSV')
      * @param string $data The source data to import from
      *
-     * @return MumTrinket The current object, for fluid interface
+     * @return MumAccessory The current object, for fluid interface
      */
     public function importFrom($parser, $data)
     {
@@ -378,14 +378,14 @@ abstract class MumTrinket implements ActiveRecordInterface
     }
 
     /**
-     * Get the [trinket_id] column value.
+     * Get the [accessory_id] column value.
      *
      * @return   int
      */
-    public function getTrinketId()
+    public function getAccessoryId()
     {
 
-        return $this->trinket_id;
+        return $this->accessory_id;
     }
 
     /**
@@ -403,7 +403,7 @@ abstract class MumTrinket implements ActiveRecordInterface
      * Set the value of [id] column.
      *
      * @param      int $v new value
-     * @return   \MumTrinket The current object (for fluent API support)
+     * @return   \MumAccessory The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -413,7 +413,7 @@ abstract class MumTrinket implements ActiveRecordInterface
 
         if ($this->id !== $v) {
             $this->id = $v;
-            $this->modifiedColumns[] = MumTrinketTableMap::ID;
+            $this->modifiedColumns[] = MumAccessoryTableMap::ID;
         }
 
 
@@ -424,7 +424,7 @@ abstract class MumTrinket implements ActiveRecordInterface
      * Set the value of [mum_id] column.
      *
      * @param      int $v new value
-     * @return   \MumTrinket The current object (for fluent API support)
+     * @return   \MumAccessory The current object (for fluent API support)
      */
     public function setMumId($v)
     {
@@ -434,7 +434,7 @@ abstract class MumTrinket implements ActiveRecordInterface
 
         if ($this->mum_id !== $v) {
             $this->mum_id = $v;
-            $this->modifiedColumns[] = MumTrinketTableMap::MUM_ID;
+            $this->modifiedColumns[] = MumAccessoryTableMap::MUM_ID;
         }
 
         if ($this->aMum !== null && $this->aMum->getId() !== $v) {
@@ -446,35 +446,35 @@ abstract class MumTrinket implements ActiveRecordInterface
     } // setMumId()
 
     /**
-     * Set the value of [trinket_id] column.
+     * Set the value of [accessory_id] column.
      *
      * @param      int $v new value
-     * @return   \MumTrinket The current object (for fluent API support)
+     * @return   \MumAccessory The current object (for fluent API support)
      */
-    public function setTrinketId($v)
+    public function setAccessoryId($v)
     {
         if ($v !== null) {
             $v = (int) $v;
         }
 
-        if ($this->trinket_id !== $v) {
-            $this->trinket_id = $v;
-            $this->modifiedColumns[] = MumTrinketTableMap::TRINKET_ID;
+        if ($this->accessory_id !== $v) {
+            $this->accessory_id = $v;
+            $this->modifiedColumns[] = MumAccessoryTableMap::ACCESSORY_ID;
         }
 
-        if ($this->aTrinket !== null && $this->aTrinket->getId() !== $v) {
-            $this->aTrinket = null;
+        if ($this->aAccessory !== null && $this->aAccessory->getId() !== $v) {
+            $this->aAccessory = null;
         }
 
 
         return $this;
-    } // setTrinketId()
+    } // setAccessoryId()
 
     /**
      * Set the value of [quantity] column.
      *
      * @param      int $v new value
-     * @return   \MumTrinket The current object (for fluent API support)
+     * @return   \MumAccessory The current object (for fluent API support)
      */
     public function setQuantity($v)
     {
@@ -484,7 +484,7 @@ abstract class MumTrinket implements ActiveRecordInterface
 
         if ($this->quantity !== $v) {
             $this->quantity = $v;
-            $this->modifiedColumns[] = MumTrinketTableMap::QUANTITY;
+            $this->modifiedColumns[] = MumAccessoryTableMap::QUANTITY;
         }
 
 
@@ -528,16 +528,16 @@ abstract class MumTrinket implements ActiveRecordInterface
         try {
 
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : MumTrinketTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : MumAccessoryTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : MumTrinketTableMap::translateFieldName('MumId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : MumAccessoryTableMap::translateFieldName('MumId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->mum_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : MumTrinketTableMap::translateFieldName('TrinketId', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->trinket_id = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : MumAccessoryTableMap::translateFieldName('AccessoryId', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->accessory_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : MumTrinketTableMap::translateFieldName('Quantity', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : MumAccessoryTableMap::translateFieldName('Quantity', TableMap::TYPE_PHPNAME, $indexType)];
             $this->quantity = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
@@ -547,10 +547,10 @@ abstract class MumTrinket implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 4; // 4 = MumTrinketTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 4; // 4 = MumAccessoryTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException("Error populating \MumTrinket object", 0, $e);
+            throw new PropelException("Error populating \MumAccessory object", 0, $e);
         }
     }
 
@@ -572,8 +572,8 @@ abstract class MumTrinket implements ActiveRecordInterface
         if ($this->aMum !== null && $this->mum_id !== $this->aMum->getId()) {
             $this->aMum = null;
         }
-        if ($this->aTrinket !== null && $this->trinket_id !== $this->aTrinket->getId()) {
-            $this->aTrinket = null;
+        if ($this->aAccessory !== null && $this->accessory_id !== $this->aAccessory->getId()) {
+            $this->aAccessory = null;
         }
     } // ensureConsistency
 
@@ -598,13 +598,13 @@ abstract class MumTrinket implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(MumTrinketTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(MumAccessoryTableMap::DATABASE_NAME);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $dataFetcher = ChildMumTrinketQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
+        $dataFetcher = ChildMumAccessoryQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
         $row = $dataFetcher->fetch();
         $dataFetcher->close();
         if (!$row) {
@@ -615,7 +615,7 @@ abstract class MumTrinket implements ActiveRecordInterface
         if ($deep) {  // also de-associate any related objects?
 
             $this->aMum = null;
-            $this->aTrinket = null;
+            $this->aAccessory = null;
         } // if (deep)
     }
 
@@ -625,8 +625,8 @@ abstract class MumTrinket implements ActiveRecordInterface
      * @param      ConnectionInterface $con
      * @return void
      * @throws PropelException
-     * @see MumTrinket::setDeleted()
-     * @see MumTrinket::isDeleted()
+     * @see MumAccessory::setDeleted()
+     * @see MumAccessory::isDeleted()
      */
     public function delete(ConnectionInterface $con = null)
     {
@@ -635,12 +635,12 @@ abstract class MumTrinket implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(MumTrinketTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(MumAccessoryTableMap::DATABASE_NAME);
         }
 
         $con->beginTransaction();
         try {
-            $deleteQuery = ChildMumTrinketQuery::create()
+            $deleteQuery = ChildMumAccessoryQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -677,7 +677,7 @@ abstract class MumTrinket implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(MumTrinketTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(MumAccessoryTableMap::DATABASE_NAME);
         }
 
         $con->beginTransaction();
@@ -697,7 +697,7 @@ abstract class MumTrinket implements ActiveRecordInterface
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                MumTrinketTableMap::addInstanceToPool($this);
+                MumAccessoryTableMap::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -739,11 +739,11 @@ abstract class MumTrinket implements ActiveRecordInterface
                 $this->setMum($this->aMum);
             }
 
-            if ($this->aTrinket !== null) {
-                if ($this->aTrinket->isModified() || $this->aTrinket->isNew()) {
-                    $affectedRows += $this->aTrinket->save($con);
+            if ($this->aAccessory !== null) {
+                if ($this->aAccessory->isModified() || $this->aAccessory->isNew()) {
+                    $affectedRows += $this->aAccessory->save($con);
                 }
-                $this->setTrinket($this->aTrinket);
+                $this->setAccessory($this->aAccessory);
             }
 
             if ($this->isNew() || $this->isModified()) {
@@ -777,27 +777,27 @@ abstract class MumTrinket implements ActiveRecordInterface
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[] = MumTrinketTableMap::ID;
+        $this->modifiedColumns[] = MumAccessoryTableMap::ID;
         if (null !== $this->id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . MumTrinketTableMap::ID . ')');
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . MumAccessoryTableMap::ID . ')');
         }
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(MumTrinketTableMap::ID)) {
+        if ($this->isColumnModified(MumAccessoryTableMap::ID)) {
             $modifiedColumns[':p' . $index++]  = 'ID';
         }
-        if ($this->isColumnModified(MumTrinketTableMap::MUM_ID)) {
+        if ($this->isColumnModified(MumAccessoryTableMap::MUM_ID)) {
             $modifiedColumns[':p' . $index++]  = 'MUM_ID';
         }
-        if ($this->isColumnModified(MumTrinketTableMap::TRINKET_ID)) {
-            $modifiedColumns[':p' . $index++]  = 'TRINKET_ID';
+        if ($this->isColumnModified(MumAccessoryTableMap::ACCESSORY_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'ACCESSORY_ID';
         }
-        if ($this->isColumnModified(MumTrinketTableMap::QUANTITY)) {
+        if ($this->isColumnModified(MumAccessoryTableMap::QUANTITY)) {
             $modifiedColumns[':p' . $index++]  = 'QUANTITY';
         }
 
         $sql = sprintf(
-            'INSERT INTO mum_trinket (%s) VALUES (%s)',
+            'INSERT INTO mum_accessory (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -812,8 +812,8 @@ abstract class MumTrinket implements ActiveRecordInterface
                     case 'MUM_ID':
                         $stmt->bindValue($identifier, $this->mum_id, PDO::PARAM_INT);
                         break;
-                    case 'TRINKET_ID':
-                        $stmt->bindValue($identifier, $this->trinket_id, PDO::PARAM_INT);
+                    case 'ACCESSORY_ID':
+                        $stmt->bindValue($identifier, $this->accessory_id, PDO::PARAM_INT);
                         break;
                     case 'QUANTITY':
                         $stmt->bindValue($identifier, $this->quantity, PDO::PARAM_INT);
@@ -864,7 +864,7 @@ abstract class MumTrinket implements ActiveRecordInterface
      */
     public function getByName($name, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = MumTrinketTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = MumAccessoryTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -887,7 +887,7 @@ abstract class MumTrinket implements ActiveRecordInterface
                 return $this->getMumId();
                 break;
             case 2:
-                return $this->getTrinketId();
+                return $this->getAccessoryId();
                 break;
             case 3:
                 return $this->getQuantity();
@@ -915,15 +915,15 @@ abstract class MumTrinket implements ActiveRecordInterface
      */
     public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
-        if (isset($alreadyDumpedObjects['MumTrinket'][$this->getPrimaryKey()])) {
+        if (isset($alreadyDumpedObjects['MumAccessory'][$this->getPrimaryKey()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['MumTrinket'][$this->getPrimaryKey()] = true;
-        $keys = MumTrinketTableMap::getFieldNames($keyType);
+        $alreadyDumpedObjects['MumAccessory'][$this->getPrimaryKey()] = true;
+        $keys = MumAccessoryTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
             $keys[1] => $this->getMumId(),
-            $keys[2] => $this->getTrinketId(),
+            $keys[2] => $this->getAccessoryId(),
             $keys[3] => $this->getQuantity(),
         );
         $virtualColumns = $this->virtualColumns;
@@ -935,8 +935,8 @@ abstract class MumTrinket implements ActiveRecordInterface
             if (null !== $this->aMum) {
                 $result['Mum'] = $this->aMum->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
-            if (null !== $this->aTrinket) {
-                $result['Trinket'] = $this->aTrinket->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            if (null !== $this->aAccessory) {
+                $result['Accessory'] = $this->aAccessory->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
 
@@ -956,7 +956,7 @@ abstract class MumTrinket implements ActiveRecordInterface
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = MumTrinketTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = MumAccessoryTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         return $this->setByPosition($pos, $value);
     }
@@ -979,7 +979,7 @@ abstract class MumTrinket implements ActiveRecordInterface
                 $this->setMumId($value);
                 break;
             case 2:
-                $this->setTrinketId($value);
+                $this->setAccessoryId($value);
                 break;
             case 3:
                 $this->setQuantity($value);
@@ -1006,11 +1006,11 @@ abstract class MumTrinket implements ActiveRecordInterface
      */
     public function fromArray($arr, $keyType = TableMap::TYPE_PHPNAME)
     {
-        $keys = MumTrinketTableMap::getFieldNames($keyType);
+        $keys = MumAccessoryTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
         if (array_key_exists($keys[1], $arr)) $this->setMumId($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setTrinketId($arr[$keys[2]]);
+        if (array_key_exists($keys[2], $arr)) $this->setAccessoryId($arr[$keys[2]]);
         if (array_key_exists($keys[3], $arr)) $this->setQuantity($arr[$keys[3]]);
     }
 
@@ -1021,12 +1021,12 @@ abstract class MumTrinket implements ActiveRecordInterface
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(MumTrinketTableMap::DATABASE_NAME);
+        $criteria = new Criteria(MumAccessoryTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(MumTrinketTableMap::ID)) $criteria->add(MumTrinketTableMap::ID, $this->id);
-        if ($this->isColumnModified(MumTrinketTableMap::MUM_ID)) $criteria->add(MumTrinketTableMap::MUM_ID, $this->mum_id);
-        if ($this->isColumnModified(MumTrinketTableMap::TRINKET_ID)) $criteria->add(MumTrinketTableMap::TRINKET_ID, $this->trinket_id);
-        if ($this->isColumnModified(MumTrinketTableMap::QUANTITY)) $criteria->add(MumTrinketTableMap::QUANTITY, $this->quantity);
+        if ($this->isColumnModified(MumAccessoryTableMap::ID)) $criteria->add(MumAccessoryTableMap::ID, $this->id);
+        if ($this->isColumnModified(MumAccessoryTableMap::MUM_ID)) $criteria->add(MumAccessoryTableMap::MUM_ID, $this->mum_id);
+        if ($this->isColumnModified(MumAccessoryTableMap::ACCESSORY_ID)) $criteria->add(MumAccessoryTableMap::ACCESSORY_ID, $this->accessory_id);
+        if ($this->isColumnModified(MumAccessoryTableMap::QUANTITY)) $criteria->add(MumAccessoryTableMap::QUANTITY, $this->quantity);
 
         return $criteria;
     }
@@ -1041,8 +1041,8 @@ abstract class MumTrinket implements ActiveRecordInterface
      */
     public function buildPkeyCriteria()
     {
-        $criteria = new Criteria(MumTrinketTableMap::DATABASE_NAME);
-        $criteria->add(MumTrinketTableMap::ID, $this->id);
+        $criteria = new Criteria(MumAccessoryTableMap::DATABASE_NAME);
+        $criteria->add(MumAccessoryTableMap::ID, $this->id);
 
         return $criteria;
     }
@@ -1083,7 +1083,7 @@ abstract class MumTrinket implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \MumTrinket (or compatible) type.
+     * @param      object $copyObj An object of \MumAccessory (or compatible) type.
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
@@ -1091,7 +1091,7 @@ abstract class MumTrinket implements ActiveRecordInterface
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
         $copyObj->setMumId($this->getMumId());
-        $copyObj->setTrinketId($this->getTrinketId());
+        $copyObj->setAccessoryId($this->getAccessoryId());
         $copyObj->setQuantity($this->getQuantity());
         if ($makeNew) {
             $copyObj->setNew(true);
@@ -1108,7 +1108,7 @@ abstract class MumTrinket implements ActiveRecordInterface
      * objects.
      *
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return                 \MumTrinket Clone of current object.
+     * @return                 \MumAccessory Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1125,7 +1125,7 @@ abstract class MumTrinket implements ActiveRecordInterface
      * Declares an association between this object and a ChildMum object.
      *
      * @param                  ChildMum $v
-     * @return                 \MumTrinket The current object (for fluent API support)
+     * @return                 \MumAccessory The current object (for fluent API support)
      * @throws PropelException
      */
     public function setMum(ChildMum $v = null)
@@ -1141,7 +1141,7 @@ abstract class MumTrinket implements ActiveRecordInterface
         // Add binding for other direction of this n:n relationship.
         // If this object has already been added to the ChildMum object, it will not be re-added.
         if ($v !== null) {
-            $v->addMumTrinket($this);
+            $v->addMumAccessory($this);
         }
 
 
@@ -1165,7 +1165,7 @@ abstract class MumTrinket implements ActiveRecordInterface
                 to this object.  This level of coupling may, however, be
                 undesirable since it could result in an only partially populated collection
                 in the referenced object.
-                $this->aMum->addMumTrinkets($this);
+                $this->aMum->addMumAccessories($this);
              */
         }
 
@@ -1173,26 +1173,26 @@ abstract class MumTrinket implements ActiveRecordInterface
     }
 
     /**
-     * Declares an association between this object and a ChildTrinket object.
+     * Declares an association between this object and a ChildAccessory object.
      *
-     * @param                  ChildTrinket $v
-     * @return                 \MumTrinket The current object (for fluent API support)
+     * @param                  ChildAccessory $v
+     * @return                 \MumAccessory The current object (for fluent API support)
      * @throws PropelException
      */
-    public function setTrinket(ChildTrinket $v = null)
+    public function setAccessory(ChildAccessory $v = null)
     {
         if ($v === null) {
-            $this->setTrinketId(NULL);
+            $this->setAccessoryId(NULL);
         } else {
-            $this->setTrinketId($v->getId());
+            $this->setAccessoryId($v->getId());
         }
 
-        $this->aTrinket = $v;
+        $this->aAccessory = $v;
 
         // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the ChildTrinket object, it will not be re-added.
+        // If this object has already been added to the ChildAccessory object, it will not be re-added.
         if ($v !== null) {
-            $v->addMumTrinket($this);
+            $v->addMumAccessory($this);
         }
 
 
@@ -1201,26 +1201,26 @@ abstract class MumTrinket implements ActiveRecordInterface
 
 
     /**
-     * Get the associated ChildTrinket object
+     * Get the associated ChildAccessory object
      *
      * @param      ConnectionInterface $con Optional Connection object.
-     * @return                 ChildTrinket The associated ChildTrinket object.
+     * @return                 ChildAccessory The associated ChildAccessory object.
      * @throws PropelException
      */
-    public function getTrinket(ConnectionInterface $con = null)
+    public function getAccessory(ConnectionInterface $con = null)
     {
-        if ($this->aTrinket === null && ($this->trinket_id !== null)) {
-            $this->aTrinket = ChildTrinketQuery::create()->findPk($this->trinket_id, $con);
+        if ($this->aAccessory === null && ($this->accessory_id !== null)) {
+            $this->aAccessory = ChildAccessoryQuery::create()->findPk($this->accessory_id, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
                 to this object.  This level of coupling may, however, be
                 undesirable since it could result in an only partially populated collection
                 in the referenced object.
-                $this->aTrinket->addMumTrinkets($this);
+                $this->aAccessory->addMumAccessories($this);
              */
         }
 
-        return $this->aTrinket;
+        return $this->aAccessory;
     }
 
     /**
@@ -1230,7 +1230,7 @@ abstract class MumTrinket implements ActiveRecordInterface
     {
         $this->id = null;
         $this->mum_id = null;
-        $this->trinket_id = null;
+        $this->accessory_id = null;
         $this->quantity = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
@@ -1254,7 +1254,7 @@ abstract class MumTrinket implements ActiveRecordInterface
         } // if ($deep)
 
         $this->aMum = null;
-        $this->aTrinket = null;
+        $this->aAccessory = null;
     }
 
     /**
@@ -1264,7 +1264,7 @@ abstract class MumTrinket implements ActiveRecordInterface
      */
     public function __toString()
     {
-        return (string) $this->exportTo(MumTrinketTableMap::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(MumAccessoryTableMap::DEFAULT_STRING_FORMAT);
     }
 
     /**

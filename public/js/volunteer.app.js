@@ -14,9 +14,9 @@ var app = angular.module('volunteer', [
 	'letters.controller',
 	'mums.volunteer.controller',
 	'mumtypes.controller',
-	'trinketsAdd.controller',
-	'trinketsAll.controller',
-	'trinketsEdit.controller',
+	'accessoriesAdd.controller',
+	'accessoriesAll.controller',
+	'accessoriesEdit.controller',
 	'accentbows.service',
 	'alerts.service',
 	'bears.service',
@@ -25,7 +25,7 @@ var app = angular.module('volunteer', [
 	'mum.service',
 	'mumtypes.service',
 	'pay.service',
-	'trinkets.service',
+	'accessories.service',
 	'volunteer.service']);
 
 app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
@@ -189,25 +189,25 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 			}
 		})
 
-		.state('configure.trinkets', {
-			url: '/trinkets',
+		.state('configure.accessories', {
+			url: '/accessories',
 			template: '<ui-view />',
 			abstract: true
 		})
-		.state('configure.trinkets.all', {
+		.state('configure.accessories.all', {
 			url: '',
-			templateUrl: 'public/views/volunteer/trinkets/all.html',
-			controller: 'trinketsAllController'
+			templateUrl: 'public/views/volunteer/accessories/all.html',
+			controller: 'accessoriesAllController'
 		})
-		.state('configure.trinkets.add', {
+		.state('configure.accessories.add', {
 			url: '/add',
-			templateUrl: 'public/views/volunteer/trinkets/edit.html',
-			controller: 'trinketsEditController'
+			templateUrl: 'public/views/volunteer/accessories/edit.html',
+			controller: 'accessoriesEditController'
 		})
-		.state('configure.trinkets.edit', {
-			url: '/edit/:trinketId',
-			templateUrl: 'public/views/volunteer/trinkets/edit.html',
-			controller: 'trinketsEditController'
+		.state('configure.accessories.edit', {
+			url: '/edit/:accessoryId',
+			templateUrl: 'public/views/volunteer/accessories/edit.html',
+			controller: 'accessoriesEditController'
 		});
 
     $httpProvider.defaults.headers.post = {'Content-Type': 'application/x-www-form-urlencoded'};

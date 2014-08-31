@@ -77,9 +77,9 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMumQuery rightJoinStatus($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Status relation
  * @method     ChildMumQuery innerJoinStatus($relationAlias = null) Adds a INNER JOIN clause to the query using the Status relation
  *
- * @method     ChildMumQuery leftJoinMumTrinket($relationAlias = null) Adds a LEFT JOIN clause to the query using the MumTrinket relation
- * @method     ChildMumQuery rightJoinMumTrinket($relationAlias = null) Adds a RIGHT JOIN clause to the query using the MumTrinket relation
- * @method     ChildMumQuery innerJoinMumTrinket($relationAlias = null) Adds a INNER JOIN clause to the query using the MumTrinket relation
+ * @method     ChildMumQuery leftJoinMumAccessory($relationAlias = null) Adds a LEFT JOIN clause to the query using the MumAccessory relation
+ * @method     ChildMumQuery rightJoinMumAccessory($relationAlias = null) Adds a RIGHT JOIN clause to the query using the MumAccessory relation
+ * @method     ChildMumQuery innerJoinMumAccessory($relationAlias = null) Adds a INNER JOIN clause to the query using the MumAccessory relation
  *
  * @method     ChildMumQuery leftJoinMumBear($relationAlias = null) Adds a LEFT JOIN clause to the query using the MumBear relation
  * @method     ChildMumQuery rightJoinMumBear($relationAlias = null) Adds a RIGHT JOIN clause to the query using the MumBear relation
@@ -1237,40 +1237,40 @@ abstract class MumQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query by a related \MumTrinket object
+     * Filter the query by a related \MumAccessory object
      *
-     * @param \MumTrinket|ObjectCollection $mumTrinket  the related object to use as filter
+     * @param \MumAccessory|ObjectCollection $mumAccessory  the related object to use as filter
      * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildMumQuery The current query, for fluid interface
      */
-    public function filterByMumTrinket($mumTrinket, $comparison = null)
+    public function filterByMumAccessory($mumAccessory, $comparison = null)
     {
-        if ($mumTrinket instanceof \MumTrinket) {
+        if ($mumAccessory instanceof \MumAccessory) {
             return $this
-                ->addUsingAlias(MumTableMap::ID, $mumTrinket->getMumId(), $comparison);
-        } elseif ($mumTrinket instanceof ObjectCollection) {
+                ->addUsingAlias(MumTableMap::ID, $mumAccessory->getMumId(), $comparison);
+        } elseif ($mumAccessory instanceof ObjectCollection) {
             return $this
-                ->useMumTrinketQuery()
-                ->filterByPrimaryKeys($mumTrinket->getPrimaryKeys())
+                ->useMumAccessoryQuery()
+                ->filterByPrimaryKeys($mumAccessory->getPrimaryKeys())
                 ->endUse();
         } else {
-            throw new PropelException('filterByMumTrinket() only accepts arguments of type \MumTrinket or Collection');
+            throw new PropelException('filterByMumAccessory() only accepts arguments of type \MumAccessory or Collection');
         }
     }
 
     /**
-     * Adds a JOIN clause to the query using the MumTrinket relation
+     * Adds a JOIN clause to the query using the MumAccessory relation
      *
      * @param     string $relationAlias optional alias for the relation
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return ChildMumQuery The current query, for fluid interface
      */
-    public function joinMumTrinket($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinMumAccessory($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('MumTrinket');
+        $relationMap = $tableMap->getRelation('MumAccessory');
 
         // create a ModelJoin object for this join
         $join = new ModelJoin();
@@ -1285,14 +1285,14 @@ abstract class MumQuery extends ModelCriteria
             $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
             $this->addJoinObject($join, $relationAlias);
         } else {
-            $this->addJoinObject($join, 'MumTrinket');
+            $this->addJoinObject($join, 'MumAccessory');
         }
 
         return $this;
     }
 
     /**
-     * Use the MumTrinket relation MumTrinket object
+     * Use the MumAccessory relation MumAccessory object
      *
      * @see useQuery()
      *
@@ -1300,13 +1300,13 @@ abstract class MumQuery extends ModelCriteria
      *                                   to be used as main alias in the secondary query
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return   \MumTrinketQuery A secondary query class using the current class as primary query
+     * @return   \MumAccessoryQuery A secondary query class using the current class as primary query
      */
-    public function useMumTrinketQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function useMumAccessoryQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         return $this
-            ->joinMumTrinket($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'MumTrinket', '\MumTrinketQuery');
+            ->joinMumAccessory($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'MumAccessory', '\MumAccessoryQuery');
     }
 
     /**

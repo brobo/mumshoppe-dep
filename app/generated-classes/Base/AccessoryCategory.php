@@ -2,13 +2,13 @@
 
 namespace Base;
 
-use \Trinket as ChildTrinket;
-use \TrinketCategory as ChildTrinketCategory;
-use \TrinketCategoryQuery as ChildTrinketCategoryQuery;
-use \TrinketQuery as ChildTrinketQuery;
+use \Accessory as ChildAccessory;
+use \AccessoryCategory as ChildAccessoryCategory;
+use \AccessoryCategoryQuery as ChildAccessoryCategoryQuery;
+use \AccessoryQuery as ChildAccessoryQuery;
 use \Exception;
 use \PDO;
-use Map\TrinketCategoryTableMap;
+use Map\AccessoryCategoryTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -21,12 +21,12 @@ use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 
-abstract class TrinketCategory implements ActiveRecordInterface
+abstract class AccessoryCategory implements ActiveRecordInterface
 {
     /**
      * TableMap class name
      */
-    const TABLE_MAP = '\\Map\\TrinketCategoryTableMap';
+    const TABLE_MAP = '\\Map\\AccessoryCategoryTableMap';
 
 
     /**
@@ -68,10 +68,10 @@ abstract class TrinketCategory implements ActiveRecordInterface
     protected $name;
 
     /**
-     * @var        ObjectCollection|ChildTrinket[] Collection to store aggregation of ChildTrinket objects.
+     * @var        ObjectCollection|ChildAccessory[] Collection to store aggregation of ChildAccessory objects.
      */
-    protected $collTrinkets;
-    protected $collTrinketsPartial;
+    protected $collAccessories;
+    protected $collAccessoriesPartial;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -85,10 +85,10 @@ abstract class TrinketCategory implements ActiveRecordInterface
      * An array of objects scheduled for deletion.
      * @var ObjectCollection
      */
-    protected $trinketsScheduledForDeletion = null;
+    protected $accessoriesScheduledForDeletion = null;
 
     /**
-     * Initializes internal state of Base\TrinketCategory object.
+     * Initializes internal state of Base\AccessoryCategory object.
      */
     public function __construct()
     {
@@ -183,9 +183,9 @@ abstract class TrinketCategory implements ActiveRecordInterface
     }
 
     /**
-     * Compares this with another <code>TrinketCategory</code> instance.  If
-     * <code>obj</code> is an instance of <code>TrinketCategory</code>, delegates to
-     * <code>equals(TrinketCategory)</code>.  Otherwise, returns <code>false</code>.
+     * Compares this with another <code>AccessoryCategory</code> instance.  If
+     * <code>obj</code> is an instance of <code>AccessoryCategory</code>, delegates to
+     * <code>equals(AccessoryCategory)</code>.  Otherwise, returns <code>false</code>.
      *
      * @param  mixed   $obj The object to compare to.
      * @return boolean Whether equal to the object specified.
@@ -268,7 +268,7 @@ abstract class TrinketCategory implements ActiveRecordInterface
      * @param string $name  The virtual column name
      * @param mixed  $value The value to give to the virtual column
      *
-     * @return TrinketCategory The current object, for fluid interface
+     * @return AccessoryCategory The current object, for fluid interface
      */
     public function setVirtualColumn($name, $value)
     {
@@ -300,7 +300,7 @@ abstract class TrinketCategory implements ActiveRecordInterface
      *                       or a format name ('XML', 'YAML', 'JSON', 'CSV')
      * @param string $data The source data to import from
      *
-     * @return TrinketCategory The current object, for fluid interface
+     * @return AccessoryCategory The current object, for fluid interface
      */
     public function importFrom($parser, $data)
     {
@@ -371,7 +371,7 @@ abstract class TrinketCategory implements ActiveRecordInterface
      * Set the value of [id] column.
      *
      * @param      int $v new value
-     * @return   \TrinketCategory The current object (for fluent API support)
+     * @return   \AccessoryCategory The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -381,7 +381,7 @@ abstract class TrinketCategory implements ActiveRecordInterface
 
         if ($this->id !== $v) {
             $this->id = $v;
-            $this->modifiedColumns[] = TrinketCategoryTableMap::ID;
+            $this->modifiedColumns[] = AccessoryCategoryTableMap::ID;
         }
 
 
@@ -392,7 +392,7 @@ abstract class TrinketCategory implements ActiveRecordInterface
      * Set the value of [name] column.
      *
      * @param      string $v new value
-     * @return   \TrinketCategory The current object (for fluent API support)
+     * @return   \AccessoryCategory The current object (for fluent API support)
      */
     public function setName($v)
     {
@@ -402,7 +402,7 @@ abstract class TrinketCategory implements ActiveRecordInterface
 
         if ($this->name !== $v) {
             $this->name = $v;
-            $this->modifiedColumns[] = TrinketCategoryTableMap::NAME;
+            $this->modifiedColumns[] = AccessoryCategoryTableMap::NAME;
         }
 
 
@@ -446,10 +446,10 @@ abstract class TrinketCategory implements ActiveRecordInterface
         try {
 
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : TrinketCategoryTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : AccessoryCategoryTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : TrinketCategoryTableMap::translateFieldName('Name', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : AccessoryCategoryTableMap::translateFieldName('Name', TableMap::TYPE_PHPNAME, $indexType)];
             $this->name = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
@@ -459,10 +459,10 @@ abstract class TrinketCategory implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 2; // 2 = TrinketCategoryTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 2; // 2 = AccessoryCategoryTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException("Error populating \TrinketCategory object", 0, $e);
+            throw new PropelException("Error populating \AccessoryCategory object", 0, $e);
         }
     }
 
@@ -504,13 +504,13 @@ abstract class TrinketCategory implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(TrinketCategoryTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(AccessoryCategoryTableMap::DATABASE_NAME);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $dataFetcher = ChildTrinketCategoryQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
+        $dataFetcher = ChildAccessoryCategoryQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
         $row = $dataFetcher->fetch();
         $dataFetcher->close();
         if (!$row) {
@@ -520,7 +520,7 @@ abstract class TrinketCategory implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->collTrinkets = null;
+            $this->collAccessories = null;
 
         } // if (deep)
     }
@@ -531,8 +531,8 @@ abstract class TrinketCategory implements ActiveRecordInterface
      * @param      ConnectionInterface $con
      * @return void
      * @throws PropelException
-     * @see TrinketCategory::setDeleted()
-     * @see TrinketCategory::isDeleted()
+     * @see AccessoryCategory::setDeleted()
+     * @see AccessoryCategory::isDeleted()
      */
     public function delete(ConnectionInterface $con = null)
     {
@@ -541,12 +541,12 @@ abstract class TrinketCategory implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(TrinketCategoryTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(AccessoryCategoryTableMap::DATABASE_NAME);
         }
 
         $con->beginTransaction();
         try {
-            $deleteQuery = ChildTrinketCategoryQuery::create()
+            $deleteQuery = ChildAccessoryCategoryQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -583,7 +583,7 @@ abstract class TrinketCategory implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(TrinketCategoryTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(AccessoryCategoryTableMap::DATABASE_NAME);
         }
 
         $con->beginTransaction();
@@ -603,7 +603,7 @@ abstract class TrinketCategory implements ActiveRecordInterface
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                TrinketCategoryTableMap::addInstanceToPool($this);
+                AccessoryCategoryTableMap::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -644,18 +644,18 @@ abstract class TrinketCategory implements ActiveRecordInterface
                 $this->resetModified();
             }
 
-            if ($this->trinketsScheduledForDeletion !== null) {
-                if (!$this->trinketsScheduledForDeletion->isEmpty()) {
-                    foreach ($this->trinketsScheduledForDeletion as $trinket) {
+            if ($this->accessoriesScheduledForDeletion !== null) {
+                if (!$this->accessoriesScheduledForDeletion->isEmpty()) {
+                    foreach ($this->accessoriesScheduledForDeletion as $accessory) {
                         // need to save related object because we set the relation to null
-                        $trinket->save($con);
+                        $accessory->save($con);
                     }
-                    $this->trinketsScheduledForDeletion = null;
+                    $this->accessoriesScheduledForDeletion = null;
                 }
             }
 
-                if ($this->collTrinkets !== null) {
-            foreach ($this->collTrinkets as $referrerFK) {
+                if ($this->collAccessories !== null) {
+            foreach ($this->collAccessories as $referrerFK) {
                     if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
                         $affectedRows += $referrerFK->save($con);
                     }
@@ -682,21 +682,21 @@ abstract class TrinketCategory implements ActiveRecordInterface
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[] = TrinketCategoryTableMap::ID;
+        $this->modifiedColumns[] = AccessoryCategoryTableMap::ID;
         if (null !== $this->id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . TrinketCategoryTableMap::ID . ')');
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . AccessoryCategoryTableMap::ID . ')');
         }
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(TrinketCategoryTableMap::ID)) {
+        if ($this->isColumnModified(AccessoryCategoryTableMap::ID)) {
             $modifiedColumns[':p' . $index++]  = 'ID';
         }
-        if ($this->isColumnModified(TrinketCategoryTableMap::NAME)) {
+        if ($this->isColumnModified(AccessoryCategoryTableMap::NAME)) {
             $modifiedColumns[':p' . $index++]  = 'NAME';
         }
 
         $sql = sprintf(
-            'INSERT INTO trinket_category (%s) VALUES (%s)',
+            'INSERT INTO accessory_category (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -757,7 +757,7 @@ abstract class TrinketCategory implements ActiveRecordInterface
      */
     public function getByName($name, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = TrinketCategoryTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = AccessoryCategoryTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -802,11 +802,11 @@ abstract class TrinketCategory implements ActiveRecordInterface
      */
     public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
-        if (isset($alreadyDumpedObjects['TrinketCategory'][$this->getPrimaryKey()])) {
+        if (isset($alreadyDumpedObjects['AccessoryCategory'][$this->getPrimaryKey()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['TrinketCategory'][$this->getPrimaryKey()] = true;
-        $keys = TrinketCategoryTableMap::getFieldNames($keyType);
+        $alreadyDumpedObjects['AccessoryCategory'][$this->getPrimaryKey()] = true;
+        $keys = AccessoryCategoryTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
             $keys[1] => $this->getName(),
@@ -817,8 +817,8 @@ abstract class TrinketCategory implements ActiveRecordInterface
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->collTrinkets) {
-                $result['Trinkets'] = $this->collTrinkets->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            if (null !== $this->collAccessories) {
+                $result['Accessories'] = $this->collAccessories->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
 
@@ -838,7 +838,7 @@ abstract class TrinketCategory implements ActiveRecordInterface
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = TrinketCategoryTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = AccessoryCategoryTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         return $this->setByPosition($pos, $value);
     }
@@ -882,7 +882,7 @@ abstract class TrinketCategory implements ActiveRecordInterface
      */
     public function fromArray($arr, $keyType = TableMap::TYPE_PHPNAME)
     {
-        $keys = TrinketCategoryTableMap::getFieldNames($keyType);
+        $keys = AccessoryCategoryTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
         if (array_key_exists($keys[1], $arr)) $this->setName($arr[$keys[1]]);
@@ -895,10 +895,10 @@ abstract class TrinketCategory implements ActiveRecordInterface
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(TrinketCategoryTableMap::DATABASE_NAME);
+        $criteria = new Criteria(AccessoryCategoryTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(TrinketCategoryTableMap::ID)) $criteria->add(TrinketCategoryTableMap::ID, $this->id);
-        if ($this->isColumnModified(TrinketCategoryTableMap::NAME)) $criteria->add(TrinketCategoryTableMap::NAME, $this->name);
+        if ($this->isColumnModified(AccessoryCategoryTableMap::ID)) $criteria->add(AccessoryCategoryTableMap::ID, $this->id);
+        if ($this->isColumnModified(AccessoryCategoryTableMap::NAME)) $criteria->add(AccessoryCategoryTableMap::NAME, $this->name);
 
         return $criteria;
     }
@@ -913,8 +913,8 @@ abstract class TrinketCategory implements ActiveRecordInterface
      */
     public function buildPkeyCriteria()
     {
-        $criteria = new Criteria(TrinketCategoryTableMap::DATABASE_NAME);
-        $criteria->add(TrinketCategoryTableMap::ID, $this->id);
+        $criteria = new Criteria(AccessoryCategoryTableMap::DATABASE_NAME);
+        $criteria->add(AccessoryCategoryTableMap::ID, $this->id);
 
         return $criteria;
     }
@@ -955,7 +955,7 @@ abstract class TrinketCategory implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \TrinketCategory (or compatible) type.
+     * @param      object $copyObj An object of \AccessoryCategory (or compatible) type.
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
@@ -969,9 +969,9 @@ abstract class TrinketCategory implements ActiveRecordInterface
             // the getter/setter methods for fkey referrer objects.
             $copyObj->setNew(false);
 
-            foreach ($this->getTrinkets() as $relObj) {
+            foreach ($this->getAccessories() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-                    $copyObj->addTrinket($relObj->copy($deepCopy));
+                    $copyObj->addAccessory($relObj->copy($deepCopy));
                 }
             }
 
@@ -992,7 +992,7 @@ abstract class TrinketCategory implements ActiveRecordInterface
      * objects.
      *
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return                 \TrinketCategory Clone of current object.
+     * @return                 \AccessoryCategory Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1016,37 +1016,37 @@ abstract class TrinketCategory implements ActiveRecordInterface
      */
     public function initRelation($relationName)
     {
-        if ('Trinket' == $relationName) {
-            return $this->initTrinkets();
+        if ('Accessory' == $relationName) {
+            return $this->initAccessories();
         }
     }
 
     /**
-     * Clears out the collTrinkets collection
+     * Clears out the collAccessories collection
      *
      * This does not modify the database; however, it will remove any associated objects, causing
      * them to be refetched by subsequent calls to accessor method.
      *
      * @return void
-     * @see        addTrinkets()
+     * @see        addAccessories()
      */
-    public function clearTrinkets()
+    public function clearAccessories()
     {
-        $this->collTrinkets = null; // important to set this to NULL since that means it is uninitialized
+        $this->collAccessories = null; // important to set this to NULL since that means it is uninitialized
     }
 
     /**
-     * Reset is the collTrinkets collection loaded partially.
+     * Reset is the collAccessories collection loaded partially.
      */
-    public function resetPartialTrinkets($v = true)
+    public function resetPartialAccessories($v = true)
     {
-        $this->collTrinketsPartial = $v;
+        $this->collAccessoriesPartial = $v;
     }
 
     /**
-     * Initializes the collTrinkets collection.
+     * Initializes the collAccessories collection.
      *
-     * By default this just sets the collTrinkets collection to an empty array (like clearcollTrinkets());
+     * By default this just sets the collAccessories collection to an empty array (like clearcollAccessories());
      * however, you may wish to override this method in your stub class to provide setting appropriate
      * to your application -- for example, setting the initial array to the values stored in database.
      *
@@ -1055,185 +1055,185 @@ abstract class TrinketCategory implements ActiveRecordInterface
      *
      * @return void
      */
-    public function initTrinkets($overrideExisting = true)
+    public function initAccessories($overrideExisting = true)
     {
-        if (null !== $this->collTrinkets && !$overrideExisting) {
+        if (null !== $this->collAccessories && !$overrideExisting) {
             return;
         }
-        $this->collTrinkets = new ObjectCollection();
-        $this->collTrinkets->setModel('\Trinket');
+        $this->collAccessories = new ObjectCollection();
+        $this->collAccessories->setModel('\Accessory');
     }
 
     /**
-     * Gets an array of ChildTrinket objects which contain a foreign key that references this object.
+     * Gets an array of ChildAccessory objects which contain a foreign key that references this object.
      *
      * If the $criteria is not null, it is used to always fetch the results from the database.
      * Otherwise the results are fetched from the database the first time, then cached.
      * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this ChildTrinketCategory is new, it will return
+     * If this ChildAccessoryCategory is new, it will return
      * an empty collection or the current collection; the criteria is ignored on a new object.
      *
      * @param      Criteria $criteria optional Criteria object to narrow the query
      * @param      ConnectionInterface $con optional connection object
-     * @return Collection|ChildTrinket[] List of ChildTrinket objects
+     * @return Collection|ChildAccessory[] List of ChildAccessory objects
      * @throws PropelException
      */
-    public function getTrinkets($criteria = null, ConnectionInterface $con = null)
+    public function getAccessories($criteria = null, ConnectionInterface $con = null)
     {
-        $partial = $this->collTrinketsPartial && !$this->isNew();
-        if (null === $this->collTrinkets || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collTrinkets) {
+        $partial = $this->collAccessoriesPartial && !$this->isNew();
+        if (null === $this->collAccessories || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collAccessories) {
                 // return empty collection
-                $this->initTrinkets();
+                $this->initAccessories();
             } else {
-                $collTrinkets = ChildTrinketQuery::create(null, $criteria)
-                    ->filterByTrinketCategory($this)
+                $collAccessories = ChildAccessoryQuery::create(null, $criteria)
+                    ->filterByAccessoryCategory($this)
                     ->find($con);
 
                 if (null !== $criteria) {
-                    if (false !== $this->collTrinketsPartial && count($collTrinkets)) {
-                        $this->initTrinkets(false);
+                    if (false !== $this->collAccessoriesPartial && count($collAccessories)) {
+                        $this->initAccessories(false);
 
-                        foreach ($collTrinkets as $obj) {
-                            if (false == $this->collTrinkets->contains($obj)) {
-                                $this->collTrinkets->append($obj);
+                        foreach ($collAccessories as $obj) {
+                            if (false == $this->collAccessories->contains($obj)) {
+                                $this->collAccessories->append($obj);
                             }
                         }
 
-                        $this->collTrinketsPartial = true;
+                        $this->collAccessoriesPartial = true;
                     }
 
-                    $collTrinkets->getInternalIterator()->rewind();
+                    $collAccessories->getInternalIterator()->rewind();
 
-                    return $collTrinkets;
+                    return $collAccessories;
                 }
 
-                if ($partial && $this->collTrinkets) {
-                    foreach ($this->collTrinkets as $obj) {
+                if ($partial && $this->collAccessories) {
+                    foreach ($this->collAccessories as $obj) {
                         if ($obj->isNew()) {
-                            $collTrinkets[] = $obj;
+                            $collAccessories[] = $obj;
                         }
                     }
                 }
 
-                $this->collTrinkets = $collTrinkets;
-                $this->collTrinketsPartial = false;
+                $this->collAccessories = $collAccessories;
+                $this->collAccessoriesPartial = false;
             }
         }
 
-        return $this->collTrinkets;
+        return $this->collAccessories;
     }
 
     /**
-     * Sets a collection of Trinket objects related by a one-to-many relationship
+     * Sets a collection of Accessory objects related by a one-to-many relationship
      * to the current object.
      * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
      * and new objects from the given Propel collection.
      *
-     * @param      Collection $trinkets A Propel collection.
+     * @param      Collection $accessories A Propel collection.
      * @param      ConnectionInterface $con Optional connection object
-     * @return   ChildTrinketCategory The current object (for fluent API support)
+     * @return   ChildAccessoryCategory The current object (for fluent API support)
      */
-    public function setTrinkets(Collection $trinkets, ConnectionInterface $con = null)
+    public function setAccessories(Collection $accessories, ConnectionInterface $con = null)
     {
-        $trinketsToDelete = $this->getTrinkets(new Criteria(), $con)->diff($trinkets);
+        $accessoriesToDelete = $this->getAccessories(new Criteria(), $con)->diff($accessories);
 
 
-        $this->trinketsScheduledForDeletion = $trinketsToDelete;
+        $this->accessoriesScheduledForDeletion = $accessoriesToDelete;
 
-        foreach ($trinketsToDelete as $trinketRemoved) {
-            $trinketRemoved->setTrinketCategory(null);
+        foreach ($accessoriesToDelete as $accessoryRemoved) {
+            $accessoryRemoved->setAccessoryCategory(null);
         }
 
-        $this->collTrinkets = null;
-        foreach ($trinkets as $trinket) {
-            $this->addTrinket($trinket);
+        $this->collAccessories = null;
+        foreach ($accessories as $accessory) {
+            $this->addAccessory($accessory);
         }
 
-        $this->collTrinkets = $trinkets;
-        $this->collTrinketsPartial = false;
+        $this->collAccessories = $accessories;
+        $this->collAccessoriesPartial = false;
 
         return $this;
     }
 
     /**
-     * Returns the number of related Trinket objects.
+     * Returns the number of related Accessory objects.
      *
      * @param      Criteria $criteria
      * @param      boolean $distinct
      * @param      ConnectionInterface $con
-     * @return int             Count of related Trinket objects.
+     * @return int             Count of related Accessory objects.
      * @throws PropelException
      */
-    public function countTrinkets(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    public function countAccessories(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
     {
-        $partial = $this->collTrinketsPartial && !$this->isNew();
-        if (null === $this->collTrinkets || null !== $criteria || $partial) {
-            if ($this->isNew() && null === $this->collTrinkets) {
+        $partial = $this->collAccessoriesPartial && !$this->isNew();
+        if (null === $this->collAccessories || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collAccessories) {
                 return 0;
             }
 
             if ($partial && !$criteria) {
-                return count($this->getTrinkets());
+                return count($this->getAccessories());
             }
 
-            $query = ChildTrinketQuery::create(null, $criteria);
+            $query = ChildAccessoryQuery::create(null, $criteria);
             if ($distinct) {
                 $query->distinct();
             }
 
             return $query
-                ->filterByTrinketCategory($this)
+                ->filterByAccessoryCategory($this)
                 ->count($con);
         }
 
-        return count($this->collTrinkets);
+        return count($this->collAccessories);
     }
 
     /**
-     * Method called to associate a ChildTrinket object to this object
-     * through the ChildTrinket foreign key attribute.
+     * Method called to associate a ChildAccessory object to this object
+     * through the ChildAccessory foreign key attribute.
      *
-     * @param    ChildTrinket $l ChildTrinket
-     * @return   \TrinketCategory The current object (for fluent API support)
+     * @param    ChildAccessory $l ChildAccessory
+     * @return   \AccessoryCategory The current object (for fluent API support)
      */
-    public function addTrinket(ChildTrinket $l)
+    public function addAccessory(ChildAccessory $l)
     {
-        if ($this->collTrinkets === null) {
-            $this->initTrinkets();
-            $this->collTrinketsPartial = true;
+        if ($this->collAccessories === null) {
+            $this->initAccessories();
+            $this->collAccessoriesPartial = true;
         }
 
-        if (!in_array($l, $this->collTrinkets->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
-            $this->doAddTrinket($l);
+        if (!in_array($l, $this->collAccessories->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
+            $this->doAddAccessory($l);
         }
 
         return $this;
     }
 
     /**
-     * @param Trinket $trinket The trinket object to add.
+     * @param Accessory $accessory The accessory object to add.
      */
-    protected function doAddTrinket($trinket)
+    protected function doAddAccessory($accessory)
     {
-        $this->collTrinkets[]= $trinket;
-        $trinket->setTrinketCategory($this);
+        $this->collAccessories[]= $accessory;
+        $accessory->setAccessoryCategory($this);
     }
 
     /**
-     * @param  Trinket $trinket The trinket object to remove.
-     * @return ChildTrinketCategory The current object (for fluent API support)
+     * @param  Accessory $accessory The accessory object to remove.
+     * @return ChildAccessoryCategory The current object (for fluent API support)
      */
-    public function removeTrinket($trinket)
+    public function removeAccessory($accessory)
     {
-        if ($this->getTrinkets()->contains($trinket)) {
-            $this->collTrinkets->remove($this->collTrinkets->search($trinket));
-            if (null === $this->trinketsScheduledForDeletion) {
-                $this->trinketsScheduledForDeletion = clone $this->collTrinkets;
-                $this->trinketsScheduledForDeletion->clear();
+        if ($this->getAccessories()->contains($accessory)) {
+            $this->collAccessories->remove($this->collAccessories->search($accessory));
+            if (null === $this->accessoriesScheduledForDeletion) {
+                $this->accessoriesScheduledForDeletion = clone $this->collAccessories;
+                $this->accessoriesScheduledForDeletion->clear();
             }
-            $this->trinketsScheduledForDeletion[]= $trinket;
-            $trinket->setTrinketCategory(null);
+            $this->accessoriesScheduledForDeletion[]= $accessory;
+            $accessory->setAccessoryCategory(null);
         }
 
         return $this;
@@ -1265,17 +1265,17 @@ abstract class TrinketCategory implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
-            if ($this->collTrinkets) {
-                foreach ($this->collTrinkets as $o) {
+            if ($this->collAccessories) {
+                foreach ($this->collAccessories as $o) {
                     $o->clearAllReferences($deep);
                 }
             }
         } // if ($deep)
 
-        if ($this->collTrinkets instanceof Collection) {
-            $this->collTrinkets->clearIterator();
+        if ($this->collAccessories instanceof Collection) {
+            $this->collAccessories->clearIterator();
         }
-        $this->collTrinkets = null;
+        $this->collAccessories = null;
     }
 
     /**
@@ -1285,7 +1285,7 @@ abstract class TrinketCategory implements ActiveRecordInterface
      */
     public function __toString()
     {
-        return (string) $this->exportTo(TrinketCategoryTableMap::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(AccessoryCategoryTableMap::DEFAULT_STRING_FORMAT);
     }
 
     /**

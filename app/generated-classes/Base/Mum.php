@@ -13,11 +13,11 @@ use \CustomerQuery as ChildCustomerQuery;
 use \Letter as ChildLetter;
 use \LetterQuery as ChildLetterQuery;
 use \Mum as ChildMum;
+use \MumAccessory as ChildMumAccessory;
+use \MumAccessoryQuery as ChildMumAccessoryQuery;
 use \MumBear as ChildMumBear;
 use \MumBearQuery as ChildMumBearQuery;
 use \MumQuery as ChildMumQuery;
-use \MumTrinket as ChildMumTrinket;
-use \MumTrinketQuery as ChildMumTrinketQuery;
 use \Status as ChildStatus;
 use \StatusQuery as ChildStatusQuery;
 use \DateTime;
@@ -187,10 +187,10 @@ abstract class Mum implements ActiveRecordInterface
     protected $aStatus;
 
     /**
-     * @var        ObjectCollection|ChildMumTrinket[] Collection to store aggregation of ChildMumTrinket objects.
+     * @var        ObjectCollection|ChildMumAccessory[] Collection to store aggregation of ChildMumAccessory objects.
      */
-    protected $collMumTrinkets;
-    protected $collMumTrinketsPartial;
+    protected $collMumAccessories;
+    protected $collMumAccessoriesPartial;
 
     /**
      * @var        ObjectCollection|ChildMumBear[] Collection to store aggregation of ChildMumBear objects.
@@ -221,7 +221,7 @@ abstract class Mum implements ActiveRecordInterface
      * An array of objects scheduled for deletion.
      * @var ObjectCollection
      */
-    protected $mumTrinketsScheduledForDeletion = null;
+    protected $mumAccessoriesScheduledForDeletion = null;
 
     /**
      * An array of objects scheduled for deletion.
@@ -1208,7 +1208,7 @@ abstract class Mum implements ActiveRecordInterface
             $this->aAccentBow = null;
             $this->aLetter = null;
             $this->aStatus = null;
-            $this->collMumTrinkets = null;
+            $this->collMumAccessories = null;
 
             $this->collMumBears = null;
 
@@ -1402,17 +1402,17 @@ abstract class Mum implements ActiveRecordInterface
                 }
             }
 
-            if ($this->mumTrinketsScheduledForDeletion !== null) {
-                if (!$this->mumTrinketsScheduledForDeletion->isEmpty()) {
-                    \MumTrinketQuery::create()
-                        ->filterByPrimaryKeys($this->mumTrinketsScheduledForDeletion->getPrimaryKeys(false))
+            if ($this->mumAccessoriesScheduledForDeletion !== null) {
+                if (!$this->mumAccessoriesScheduledForDeletion->isEmpty()) {
+                    \MumAccessoryQuery::create()
+                        ->filterByPrimaryKeys($this->mumAccessoriesScheduledForDeletion->getPrimaryKeys(false))
                         ->delete($con);
-                    $this->mumTrinketsScheduledForDeletion = null;
+                    $this->mumAccessoriesScheduledForDeletion = null;
                 }
             }
 
-                if ($this->collMumTrinkets !== null) {
-            foreach ($this->collMumTrinkets as $referrerFK) {
+                if ($this->collMumAccessories !== null) {
+            foreach ($this->collMumAccessories as $referrerFK) {
                     if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
                         $affectedRows += $referrerFK->save($con);
                     }
@@ -1736,8 +1736,8 @@ abstract class Mum implements ActiveRecordInterface
             if (null !== $this->aStatus) {
                 $result['Status'] = $this->aStatus->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
-            if (null !== $this->collMumTrinkets) {
-                $result['MumTrinkets'] = $this->collMumTrinkets->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            if (null !== $this->collMumAccessories) {
+                $result['MumAccessories'] = $this->collMumAccessories->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
             if (null !== $this->collMumBears) {
                 $result['MumBears'] = $this->collMumBears->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
@@ -1969,9 +1969,9 @@ abstract class Mum implements ActiveRecordInterface
             // the getter/setter methods for fkey referrer objects.
             $copyObj->setNew(false);
 
-            foreach ($this->getMumTrinkets() as $relObj) {
+            foreach ($this->getMumAccessories() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-                    $copyObj->addMumTrinket($relObj->copy($deepCopy));
+                    $copyObj->addMumAccessory($relObj->copy($deepCopy));
                 }
             }
 
@@ -2285,8 +2285,8 @@ abstract class Mum implements ActiveRecordInterface
      */
     public function initRelation($relationName)
     {
-        if ('MumTrinket' == $relationName) {
-            return $this->initMumTrinkets();
+        if ('MumAccessory' == $relationName) {
+            return $this->initMumAccessories();
         }
         if ('MumBear' == $relationName) {
             return $this->initMumBears();
@@ -2294,31 +2294,31 @@ abstract class Mum implements ActiveRecordInterface
     }
 
     /**
-     * Clears out the collMumTrinkets collection
+     * Clears out the collMumAccessories collection
      *
      * This does not modify the database; however, it will remove any associated objects, causing
      * them to be refetched by subsequent calls to accessor method.
      *
      * @return void
-     * @see        addMumTrinkets()
+     * @see        addMumAccessories()
      */
-    public function clearMumTrinkets()
+    public function clearMumAccessories()
     {
-        $this->collMumTrinkets = null; // important to set this to NULL since that means it is uninitialized
+        $this->collMumAccessories = null; // important to set this to NULL since that means it is uninitialized
     }
 
     /**
-     * Reset is the collMumTrinkets collection loaded partially.
+     * Reset is the collMumAccessories collection loaded partially.
      */
-    public function resetPartialMumTrinkets($v = true)
+    public function resetPartialMumAccessories($v = true)
     {
-        $this->collMumTrinketsPartial = $v;
+        $this->collMumAccessoriesPartial = $v;
     }
 
     /**
-     * Initializes the collMumTrinkets collection.
+     * Initializes the collMumAccessories collection.
      *
-     * By default this just sets the collMumTrinkets collection to an empty array (like clearcollMumTrinkets());
+     * By default this just sets the collMumAccessories collection to an empty array (like clearcollMumAccessories());
      * however, you may wish to override this method in your stub class to provide setting appropriate
      * to your application -- for example, setting the initial array to the values stored in database.
      *
@@ -2327,17 +2327,17 @@ abstract class Mum implements ActiveRecordInterface
      *
      * @return void
      */
-    public function initMumTrinkets($overrideExisting = true)
+    public function initMumAccessories($overrideExisting = true)
     {
-        if (null !== $this->collMumTrinkets && !$overrideExisting) {
+        if (null !== $this->collMumAccessories && !$overrideExisting) {
             return;
         }
-        $this->collMumTrinkets = new ObjectCollection();
-        $this->collMumTrinkets->setModel('\MumTrinket');
+        $this->collMumAccessories = new ObjectCollection();
+        $this->collMumAccessories->setModel('\MumAccessory');
     }
 
     /**
-     * Gets an array of ChildMumTrinket objects which contain a foreign key that references this object.
+     * Gets an array of ChildMumAccessory objects which contain a foreign key that references this object.
      *
      * If the $criteria is not null, it is used to always fetch the results from the database.
      * Otherwise the results are fetched from the database the first time, then cached.
@@ -2347,109 +2347,109 @@ abstract class Mum implements ActiveRecordInterface
      *
      * @param      Criteria $criteria optional Criteria object to narrow the query
      * @param      ConnectionInterface $con optional connection object
-     * @return Collection|ChildMumTrinket[] List of ChildMumTrinket objects
+     * @return Collection|ChildMumAccessory[] List of ChildMumAccessory objects
      * @throws PropelException
      */
-    public function getMumTrinkets($criteria = null, ConnectionInterface $con = null)
+    public function getMumAccessories($criteria = null, ConnectionInterface $con = null)
     {
-        $partial = $this->collMumTrinketsPartial && !$this->isNew();
-        if (null === $this->collMumTrinkets || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collMumTrinkets) {
+        $partial = $this->collMumAccessoriesPartial && !$this->isNew();
+        if (null === $this->collMumAccessories || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collMumAccessories) {
                 // return empty collection
-                $this->initMumTrinkets();
+                $this->initMumAccessories();
             } else {
-                $collMumTrinkets = ChildMumTrinketQuery::create(null, $criteria)
+                $collMumAccessories = ChildMumAccessoryQuery::create(null, $criteria)
                     ->filterByMum($this)
                     ->find($con);
 
                 if (null !== $criteria) {
-                    if (false !== $this->collMumTrinketsPartial && count($collMumTrinkets)) {
-                        $this->initMumTrinkets(false);
+                    if (false !== $this->collMumAccessoriesPartial && count($collMumAccessories)) {
+                        $this->initMumAccessories(false);
 
-                        foreach ($collMumTrinkets as $obj) {
-                            if (false == $this->collMumTrinkets->contains($obj)) {
-                                $this->collMumTrinkets->append($obj);
+                        foreach ($collMumAccessories as $obj) {
+                            if (false == $this->collMumAccessories->contains($obj)) {
+                                $this->collMumAccessories->append($obj);
                             }
                         }
 
-                        $this->collMumTrinketsPartial = true;
+                        $this->collMumAccessoriesPartial = true;
                     }
 
-                    $collMumTrinkets->getInternalIterator()->rewind();
+                    $collMumAccessories->getInternalIterator()->rewind();
 
-                    return $collMumTrinkets;
+                    return $collMumAccessories;
                 }
 
-                if ($partial && $this->collMumTrinkets) {
-                    foreach ($this->collMumTrinkets as $obj) {
+                if ($partial && $this->collMumAccessories) {
+                    foreach ($this->collMumAccessories as $obj) {
                         if ($obj->isNew()) {
-                            $collMumTrinkets[] = $obj;
+                            $collMumAccessories[] = $obj;
                         }
                     }
                 }
 
-                $this->collMumTrinkets = $collMumTrinkets;
-                $this->collMumTrinketsPartial = false;
+                $this->collMumAccessories = $collMumAccessories;
+                $this->collMumAccessoriesPartial = false;
             }
         }
 
-        return $this->collMumTrinkets;
+        return $this->collMumAccessories;
     }
 
     /**
-     * Sets a collection of MumTrinket objects related by a one-to-many relationship
+     * Sets a collection of MumAccessory objects related by a one-to-many relationship
      * to the current object.
      * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
      * and new objects from the given Propel collection.
      *
-     * @param      Collection $mumTrinkets A Propel collection.
+     * @param      Collection $mumAccessories A Propel collection.
      * @param      ConnectionInterface $con Optional connection object
      * @return   ChildMum The current object (for fluent API support)
      */
-    public function setMumTrinkets(Collection $mumTrinkets, ConnectionInterface $con = null)
+    public function setMumAccessories(Collection $mumAccessories, ConnectionInterface $con = null)
     {
-        $mumTrinketsToDelete = $this->getMumTrinkets(new Criteria(), $con)->diff($mumTrinkets);
+        $mumAccessoriesToDelete = $this->getMumAccessories(new Criteria(), $con)->diff($mumAccessories);
 
 
-        $this->mumTrinketsScheduledForDeletion = $mumTrinketsToDelete;
+        $this->mumAccessoriesScheduledForDeletion = $mumAccessoriesToDelete;
 
-        foreach ($mumTrinketsToDelete as $mumTrinketRemoved) {
-            $mumTrinketRemoved->setMum(null);
+        foreach ($mumAccessoriesToDelete as $mumAccessoryRemoved) {
+            $mumAccessoryRemoved->setMum(null);
         }
 
-        $this->collMumTrinkets = null;
-        foreach ($mumTrinkets as $mumTrinket) {
-            $this->addMumTrinket($mumTrinket);
+        $this->collMumAccessories = null;
+        foreach ($mumAccessories as $mumAccessory) {
+            $this->addMumAccessory($mumAccessory);
         }
 
-        $this->collMumTrinkets = $mumTrinkets;
-        $this->collMumTrinketsPartial = false;
+        $this->collMumAccessories = $mumAccessories;
+        $this->collMumAccessoriesPartial = false;
 
         return $this;
     }
 
     /**
-     * Returns the number of related MumTrinket objects.
+     * Returns the number of related MumAccessory objects.
      *
      * @param      Criteria $criteria
      * @param      boolean $distinct
      * @param      ConnectionInterface $con
-     * @return int             Count of related MumTrinket objects.
+     * @return int             Count of related MumAccessory objects.
      * @throws PropelException
      */
-    public function countMumTrinkets(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    public function countMumAccessories(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
     {
-        $partial = $this->collMumTrinketsPartial && !$this->isNew();
-        if (null === $this->collMumTrinkets || null !== $criteria || $partial) {
-            if ($this->isNew() && null === $this->collMumTrinkets) {
+        $partial = $this->collMumAccessoriesPartial && !$this->isNew();
+        if (null === $this->collMumAccessories || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collMumAccessories) {
                 return 0;
             }
 
             if ($partial && !$criteria) {
-                return count($this->getMumTrinkets());
+                return count($this->getMumAccessories());
             }
 
-            $query = ChildMumTrinketQuery::create(null, $criteria);
+            $query = ChildMumAccessoryQuery::create(null, $criteria);
             if ($distinct) {
                 $query->distinct();
             }
@@ -2459,53 +2459,53 @@ abstract class Mum implements ActiveRecordInterface
                 ->count($con);
         }
 
-        return count($this->collMumTrinkets);
+        return count($this->collMumAccessories);
     }
 
     /**
-     * Method called to associate a ChildMumTrinket object to this object
-     * through the ChildMumTrinket foreign key attribute.
+     * Method called to associate a ChildMumAccessory object to this object
+     * through the ChildMumAccessory foreign key attribute.
      *
-     * @param    ChildMumTrinket $l ChildMumTrinket
+     * @param    ChildMumAccessory $l ChildMumAccessory
      * @return   \Mum The current object (for fluent API support)
      */
-    public function addMumTrinket(ChildMumTrinket $l)
+    public function addMumAccessory(ChildMumAccessory $l)
     {
-        if ($this->collMumTrinkets === null) {
-            $this->initMumTrinkets();
-            $this->collMumTrinketsPartial = true;
+        if ($this->collMumAccessories === null) {
+            $this->initMumAccessories();
+            $this->collMumAccessoriesPartial = true;
         }
 
-        if (!in_array($l, $this->collMumTrinkets->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
-            $this->doAddMumTrinket($l);
+        if (!in_array($l, $this->collMumAccessories->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
+            $this->doAddMumAccessory($l);
         }
 
         return $this;
     }
 
     /**
-     * @param MumTrinket $mumTrinket The mumTrinket object to add.
+     * @param MumAccessory $mumAccessory The mumAccessory object to add.
      */
-    protected function doAddMumTrinket($mumTrinket)
+    protected function doAddMumAccessory($mumAccessory)
     {
-        $this->collMumTrinkets[]= $mumTrinket;
-        $mumTrinket->setMum($this);
+        $this->collMumAccessories[]= $mumAccessory;
+        $mumAccessory->setMum($this);
     }
 
     /**
-     * @param  MumTrinket $mumTrinket The mumTrinket object to remove.
+     * @param  MumAccessory $mumAccessory The mumAccessory object to remove.
      * @return ChildMum The current object (for fluent API support)
      */
-    public function removeMumTrinket($mumTrinket)
+    public function removeMumAccessory($mumAccessory)
     {
-        if ($this->getMumTrinkets()->contains($mumTrinket)) {
-            $this->collMumTrinkets->remove($this->collMumTrinkets->search($mumTrinket));
-            if (null === $this->mumTrinketsScheduledForDeletion) {
-                $this->mumTrinketsScheduledForDeletion = clone $this->collMumTrinkets;
-                $this->mumTrinketsScheduledForDeletion->clear();
+        if ($this->getMumAccessories()->contains($mumAccessory)) {
+            $this->collMumAccessories->remove($this->collMumAccessories->search($mumAccessory));
+            if (null === $this->mumAccessoriesScheduledForDeletion) {
+                $this->mumAccessoriesScheduledForDeletion = clone $this->collMumAccessories;
+                $this->mumAccessoriesScheduledForDeletion->clear();
             }
-            $this->mumTrinketsScheduledForDeletion[]= clone $mumTrinket;
-            $mumTrinket->setMum(null);
+            $this->mumAccessoriesScheduledForDeletion[]= clone $mumAccessory;
+            $mumAccessory->setMum(null);
         }
 
         return $this;
@@ -2517,7 +2517,7 @@ abstract class Mum implements ActiveRecordInterface
      * an identical criteria, it returns the collection.
      * Otherwise if this Mum is new, it will return
      * an empty collection; or if this Mum has previously
-     * been saved, it will retrieve related MumTrinkets from storage.
+     * been saved, it will retrieve related MumAccessories from storage.
      *
      * This method is protected by default in order to keep the public
      * api reasonable.  You can provide public methods for those you
@@ -2526,14 +2526,14 @@ abstract class Mum implements ActiveRecordInterface
      * @param      Criteria $criteria optional Criteria object to narrow the query
      * @param      ConnectionInterface $con optional connection object
      * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
-     * @return Collection|ChildMumTrinket[] List of ChildMumTrinket objects
+     * @return Collection|ChildMumAccessory[] List of ChildMumAccessory objects
      */
-    public function getMumTrinketsJoinTrinket($criteria = null, $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    public function getMumAccessoriesJoinAccessory($criteria = null, $con = null, $joinBehavior = Criteria::LEFT_JOIN)
     {
-        $query = ChildMumTrinketQuery::create(null, $criteria);
-        $query->joinWith('Trinket', $joinBehavior);
+        $query = ChildMumAccessoryQuery::create(null, $criteria);
+        $query->joinWith('Accessory', $joinBehavior);
 
-        return $this->getMumTrinkets($query, $con);
+        return $this->getMumAccessories($query, $con);
     }
 
     /**
@@ -3004,8 +3004,8 @@ abstract class Mum implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
-            if ($this->collMumTrinkets) {
-                foreach ($this->collMumTrinkets as $o) {
+            if ($this->collMumAccessories) {
+                foreach ($this->collMumAccessories as $o) {
                     $o->clearAllReferences($deep);
                 }
             }
@@ -3021,10 +3021,10 @@ abstract class Mum implements ActiveRecordInterface
             }
         } // if ($deep)
 
-        if ($this->collMumTrinkets instanceof Collection) {
-            $this->collMumTrinkets->clearIterator();
+        if ($this->collMumAccessories instanceof Collection) {
+            $this->collMumAccessories->clearIterator();
         }
-        $this->collMumTrinkets = null;
+        $this->collMumAccessories = null;
         if ($this->collMumBears instanceof Collection) {
             $this->collMumBears->clearIterator();
         }

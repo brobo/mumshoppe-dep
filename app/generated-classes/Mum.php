@@ -14,8 +14,8 @@ class Mum extends BaseMum
 		foreach ($fullMum['Bears'] as $bear) {
 			$totalPrice += $bear['Price'];
 		}
-		foreach ($fullMum['Trinkets'] as $trinket) {
-			$totalPrice += $trinket['Quantity'] * $trinket['Trinket']['Price'];
+		foreach ($fullMum['Accessories'] as $accessory) {
+			$totalPrice += $accessory['Quantity'] * $accessory['Accessory']['Price'];
 		}
 		return $totalPrice;
 	}
@@ -35,7 +35,7 @@ class Mum extends BaseMum
 			'Product' => $this->getBacking() && $this->getBacking()->getSize() ? $this->getBacking()->getSize()->getProduct() : null,
 			'Size' => $this->getBacking() ? $this->getBacking()->getSize() : null,
 			'Status' => $this->getStatus(),
-			'Trinkets' => $this->getMumTrinkets()
+			'Accessories' => $this->getMumAccessories()
 		);
 
 		foreach ($res as $key => $value) {
@@ -45,11 +45,11 @@ class Mum extends BaseMum
 			}
 		}
 
-		for ($i = 0; $i < count($res['Trinkets']); $i++) {
-			$res['Trinkets'][$i]['Trinket'] = 
-				TrinketQuery::create()
+		for ($i = 0; $i < count($res['Accessories']); $i++) {
+			$res['Accessories'][$i]['Accessory'] = 
+				AccessoryQuery::create()
 					->select(array('Id', 'Name', 'Underclassman', 'Junior', 'Senior', 'Price', 'CategoryId'))
-					->findPK($res['Trinkets'][$i]['TrinketId']);
+					->findPK($res['Accessories'][$i]['AccessoryId']);
 		}
 
 		$res['Letter1'] = $res['Mum']['Letter1Id']

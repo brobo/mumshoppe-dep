@@ -1,6 +1,6 @@
 <?php
 	$app->get('/api/category', function() {
-		$categories = TrinketCategoryQuery::create()->find();
+		$categories = AccessoryCategoryQuery::create()->find();
 		
 		if (!$categories) return;
 		
@@ -8,7 +8,7 @@
 	});
 
 	$app->post('/api/category', function() use ($app) {
-		$category = new TrinketCategory();
+		$category = new AccessoryCategory();
 		$category->setName($app->request->post('Name'));
 		$category->save();
 
@@ -16,7 +16,7 @@
 	});
 
 	$app->delete('/api/category/:id', function($id) {
-		$category = TrinketQuery::create()->findPK($id);
+		$category = AccessoryQuery::create()->findPK($id);
 
 		if (!$category) return;
 

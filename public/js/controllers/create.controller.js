@@ -74,17 +74,17 @@ angular.module('create.controller', [])
 		}
 	})
 
-	.controller('createReviewController', function($scope, $state, AlertsService, LettersService, MumService, TrinketsService) {
+	.controller('createReviewController', function($scope, $state, AlertsService, LettersService, MumService, AccessoriesService) {
 		$scope.letters = {};
 		$scope.bearTotal = 0;
-		$scope.trinketTotal = 0;
+		$scope.accessoryTotal = 0;
 		$scope.updateMum()
 			.success(function() {
 				for (var i=0; i<$scope.mum.Bears.length; i++) {
 					$scope.bearTotal += parseFloat($scope.mum.Bears[i].Price);
 				}
-				for (var i=0; i<$scope.mum.Trinkets.length; i++) {
-					$scope.trinketTotal += parseFloat($scope.mum.Trinkets[i].Trinket.Price * $scope.mum.Trinkets[i].Quantity);
+				for (var i=0; i<$scope.mum.Accessories.length; i++) {
+					$scope.accessoryTotal += parseFloat($scope.mum.Accessories[i].Accessory.Price * $scope.mum.Accessories[i].Quantity);
 				}
 			});
 		LettersService.get()
@@ -93,7 +93,7 @@ angular.module('create.controller', [])
 					$scope.letters[data[i].Id] = data[i];
 				}
 			});
-		TrinketsService.categories.get()
+		AccessoriesService.categories.get()
 			.success(function(data) {
 				$scope.categories = data;
 			});
@@ -102,11 +102,11 @@ angular.module('create.controller', [])
 		}
 
 		$scope.$parent.back = function() {
-			$state.go('^.trinkets')
+			$state.go('^.accessories')
 		}
 	})
 
-	.controller('createTrinketsController', function($scope, $state, $stateParams, AlertsService, TrinketsService, MumService) {
+	.controller('createAccessoriesController', function($scope, $state, $stateParams, AlertsService, AccessoriesService, MumService) {
 		$scope.quantities = {};
 		$scope.priceLookup = {};
 		$scope.updateMum()
@@ -123,36 +123,36 @@ angular.module('create.controller', [])
 						break;
 				}
 			});
-		TrinketsService.get()
+		AccessoriesService.get()
 			.success(function(data) {
-				$scope.trinkets = data;
-				for (var i=0; i<$scope.trinkets.length; i++) {
-					$scope.priceLookup[$scope.trinkets[i].Id] = $scope.trinkets[i].Price;
+				$scope.accessories = data;
+				for (var i=0; i<$scope.accessories.length; i++) {
+					$scope.priceLookup[$scope.accessories[i].Id] = $scope.accessories[i].Price;
 				}
 			});
-		TrinketsService.categories.get()
+		AccessoriesService.categories.get()
 			.success(function(data) {
 				$scope.categories = data;
 				$scope.categorySelect = $scope.categories[0].Id;
 			});
 		$scope.updateMum()
 			.success(function() {
-				for (var i=0; i<$scope.mum.Trinkets.length; i++) {
-					$scope.quantities[$scope.mum.Trinkets[i].TrinketId] = $scope.mum.Trinkets[i].Quantity;	
+				for (var i=0; i<$scope.mum.Accessories.length; i++) {
+					$scope.quantities[$scope.mum.Accessories[i].AccessoryId] = $scope.mum.Accessories[i].Quantity;	
 				}
 			});
-		$scope.decrement = function(trinket) {
-			if ($scope.quantities[trinket.Id])
-				$scope.quantities[trinket.Id]--;
+		$scope.decrement = function(accessory) {
+			if ($scope.quantities[accessory.Id])
+				$scope.quantities[accessory.Id]--;
 			else
-				$scope.quantities[trinket.Id] = 0;
+				$scope.quantities[accessory.Id] = 0;
 			$scope.updateTotal();
 		}
-		$scope.increment = function(trinket) {
-			if ($scope.quantities[trinket.Id])
-				$scope.quantities[trinket.Id]++;
+		$scope.increment = function(accessory) {
+			if ($scope.quantities[accessory.Id])
+				$scope.quantities[accessory.Id]++;
 			else
-				$scope.quantities[trinket.Id] = 1;
+				$scope.quantities[accessory.Id] = 1;
 			$scope.updateTotal();
 		}
 		$scope.updateTotal = function() {
@@ -166,7 +166,7 @@ angular.module('create.controller', [])
 
 		$scope.$parent.next = function() {
 			var defered = $scope.tracker.createPromise();
-			MumService.setTrinkets($stateParams.mumId, $scope.quantities)
+			MumService.setAccessories($stateParams.mumId, $scope.quantities)
 				.success(function(data) {
 					console.log(data);
 					$state.go('^.review');
@@ -206,7 +206,7 @@ angular.module('create.controller', [])
 			});
 
 		$scope.$parent.next = function() {
-			$state.go('^.trinkets');
+			$state.go('^.accessories');
 		}
 
 		$scope.$parent.back = function() {

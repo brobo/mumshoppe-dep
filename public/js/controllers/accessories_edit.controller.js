@@ -1,17 +1,19 @@
-angular.module('trinketsAdd.controller', [])
-	.controller('trinketsAddController', function($scope, $state, promiseTracker, TrinketsService, AlertsService) {
+angular.module('accessoriesEdit.controller', [])
+	.controller('accessoriesEditController', function($scope, $state, $stateParams, $modal, promiseTracker, AccessoriesService, AlertsService) {
 
 		$scope.REGEX_PRICE = /^[0-9]*(\.[0-9]{1,2})?$/
-
 		$scope.tracker = promiseTracker();
-
 		$scope.invalid = {};
-		$scope.trinket = {};
 		$scope.categoryIds = {};
 		$scope.categoryNames = {};
+		
+		AccessoriesService.fetch($stateParams.accessoryId)
+			.success(function(data) {
+				$scope.accessory = data;
+			});
 
 		$scope.updateCategories = function() {
-			TrinketsService.categories.get()
+			AccessoriesService.categories.get()
 				.success(function(data) {
 					$scope.categories = data;
 				});
@@ -19,11 +21,11 @@ angular.module('trinketsAdd.controller', [])
 		$scope.updateCategories();
 
 		$scope.validate = function(field) {
-			$scope.invalid[field] = $scope.trinketForm[field].$invalid;
-		};
+			$scope.invalid[field] = $scope.accessoryForm[field].$invalid;
+		}
 
 		$scope.classSelected = function() {
-			return $scope.trinket.Underclassman || $scope.trinket.Junior || $scope.trinket.Senior;
+			return $scope.accessory.Underclassman || $scope.accessory.Junior || $scope.accessory.Senior;
 		}
 
 		$scope.cancel = function() {
@@ -34,15 +36,14 @@ angular.module('trinketsAdd.controller', [])
 		$scope.save = function(form) {
 			if (form.$valid) {
 				var defered = $scope.tracker.createPromise();
-				TrinketsService.create($scope.trinket)
+				AccessoriesService.update($stateParams.accessoryId, $scope.accessory)
 					.success(function(data) {
-						console.log(data);
-						$scope.trinket = {};
-						AlertsService.add('success', 'Successfully created trinket.');
+						$scope.accessory = {};
+						AlertsService.add('success', 'Successfully saved accessory.');
 						$state.go('^.all');
 					}).error(function(data) {
 						console.log(data);
-						AlertsService.add('danger', 'An error occured while trying to create the trinket. Try again.');
+						AlertsService.add('danger', 'An error occured while trying to save the accessory. Try again.');
 					}).finally(function() {
 						defered.resolve();
 					});
@@ -58,17 +59,16 @@ angular.module('trinketsAdd.controller', [])
 				$scope.updateCategories();
 			});
 		}
-
 	})
 
-	.controller('categoryController', function($scope, TrinketsService, promiseTracker, $modalInstance) {
+	.controller('categoryController', function($scope, AccessoriesService, promiseTracker, $modalInstance) {
 		$scope.tracker = promiseTracker();
 		$scope.category = {};
 
 		$scope.saveCategory = function(form) {
 			if (form.$valid) {
 				var defered = $scope.tracker.createPromise();
-				TrinketsService.categories.create($scope.category)
+				AccessoriesService.categories.create($scope.category)
 					.success(function(data) {
 						$modalInstance.close();
 					}).error(function(data) {
@@ -83,4 +83,5 @@ angular.module('trinketsAdd.controller', [])
 		$scope.cancel = function() {
 			$modalInstance.dismiss();
 		}
+
 	});

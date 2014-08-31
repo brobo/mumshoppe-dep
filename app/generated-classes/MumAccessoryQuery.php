@@ -1,10 +1,10 @@
 <?php
 
-use Base\MumTrinketQuery as BaseMumTrinketQuery;
+use Base\MumAccessoryQuery as BaseMumAccessoryQuery;
 
 
 /**
- * Skeleton subclass for performing query and update operations on the 'mum_trinket' table.
+ * Skeleton subclass for performing query and update operations on the 'mum_accessory' table.
  *
  *
  *
@@ -13,7 +13,7 @@ use Base\MumTrinketQuery as BaseMumTrinketQuery;
  * long as it does not already exist in the output directory.
  *
  */
-class MumTrinketQuery extends BaseMumTrinketQuery
+class MumAccessoryQuery extends BaseMumAccessoryQuery
 {
 
-} // MumTrinketQuery
+} // MumAccessoryQuery

@@ -2,8 +2,8 @@
 
 namespace Map;
 
-use \MumTrinket;
-use \MumTrinketQuery;
+use \MumAccessory;
+use \MumAccessoryQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -15,7 +15,7 @@ use Propel\Runtime\Map\TableMapTrait;
 
 
 /**
- * This class defines the structure of the 'mum_trinket' table.
+ * This class defines the structure of the 'mum_accessory' table.
  *
  *
  *
@@ -25,14 +25,14 @@ use Propel\Runtime\Map\TableMapTrait;
  * (i.e. if it's a text column type).
  *
  */
-class MumTrinketTableMap extends TableMap
+class MumAccessoryTableMap extends TableMap
 {
     use InstancePoolTrait;
     use TableMapTrait;
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.MumTrinketTableMap';
+    const CLASS_NAME = '.Map.MumAccessoryTableMap';
 
     /**
      * The default database name for this class
@@ -42,17 +42,17 @@ class MumTrinketTableMap extends TableMap
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'mum_trinket';
+    const TABLE_NAME = 'mum_accessory';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\MumTrinket';
+    const OM_CLASS = '\\MumAccessory';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'MumTrinket';
+    const CLASS_DEFAULT = 'MumAccessory';
 
     /**
      * The total number of columns
@@ -72,22 +72,22 @@ class MumTrinketTableMap extends TableMap
     /**
      * the column name for the ID field
      */
-    const ID = 'mum_trinket.ID';
+    const ID = 'mum_accessory.ID';
 
     /**
      * the column name for the MUM_ID field
      */
-    const MUM_ID = 'mum_trinket.MUM_ID';
+    const MUM_ID = 'mum_accessory.MUM_ID';
 
     /**
-     * the column name for the TRINKET_ID field
+     * the column name for the ACCESSORY_ID field
      */
-    const TRINKET_ID = 'mum_trinket.TRINKET_ID';
+    const ACCESSORY_ID = 'mum_accessory.ACCESSORY_ID';
 
     /**
      * the column name for the QUANTITY field
      */
-    const QUANTITY = 'mum_trinket.QUANTITY';
+    const QUANTITY = 'mum_accessory.QUANTITY';
 
     /**
      * The default string format for model objects of the related table
@@ -101,11 +101,11 @@ class MumTrinketTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'MumId', 'TrinketId', 'Quantity', ),
-        self::TYPE_STUDLYPHPNAME => array('id', 'mumId', 'trinketId', 'quantity', ),
-        self::TYPE_COLNAME       => array(MumTrinketTableMap::ID, MumTrinketTableMap::MUM_ID, MumTrinketTableMap::TRINKET_ID, MumTrinketTableMap::QUANTITY, ),
-        self::TYPE_RAW_COLNAME   => array('ID', 'MUM_ID', 'TRINKET_ID', 'QUANTITY', ),
-        self::TYPE_FIELDNAME     => array('id', 'mum_id', 'trinket_id', 'quantity', ),
+        self::TYPE_PHPNAME       => array('Id', 'MumId', 'AccessoryId', 'Quantity', ),
+        self::TYPE_STUDLYPHPNAME => array('id', 'mumId', 'accessoryId', 'quantity', ),
+        self::TYPE_COLNAME       => array(MumAccessoryTableMap::ID, MumAccessoryTableMap::MUM_ID, MumAccessoryTableMap::ACCESSORY_ID, MumAccessoryTableMap::QUANTITY, ),
+        self::TYPE_RAW_COLNAME   => array('ID', 'MUM_ID', 'ACCESSORY_ID', 'QUANTITY', ),
+        self::TYPE_FIELDNAME     => array('id', 'mum_id', 'accessory_id', 'quantity', ),
         self::TYPE_NUM           => array(0, 1, 2, 3, )
     );
 
@@ -116,11 +116,11 @@ class MumTrinketTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'MumId' => 1, 'TrinketId' => 2, 'Quantity' => 3, ),
-        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'mumId' => 1, 'trinketId' => 2, 'quantity' => 3, ),
-        self::TYPE_COLNAME       => array(MumTrinketTableMap::ID => 0, MumTrinketTableMap::MUM_ID => 1, MumTrinketTableMap::TRINKET_ID => 2, MumTrinketTableMap::QUANTITY => 3, ),
-        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'MUM_ID' => 1, 'TRINKET_ID' => 2, 'QUANTITY' => 3, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'mum_id' => 1, 'trinket_id' => 2, 'quantity' => 3, ),
+        self::TYPE_PHPNAME       => array('Id' => 0, 'MumId' => 1, 'AccessoryId' => 2, 'Quantity' => 3, ),
+        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'mumId' => 1, 'accessoryId' => 2, 'quantity' => 3, ),
+        self::TYPE_COLNAME       => array(MumAccessoryTableMap::ID => 0, MumAccessoryTableMap::MUM_ID => 1, MumAccessoryTableMap::ACCESSORY_ID => 2, MumAccessoryTableMap::QUANTITY => 3, ),
+        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'MUM_ID' => 1, 'ACCESSORY_ID' => 2, 'QUANTITY' => 3, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'mum_id' => 1, 'accessory_id' => 2, 'quantity' => 3, ),
         self::TYPE_NUM           => array(0, 1, 2, 3, )
     );
 
@@ -134,15 +134,15 @@ class MumTrinketTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('mum_trinket');
-        $this->setPhpName('MumTrinket');
-        $this->setClassName('\\MumTrinket');
+        $this->setName('mum_accessory');
+        $this->setPhpName('MumAccessory');
+        $this->setClassName('\\MumAccessory');
         $this->setPackage('');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
         $this->addForeignKey('MUM_ID', 'MumId', 'INTEGER', 'mum', 'ID', true, null, null);
-        $this->addForeignKey('TRINKET_ID', 'TrinketId', 'INTEGER', 'trinket', 'ID', true, null, null);
+        $this->addForeignKey('ACCESSORY_ID', 'AccessoryId', 'INTEGER', 'accessory', 'ID', true, null, null);
         $this->addColumn('QUANTITY', 'Quantity', 'INTEGER', false, null, null);
     } // initialize()
 
@@ -152,7 +152,7 @@ class MumTrinketTableMap extends TableMap
     public function buildRelations()
     {
         $this->addRelation('Mum', '\\Mum', RelationMap::MANY_TO_ONE, array('mum_id' => 'id', ), null, null);
-        $this->addRelation('Trinket', '\\Trinket', RelationMap::MANY_TO_ONE, array('trinket_id' => 'id', ), null, null);
+        $this->addRelation('Accessory', '\\Accessory', RelationMap::MANY_TO_ONE, array('accessory_id' => 'id', ), null, null);
     } // buildRelations()
 
     /**
@@ -211,7 +211,7 @@ class MumTrinketTableMap extends TableMap
      */
     public static function getOMClass($withPrefix = true)
     {
-        return $withPrefix ? MumTrinketTableMap::CLASS_DEFAULT : MumTrinketTableMap::OM_CLASS;
+        return $withPrefix ? MumAccessoryTableMap::CLASS_DEFAULT : MumAccessoryTableMap::OM_CLASS;
     }
 
     /**
@@ -225,21 +225,21 @@ class MumTrinketTableMap extends TableMap
      *
      * @throws PropelException Any exceptions caught during processing will be
      *         rethrown wrapped into a PropelException.
-     * @return array (MumTrinket object, last column rank)
+     * @return array (MumAccessory object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        $key = MumTrinketTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
-        if (null !== ($obj = MumTrinketTableMap::getInstanceFromPool($key))) {
+        $key = MumAccessoryTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
+        if (null !== ($obj = MumAccessoryTableMap::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $offset, true); // rehydrate
-            $col = $offset + MumTrinketTableMap::NUM_HYDRATE_COLUMNS;
+            $col = $offset + MumAccessoryTableMap::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = MumTrinketTableMap::OM_CLASS;
+            $cls = MumAccessoryTableMap::OM_CLASS;
             $obj = new $cls();
             $col = $obj->hydrate($row, $offset, false, $indexType);
-            MumTrinketTableMap::addInstanceToPool($obj, $key);
+            MumAccessoryTableMap::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -262,8 +262,8 @@ class MumTrinketTableMap extends TableMap
         $cls = static::getOMClass(false);
         // populate the object(s)
         while ($row = $dataFetcher->fetch()) {
-            $key = MumTrinketTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
-            if (null !== ($obj = MumTrinketTableMap::getInstanceFromPool($key))) {
+            $key = MumAccessoryTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
+            if (null !== ($obj = MumAccessoryTableMap::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
@@ -272,7 +272,7 @@ class MumTrinketTableMap extends TableMap
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                MumTrinketTableMap::addInstanceToPool($obj, $key);
+                MumAccessoryTableMap::addInstanceToPool($obj, $key);
             } // if key exists
         }
 
@@ -293,14 +293,14 @@ class MumTrinketTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(MumTrinketTableMap::ID);
-            $criteria->addSelectColumn(MumTrinketTableMap::MUM_ID);
-            $criteria->addSelectColumn(MumTrinketTableMap::TRINKET_ID);
-            $criteria->addSelectColumn(MumTrinketTableMap::QUANTITY);
+            $criteria->addSelectColumn(MumAccessoryTableMap::ID);
+            $criteria->addSelectColumn(MumAccessoryTableMap::MUM_ID);
+            $criteria->addSelectColumn(MumAccessoryTableMap::ACCESSORY_ID);
+            $criteria->addSelectColumn(MumAccessoryTableMap::QUANTITY);
         } else {
             $criteria->addSelectColumn($alias . '.ID');
             $criteria->addSelectColumn($alias . '.MUM_ID');
-            $criteria->addSelectColumn($alias . '.TRINKET_ID');
+            $criteria->addSelectColumn($alias . '.ACCESSORY_ID');
             $criteria->addSelectColumn($alias . '.QUANTITY');
         }
     }
@@ -314,7 +314,7 @@ class MumTrinketTableMap extends TableMap
      */
     public static function getTableMap()
     {
-        return Propel::getServiceContainer()->getDatabaseMap(MumTrinketTableMap::DATABASE_NAME)->getTable(MumTrinketTableMap::TABLE_NAME);
+        return Propel::getServiceContainer()->getDatabaseMap(MumAccessoryTableMap::DATABASE_NAME)->getTable(MumAccessoryTableMap::TABLE_NAME);
     }
 
     /**
@@ -322,16 +322,16 @@ class MumTrinketTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-      $dbMap = Propel::getServiceContainer()->getDatabaseMap(MumTrinketTableMap::DATABASE_NAME);
-      if (!$dbMap->hasTable(MumTrinketTableMap::TABLE_NAME)) {
-        $dbMap->addTableObject(new MumTrinketTableMap());
+      $dbMap = Propel::getServiceContainer()->getDatabaseMap(MumAccessoryTableMap::DATABASE_NAME);
+      if (!$dbMap->hasTable(MumAccessoryTableMap::TABLE_NAME)) {
+        $dbMap->addTableObject(new MumAccessoryTableMap());
       }
     }
 
     /**
-     * Performs a DELETE on the database, given a MumTrinket or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a MumAccessory or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or MumTrinket object or primary key or array of primary keys
+     * @param mixed               $values Criteria or MumAccessory object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -342,25 +342,25 @@ class MumTrinketTableMap extends TableMap
      public static function doDelete($values, ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(MumTrinketTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(MumAccessoryTableMap::DATABASE_NAME);
         }
 
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \MumTrinket) { // it's a model object
+        } elseif ($values instanceof \MumAccessory) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(MumTrinketTableMap::DATABASE_NAME);
-            $criteria->add(MumTrinketTableMap::ID, (array) $values, Criteria::IN);
+            $criteria = new Criteria(MumAccessoryTableMap::DATABASE_NAME);
+            $criteria->add(MumAccessoryTableMap::ID, (array) $values, Criteria::IN);
         }
 
-        $query = MumTrinketQuery::create()->mergeWith($criteria);
+        $query = MumAccessoryQuery::create()->mergeWith($criteria);
 
-        if ($values instanceof Criteria) { MumTrinketTableMap::clearInstancePool();
+        if ($values instanceof Criteria) { MumAccessoryTableMap::clearInstancePool();
         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
-            foreach ((array) $values as $singleval) { MumTrinketTableMap::removeInstanceFromPool($singleval);
+            foreach ((array) $values as $singleval) { MumAccessoryTableMap::removeInstanceFromPool($singleval);
             }
         }
 
@@ -368,20 +368,20 @@ class MumTrinketTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the mum_trinket table.
+     * Deletes all rows from the mum_accessory table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
-        return MumTrinketQuery::create()->doDeleteAll($con);
+        return MumAccessoryQuery::create()->doDeleteAll($con);
     }
 
     /**
-     * Performs an INSERT on the database, given a MumTrinket or Criteria object.
+     * Performs an INSERT on the database, given a MumAccessory or Criteria object.
      *
-     * @param mixed               $criteria Criteria or MumTrinket object containing data that is used to create the INSERT statement.
+     * @param mixed               $criteria Criteria or MumAccessory object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -390,22 +390,22 @@ class MumTrinketTableMap extends TableMap
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(MumTrinketTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(MumAccessoryTableMap::DATABASE_NAME);
         }
 
         if ($criteria instanceof Criteria) {
             $criteria = clone $criteria; // rename for clarity
         } else {
-            $criteria = $criteria->buildCriteria(); // build Criteria from MumTrinket object
+            $criteria = $criteria->buildCriteria(); // build Criteria from MumAccessory object
         }
 
-        if ($criteria->containsKey(MumTrinketTableMap::ID) && $criteria->keyContainsValue(MumTrinketTableMap::ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.MumTrinketTableMap::ID.')');
+        if ($criteria->containsKey(MumAccessoryTableMap::ID) && $criteria->keyContainsValue(MumAccessoryTableMap::ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.MumAccessoryTableMap::ID.')');
         }
 
 
         // Set the correct dbName
-        $query = MumTrinketQuery::create()->mergeWith($criteria);
+        $query = MumAccessoryQuery::create()->mergeWith($criteria);
 
         try {
             // use transaction because $criteria could contain info
@@ -421,7 +421,7 @@ class MumTrinketTableMap extends TableMap
         return $pk;
     }
 
-} // MumTrinketTableMap
+} // MumAccessoryTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-MumTrinketTableMap::buildTableMap();
+MumAccessoryTableMap::buildTableMap();

@@ -1,0 +1,25 @@
+<h3>Pick your accessories!</h3>
+<p>Total for accessories: <span class="badge">{{totalPrice || 0 | currency}}</span></p>
+<div class="input-group">
+	<input type="checkbox" class="form-controll" ng-model="filterOn">
+	<label for="search">Filter by:</label>
+	<select ng-model="categorySelect" class="form-control col-lg-6" ng-options="category.Id as category.Name for category in categories" ng-disabled="!filterOn"></select>
+</div>
+<div class="list-item-group">
+	<div class="list-group-item" ng-repeat="accessory in accessories | filter:gradePredicate | filter: (filterOn ? {CategoryId: categorySelect} : {})">
+		<div class="row">
+			<img class="col-lg-1" src='/mums/api/accessory/{{accessory.Id}}/image' ng-show="accessory.HasImage" />
+			<div class="col-lg-1" ng-show="!accessory.HasImage"></div>
+			<h4 class="col-lg-3">
+				{{accessory.Name}}
+				<small>({{accessory.Price | currency}} each)</small>
+				<span class="badge">{{accessory.Price * quantities[accessory.Id] || 0 | currency}}</span>
+			</h4>
+			<div class="input-group col-lg-2">
+				<span class="input-group-btn"><button class="btn btn-default" ng-click="decrement(accessory)" ng-disabled="!quantities[accessory.Id]">-</button></span>
+				<input type="text" class="form-control" ng-model="quantities[accessory.Id]" readonly>
+				<span class="input-group-btn"><button class="btn btn-default" ng-click="increment(accessory)">+</button></span>
+			</div>
+		</div>
+	</div>
+</div>

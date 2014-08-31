@@ -2,8 +2,8 @@
 
 namespace Map;
 
-use \TrinketCategory;
-use \TrinketCategoryQuery;
+use \AccessoryCategory;
+use \AccessoryCategoryQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -15,7 +15,7 @@ use Propel\Runtime\Map\TableMapTrait;
 
 
 /**
- * This class defines the structure of the 'trinket_category' table.
+ * This class defines the structure of the 'accessory_category' table.
  *
  *
  *
@@ -25,14 +25,14 @@ use Propel\Runtime\Map\TableMapTrait;
  * (i.e. if it's a text column type).
  *
  */
-class TrinketCategoryTableMap extends TableMap
+class AccessoryCategoryTableMap extends TableMap
 {
     use InstancePoolTrait;
     use TableMapTrait;
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.TrinketCategoryTableMap';
+    const CLASS_NAME = '.Map.AccessoryCategoryTableMap';
 
     /**
      * The default database name for this class
@@ -42,17 +42,17 @@ class TrinketCategoryTableMap extends TableMap
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'trinket_category';
+    const TABLE_NAME = 'accessory_category';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\TrinketCategory';
+    const OM_CLASS = '\\AccessoryCategory';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'TrinketCategory';
+    const CLASS_DEFAULT = 'AccessoryCategory';
 
     /**
      * The total number of columns
@@ -72,12 +72,12 @@ class TrinketCategoryTableMap extends TableMap
     /**
      * the column name for the ID field
      */
-    const ID = 'trinket_category.ID';
+    const ID = 'accessory_category.ID';
 
     /**
      * the column name for the NAME field
      */
-    const NAME = 'trinket_category.NAME';
+    const NAME = 'accessory_category.NAME';
 
     /**
      * The default string format for model objects of the related table
@@ -93,7 +93,7 @@ class TrinketCategoryTableMap extends TableMap
     protected static $fieldNames = array (
         self::TYPE_PHPNAME       => array('Id', 'Name', ),
         self::TYPE_STUDLYPHPNAME => array('id', 'name', ),
-        self::TYPE_COLNAME       => array(TrinketCategoryTableMap::ID, TrinketCategoryTableMap::NAME, ),
+        self::TYPE_COLNAME       => array(AccessoryCategoryTableMap::ID, AccessoryCategoryTableMap::NAME, ),
         self::TYPE_RAW_COLNAME   => array('ID', 'NAME', ),
         self::TYPE_FIELDNAME     => array('id', 'name', ),
         self::TYPE_NUM           => array(0, 1, )
@@ -108,7 +108,7 @@ class TrinketCategoryTableMap extends TableMap
     protected static $fieldKeys = array (
         self::TYPE_PHPNAME       => array('Id' => 0, 'Name' => 1, ),
         self::TYPE_STUDLYPHPNAME => array('id' => 0, 'name' => 1, ),
-        self::TYPE_COLNAME       => array(TrinketCategoryTableMap::ID => 0, TrinketCategoryTableMap::NAME => 1, ),
+        self::TYPE_COLNAME       => array(AccessoryCategoryTableMap::ID => 0, AccessoryCategoryTableMap::NAME => 1, ),
         self::TYPE_RAW_COLNAME   => array('ID' => 0, 'NAME' => 1, ),
         self::TYPE_FIELDNAME     => array('id' => 0, 'name' => 1, ),
         self::TYPE_NUM           => array(0, 1, )
@@ -124,9 +124,9 @@ class TrinketCategoryTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('trinket_category');
-        $this->setPhpName('TrinketCategory');
-        $this->setClassName('\\TrinketCategory');
+        $this->setName('accessory_category');
+        $this->setPhpName('AccessoryCategory');
+        $this->setClassName('\\AccessoryCategory');
         $this->setPackage('');
         $this->setUseIdGenerator(true);
         // columns
@@ -139,7 +139,7 @@ class TrinketCategoryTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Trinket', '\\Trinket', RelationMap::ONE_TO_MANY, array('id' => 'category_id', ), null, null, 'Trinkets');
+        $this->addRelation('Accessory', '\\Accessory', RelationMap::ONE_TO_MANY, array('id' => 'category_id', ), null, null, 'Accessories');
     } // buildRelations()
 
     /**
@@ -198,7 +198,7 @@ class TrinketCategoryTableMap extends TableMap
      */
     public static function getOMClass($withPrefix = true)
     {
-        return $withPrefix ? TrinketCategoryTableMap::CLASS_DEFAULT : TrinketCategoryTableMap::OM_CLASS;
+        return $withPrefix ? AccessoryCategoryTableMap::CLASS_DEFAULT : AccessoryCategoryTableMap::OM_CLASS;
     }
 
     /**
@@ -212,21 +212,21 @@ class TrinketCategoryTableMap extends TableMap
      *
      * @throws PropelException Any exceptions caught during processing will be
      *         rethrown wrapped into a PropelException.
-     * @return array (TrinketCategory object, last column rank)
+     * @return array (AccessoryCategory object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        $key = TrinketCategoryTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
-        if (null !== ($obj = TrinketCategoryTableMap::getInstanceFromPool($key))) {
+        $key = AccessoryCategoryTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
+        if (null !== ($obj = AccessoryCategoryTableMap::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $offset, true); // rehydrate
-            $col = $offset + TrinketCategoryTableMap::NUM_HYDRATE_COLUMNS;
+            $col = $offset + AccessoryCategoryTableMap::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = TrinketCategoryTableMap::OM_CLASS;
+            $cls = AccessoryCategoryTableMap::OM_CLASS;
             $obj = new $cls();
             $col = $obj->hydrate($row, $offset, false, $indexType);
-            TrinketCategoryTableMap::addInstanceToPool($obj, $key);
+            AccessoryCategoryTableMap::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -249,8 +249,8 @@ class TrinketCategoryTableMap extends TableMap
         $cls = static::getOMClass(false);
         // populate the object(s)
         while ($row = $dataFetcher->fetch()) {
-            $key = TrinketCategoryTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
-            if (null !== ($obj = TrinketCategoryTableMap::getInstanceFromPool($key))) {
+            $key = AccessoryCategoryTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
+            if (null !== ($obj = AccessoryCategoryTableMap::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
@@ -259,7 +259,7 @@ class TrinketCategoryTableMap extends TableMap
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                TrinketCategoryTableMap::addInstanceToPool($obj, $key);
+                AccessoryCategoryTableMap::addInstanceToPool($obj, $key);
             } // if key exists
         }
 
@@ -280,8 +280,8 @@ class TrinketCategoryTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(TrinketCategoryTableMap::ID);
-            $criteria->addSelectColumn(TrinketCategoryTableMap::NAME);
+            $criteria->addSelectColumn(AccessoryCategoryTableMap::ID);
+            $criteria->addSelectColumn(AccessoryCategoryTableMap::NAME);
         } else {
             $criteria->addSelectColumn($alias . '.ID');
             $criteria->addSelectColumn($alias . '.NAME');
@@ -297,7 +297,7 @@ class TrinketCategoryTableMap extends TableMap
      */
     public static function getTableMap()
     {
-        return Propel::getServiceContainer()->getDatabaseMap(TrinketCategoryTableMap::DATABASE_NAME)->getTable(TrinketCategoryTableMap::TABLE_NAME);
+        return Propel::getServiceContainer()->getDatabaseMap(AccessoryCategoryTableMap::DATABASE_NAME)->getTable(AccessoryCategoryTableMap::TABLE_NAME);
     }
 
     /**
@@ -305,16 +305,16 @@ class TrinketCategoryTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-      $dbMap = Propel::getServiceContainer()->getDatabaseMap(TrinketCategoryTableMap::DATABASE_NAME);
-      if (!$dbMap->hasTable(TrinketCategoryTableMap::TABLE_NAME)) {
-        $dbMap->addTableObject(new TrinketCategoryTableMap());
+      $dbMap = Propel::getServiceContainer()->getDatabaseMap(AccessoryCategoryTableMap::DATABASE_NAME);
+      if (!$dbMap->hasTable(AccessoryCategoryTableMap::TABLE_NAME)) {
+        $dbMap->addTableObject(new AccessoryCategoryTableMap());
       }
     }
 
     /**
-     * Performs a DELETE on the database, given a TrinketCategory or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a AccessoryCategory or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or TrinketCategory object or primary key or array of primary keys
+     * @param mixed               $values Criteria or AccessoryCategory object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -325,25 +325,25 @@ class TrinketCategoryTableMap extends TableMap
      public static function doDelete($values, ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(TrinketCategoryTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(AccessoryCategoryTableMap::DATABASE_NAME);
         }
 
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \TrinketCategory) { // it's a model object
+        } elseif ($values instanceof \AccessoryCategory) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(TrinketCategoryTableMap::DATABASE_NAME);
-            $criteria->add(TrinketCategoryTableMap::ID, (array) $values, Criteria::IN);
+            $criteria = new Criteria(AccessoryCategoryTableMap::DATABASE_NAME);
+            $criteria->add(AccessoryCategoryTableMap::ID, (array) $values, Criteria::IN);
         }
 
-        $query = TrinketCategoryQuery::create()->mergeWith($criteria);
+        $query = AccessoryCategoryQuery::create()->mergeWith($criteria);
 
-        if ($values instanceof Criteria) { TrinketCategoryTableMap::clearInstancePool();
+        if ($values instanceof Criteria) { AccessoryCategoryTableMap::clearInstancePool();
         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
-            foreach ((array) $values as $singleval) { TrinketCategoryTableMap::removeInstanceFromPool($singleval);
+            foreach ((array) $values as $singleval) { AccessoryCategoryTableMap::removeInstanceFromPool($singleval);
             }
         }
 
@@ -351,20 +351,20 @@ class TrinketCategoryTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the trinket_category table.
+     * Deletes all rows from the accessory_category table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
-        return TrinketCategoryQuery::create()->doDeleteAll($con);
+        return AccessoryCategoryQuery::create()->doDeleteAll($con);
     }
 
     /**
-     * Performs an INSERT on the database, given a TrinketCategory or Criteria object.
+     * Performs an INSERT on the database, given a AccessoryCategory or Criteria object.
      *
-     * @param mixed               $criteria Criteria or TrinketCategory object containing data that is used to create the INSERT statement.
+     * @param mixed               $criteria Criteria or AccessoryCategory object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -373,22 +373,22 @@ class TrinketCategoryTableMap extends TableMap
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(TrinketCategoryTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(AccessoryCategoryTableMap::DATABASE_NAME);
         }
 
         if ($criteria instanceof Criteria) {
             $criteria = clone $criteria; // rename for clarity
         } else {
-            $criteria = $criteria->buildCriteria(); // build Criteria from TrinketCategory object
+            $criteria = $criteria->buildCriteria(); // build Criteria from AccessoryCategory object
         }
 
-        if ($criteria->containsKey(TrinketCategoryTableMap::ID) && $criteria->keyContainsValue(TrinketCategoryTableMap::ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.TrinketCategoryTableMap::ID.')');
+        if ($criteria->containsKey(AccessoryCategoryTableMap::ID) && $criteria->keyContainsValue(AccessoryCategoryTableMap::ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.AccessoryCategoryTableMap::ID.')');
         }
 
 
         // Set the correct dbName
-        $query = TrinketCategoryQuery::create()->mergeWith($criteria);
+        $query = AccessoryCategoryQuery::create()->mergeWith($criteria);
 
         try {
             // use transaction because $criteria could contain info
@@ -404,7 +404,7 @@ class TrinketCategoryTableMap extends TableMap
         return $pk;
     }
 
-} // TrinketCategoryTableMap
+} // AccessoryCategoryTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-TrinketCategoryTableMap::buildTableMap();
+AccessoryCategoryTableMap::buildTableMap();

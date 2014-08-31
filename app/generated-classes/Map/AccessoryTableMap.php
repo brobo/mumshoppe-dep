@@ -2,8 +2,8 @@
 
 namespace Map;
 
-use \Trinket;
-use \TrinketQuery;
+use \Accessory;
+use \AccessoryQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -15,7 +15,7 @@ use Propel\Runtime\Map\TableMapTrait;
 
 
 /**
- * This class defines the structure of the 'trinket' table.
+ * This class defines the structure of the 'accessory' table.
  *
  *
  *
@@ -25,14 +25,14 @@ use Propel\Runtime\Map\TableMapTrait;
  * (i.e. if it's a text column type).
  *
  */
-class TrinketTableMap extends TableMap
+class AccessoryTableMap extends TableMap
 {
     use InstancePoolTrait;
     use TableMapTrait;
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.TrinketTableMap';
+    const CLASS_NAME = '.Map.AccessoryTableMap';
 
     /**
      * The default database name for this class
@@ -42,17 +42,17 @@ class TrinketTableMap extends TableMap
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'trinket';
+    const TABLE_NAME = 'accessory';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\Trinket';
+    const OM_CLASS = '\\Accessory';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'Trinket';
+    const CLASS_DEFAULT = 'Accessory';
 
     /**
      * The total number of columns
@@ -72,47 +72,47 @@ class TrinketTableMap extends TableMap
     /**
      * the column name for the ID field
      */
-    const ID = 'trinket.ID';
+    const ID = 'accessory.ID';
 
     /**
      * the column name for the NAME field
      */
-    const NAME = 'trinket.NAME';
+    const NAME = 'accessory.NAME';
 
     /**
      * the column name for the UNDERCLASSMAN field
      */
-    const UNDERCLASSMAN = 'trinket.UNDERCLASSMAN';
+    const UNDERCLASSMAN = 'accessory.UNDERCLASSMAN';
 
     /**
      * the column name for the JUNIOR field
      */
-    const JUNIOR = 'trinket.JUNIOR';
+    const JUNIOR = 'accessory.JUNIOR';
 
     /**
      * the column name for the SENIOR field
      */
-    const SENIOR = 'trinket.SENIOR';
+    const SENIOR = 'accessory.SENIOR';
 
     /**
      * the column name for the PRICE field
      */
-    const PRICE = 'trinket.PRICE';
+    const PRICE = 'accessory.PRICE';
 
     /**
      * the column name for the CATEGORY_ID field
      */
-    const CATEGORY_ID = 'trinket.CATEGORY_ID';
+    const CATEGORY_ID = 'accessory.CATEGORY_ID';
 
     /**
      * the column name for the IMAGE field
      */
-    const IMAGE = 'trinket.IMAGE';
+    const IMAGE = 'accessory.IMAGE';
 
     /**
      * the column name for the IMAGE_MIME field
      */
-    const IMAGE_MIME = 'trinket.IMAGE_MIME';
+    const IMAGE_MIME = 'accessory.IMAGE_MIME';
 
     /**
      * The default string format for model objects of the related table
@@ -128,7 +128,7 @@ class TrinketTableMap extends TableMap
     protected static $fieldNames = array (
         self::TYPE_PHPNAME       => array('Id', 'Name', 'Underclassman', 'Junior', 'Senior', 'Price', 'CategoryId', 'Image', 'ImageMime', ),
         self::TYPE_STUDLYPHPNAME => array('id', 'name', 'underclassman', 'junior', 'senior', 'price', 'categoryId', 'image', 'imageMime', ),
-        self::TYPE_COLNAME       => array(TrinketTableMap::ID, TrinketTableMap::NAME, TrinketTableMap::UNDERCLASSMAN, TrinketTableMap::JUNIOR, TrinketTableMap::SENIOR, TrinketTableMap::PRICE, TrinketTableMap::CATEGORY_ID, TrinketTableMap::IMAGE, TrinketTableMap::IMAGE_MIME, ),
+        self::TYPE_COLNAME       => array(AccessoryTableMap::ID, AccessoryTableMap::NAME, AccessoryTableMap::UNDERCLASSMAN, AccessoryTableMap::JUNIOR, AccessoryTableMap::SENIOR, AccessoryTableMap::PRICE, AccessoryTableMap::CATEGORY_ID, AccessoryTableMap::IMAGE, AccessoryTableMap::IMAGE_MIME, ),
         self::TYPE_RAW_COLNAME   => array('ID', 'NAME', 'UNDERCLASSMAN', 'JUNIOR', 'SENIOR', 'PRICE', 'CATEGORY_ID', 'IMAGE', 'IMAGE_MIME', ),
         self::TYPE_FIELDNAME     => array('id', 'name', 'underclassman', 'junior', 'senior', 'price', 'category_id', 'image', 'image_mime', ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, )
@@ -143,7 +143,7 @@ class TrinketTableMap extends TableMap
     protected static $fieldKeys = array (
         self::TYPE_PHPNAME       => array('Id' => 0, 'Name' => 1, 'Underclassman' => 2, 'Junior' => 3, 'Senior' => 4, 'Price' => 5, 'CategoryId' => 6, 'Image' => 7, 'ImageMime' => 8, ),
         self::TYPE_STUDLYPHPNAME => array('id' => 0, 'name' => 1, 'underclassman' => 2, 'junior' => 3, 'senior' => 4, 'price' => 5, 'categoryId' => 6, 'image' => 7, 'imageMime' => 8, ),
-        self::TYPE_COLNAME       => array(TrinketTableMap::ID => 0, TrinketTableMap::NAME => 1, TrinketTableMap::UNDERCLASSMAN => 2, TrinketTableMap::JUNIOR => 3, TrinketTableMap::SENIOR => 4, TrinketTableMap::PRICE => 5, TrinketTableMap::CATEGORY_ID => 6, TrinketTableMap::IMAGE => 7, TrinketTableMap::IMAGE_MIME => 8, ),
+        self::TYPE_COLNAME       => array(AccessoryTableMap::ID => 0, AccessoryTableMap::NAME => 1, AccessoryTableMap::UNDERCLASSMAN => 2, AccessoryTableMap::JUNIOR => 3, AccessoryTableMap::SENIOR => 4, AccessoryTableMap::PRICE => 5, AccessoryTableMap::CATEGORY_ID => 6, AccessoryTableMap::IMAGE => 7, AccessoryTableMap::IMAGE_MIME => 8, ),
         self::TYPE_RAW_COLNAME   => array('ID' => 0, 'NAME' => 1, 'UNDERCLASSMAN' => 2, 'JUNIOR' => 3, 'SENIOR' => 4, 'PRICE' => 5, 'CATEGORY_ID' => 6, 'IMAGE' => 7, 'IMAGE_MIME' => 8, ),
         self::TYPE_FIELDNAME     => array('id' => 0, 'name' => 1, 'underclassman' => 2, 'junior' => 3, 'senior' => 4, 'price' => 5, 'category_id' => 6, 'image' => 7, 'image_mime' => 8, ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, )
@@ -159,9 +159,9 @@ class TrinketTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('trinket');
-        $this->setPhpName('Trinket');
-        $this->setClassName('\\Trinket');
+        $this->setName('accessory');
+        $this->setPhpName('Accessory');
+        $this->setClassName('\\Accessory');
         $this->setPackage('');
         $this->setUseIdGenerator(true);
         // columns
@@ -171,7 +171,7 @@ class TrinketTableMap extends TableMap
         $this->addColumn('JUNIOR', 'Junior', 'BOOLEAN', true, 1, false);
         $this->addColumn('SENIOR', 'Senior', 'BOOLEAN', true, 1, false);
         $this->addColumn('PRICE', 'Price', 'DECIMAL', true, 10, null);
-        $this->addForeignKey('CATEGORY_ID', 'CategoryId', 'INTEGER', 'trinket_category', 'ID', false, null, null);
+        $this->addForeignKey('CATEGORY_ID', 'CategoryId', 'INTEGER', 'accessory_category', 'ID', false, null, null);
         $this->addColumn('IMAGE', 'Image', 'BLOB', false, null, null);
         $this->addColumn('IMAGE_MIME', 'ImageMime', 'VARCHAR', false, 31, null);
     } // initialize()
@@ -181,8 +181,8 @@ class TrinketTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('TrinketCategory', '\\TrinketCategory', RelationMap::MANY_TO_ONE, array('category_id' => 'id', ), null, null);
-        $this->addRelation('MumTrinket', '\\MumTrinket', RelationMap::ONE_TO_MANY, array('id' => 'trinket_id', ), null, null, 'MumTrinkets');
+        $this->addRelation('AccessoryCategory', '\\AccessoryCategory', RelationMap::MANY_TO_ONE, array('category_id' => 'id', ), null, null);
+        $this->addRelation('MumAccessory', '\\MumAccessory', RelationMap::ONE_TO_MANY, array('id' => 'accessory_id', ), null, null, 'MumAccessories');
     } // buildRelations()
 
     /**
@@ -241,7 +241,7 @@ class TrinketTableMap extends TableMap
      */
     public static function getOMClass($withPrefix = true)
     {
-        return $withPrefix ? TrinketTableMap::CLASS_DEFAULT : TrinketTableMap::OM_CLASS;
+        return $withPrefix ? AccessoryTableMap::CLASS_DEFAULT : AccessoryTableMap::OM_CLASS;
     }
 
     /**
@@ -255,21 +255,21 @@ class TrinketTableMap extends TableMap
      *
      * @throws PropelException Any exceptions caught during processing will be
      *         rethrown wrapped into a PropelException.
-     * @return array (Trinket object, last column rank)
+     * @return array (Accessory object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        $key = TrinketTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
-        if (null !== ($obj = TrinketTableMap::getInstanceFromPool($key))) {
+        $key = AccessoryTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
+        if (null !== ($obj = AccessoryTableMap::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $offset, true); // rehydrate
-            $col = $offset + TrinketTableMap::NUM_HYDRATE_COLUMNS;
+            $col = $offset + AccessoryTableMap::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = TrinketTableMap::OM_CLASS;
+            $cls = AccessoryTableMap::OM_CLASS;
             $obj = new $cls();
             $col = $obj->hydrate($row, $offset, false, $indexType);
-            TrinketTableMap::addInstanceToPool($obj, $key);
+            AccessoryTableMap::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -292,8 +292,8 @@ class TrinketTableMap extends TableMap
         $cls = static::getOMClass(false);
         // populate the object(s)
         while ($row = $dataFetcher->fetch()) {
-            $key = TrinketTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
-            if (null !== ($obj = TrinketTableMap::getInstanceFromPool($key))) {
+            $key = AccessoryTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
+            if (null !== ($obj = AccessoryTableMap::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
@@ -302,7 +302,7 @@ class TrinketTableMap extends TableMap
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                TrinketTableMap::addInstanceToPool($obj, $key);
+                AccessoryTableMap::addInstanceToPool($obj, $key);
             } // if key exists
         }
 
@@ -323,13 +323,13 @@ class TrinketTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(TrinketTableMap::ID);
-            $criteria->addSelectColumn(TrinketTableMap::NAME);
-            $criteria->addSelectColumn(TrinketTableMap::UNDERCLASSMAN);
-            $criteria->addSelectColumn(TrinketTableMap::JUNIOR);
-            $criteria->addSelectColumn(TrinketTableMap::SENIOR);
-            $criteria->addSelectColumn(TrinketTableMap::PRICE);
-            $criteria->addSelectColumn(TrinketTableMap::CATEGORY_ID);
+            $criteria->addSelectColumn(AccessoryTableMap::ID);
+            $criteria->addSelectColumn(AccessoryTableMap::NAME);
+            $criteria->addSelectColumn(AccessoryTableMap::UNDERCLASSMAN);
+            $criteria->addSelectColumn(AccessoryTableMap::JUNIOR);
+            $criteria->addSelectColumn(AccessoryTableMap::SENIOR);
+            $criteria->addSelectColumn(AccessoryTableMap::PRICE);
+            $criteria->addSelectColumn(AccessoryTableMap::CATEGORY_ID);
         } else {
             $criteria->addSelectColumn($alias . '.ID');
             $criteria->addSelectColumn($alias . '.NAME');
@@ -350,7 +350,7 @@ class TrinketTableMap extends TableMap
      */
     public static function getTableMap()
     {
-        return Propel::getServiceContainer()->getDatabaseMap(TrinketTableMap::DATABASE_NAME)->getTable(TrinketTableMap::TABLE_NAME);
+        return Propel::getServiceContainer()->getDatabaseMap(AccessoryTableMap::DATABASE_NAME)->getTable(AccessoryTableMap::TABLE_NAME);
     }
 
     /**
@@ -358,16 +358,16 @@ class TrinketTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-      $dbMap = Propel::getServiceContainer()->getDatabaseMap(TrinketTableMap::DATABASE_NAME);
-      if (!$dbMap->hasTable(TrinketTableMap::TABLE_NAME)) {
-        $dbMap->addTableObject(new TrinketTableMap());
+      $dbMap = Propel::getServiceContainer()->getDatabaseMap(AccessoryTableMap::DATABASE_NAME);
+      if (!$dbMap->hasTable(AccessoryTableMap::TABLE_NAME)) {
+        $dbMap->addTableObject(new AccessoryTableMap());
       }
     }
 
     /**
-     * Performs a DELETE on the database, given a Trinket or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a Accessory or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or Trinket object or primary key or array of primary keys
+     * @param mixed               $values Criteria or Accessory object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -378,25 +378,25 @@ class TrinketTableMap extends TableMap
      public static function doDelete($values, ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(TrinketTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(AccessoryTableMap::DATABASE_NAME);
         }
 
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \Trinket) { // it's a model object
+        } elseif ($values instanceof \Accessory) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(TrinketTableMap::DATABASE_NAME);
-            $criteria->add(TrinketTableMap::ID, (array) $values, Criteria::IN);
+            $criteria = new Criteria(AccessoryTableMap::DATABASE_NAME);
+            $criteria->add(AccessoryTableMap::ID, (array) $values, Criteria::IN);
         }
 
-        $query = TrinketQuery::create()->mergeWith($criteria);
+        $query = AccessoryQuery::create()->mergeWith($criteria);
 
-        if ($values instanceof Criteria) { TrinketTableMap::clearInstancePool();
+        if ($values instanceof Criteria) { AccessoryTableMap::clearInstancePool();
         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
-            foreach ((array) $values as $singleval) { TrinketTableMap::removeInstanceFromPool($singleval);
+            foreach ((array) $values as $singleval) { AccessoryTableMap::removeInstanceFromPool($singleval);
             }
         }
 
@@ -404,20 +404,20 @@ class TrinketTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the trinket table.
+     * Deletes all rows from the accessory table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
-        return TrinketQuery::create()->doDeleteAll($con);
+        return AccessoryQuery::create()->doDeleteAll($con);
     }
 
     /**
-     * Performs an INSERT on the database, given a Trinket or Criteria object.
+     * Performs an INSERT on the database, given a Accessory or Criteria object.
      *
-     * @param mixed               $criteria Criteria or Trinket object containing data that is used to create the INSERT statement.
+     * @param mixed               $criteria Criteria or Accessory object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -426,22 +426,22 @@ class TrinketTableMap extends TableMap
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(TrinketTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(AccessoryTableMap::DATABASE_NAME);
         }
 
         if ($criteria instanceof Criteria) {
             $criteria = clone $criteria; // rename for clarity
         } else {
-            $criteria = $criteria->buildCriteria(); // build Criteria from Trinket object
+            $criteria = $criteria->buildCriteria(); // build Criteria from Accessory object
         }
 
-        if ($criteria->containsKey(TrinketTableMap::ID) && $criteria->keyContainsValue(TrinketTableMap::ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.TrinketTableMap::ID.')');
+        if ($criteria->containsKey(AccessoryTableMap::ID) && $criteria->keyContainsValue(AccessoryTableMap::ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.AccessoryTableMap::ID.')');
         }
 
 
         // Set the correct dbName
-        $query = TrinketQuery::create()->mergeWith($criteria);
+        $query = AccessoryQuery::create()->mergeWith($criteria);
 
         try {
             // use transaction because $criteria could contain info
@@ -457,7 +457,7 @@ class TrinketTableMap extends TableMap
         return $pk;
     }
 
-} // TrinketTableMap
+} // AccessoryTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-TrinketTableMap::buildTableMap();
+AccessoryTableMap::buildTableMap();

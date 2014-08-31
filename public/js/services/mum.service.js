@@ -27,8 +27,8 @@ angular.module('mum.service', [])
 			removeBear: function(mumId, bearId) {
 				return $http.delete('/mums/api/mum/' + mumId + '/bear/' + bearId);
 			},
-			setTrinkets: function(mumId, trinketData) {
-				return $http.post('/mums/api/mum/' + mumId + '/trinket', trinketData);
+			setAccessories: function(mumId, accessoryData) {
+				return $http.post('/mums/api/mum/' + mumId + '/accessory', accessoryData);
 			}
 		};
 	});

@@ -89,12 +89,12 @@ CREATE TABLE `customer`
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
--- trinket
+-- accessory
 -- ---------------------------------------------------------------------
 
-DROP TABLE IF EXISTS `trinket`;
+DROP TABLE IF EXISTS `accessory`;
 
-CREATE TABLE `trinket`
+CREATE TABLE `accessory`
 (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(64) NOT NULL,
@@ -106,10 +106,10 @@ CREATE TABLE `trinket`
     `image` BLOB,
     `image_mime` VARCHAR(31),
     PRIMARY KEY (`id`),
-    INDEX `trinket_FI_1` (`category_id`),
-    CONSTRAINT `trinket_FK_1`
+    INDEX `accessory_FI_1` (`category_id`),
+    CONSTRAINT `accessory_FK_1`
         FOREIGN KEY (`category_id`)
-        REFERENCES `trinket_category` (`id`)
+        REFERENCES `accessory_category` (`id`)
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
@@ -221,26 +221,26 @@ CREATE TABLE `mum`
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
--- mum_trinket
+-- mum_accessory
 -- ---------------------------------------------------------------------
 
-DROP TABLE IF EXISTS `mum_trinket`;
+DROP TABLE IF EXISTS `mum_accessory`;
 
-CREATE TABLE `mum_trinket`
+CREATE TABLE `mum_accessory`
 (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `mum_id` INTEGER NOT NULL,
-    `trinket_id` INTEGER NOT NULL,
+    `accessory_id` INTEGER NOT NULL,
     `quantity` INTEGER,
     PRIMARY KEY (`id`),
-    INDEX `mum_trinket_FI_1` (`mum_id`),
-    INDEX `mum_trinket_FI_2` (`trinket_id`),
-    CONSTRAINT `mum_trinket_FK_1`
+    INDEX `mum_accessory_FI_1` (`mum_id`),
+    INDEX `mum_accessory_FI_2` (`accessory_id`),
+    CONSTRAINT `mum_accessory_FK_1`
         FOREIGN KEY (`mum_id`)
         REFERENCES `mum` (`id`),
-    CONSTRAINT `mum_trinket_FK_2`
-        FOREIGN KEY (`trinket_id`)
-        REFERENCES `trinket` (`id`)
+    CONSTRAINT `mum_accessory_FK_2`
+        FOREIGN KEY (`accessory_id`)
+        REFERENCES `accessory` (`id`)
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
@@ -264,12 +264,12 @@ CREATE TABLE `mum_bear`
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
--- trinket_category
+-- accessory_category
 -- ---------------------------------------------------------------------
 
-DROP TABLE IF EXISTS `trinket_category`;
+DROP TABLE IF EXISTS `accessory_category`;
 
-CREATE TABLE `trinket_category`
+CREATE TABLE `accessory_category`
 (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL,

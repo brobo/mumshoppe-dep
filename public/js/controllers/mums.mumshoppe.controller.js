@@ -46,7 +46,7 @@ angular.module('mums.mumshoppe.controller', [])
 
 	})
 
-	.controller('mumsViewController', function($scope, $state, $stateParams, MumService, LettersService, TrinketsService) {
+	.controller('mumsViewController', function($scope, $state, $stateParams, MumService, LettersService, AccessoriesService) {
 		var updateMum = function() {
 			return MumService.fetch($stateParams.mumId)
 				.success(function(data) {
@@ -56,14 +56,14 @@ angular.module('mums.mumshoppe.controller', [])
 
 		$scope.letters = {};
 		$scope.bearTotal = 0;
-		$scope.trinketTotal = 0;
+		$scope.accessoryTotal = 0;
 		updateMum()
 			.success(function() {
 				for (var i=0; i<$scope.mum.Bears.length; i++) {
 					$scope.bearTotal += parseFloat($scope.mum.Bears[i].Price);
 				}
-				for (var i=0; i<$scope.mum.Trinkets.length; i++) {
-					$scope.trinketTotal += parseFloat($scope.mum.Trinkets[i].Trinket.Price * $scope.mum.Trinkets[i].Quantity);
+				for (var i=0; i<$scope.mum.Accessories.length; i++) {
+					$scope.accessoryTotal += parseFloat($scope.mum.Accessories[i].Accessory.Price * $scope.mum.Accessories[i].Quantity);
 				}
 			});
 		LettersService.get()
@@ -72,7 +72,7 @@ angular.module('mums.mumshoppe.controller', [])
 					$scope.letters[data[i].Id] = data[i];
 				}
 			});
-		TrinketsService.categories.get()
+		AccessoriesService.categories.get()
 			.success(function(data) {
 				$scope.categories = data;
 			});
@@ -81,6 +81,6 @@ angular.module('mums.mumshoppe.controller', [])
 		}
 
 		$scope.$parent.back = function() {
-			$state.go('^.trinkets')
+			$state.go('^.accessories')
 		}
 	});

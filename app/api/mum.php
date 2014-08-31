@@ -72,46 +72,46 @@
 		echo json_encode($mum->getFull());
 	});
 
-	$app->post('/api/mum/:mumId/trinket', function($mumId) use ($app) {
+	$app->post('/api/mum/:mumId/accessory', function($mumId) use ($app) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;
-		foreach ($mum->getMumTrinkets() as $mumTrinket) {
-			$mumTrinket->delete();
+		foreach ($mum->getMumAccessories() as $mumAccessory) {
+			$mumAccessory->delete();
 		}
-		foreach ($app->request->post() as $trinketId => $quantity) {
-			$mumTrinket = new MumTrinket();
-			$mumTrinket->setMumId($mumId);
-			$mumTrinket->setTrinketId($trinketId);
-			$mumTrinket->setQuantity($quantity);
-			$mumTrinket->save();
+		foreach ($app->request->post() as $accessoryId => $quantity) {
+			$mumAccessory = new MumAccessory();
+			$mumAccessory->setMumId($mumId);
+			$mumAccessory->setAccessoryId($accessoryId);
+			$mumAccessory->setQuantity($quantity);
+			$mumAccessory->save();
 		}
 
 		echo json_encode(array('message'=>'Successfully saved.'));
 	});
 
-	$app->post('/api/mum/:mumId/trinket/:trinketId', function($mumId, $trinketId) use ($app) {
+	$app->post('/api/mum/:mumId/accessory/:accessoryId', function($mumId, $accessoryId) use ($app) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;
-		$trinket = TrinketQuery::create()->findPK($trinketId);
-		if (!$trinket) return;
-		$mumTrinket = MumTrinketQuery::create()->filterByMumId($mumId)->filterByTrinketId($trinketId)->findOne();
-		if ($mumTrinket) {
-			$mumTrinket->delete();
+		$accessory = AccessoryQuery::create()->findPK($accessoryId);
+		if (!$accessory) return;
+		$mumAccessory = MumAccessoryQuery::create()->filterByMumId($mumId)->filterByAccessoryId($accessoryId)->findOne();
+		if ($mumAccessory) {
+			$mumAccessory->delete();
 		}
-		$mumTrinket = new MumTrinket();
-		$mumTrinket->setMumId($mumId);
-		$mumTrinket->setTrinketId($trinketId);
-		$mumTrinket->setQuantity($app->request->post('Quantity'));
-		$mumTrinket->save();
+		$mumAccessory = new MumAccessory();
+		$mumAccessory->setMumId($mumId);
+		$mumAccessory->setAccessoryId($accessoryId);
+		$mumAccessory->setQuantity($app->request->post('Quantity'));
+		$mumAccessory->save();
 
 		echo json_encode(array('message' => 'Success'));
 	});
 
-	$app->delete('/api/mum/:mumId/trinket/:trinketId', function($mumId, $trinketId) use ($app) {
+	$app->delete('/api/mum/:mumId/accessory/:accessoryId', function($mumId, $accessoryId) use ($app) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;
-		$trinket = TrinketQuery::create()->findPK($trinketId);
-		$mum->removeTrinket($trinket);
+		$accessory = AccessoryQuery::create()->findPK($accessoryId);
+		$mum->removeAccessory($accessory);
 
 		$mum->save();
 		echo json_encode($mum->getFull());

@@ -19,7 +19,7 @@ var app = angular.module('mumshoppe', [
 	'mum.service',
 	'mumtypes.service',
 	'pay.service',
-	'trinkets.service']);
+	'accessories.service']);
 
 app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 
@@ -123,10 +123,10 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 			url: '/bears',
 			controller: 'createBearsController'
 		})
-		.state('create.trinkets', {
-			templateUrl: 'public/views/mumshoppe/create/trinkets.html',
-			url: '/trinkets',
-			controller: 'createTrinketsController'
+		.state('create.accessories', {
+			templateUrl: 'public/views/mumshoppe/create/accessories.html',
+			url: '/accessories',
+			controller: 'createAccessoriesController'
 		})
 		.state('create.review', {
 			templateUrl: 'public/views/mumshoppe/create/review.html',
