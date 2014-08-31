@@ -19,7 +19,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'mum_accessory' table.
  *
- *
+ * 
  *
  * @method     ChildMumAccessoryQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildMumAccessoryQuery orderByMumId($order = Criteria::ASC) Order by the mum_id column
@@ -59,7 +59,7 @@ use Propel\Runtime\Exception\PropelException;
  */
 abstract class MumAccessoryQuery extends ModelCriteria
 {
-
+    
     /**
      * Initializes internal state of \Base\MumAccessoryQuery object.
      *
@@ -145,7 +145,7 @@ abstract class MumAccessoryQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, MUM_ID, ACCESSORY_ID, QUANTITY FROM mum_accessory WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);
+            $stmt = $con->prepare($sql);            
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -626,10 +626,10 @@ abstract class MumAccessoryQuery extends ModelCriteria
             // use transaction because $criteria could contain info
             // for more than one table or we could emulating ON DELETE CASCADE, etc.
             $con->beginTransaction();
-
+            
 
         MumAccessoryTableMap::removeInstanceFromPool($criteria);
-
+        
             $affectedRows += ModelCriteria::delete($con);
             MumAccessoryTableMap::clearRelatedInstancePool();
             $con->commit();

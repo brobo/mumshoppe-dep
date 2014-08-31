@@ -19,7 +19,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'customer' table.
  *
- *
+ * 
  *
  * @method     ChildCustomerQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildCustomerQuery orderByEmail($order = Criteria::ASC) Order by the email column
@@ -41,6 +41,10 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildCustomerQuery rightJoinMum($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Mum relation
  * @method     ChildCustomerQuery innerJoinMum($relationAlias = null) Adds a INNER JOIN clause to the query using the Mum relation
  *
+ * @method     ChildCustomerQuery leftJoinPasswordRecovery($relationAlias = null) Adds a LEFT JOIN clause to the query using the PasswordRecovery relation
+ * @method     ChildCustomerQuery rightJoinPasswordRecovery($relationAlias = null) Adds a RIGHT JOIN clause to the query using the PasswordRecovery relation
+ * @method     ChildCustomerQuery innerJoinPasswordRecovery($relationAlias = null) Adds a INNER JOIN clause to the query using the PasswordRecovery relation
+ *
  * @method     ChildCustomer findOne(ConnectionInterface $con = null) Return the first ChildCustomer matching the query
  * @method     ChildCustomer findOneOrCreate(ConnectionInterface $con = null) Return the first ChildCustomer matching the query, or a new ChildCustomer object populated from the query conditions when no match is found
  *
@@ -59,7 +63,7 @@ use Propel\Runtime\Exception\PropelException;
  */
 abstract class CustomerQuery extends ModelCriteria
 {
-
+    
     /**
      * Initializes internal state of \Base\CustomerQuery object.
      *
@@ -145,7 +149,7 @@ abstract class CustomerQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, EMAIL, PASSWORD, NAME, PHONE FROM customer WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);
+            $stmt = $con->prepare($sql);            
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -463,6 +467,79 @@ abstract class CustomerQuery extends ModelCriteria
     }
 
     /**
+     * Filter the query by a related \PasswordRecovery object
+     *
+     * @param \PasswordRecovery|ObjectCollection $passwordRecovery  the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildCustomerQuery The current query, for fluid interface
+     */
+    public function filterByPasswordRecovery($passwordRecovery, $comparison = null)
+    {
+        if ($passwordRecovery instanceof \PasswordRecovery) {
+            return $this
+                ->addUsingAlias(CustomerTableMap::ID, $passwordRecovery->getCustomerId(), $comparison);
+        } elseif ($passwordRecovery instanceof ObjectCollection) {
+            return $this
+                ->usePasswordRecoveryQuery()
+                ->filterByPrimaryKeys($passwordRecovery->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByPasswordRecovery() only accepts arguments of type \PasswordRecovery or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the PasswordRecovery relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return ChildCustomerQuery The current query, for fluid interface
+     */
+    public function joinPasswordRecovery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('PasswordRecovery');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'PasswordRecovery');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the PasswordRecovery relation PasswordRecovery object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return   \PasswordRecoveryQuery A secondary query class using the current class as primary query
+     */
+    public function usePasswordRecoveryQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinPasswordRecovery($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'PasswordRecovery', '\PasswordRecoveryQuery');
+    }
+
+    /**
      * Exclude object from result
      *
      * @param   ChildCustomer $customer Object to remove from the list of results
@@ -538,10 +615,10 @@ abstract class CustomerQuery extends ModelCriteria
             // use transaction because $criteria could contain info
             // for more than one table or we could emulating ON DELETE CASCADE, etc.
             $con->beginTransaction();
-
+            
 
         CustomerTableMap::removeInstanceFromPool($criteria);
-
+        
             $affectedRows += ModelCriteria::delete($con);
             CustomerTableMap::clearRelatedInstancePool();
             $con->commit();

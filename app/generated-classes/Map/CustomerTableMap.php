@@ -158,6 +158,7 @@ class CustomerTableMap extends TableMap
     public function buildRelations()
     {
         $this->addRelation('Mum', '\\Mum', RelationMap::ONE_TO_MANY, array('id' => 'customer_id', ), null, null, 'Mums');
+        $this->addRelation('PasswordRecovery', '\\PasswordRecovery', RelationMap::ONE_TO_MANY, array('id' => 'customer_id', ), null, null, 'PasswordRecoveries');
     } // buildRelations()
 
     /**
@@ -202,7 +203,7 @@ class CustomerTableMap extends TableMap
                             : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
                         ];
     }
-
+    
     /**
      * The class that the tableMap will make instances of.
      *
@@ -262,7 +263,7 @@ class CustomerTableMap extends TableMap
     public static function populateObjects(DataFetcherInterface $dataFetcher)
     {
         $results = array();
-
+    
         // set the class once to avoid overhead in the loop
         $cls = static::getOMClass(false);
         // populate the object(s)

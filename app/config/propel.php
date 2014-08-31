@@ -9,7 +9,7 @@ $manager = new ConnectionManagerSingle();
 $manager = new ConnectionManagerSingle();
 $manager->setConfiguration(array (
 	'dsn'		=>	'mysql:host=localhost;dbname=mums',
-	'user'		=>	'mumshoppe',
-	'password'	=>	'pCr38i@AjhHW2j85!i2T1Lh2Pn&#Vpil'
+	'user'		=>	'root',
+	'password'	=>	''
 ));
 $serviceContainer->setConnectionManager('mums', $manager);

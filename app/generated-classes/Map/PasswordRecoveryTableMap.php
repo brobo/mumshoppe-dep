@@ -2,8 +2,8 @@
 
 namespace Map;
 
-use \Grade;
-use \GradeQuery;
+use \PasswordRecovery;
+use \PasswordRecoveryQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -15,7 +15,7 @@ use Propel\Runtime\Map\TableMapTrait;
 
 
 /**
- * This class defines the structure of the 'grade' table.
+ * This class defines the structure of the 'password_recovery' table.
  *
  *
  *
@@ -25,14 +25,14 @@ use Propel\Runtime\Map\TableMapTrait;
  * (i.e. if it's a text column type).
  *
  */
-class GradeTableMap extends TableMap
+class PasswordRecoveryTableMap extends TableMap
 {
     use InstancePoolTrait;
     use TableMapTrait;
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.GradeTableMap';
+    const CLASS_NAME = '.Map.PasswordRecoveryTableMap';
 
     /**
      * The default database name for this class
@@ -42,22 +42,22 @@ class GradeTableMap extends TableMap
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'grade';
+    const TABLE_NAME = 'password_recovery';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\Grade';
+    const OM_CLASS = '\\PasswordRecovery';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'Grade';
+    const CLASS_DEFAULT = 'PasswordRecovery';
 
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 2;
+    const NUM_COLUMNS = 4;
 
     /**
      * The number of lazy-loaded columns
@@ -67,17 +67,27 @@ class GradeTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 2;
+    const NUM_HYDRATE_COLUMNS = 4;
 
     /**
      * the column name for the ID field
      */
-    const ID = 'grade.ID';
+    const ID = 'password_recovery.ID';
 
     /**
-     * the column name for the NAME field
+     * the column name for the CUSTOMER_ID field
      */
-    const NAME = 'grade.NAME';
+    const CUSTOMER_ID = 'password_recovery.CUSTOMER_ID';
+
+    /**
+     * the column name for the KEYWORD field
+     */
+    const KEYWORD = 'password_recovery.KEYWORD';
+
+    /**
+     * the column name for the EXPIRATION field
+     */
+    const EXPIRATION = 'password_recovery.EXPIRATION';
 
     /**
      * The default string format for model objects of the related table
@@ -91,12 +101,12 @@ class GradeTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Name', ),
-        self::TYPE_STUDLYPHPNAME => array('id', 'name', ),
-        self::TYPE_COLNAME       => array(GradeTableMap::ID, GradeTableMap::NAME, ),
-        self::TYPE_RAW_COLNAME   => array('ID', 'NAME', ),
-        self::TYPE_FIELDNAME     => array('id', 'name', ),
-        self::TYPE_NUM           => array(0, 1, )
+        self::TYPE_PHPNAME       => array('Id', 'CustomerId', 'Keyword', 'Expiration', ),
+        self::TYPE_STUDLYPHPNAME => array('id', 'customerId', 'keyword', 'expiration', ),
+        self::TYPE_COLNAME       => array(PasswordRecoveryTableMap::ID, PasswordRecoveryTableMap::CUSTOMER_ID, PasswordRecoveryTableMap::KEYWORD, PasswordRecoveryTableMap::EXPIRATION, ),
+        self::TYPE_RAW_COLNAME   => array('ID', 'CUSTOMER_ID', 'KEYWORD', 'EXPIRATION', ),
+        self::TYPE_FIELDNAME     => array('id', 'customer_id', 'keyword', 'expiration', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, )
     );
 
     /**
@@ -106,12 +116,12 @@ class GradeTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Name' => 1, ),
-        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'name' => 1, ),
-        self::TYPE_COLNAME       => array(GradeTableMap::ID => 0, GradeTableMap::NAME => 1, ),
-        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'NAME' => 1, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'name' => 1, ),
-        self::TYPE_NUM           => array(0, 1, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'CustomerId' => 1, 'Keyword' => 2, 'Expiration' => 3, ),
+        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'customerId' => 1, 'keyword' => 2, 'expiration' => 3, ),
+        self::TYPE_COLNAME       => array(PasswordRecoveryTableMap::ID => 0, PasswordRecoveryTableMap::CUSTOMER_ID => 1, PasswordRecoveryTableMap::KEYWORD => 2, PasswordRecoveryTableMap::EXPIRATION => 3, ),
+        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'CUSTOMER_ID' => 1, 'KEYWORD' => 2, 'EXPIRATION' => 3, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'customer_id' => 1, 'keyword' => 2, 'expiration' => 3, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, )
     );
 
     /**
@@ -124,14 +134,16 @@ class GradeTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('grade');
-        $this->setPhpName('Grade');
-        $this->setClassName('\\Grade');
+        $this->setName('password_recovery');
+        $this->setPhpName('PasswordRecovery');
+        $this->setClassName('\\PasswordRecovery');
         $this->setPackage('');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
-        $this->addColumn('NAME', 'Name', 'VARCHAR', true, 32, null);
+        $this->addForeignKey('CUSTOMER_ID', 'CustomerId', 'INTEGER', 'customer', 'ID', true, null, null);
+        $this->addColumn('KEYWORD', 'Keyword', 'VARCHAR', true, 15, null);
+        $this->addColumn('EXPIRATION', 'Expiration', 'TIMESTAMP', true, null, null);
     } // initialize()
 
     /**
@@ -139,8 +151,7 @@ class GradeTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Backing', '\\Backing', RelationMap::ONE_TO_MANY, array('id' => 'grade_id', ), null, null, 'Backings');
-        $this->addRelation('AccentBow', '\\AccentBow', RelationMap::ONE_TO_MANY, array('id' => 'grade_id', ), null, null, 'AccentBows');
+        $this->addRelation('Customer', '\\Customer', RelationMap::MANY_TO_ONE, array('customer_id' => 'id', ), null, null);
     } // buildRelations()
 
     /**
@@ -199,7 +210,7 @@ class GradeTableMap extends TableMap
      */
     public static function getOMClass($withPrefix = true)
     {
-        return $withPrefix ? GradeTableMap::CLASS_DEFAULT : GradeTableMap::OM_CLASS;
+        return $withPrefix ? PasswordRecoveryTableMap::CLASS_DEFAULT : PasswordRecoveryTableMap::OM_CLASS;
     }
 
     /**
@@ -213,21 +224,21 @@ class GradeTableMap extends TableMap
      *
      * @throws PropelException Any exceptions caught during processing will be
      *         rethrown wrapped into a PropelException.
-     * @return array (Grade object, last column rank)
+     * @return array (PasswordRecovery object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        $key = GradeTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
-        if (null !== ($obj = GradeTableMap::getInstanceFromPool($key))) {
+        $key = PasswordRecoveryTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
+        if (null !== ($obj = PasswordRecoveryTableMap::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $offset, true); // rehydrate
-            $col = $offset + GradeTableMap::NUM_HYDRATE_COLUMNS;
+            $col = $offset + PasswordRecoveryTableMap::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = GradeTableMap::OM_CLASS;
+            $cls = PasswordRecoveryTableMap::OM_CLASS;
             $obj = new $cls();
             $col = $obj->hydrate($row, $offset, false, $indexType);
-            GradeTableMap::addInstanceToPool($obj, $key);
+            PasswordRecoveryTableMap::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -250,8 +261,8 @@ class GradeTableMap extends TableMap
         $cls = static::getOMClass(false);
         // populate the object(s)
         while ($row = $dataFetcher->fetch()) {
-            $key = GradeTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
-            if (null !== ($obj = GradeTableMap::getInstanceFromPool($key))) {
+            $key = PasswordRecoveryTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
+            if (null !== ($obj = PasswordRecoveryTableMap::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
@@ -260,7 +271,7 @@ class GradeTableMap extends TableMap
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                GradeTableMap::addInstanceToPool($obj, $key);
+                PasswordRecoveryTableMap::addInstanceToPool($obj, $key);
             } // if key exists
         }
 
@@ -281,11 +292,15 @@ class GradeTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(GradeTableMap::ID);
-            $criteria->addSelectColumn(GradeTableMap::NAME);
+            $criteria->addSelectColumn(PasswordRecoveryTableMap::ID);
+            $criteria->addSelectColumn(PasswordRecoveryTableMap::CUSTOMER_ID);
+            $criteria->addSelectColumn(PasswordRecoveryTableMap::KEYWORD);
+            $criteria->addSelectColumn(PasswordRecoveryTableMap::EXPIRATION);
         } else {
             $criteria->addSelectColumn($alias . '.ID');
-            $criteria->addSelectColumn($alias . '.NAME');
+            $criteria->addSelectColumn($alias . '.CUSTOMER_ID');
+            $criteria->addSelectColumn($alias . '.KEYWORD');
+            $criteria->addSelectColumn($alias . '.EXPIRATION');
         }
     }
 
@@ -298,7 +313,7 @@ class GradeTableMap extends TableMap
      */
     public static function getTableMap()
     {
-        return Propel::getServiceContainer()->getDatabaseMap(GradeTableMap::DATABASE_NAME)->getTable(GradeTableMap::TABLE_NAME);
+        return Propel::getServiceContainer()->getDatabaseMap(PasswordRecoveryTableMap::DATABASE_NAME)->getTable(PasswordRecoveryTableMap::TABLE_NAME);
     }
 
     /**
@@ -306,16 +321,16 @@ class GradeTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-      $dbMap = Propel::getServiceContainer()->getDatabaseMap(GradeTableMap::DATABASE_NAME);
-      if (!$dbMap->hasTable(GradeTableMap::TABLE_NAME)) {
-        $dbMap->addTableObject(new GradeTableMap());
+      $dbMap = Propel::getServiceContainer()->getDatabaseMap(PasswordRecoveryTableMap::DATABASE_NAME);
+      if (!$dbMap->hasTable(PasswordRecoveryTableMap::TABLE_NAME)) {
+        $dbMap->addTableObject(new PasswordRecoveryTableMap());
       }
     }
 
     /**
-     * Performs a DELETE on the database, given a Grade or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a PasswordRecovery or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or Grade object or primary key or array of primary keys
+     * @param mixed               $values Criteria or PasswordRecovery object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -326,25 +341,25 @@ class GradeTableMap extends TableMap
      public static function doDelete($values, ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(GradeTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(PasswordRecoveryTableMap::DATABASE_NAME);
         }
 
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \Grade) { // it's a model object
+        } elseif ($values instanceof \PasswordRecovery) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(GradeTableMap::DATABASE_NAME);
-            $criteria->add(GradeTableMap::ID, (array) $values, Criteria::IN);
+            $criteria = new Criteria(PasswordRecoveryTableMap::DATABASE_NAME);
+            $criteria->add(PasswordRecoveryTableMap::ID, (array) $values, Criteria::IN);
         }
 
-        $query = GradeQuery::create()->mergeWith($criteria);
+        $query = PasswordRecoveryQuery::create()->mergeWith($criteria);
 
-        if ($values instanceof Criteria) { GradeTableMap::clearInstancePool();
+        if ($values instanceof Criteria) { PasswordRecoveryTableMap::clearInstancePool();
         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
-            foreach ((array) $values as $singleval) { GradeTableMap::removeInstanceFromPool($singleval);
+            foreach ((array) $values as $singleval) { PasswordRecoveryTableMap::removeInstanceFromPool($singleval);
             }
         }
 
@@ -352,20 +367,20 @@ class GradeTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the grade table.
+     * Deletes all rows from the password_recovery table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
-        return GradeQuery::create()->doDeleteAll($con);
+        return PasswordRecoveryQuery::create()->doDeleteAll($con);
     }
 
     /**
-     * Performs an INSERT on the database, given a Grade or Criteria object.
+     * Performs an INSERT on the database, given a PasswordRecovery or Criteria object.
      *
-     * @param mixed               $criteria Criteria or Grade object containing data that is used to create the INSERT statement.
+     * @param mixed               $criteria Criteria or PasswordRecovery object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -374,22 +389,22 @@ class GradeTableMap extends TableMap
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(GradeTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(PasswordRecoveryTableMap::DATABASE_NAME);
         }
 
         if ($criteria instanceof Criteria) {
             $criteria = clone $criteria; // rename for clarity
         } else {
-            $criteria = $criteria->buildCriteria(); // build Criteria from Grade object
+            $criteria = $criteria->buildCriteria(); // build Criteria from PasswordRecovery object
         }
 
-        if ($criteria->containsKey(GradeTableMap::ID) && $criteria->keyContainsValue(GradeTableMap::ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.GradeTableMap::ID.')');
+        if ($criteria->containsKey(PasswordRecoveryTableMap::ID) && $criteria->keyContainsValue(PasswordRecoveryTableMap::ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.PasswordRecoveryTableMap::ID.')');
         }
 
 
         // Set the correct dbName
-        $query = GradeQuery::create()->mergeWith($criteria);
+        $query = PasswordRecoveryQuery::create()->mergeWith($criteria);
 
         try {
             // use transaction because $criteria could contain info
@@ -405,7 +420,7 @@ class GradeTableMap extends TableMap
         return $pk;
     }
 
-} // GradeTableMap
+} // PasswordRecoveryTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-GradeTableMap::buildTableMap();
+PasswordRecoveryTableMap::buildTableMap();

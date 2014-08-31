@@ -170,4 +170,14 @@
 		<column name="phone" type="varchar" size="16" />
 		<column name="token_expiration" type="timestamp" lazyLoad="true" />
 	</table>
+	
+	<table name="password_recovery" phpName="PasswordRecovery">
+	    <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
+	    <column name="customer_id" type="integer" required="true" />
+	    <column name="keyword" type="varchar" size="15" required="true" />
+	    <column name="expiration" type="timestamp" required="true" />
+	    <foreign-key foreignTable="customer">
+	        <reference local="customer_id" foreign="id" />
+	    </foreign-key>
+	</table>
 </database>

@@ -6,6 +6,8 @@ use \Customer as ChildCustomer;
 use \CustomerQuery as ChildCustomerQuery;
 use \Mum as ChildMum;
 use \MumQuery as ChildMumQuery;
+use \PasswordRecovery as ChildPasswordRecovery;
+use \PasswordRecoveryQuery as ChildPasswordRecoveryQuery;
 use \Exception;
 use \PDO;
 use Map\CustomerTableMap;
@@ -21,7 +23,7 @@ use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 
-abstract class Customer implements ActiveRecordInterface
+abstract class Customer implements ActiveRecordInterface 
 {
     /**
      * TableMap class name
@@ -92,6 +94,12 @@ abstract class Customer implements ActiveRecordInterface
     protected $collMumsPartial;
 
     /**
+     * @var        ObjectCollection|ChildPasswordRecovery[] Collection to store aggregation of ChildPasswordRecovery objects.
+     */
+    protected $collPasswordRecoveries;
+    protected $collPasswordRecoveriesPartial;
+
+    /**
      * Flag to prevent endless save loop, if this object is referenced
      * by another object which falls in this transaction.
      *
@@ -104,6 +112,12 @@ abstract class Customer implements ActiveRecordInterface
      * @var ObjectCollection
      */
     protected $mumsScheduledForDeletion = null;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var ObjectCollection
+     */
+    protected $passwordRecoveriesScheduledForDeletion = null;
 
     /**
      * Initializes internal state of Base\Customer object.
@@ -365,7 +379,7 @@ abstract class Customer implements ActiveRecordInterface
 
     /**
      * Get the [id] column value.
-     *
+     * 
      * @return   int
      */
     public function getId()
@@ -376,7 +390,7 @@ abstract class Customer implements ActiveRecordInterface
 
     /**
      * Get the [email] column value.
-     *
+     * 
      * @return   string
      */
     public function getEmail()
@@ -387,7 +401,7 @@ abstract class Customer implements ActiveRecordInterface
 
     /**
      * Get the [password] column value.
-     *
+     * 
      * @return   string
      */
     public function getPassword()
@@ -398,7 +412,7 @@ abstract class Customer implements ActiveRecordInterface
 
     /**
      * Get the [name] column value.
-     *
+     * 
      * @return   string
      */
     public function getName()
@@ -409,7 +423,7 @@ abstract class Customer implements ActiveRecordInterface
 
     /**
      * Get the [phone] column value.
-     *
+     * 
      * @return   string
      */
     public function getPhone()
@@ -420,7 +434,7 @@ abstract class Customer implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     *
+     * 
      * @param      int $v new value
      * @return   \Customer The current object (for fluent API support)
      */
@@ -441,7 +455,7 @@ abstract class Customer implements ActiveRecordInterface
 
     /**
      * Set the value of [email] column.
-     *
+     * 
      * @param      string $v new value
      * @return   \Customer The current object (for fluent API support)
      */
@@ -462,7 +476,7 @@ abstract class Customer implements ActiveRecordInterface
 
     /**
      * Set the value of [password] column.
-     *
+     * 
      * @param      string $v new value
      * @return   \Customer The current object (for fluent API support)
      */
@@ -483,7 +497,7 @@ abstract class Customer implements ActiveRecordInterface
 
     /**
      * Set the value of [name] column.
-     *
+     * 
      * @param      string $v new value
      * @return   \Customer The current object (for fluent API support)
      */
@@ -504,7 +518,7 @@ abstract class Customer implements ActiveRecordInterface
 
     /**
      * Set the value of [phone] column.
-     *
+     * 
      * @param      string $v new value
      * @return   \Customer The current object (for fluent API support)
      */
@@ -645,6 +659,8 @@ abstract class Customer implements ActiveRecordInterface
 
             $this->collMums = null;
 
+            $this->collPasswordRecoveries = null;
+
         } // if (deep)
     }
 
@@ -784,6 +800,23 @@ abstract class Customer implements ActiveRecordInterface
                 }
             }
 
+            if ($this->passwordRecoveriesScheduledForDeletion !== null) {
+                if (!$this->passwordRecoveriesScheduledForDeletion->isEmpty()) {
+                    \PasswordRecoveryQuery::create()
+                        ->filterByPrimaryKeys($this->passwordRecoveriesScheduledForDeletion->getPrimaryKeys(false))
+                        ->delete($con);
+                    $this->passwordRecoveriesScheduledForDeletion = null;
+                }
+            }
+
+                if ($this->collPasswordRecoveries !== null) {
+            foreach ($this->collPasswordRecoveries as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
             $this->alreadyInSave = false;
 
         }
@@ -836,19 +869,19 @@ abstract class Customer implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':
+                    case 'ID':                        
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'EMAIL':
+                    case 'EMAIL':                        
                         $stmt->bindValue($identifier, $this->email, PDO::PARAM_STR);
                         break;
-                    case 'PASSWORD':
+                    case 'PASSWORD':                        
                         $stmt->bindValue($identifier, $this->password, PDO::PARAM_STR);
                         break;
-                    case 'NAME':
+                    case 'NAME':                        
                         $stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
                         break;
-                    case 'PHONE':
+                    case 'PHONE':                        
                         $stmt->bindValue($identifier, $this->phone, PDO::PARAM_STR);
                         break;
                 }
@@ -967,10 +1000,13 @@ abstract class Customer implements ActiveRecordInterface
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-
+        
         if ($includeForeignObjects) {
             if (null !== $this->collMums) {
                 $result['Mums'] = $this->collMums->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
+            if (null !== $this->collPasswordRecoveries) {
+                $result['PasswordRecoveries'] = $this->collPasswordRecoveries->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
 
@@ -1145,6 +1181,12 @@ abstract class Customer implements ActiveRecordInterface
                 }
             }
 
+            foreach ($this->getPasswordRecoveries() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addPasswordRecovery($relObj->copy($deepCopy));
+                }
+            }
+
         } // if ($deepCopy)
 
         if ($makeNew) {
@@ -1188,6 +1230,9 @@ abstract class Customer implements ActiveRecordInterface
     {
         if ('Mum' == $relationName) {
             return $this->initMums();
+        }
+        if ('PasswordRecovery' == $relationName) {
+            return $this->initPasswordRecoveries();
         }
     }
 
@@ -1308,7 +1353,7 @@ abstract class Customer implements ActiveRecordInterface
     {
         $mumsToDelete = $this->getMums(new Criteria(), $con)->diff($mums);
 
-
+        
         $this->mumsScheduledForDeletion = $mumsToDelete;
 
         foreach ($mumsToDelete as $mumRemoved) {
@@ -1510,6 +1555,224 @@ abstract class Customer implements ActiveRecordInterface
     }
 
     /**
+     * Clears out the collPasswordRecoveries collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addPasswordRecoveries()
+     */
+    public function clearPasswordRecoveries()
+    {
+        $this->collPasswordRecoveries = null; // important to set this to NULL since that means it is uninitialized
+    }
+
+    /**
+     * Reset is the collPasswordRecoveries collection loaded partially.
+     */
+    public function resetPartialPasswordRecoveries($v = true)
+    {
+        $this->collPasswordRecoveriesPartial = $v;
+    }
+
+    /**
+     * Initializes the collPasswordRecoveries collection.
+     *
+     * By default this just sets the collPasswordRecoveries collection to an empty array (like clearcollPasswordRecoveries());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param      boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initPasswordRecoveries($overrideExisting = true)
+    {
+        if (null !== $this->collPasswordRecoveries && !$overrideExisting) {
+            return;
+        }
+        $this->collPasswordRecoveries = new ObjectCollection();
+        $this->collPasswordRecoveries->setModel('\PasswordRecovery');
+    }
+
+    /**
+     * Gets an array of ChildPasswordRecovery objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildCustomer is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @return Collection|ChildPasswordRecovery[] List of ChildPasswordRecovery objects
+     * @throws PropelException
+     */
+    public function getPasswordRecoveries($criteria = null, ConnectionInterface $con = null)
+    {
+        $partial = $this->collPasswordRecoveriesPartial && !$this->isNew();
+        if (null === $this->collPasswordRecoveries || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collPasswordRecoveries) {
+                // return empty collection
+                $this->initPasswordRecoveries();
+            } else {
+                $collPasswordRecoveries = ChildPasswordRecoveryQuery::create(null, $criteria)
+                    ->filterByCustomer($this)
+                    ->find($con);
+
+                if (null !== $criteria) {
+                    if (false !== $this->collPasswordRecoveriesPartial && count($collPasswordRecoveries)) {
+                        $this->initPasswordRecoveries(false);
+
+                        foreach ($collPasswordRecoveries as $obj) {
+                            if (false == $this->collPasswordRecoveries->contains($obj)) {
+                                $this->collPasswordRecoveries->append($obj);
+                            }
+                        }
+
+                        $this->collPasswordRecoveriesPartial = true;
+                    }
+
+                    $collPasswordRecoveries->getInternalIterator()->rewind();
+
+                    return $collPasswordRecoveries;
+                }
+
+                if ($partial && $this->collPasswordRecoveries) {
+                    foreach ($this->collPasswordRecoveries as $obj) {
+                        if ($obj->isNew()) {
+                            $collPasswordRecoveries[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collPasswordRecoveries = $collPasswordRecoveries;
+                $this->collPasswordRecoveriesPartial = false;
+            }
+        }
+
+        return $this->collPasswordRecoveries;
+    }
+
+    /**
+     * Sets a collection of PasswordRecovery objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param      Collection $passwordRecoveries A Propel collection.
+     * @param      ConnectionInterface $con Optional connection object
+     * @return   ChildCustomer The current object (for fluent API support)
+     */
+    public function setPasswordRecoveries(Collection $passwordRecoveries, ConnectionInterface $con = null)
+    {
+        $passwordRecoveriesToDelete = $this->getPasswordRecoveries(new Criteria(), $con)->diff($passwordRecoveries);
+
+        
+        $this->passwordRecoveriesScheduledForDeletion = $passwordRecoveriesToDelete;
+
+        foreach ($passwordRecoveriesToDelete as $passwordRecoveryRemoved) {
+            $passwordRecoveryRemoved->setCustomer(null);
+        }
+
+        $this->collPasswordRecoveries = null;
+        foreach ($passwordRecoveries as $passwordRecovery) {
+            $this->addPasswordRecovery($passwordRecovery);
+        }
+
+        $this->collPasswordRecoveries = $passwordRecoveries;
+        $this->collPasswordRecoveriesPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related PasswordRecovery objects.
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct
+     * @param      ConnectionInterface $con
+     * @return int             Count of related PasswordRecovery objects.
+     * @throws PropelException
+     */
+    public function countPasswordRecoveries(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    {
+        $partial = $this->collPasswordRecoveriesPartial && !$this->isNew();
+        if (null === $this->collPasswordRecoveries || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collPasswordRecoveries) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getPasswordRecoveries());
+            }
+
+            $query = ChildPasswordRecoveryQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByCustomer($this)
+                ->count($con);
+        }
+
+        return count($this->collPasswordRecoveries);
+    }
+
+    /**
+     * Method called to associate a ChildPasswordRecovery object to this object
+     * through the ChildPasswordRecovery foreign key attribute.
+     *
+     * @param    ChildPasswordRecovery $l ChildPasswordRecovery
+     * @return   \Customer The current object (for fluent API support)
+     */
+    public function addPasswordRecovery(ChildPasswordRecovery $l)
+    {
+        if ($this->collPasswordRecoveries === null) {
+            $this->initPasswordRecoveries();
+            $this->collPasswordRecoveriesPartial = true;
+        }
+
+        if (!in_array($l, $this->collPasswordRecoveries->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
+            $this->doAddPasswordRecovery($l);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param PasswordRecovery $passwordRecovery The passwordRecovery object to add.
+     */
+    protected function doAddPasswordRecovery($passwordRecovery)
+    {
+        $this->collPasswordRecoveries[]= $passwordRecovery;
+        $passwordRecovery->setCustomer($this);
+    }
+
+    /**
+     * @param  PasswordRecovery $passwordRecovery The passwordRecovery object to remove.
+     * @return ChildCustomer The current object (for fluent API support)
+     */
+    public function removePasswordRecovery($passwordRecovery)
+    {
+        if ($this->getPasswordRecoveries()->contains($passwordRecovery)) {
+            $this->collPasswordRecoveries->remove($this->collPasswordRecoveries->search($passwordRecovery));
+            if (null === $this->passwordRecoveriesScheduledForDeletion) {
+                $this->passwordRecoveriesScheduledForDeletion = clone $this->collPasswordRecoveries;
+                $this->passwordRecoveriesScheduledForDeletion->clear();
+            }
+            $this->passwordRecoveriesScheduledForDeletion[]= clone $passwordRecovery;
+            $passwordRecovery->setCustomer(null);
+        }
+
+        return $this;
+    }
+
+    /**
      * Clears the current object and sets all attributes to their default values
      */
     public function clear()
@@ -1543,12 +1806,21 @@ abstract class Customer implements ActiveRecordInterface
                     $o->clearAllReferences($deep);
                 }
             }
+            if ($this->collPasswordRecoveries) {
+                foreach ($this->collPasswordRecoveries as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
         } // if ($deep)
 
         if ($this->collMums instanceof Collection) {
             $this->collMums->clearIterator();
         }
         $this->collMums = null;
+        if ($this->collPasswordRecoveries instanceof Collection) {
+            $this->collPasswordRecoveries->clearIterator();
+        }
+        $this->collPasswordRecoveries = null;
     }
 
     /**

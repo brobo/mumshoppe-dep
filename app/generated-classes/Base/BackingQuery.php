@@ -19,7 +19,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'backing' table.
  *
- *
+ * 
  *
  * @method     ChildBackingQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildBackingQuery orderByItemId($order = Criteria::ASC) Order by the item_id column
@@ -79,7 +79,7 @@ use Propel\Runtime\Exception\PropelException;
  */
 abstract class BackingQuery extends ModelCriteria
 {
-
+    
     /**
      * Initializes internal state of \Base\BackingQuery object.
      *
@@ -165,7 +165,7 @@ abstract class BackingQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, ITEM_ID, NAME, PRICE, SIZE_ID, GRADE_ID FROM backing WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);
+            $stmt = $con->prepare($sql);            
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -820,10 +820,10 @@ abstract class BackingQuery extends ModelCriteria
             // use transaction because $criteria could contain info
             // for more than one table or we could emulating ON DELETE CASCADE, etc.
             $con->beginTransaction();
-
+            
 
         BackingTableMap::removeInstanceFromPool($criteria);
-
+        
             $affectedRows += ModelCriteria::delete($con);
             BackingTableMap::clearRelatedInstancePool();
             $con->commit();

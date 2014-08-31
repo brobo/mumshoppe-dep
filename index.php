@@ -46,6 +46,7 @@
 	require('app/api/product.php');
 	require('app/api/size.php');
 	require('app/api/volunteer.php');
+	require('app/api/recovery.php');
 
 	$app->run();
 ?>

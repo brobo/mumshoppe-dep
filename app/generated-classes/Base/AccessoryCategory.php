@@ -21,7 +21,7 @@ use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 
-abstract class AccessoryCategory implements ActiveRecordInterface
+abstract class AccessoryCategory implements ActiveRecordInterface 
 {
     /**
      * TableMap class name
@@ -347,7 +347,7 @@ abstract class AccessoryCategory implements ActiveRecordInterface
 
     /**
      * Get the [id] column value.
-     *
+     * 
      * @return   int
      */
     public function getId()
@@ -358,7 +358,7 @@ abstract class AccessoryCategory implements ActiveRecordInterface
 
     /**
      * Get the [name] column value.
-     *
+     * 
      * @return   string
      */
     public function getName()
@@ -369,7 +369,7 @@ abstract class AccessoryCategory implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     *
+     * 
      * @param      int $v new value
      * @return   \AccessoryCategory The current object (for fluent API support)
      */
@@ -390,7 +390,7 @@ abstract class AccessoryCategory implements ActiveRecordInterface
 
     /**
      * Set the value of [name] column.
-     *
+     * 
      * @param      string $v new value
      * @return   \AccessoryCategory The current object (for fluent API support)
      */
@@ -705,10 +705,10 @@ abstract class AccessoryCategory implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':
+                    case 'ID':                        
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'NAME':
+                    case 'NAME':                        
                         $stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
                         break;
                 }
@@ -815,7 +815,7 @@ abstract class AccessoryCategory implements ActiveRecordInterface
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-
+        
         if ($includeForeignObjects) {
             if (null !== $this->collAccessories) {
                 $result['Accessories'] = $this->collAccessories->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
@@ -1138,7 +1138,7 @@ abstract class AccessoryCategory implements ActiveRecordInterface
     {
         $accessoriesToDelete = $this->getAccessories(new Criteria(), $con)->diff($accessories);
 
-
+        
         $this->accessoriesScheduledForDeletion = $accessoriesToDelete;
 
         foreach ($accessoriesToDelete as $accessoryRemoved) {

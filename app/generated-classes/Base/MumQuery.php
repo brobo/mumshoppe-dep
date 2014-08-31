@@ -19,7 +19,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'mum' table.
  *
- *
+ * 
  *
  * @method     ChildMumQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildMumQuery orderByCustomerId($order = Criteria::ASC) Order by the customer_id column
@@ -123,7 +123,7 @@ use Propel\Runtime\Exception\PropelException;
  */
 abstract class MumQuery extends ModelCriteria
 {
-
+    
     /**
      * Initializes internal state of \Base\MumQuery object.
      *
@@ -209,7 +209,7 @@ abstract class MumQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, CUSTOMER_ID, BACKING_ID, ACCENT_BOW_ID, LETTER1_ID, NAME_RIBBON1, LETTER2_ID, NAME_RIBBON2, STATUS_ID, PAID, ORDER_DATE, PAID_DATE, DEPOSIT_SALE_ID, PAID_SALE_ID, DELIVERY_DATE FROM mum WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);
+            $stmt = $con->prepare($sql);            
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -1475,10 +1475,10 @@ abstract class MumQuery extends ModelCriteria
             // use transaction because $criteria could contain info
             // for more than one table or we could emulating ON DELETE CASCADE, etc.
             $con->beginTransaction();
-
+            
 
         MumTableMap::removeInstanceFromPool($criteria);
-
+        
             $affectedRows += ModelCriteria::delete($con);
             MumTableMap::clearRelatedInstancePool();
             $con->commit();

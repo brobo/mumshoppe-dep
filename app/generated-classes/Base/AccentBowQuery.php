@@ -19,7 +19,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'accent_bow' table.
  *
- *
+ * 
  *
  * @method     ChildAccentBowQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildAccentBowQuery orderByItemId($order = Criteria::ASC) Order by the item_id column
@@ -67,7 +67,7 @@ use Propel\Runtime\Exception\PropelException;
  */
 abstract class AccentBowQuery extends ModelCriteria
 {
-
+    
     /**
      * Initializes internal state of \Base\AccentBowQuery object.
      *
@@ -153,7 +153,7 @@ abstract class AccentBowQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, ITEM_ID, NAME, GRADE_ID FROM accent_bow WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);
+            $stmt = $con->prepare($sql);            
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -649,10 +649,10 @@ abstract class AccentBowQuery extends ModelCriteria
             // use transaction because $criteria could contain info
             // for more than one table or we could emulating ON DELETE CASCADE, etc.
             $con->beginTransaction();
-
+            
 
         AccentBowTableMap::removeInstanceFromPool($criteria);
-
+        
             $affectedRows += ModelCriteria::delete($con);
             AccentBowTableMap::clearRelatedInstancePool();
             $con->commit();

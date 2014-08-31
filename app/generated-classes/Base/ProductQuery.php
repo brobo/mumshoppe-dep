@@ -19,7 +19,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'product' table.
  *
- *
+ * 
  *
  * @method     ChildProductQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildProductQuery orderByName($order = Criteria::ASC) Order by the name column
@@ -47,7 +47,7 @@ use Propel\Runtime\Exception\PropelException;
  */
 abstract class ProductQuery extends ModelCriteria
 {
-
+    
     /**
      * Initializes internal state of \Base\ProductQuery object.
      *
@@ -133,7 +133,7 @@ abstract class ProductQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, NAME FROM product WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);
+            $stmt = $con->prepare($sql);            
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -439,10 +439,10 @@ abstract class ProductQuery extends ModelCriteria
             // use transaction because $criteria could contain info
             // for more than one table or we could emulating ON DELETE CASCADE, etc.
             $con->beginTransaction();
-
+            
 
         ProductTableMap::removeInstanceFromPool($criteria);
-
+        
             $affectedRows += ModelCriteria::delete($con);
             ProductTableMap::clearRelatedInstancePool();
             $con->commit();

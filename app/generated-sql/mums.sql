@@ -308,5 +308,24 @@ CREATE TABLE `volunteer`
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
+-- ---------------------------------------------------------------------
+-- password_recovery
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `password_recovery`;
+
+CREATE TABLE `password_recovery`
+(
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `customer_id` INTEGER NOT NULL,
+    `keyword` VARCHAR(15) NOT NULL,
+    `expiration` DATETIME NOT NULL,
+    PRIMARY KEY (`id`),
+    INDEX `password_recovery_FI_1` (`customer_id`),
+    CONSTRAINT `password_recovery_FK_1`
+        FOREIGN KEY (`customer_id`)
+        REFERENCES `customer` (`id`)
+) ENGINE=InnoDB;
+
 # This restores the fkey checks, after having unset them earlier
 SET FOREIGN_KEY_CHECKS = 1;

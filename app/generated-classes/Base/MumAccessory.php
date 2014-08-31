@@ -21,7 +21,7 @@ use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 
-abstract class MumAccessory implements ActiveRecordInterface
+abstract class MumAccessory implements ActiveRecordInterface 
 {
     /**
      * TableMap class name
@@ -357,7 +357,7 @@ abstract class MumAccessory implements ActiveRecordInterface
 
     /**
      * Get the [id] column value.
-     *
+     * 
      * @return   int
      */
     public function getId()
@@ -368,7 +368,7 @@ abstract class MumAccessory implements ActiveRecordInterface
 
     /**
      * Get the [mum_id] column value.
-     *
+     * 
      * @return   int
      */
     public function getMumId()
@@ -379,7 +379,7 @@ abstract class MumAccessory implements ActiveRecordInterface
 
     /**
      * Get the [accessory_id] column value.
-     *
+     * 
      * @return   int
      */
     public function getAccessoryId()
@@ -390,7 +390,7 @@ abstract class MumAccessory implements ActiveRecordInterface
 
     /**
      * Get the [quantity] column value.
-     *
+     * 
      * @return   int
      */
     public function getQuantity()
@@ -401,7 +401,7 @@ abstract class MumAccessory implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     *
+     * 
      * @param      int $v new value
      * @return   \MumAccessory The current object (for fluent API support)
      */
@@ -422,7 +422,7 @@ abstract class MumAccessory implements ActiveRecordInterface
 
     /**
      * Set the value of [mum_id] column.
-     *
+     * 
      * @param      int $v new value
      * @return   \MumAccessory The current object (for fluent API support)
      */
@@ -447,7 +447,7 @@ abstract class MumAccessory implements ActiveRecordInterface
 
     /**
      * Set the value of [accessory_id] column.
-     *
+     * 
      * @param      int $v new value
      * @return   \MumAccessory The current object (for fluent API support)
      */
@@ -472,7 +472,7 @@ abstract class MumAccessory implements ActiveRecordInterface
 
     /**
      * Set the value of [quantity] column.
-     *
+     * 
      * @param      int $v new value
      * @return   \MumAccessory The current object (for fluent API support)
      */
@@ -806,16 +806,16 @@ abstract class MumAccessory implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':
+                    case 'ID':                        
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'MUM_ID':
+                    case 'MUM_ID':                        
                         $stmt->bindValue($identifier, $this->mum_id, PDO::PARAM_INT);
                         break;
-                    case 'ACCESSORY_ID':
+                    case 'ACCESSORY_ID':                        
                         $stmt->bindValue($identifier, $this->accessory_id, PDO::PARAM_INT);
                         break;
-                    case 'QUANTITY':
+                    case 'QUANTITY':                        
                         $stmt->bindValue($identifier, $this->quantity, PDO::PARAM_INT);
                         break;
                 }
@@ -930,7 +930,7 @@ abstract class MumAccessory implements ActiveRecordInterface
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-
+        
         if ($includeForeignObjects) {
             if (null !== $this->aMum) {
                 $result['Mum'] = $this->aMum->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);

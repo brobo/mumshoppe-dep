@@ -19,7 +19,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'status' table.
  *
- *
+ * 
  *
  * @method     ChildStatusQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildStatusQuery orderByName($order = Criteria::ASC) Order by the name column
@@ -47,7 +47,7 @@ use Propel\Runtime\Exception\PropelException;
  */
 abstract class StatusQuery extends ModelCriteria
 {
-
+    
     /**
      * Initializes internal state of \Base\StatusQuery object.
      *
@@ -133,7 +133,7 @@ abstract class StatusQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, NAME FROM status WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);
+            $stmt = $con->prepare($sql);            
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -439,10 +439,10 @@ abstract class StatusQuery extends ModelCriteria
             // use transaction because $criteria could contain info
             // for more than one table or we could emulating ON DELETE CASCADE, etc.
             $con->beginTransaction();
-
+            
 
         StatusTableMap::removeInstanceFromPool($criteria);
-
+        
             $affectedRows += ModelCriteria::delete($con);
             StatusTableMap::clearRelatedInstancePool();
             $con->commit();
