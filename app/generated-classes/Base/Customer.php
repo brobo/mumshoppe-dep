@@ -23,7 +23,7 @@ use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 
-abstract class Customer implements ActiveRecordInterface 
+abstract class Customer implements ActiveRecordInterface
 {
     /**
      * TableMap class name
@@ -379,7 +379,7 @@ abstract class Customer implements ActiveRecordInterface
 
     /**
      * Get the [id] column value.
-     * 
+     *
      * @return   int
      */
     public function getId()
@@ -390,7 +390,7 @@ abstract class Customer implements ActiveRecordInterface
 
     /**
      * Get the [email] column value.
-     * 
+     *
      * @return   string
      */
     public function getEmail()
@@ -401,7 +401,7 @@ abstract class Customer implements ActiveRecordInterface
 
     /**
      * Get the [password] column value.
-     * 
+     *
      * @return   string
      */
     public function getPassword()
@@ -412,7 +412,7 @@ abstract class Customer implements ActiveRecordInterface
 
     /**
      * Get the [name] column value.
-     * 
+     *
      * @return   string
      */
     public function getName()
@@ -423,7 +423,7 @@ abstract class Customer implements ActiveRecordInterface
 
     /**
      * Get the [phone] column value.
-     * 
+     *
      * @return   string
      */
     public function getPhone()
@@ -434,7 +434,7 @@ abstract class Customer implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \Customer The current object (for fluent API support)
      */
@@ -455,7 +455,7 @@ abstract class Customer implements ActiveRecordInterface
 
     /**
      * Set the value of [email] column.
-     * 
+     *
      * @param      string $v new value
      * @return   \Customer The current object (for fluent API support)
      */
@@ -476,7 +476,7 @@ abstract class Customer implements ActiveRecordInterface
 
     /**
      * Set the value of [password] column.
-     * 
+     *
      * @param      string $v new value
      * @return   \Customer The current object (for fluent API support)
      */
@@ -497,7 +497,7 @@ abstract class Customer implements ActiveRecordInterface
 
     /**
      * Set the value of [name] column.
-     * 
+     *
      * @param      string $v new value
      * @return   \Customer The current object (for fluent API support)
      */
@@ -518,7 +518,7 @@ abstract class Customer implements ActiveRecordInterface
 
     /**
      * Set the value of [phone] column.
-     * 
+     *
      * @param      string $v new value
      * @return   \Customer The current object (for fluent API support)
      */
@@ -869,19 +869,19 @@ abstract class Customer implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':                        
+                    case 'ID':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'EMAIL':                        
+                    case 'EMAIL':
                         $stmt->bindValue($identifier, $this->email, PDO::PARAM_STR);
                         break;
-                    case 'PASSWORD':                        
+                    case 'PASSWORD':
                         $stmt->bindValue($identifier, $this->password, PDO::PARAM_STR);
                         break;
-                    case 'NAME':                        
+                    case 'NAME':
                         $stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
                         break;
-                    case 'PHONE':                        
+                    case 'PHONE':
                         $stmt->bindValue($identifier, $this->phone, PDO::PARAM_STR);
                         break;
                 }
@@ -1000,7 +1000,7 @@ abstract class Customer implements ActiveRecordInterface
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-        
+
         if ($includeForeignObjects) {
             if (null !== $this->collMums) {
                 $result['Mums'] = $this->collMums->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
@@ -1353,7 +1353,7 @@ abstract class Customer implements ActiveRecordInterface
     {
         $mumsToDelete = $this->getMums(new Criteria(), $con)->diff($mums);
 
-        
+
         $this->mumsScheduledForDeletion = $mumsToDelete;
 
         foreach ($mumsToDelete as $mumRemoved) {
@@ -1671,7 +1671,7 @@ abstract class Customer implements ActiveRecordInterface
     {
         $passwordRecoveriesToDelete = $this->getPasswordRecoveries(new Criteria(), $con)->diff($passwordRecoveries);
 
-        
+
         $this->passwordRecoveriesScheduledForDeletion = $passwordRecoveriesToDelete;
 
         foreach ($passwordRecoveriesToDelete as $passwordRecoveryRemoved) {

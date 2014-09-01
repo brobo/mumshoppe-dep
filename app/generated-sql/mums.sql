@@ -196,6 +196,7 @@ CREATE TABLE `mum`
 (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `customer_id` INTEGER NOT NULL,
+    `recipient_name` VARCHAR(255) NOT NULL,
     `backing_id` INTEGER,
     `accent_bow_id` INTEGER,
     `letter1_id` INTEGER,
@@ -225,11 +226,8 @@ CREATE TABLE `mum`
         FOREIGN KEY (`accent_bow_id`)
         REFERENCES `accent_bow` (`id`),
     CONSTRAINT `mum_FK_4`
-        FOREIGN KEY (`letter1_id`)
-        REFERENCES `letter` (`id`),
-	CONSTRAINT `mum_FK_6`
-		FOREIGN KEY (`letter2_id`)
-		REFERENCES `letter` (`id`),
+        FOREIGN KEY (`letter1_id`,`letter2_id`)
+        REFERENCES `letter` (`id`,`id`),
     CONSTRAINT `mum_FK_5`
         FOREIGN KEY (`status_id`)
         REFERENCES `status` (`id`)

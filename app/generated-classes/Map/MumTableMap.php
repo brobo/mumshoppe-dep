@@ -57,7 +57,7 @@ class MumTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 15;
+    const NUM_COLUMNS = 16;
 
     /**
      * The number of lazy-loaded columns
@@ -67,7 +67,7 @@ class MumTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 15;
+    const NUM_HYDRATE_COLUMNS = 16;
 
     /**
      * the column name for the ID field
@@ -78,6 +78,11 @@ class MumTableMap extends TableMap
      * the column name for the CUSTOMER_ID field
      */
     const CUSTOMER_ID = 'mum.CUSTOMER_ID';
+
+    /**
+     * the column name for the RECIPIENT_NAME field
+     */
+    const RECIPIENT_NAME = 'mum.RECIPIENT_NAME';
 
     /**
      * the column name for the BACKING_ID field
@@ -156,12 +161,12 @@ class MumTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'CustomerId', 'BackingId', 'AccentBowId', 'Letter1Id', 'NameRibbon1', 'Letter2Id', 'NameRibbon2', 'StatusId', 'Paid', 'OrderDate', 'PaidDate', 'DepositSaleId', 'PaidSaleId', 'DeliveryDate', ),
-        self::TYPE_STUDLYPHPNAME => array('id', 'customerId', 'backingId', 'accentBowId', 'letter1Id', 'nameRibbon1', 'letter2Id', 'nameRibbon2', 'statusId', 'paid', 'orderDate', 'paidDate', 'depositSaleId', 'paidSaleId', 'deliveryDate', ),
-        self::TYPE_COLNAME       => array(MumTableMap::ID, MumTableMap::CUSTOMER_ID, MumTableMap::BACKING_ID, MumTableMap::ACCENT_BOW_ID, MumTableMap::LETTER1_ID, MumTableMap::NAME_RIBBON1, MumTableMap::LETTER2_ID, MumTableMap::NAME_RIBBON2, MumTableMap::STATUS_ID, MumTableMap::PAID, MumTableMap::ORDER_DATE, MumTableMap::PAID_DATE, MumTableMap::DEPOSIT_SALE_ID, MumTableMap::PAID_SALE_ID, MumTableMap::DELIVERY_DATE, ),
-        self::TYPE_RAW_COLNAME   => array('ID', 'CUSTOMER_ID', 'BACKING_ID', 'ACCENT_BOW_ID', 'LETTER1_ID', 'NAME_RIBBON1', 'LETTER2_ID', 'NAME_RIBBON2', 'STATUS_ID', 'PAID', 'ORDER_DATE', 'PAID_DATE', 'DEPOSIT_SALE_ID', 'PAID_SALE_ID', 'DELIVERY_DATE', ),
-        self::TYPE_FIELDNAME     => array('id', 'customer_id', 'backing_id', 'accent_bow_id', 'letter1_id', 'name_ribbon1', 'letter2_id', 'name_ribbon2', 'status_id', 'paid', 'order_date', 'paid_date', 'deposit_sale_id', 'paid_sale_id', 'delivery_date', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
+        self::TYPE_PHPNAME       => array('Id', 'CustomerId', 'RecipientName', 'BackingId', 'AccentBowId', 'Letter1Id', 'NameRibbon1', 'Letter2Id', 'NameRibbon2', 'StatusId', 'Paid', 'OrderDate', 'PaidDate', 'DepositSaleId', 'PaidSaleId', 'DeliveryDate', ),
+        self::TYPE_STUDLYPHPNAME => array('id', 'customerId', 'recipientName', 'backingId', 'accentBowId', 'letter1Id', 'nameRibbon1', 'letter2Id', 'nameRibbon2', 'statusId', 'paid', 'orderDate', 'paidDate', 'depositSaleId', 'paidSaleId', 'deliveryDate', ),
+        self::TYPE_COLNAME       => array(MumTableMap::ID, MumTableMap::CUSTOMER_ID, MumTableMap::RECIPIENT_NAME, MumTableMap::BACKING_ID, MumTableMap::ACCENT_BOW_ID, MumTableMap::LETTER1_ID, MumTableMap::NAME_RIBBON1, MumTableMap::LETTER2_ID, MumTableMap::NAME_RIBBON2, MumTableMap::STATUS_ID, MumTableMap::PAID, MumTableMap::ORDER_DATE, MumTableMap::PAID_DATE, MumTableMap::DEPOSIT_SALE_ID, MumTableMap::PAID_SALE_ID, MumTableMap::DELIVERY_DATE, ),
+        self::TYPE_RAW_COLNAME   => array('ID', 'CUSTOMER_ID', 'RECIPIENT_NAME', 'BACKING_ID', 'ACCENT_BOW_ID', 'LETTER1_ID', 'NAME_RIBBON1', 'LETTER2_ID', 'NAME_RIBBON2', 'STATUS_ID', 'PAID', 'ORDER_DATE', 'PAID_DATE', 'DEPOSIT_SALE_ID', 'PAID_SALE_ID', 'DELIVERY_DATE', ),
+        self::TYPE_FIELDNAME     => array('id', 'customer_id', 'recipient_name', 'backing_id', 'accent_bow_id', 'letter1_id', 'name_ribbon1', 'letter2_id', 'name_ribbon2', 'status_id', 'paid', 'order_date', 'paid_date', 'deposit_sale_id', 'paid_sale_id', 'delivery_date', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, )
     );
 
     /**
@@ -171,12 +176,12 @@ class MumTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'CustomerId' => 1, 'BackingId' => 2, 'AccentBowId' => 3, 'Letter1Id' => 4, 'NameRibbon1' => 5, 'Letter2Id' => 6, 'NameRibbon2' => 7, 'StatusId' => 8, 'Paid' => 9, 'OrderDate' => 10, 'PaidDate' => 11, 'DepositSaleId' => 12, 'PaidSaleId' => 13, 'DeliveryDate' => 14, ),
-        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'customerId' => 1, 'backingId' => 2, 'accentBowId' => 3, 'letter1Id' => 4, 'nameRibbon1' => 5, 'letter2Id' => 6, 'nameRibbon2' => 7, 'statusId' => 8, 'paid' => 9, 'orderDate' => 10, 'paidDate' => 11, 'depositSaleId' => 12, 'paidSaleId' => 13, 'deliveryDate' => 14, ),
-        self::TYPE_COLNAME       => array(MumTableMap::ID => 0, MumTableMap::CUSTOMER_ID => 1, MumTableMap::BACKING_ID => 2, MumTableMap::ACCENT_BOW_ID => 3, MumTableMap::LETTER1_ID => 4, MumTableMap::NAME_RIBBON1 => 5, MumTableMap::LETTER2_ID => 6, MumTableMap::NAME_RIBBON2 => 7, MumTableMap::STATUS_ID => 8, MumTableMap::PAID => 9, MumTableMap::ORDER_DATE => 10, MumTableMap::PAID_DATE => 11, MumTableMap::DEPOSIT_SALE_ID => 12, MumTableMap::PAID_SALE_ID => 13, MumTableMap::DELIVERY_DATE => 14, ),
-        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'CUSTOMER_ID' => 1, 'BACKING_ID' => 2, 'ACCENT_BOW_ID' => 3, 'LETTER1_ID' => 4, 'NAME_RIBBON1' => 5, 'LETTER2_ID' => 6, 'NAME_RIBBON2' => 7, 'STATUS_ID' => 8, 'PAID' => 9, 'ORDER_DATE' => 10, 'PAID_DATE' => 11, 'DEPOSIT_SALE_ID' => 12, 'PAID_SALE_ID' => 13, 'DELIVERY_DATE' => 14, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'customer_id' => 1, 'backing_id' => 2, 'accent_bow_id' => 3, 'letter1_id' => 4, 'name_ribbon1' => 5, 'letter2_id' => 6, 'name_ribbon2' => 7, 'status_id' => 8, 'paid' => 9, 'order_date' => 10, 'paid_date' => 11, 'deposit_sale_id' => 12, 'paid_sale_id' => 13, 'delivery_date' => 14, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'CustomerId' => 1, 'RecipientName' => 2, 'BackingId' => 3, 'AccentBowId' => 4, 'Letter1Id' => 5, 'NameRibbon1' => 6, 'Letter2Id' => 7, 'NameRibbon2' => 8, 'StatusId' => 9, 'Paid' => 10, 'OrderDate' => 11, 'PaidDate' => 12, 'DepositSaleId' => 13, 'PaidSaleId' => 14, 'DeliveryDate' => 15, ),
+        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'customerId' => 1, 'recipientName' => 2, 'backingId' => 3, 'accentBowId' => 4, 'letter1Id' => 5, 'nameRibbon1' => 6, 'letter2Id' => 7, 'nameRibbon2' => 8, 'statusId' => 9, 'paid' => 10, 'orderDate' => 11, 'paidDate' => 12, 'depositSaleId' => 13, 'paidSaleId' => 14, 'deliveryDate' => 15, ),
+        self::TYPE_COLNAME       => array(MumTableMap::ID => 0, MumTableMap::CUSTOMER_ID => 1, MumTableMap::RECIPIENT_NAME => 2, MumTableMap::BACKING_ID => 3, MumTableMap::ACCENT_BOW_ID => 4, MumTableMap::LETTER1_ID => 5, MumTableMap::NAME_RIBBON1 => 6, MumTableMap::LETTER2_ID => 7, MumTableMap::NAME_RIBBON2 => 8, MumTableMap::STATUS_ID => 9, MumTableMap::PAID => 10, MumTableMap::ORDER_DATE => 11, MumTableMap::PAID_DATE => 12, MumTableMap::DEPOSIT_SALE_ID => 13, MumTableMap::PAID_SALE_ID => 14, MumTableMap::DELIVERY_DATE => 15, ),
+        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'CUSTOMER_ID' => 1, 'RECIPIENT_NAME' => 2, 'BACKING_ID' => 3, 'ACCENT_BOW_ID' => 4, 'LETTER1_ID' => 5, 'NAME_RIBBON1' => 6, 'LETTER2_ID' => 7, 'NAME_RIBBON2' => 8, 'STATUS_ID' => 9, 'PAID' => 10, 'ORDER_DATE' => 11, 'PAID_DATE' => 12, 'DEPOSIT_SALE_ID' => 13, 'PAID_SALE_ID' => 14, 'DELIVERY_DATE' => 15, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'customer_id' => 1, 'recipient_name' => 2, 'backing_id' => 3, 'accent_bow_id' => 4, 'letter1_id' => 5, 'name_ribbon1' => 6, 'letter2_id' => 7, 'name_ribbon2' => 8, 'status_id' => 9, 'paid' => 10, 'order_date' => 11, 'paid_date' => 12, 'deposit_sale_id' => 13, 'paid_sale_id' => 14, 'delivery_date' => 15, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, )
     );
 
     /**
@@ -197,6 +202,7 @@ class MumTableMap extends TableMap
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
         $this->addForeignKey('CUSTOMER_ID', 'CustomerId', 'INTEGER', 'customer', 'ID', true, null, null);
+        $this->addColumn('RECIPIENT_NAME', 'RecipientName', 'VARCHAR', true, 255, null);
         $this->addForeignKey('BACKING_ID', 'BackingId', 'INTEGER', 'backing', 'ID', false, null, null);
         $this->addForeignKey('ACCENT_BOW_ID', 'AccentBowId', 'INTEGER', 'accent_bow', 'ID', false, null, null);
         $this->addForeignKey('LETTER1_ID', 'Letter1Id', 'INTEGER', 'letter', 'ID', false, null, null);
@@ -269,7 +275,7 @@ class MumTableMap extends TableMap
                             : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
                         ];
     }
-    
+
     /**
      * The class that the tableMap will make instances of.
      *
@@ -329,7 +335,7 @@ class MumTableMap extends TableMap
     public static function populateObjects(DataFetcherInterface $dataFetcher)
     {
         $results = array();
-    
+
         // set the class once to avoid overhead in the loop
         $cls = static::getOMClass(false);
         // populate the object(s)
@@ -367,6 +373,7 @@ class MumTableMap extends TableMap
         if (null === $alias) {
             $criteria->addSelectColumn(MumTableMap::ID);
             $criteria->addSelectColumn(MumTableMap::CUSTOMER_ID);
+            $criteria->addSelectColumn(MumTableMap::RECIPIENT_NAME);
             $criteria->addSelectColumn(MumTableMap::BACKING_ID);
             $criteria->addSelectColumn(MumTableMap::ACCENT_BOW_ID);
             $criteria->addSelectColumn(MumTableMap::LETTER1_ID);
@@ -383,6 +390,7 @@ class MumTableMap extends TableMap
         } else {
             $criteria->addSelectColumn($alias . '.ID');
             $criteria->addSelectColumn($alias . '.CUSTOMER_ID');
+            $criteria->addSelectColumn($alias . '.RECIPIENT_NAME');
             $criteria->addSelectColumn($alias . '.BACKING_ID');
             $criteria->addSelectColumn($alias . '.ACCENT_BOW_ID');
             $criteria->addSelectColumn($alias . '.LETTER1_ID');

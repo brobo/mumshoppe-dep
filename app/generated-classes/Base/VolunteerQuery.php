@@ -16,7 +16,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'volunteer' table.
  *
- * 
+ *
  *
  * @method     ChildVolunteerQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildVolunteerQuery orderByEmail($order = Criteria::ASC) Order by the email column
@@ -56,7 +56,7 @@ use Propel\Runtime\Exception\PropelException;
  */
 abstract class VolunteerQuery extends ModelCriteria
 {
-    
+
     /**
      * Initializes internal state of \Base\VolunteerQuery object.
      *
@@ -142,7 +142,7 @@ abstract class VolunteerQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, PASSWORD, NAME, PHONE FROM volunteer WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -505,10 +505,10 @@ abstract class VolunteerQuery extends ModelCriteria
             // use transaction because $criteria could contain info
             // for more than one table or we could emulating ON DELETE CASCADE, etc.
             $con->beginTransaction();
-            
+
 
         VolunteerTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             VolunteerTableMap::clearRelatedInstancePool();
             $con->commit();

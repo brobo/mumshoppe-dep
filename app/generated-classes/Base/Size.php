@@ -23,7 +23,7 @@ use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 
-abstract class Size implements ActiveRecordInterface 
+abstract class Size implements ActiveRecordInterface
 {
     /**
      * TableMap class name
@@ -392,7 +392,7 @@ abstract class Size implements ActiveRecordInterface
 
     /**
      * Get the [id] column value.
-     * 
+     *
      * @return   int
      */
     public function getId()
@@ -403,7 +403,7 @@ abstract class Size implements ActiveRecordInterface
 
     /**
      * Get the [name] column value.
-     * 
+     *
      * @return   string
      */
     public function getName()
@@ -414,7 +414,7 @@ abstract class Size implements ActiveRecordInterface
 
     /**
      * Get the [bear_limit] column value.
-     * 
+     *
      * @return   int
      */
     public function getBearLimit()
@@ -425,7 +425,7 @@ abstract class Size implements ActiveRecordInterface
 
     /**
      * Get the [product_id] column value.
-     * 
+     *
      * @return   int
      */
     public function getProductId()
@@ -530,7 +530,7 @@ abstract class Size implements ActiveRecordInterface
     }
     /**
      * Set the value of [id] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \Size The current object (for fluent API support)
      */
@@ -551,7 +551,7 @@ abstract class Size implements ActiveRecordInterface
 
     /**
      * Set the value of [name] column.
-     * 
+     *
      * @param      string $v new value
      * @return   \Size The current object (for fluent API support)
      */
@@ -572,7 +572,7 @@ abstract class Size implements ActiveRecordInterface
 
     /**
      * Set the value of [bear_limit] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \Size The current object (for fluent API support)
      */
@@ -593,7 +593,7 @@ abstract class Size implements ActiveRecordInterface
 
     /**
      * Set the value of [product_id] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \Size The current object (for fluent API support)
      */
@@ -1015,16 +1015,16 @@ abstract class Size implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':                        
+                    case 'ID':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'NAME':                        
+                    case 'NAME':
                         $stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
                         break;
-                    case 'BEAR_LIMIT':                        
+                    case 'BEAR_LIMIT':
                         $stmt->bindValue($identifier, $this->bear_limit, PDO::PARAM_INT);
                         break;
-                    case 'PRODUCT_ID':                        
+                    case 'PRODUCT_ID':
                         $stmt->bindValue($identifier, $this->product_id, PDO::PARAM_INT);
                         break;
                     case 'IMAGE':
@@ -1156,7 +1156,7 @@ abstract class Size implements ActiveRecordInterface
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-        
+
         if ($includeForeignObjects) {
             if (null !== $this->aProduct) {
                 $result['Product'] = $this->aProduct->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
@@ -1557,7 +1557,7 @@ abstract class Size implements ActiveRecordInterface
     {
         $backingsToDelete = $this->getBackings(new Criteria(), $con)->diff($backings);
 
-        
+
         $this->backingsScheduledForDeletion = $backingsToDelete;
 
         foreach ($backingsToDelete as $backingRemoved) {

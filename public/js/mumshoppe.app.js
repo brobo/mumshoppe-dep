@@ -124,6 +124,11 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 			templateUrl: 'public/views/mumshoppe/create/backing.html',
 			//url: '/backing',
 		})
+		.state('create.recipient', {
+			url: '/recipient',
+			templateUrl: 'public/views/mumshoppe/create/recipient.html',
+			controller: 'createRecipientController'
+		})
 		.state('create.accentbow', {
 			templateUrl: 'public/views/mumshoppe/create/accentbow.html',
 			url: '/accentbow',

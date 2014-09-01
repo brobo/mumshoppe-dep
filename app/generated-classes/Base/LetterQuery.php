@@ -19,7 +19,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'letter' table.
  *
- * 
+ *
  *
  * @method     ChildLetterQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildLetterQuery orderByName($order = Criteria::ASC) Order by the name column
@@ -51,7 +51,7 @@ use Propel\Runtime\Exception\PropelException;
  */
 abstract class LetterQuery extends ModelCriteria
 {
-    
+
     /**
      * Initializes internal state of \Base\LetterQuery object.
      *
@@ -137,7 +137,7 @@ abstract class LetterQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, NAME, PRICE FROM letter WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -479,10 +479,10 @@ abstract class LetterQuery extends ModelCriteria
             // use transaction because $criteria could contain info
             // for more than one table or we could emulating ON DELETE CASCADE, etc.
             $con->beginTransaction();
-            
+
 
         LetterTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             LetterTableMap::clearRelatedInstancePool();
             $con->commit();

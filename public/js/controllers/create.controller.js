@@ -333,7 +333,7 @@ angular.module('create.controller', [])
 			});
 
 		$scope.$parent.back = function() {
-			$state.go('create.base.product');
+			$state.go('create.recipient');
 		}
 
 		$scope.$parent.next = function() {
@@ -348,6 +348,28 @@ angular.module('create.controller', [])
 			}).finally(function() {
 				defered.resolve();
 			});
+		}
+	})
+
+	.controller('createRecipientController', function($scope, $state, $stateParams, MumService) {
+		$scope.updateMum();
+
+		$scope.$parent.next = function() {
+			var defered = $scope.tracker.createPromise();
+			MumService.update($stateParams.mumId, {
+				'RecipientName': $scope.mum.Mum.RecipientName
+			}).success(function(data) {
+				$state.go('create.accentbow');
+			}).error(function(data) {
+				AlertsService.add('danger', 'An error occured. Please try again.');
+				console.log(data);
+			}).finally(function() {
+				defered.resolve();
+			});
+		}
+
+		$scope.$parent.back = function() {
+			$state.go('create.base.product');
 		}
 	})
 
@@ -404,7 +426,7 @@ angular.module('create.controller', [])
 			MumService.update($stateParams.mumId, {
 				BackingId: $scope.selectedBacking.Id
 			}).success(function(data) {
-				$state.go('create.accentbow');
+				$state.go('create.recipient');
 			}).error(function(data) {
 				AlertsService.add('danger', 'An error occured. Please try again.');
 				console.log(data);

@@ -99,3 +99,22 @@
 		</div>
 	</div>
 </div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3>Order Details</h3>
+	</div>
+	<div class="panel-body">
+		<table class="table">
+			<tr>
+				<th>Recipient Name</th>
+				<th>{{mum.Mum.RecipientName}}</th>
+			</tr>
+			<tr>
+				<th>Total Price</th>
+				<td>{{mum.TotalPrice | currency}}</td>
+			</tr>
+		</table>
+		<progressbar class="progress-striped active" type="success" value="mum.Status.Id" max="7">Current Status: {{mum.Status.Name}}</progressbar>
+	</div>
+</div>

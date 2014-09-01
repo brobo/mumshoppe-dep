@@ -37,7 +37,7 @@ use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 use Propel\Runtime\Util\PropelDateTime;
 
-abstract class Mum implements ActiveRecordInterface 
+abstract class Mum implements ActiveRecordInterface
 {
     /**
      * TableMap class name
@@ -82,6 +82,12 @@ abstract class Mum implements ActiveRecordInterface
      * @var        int
      */
     protected $customer_id;
+
+    /**
+     * The value for the recipient_name field.
+     * @var        string
+     */
+    protected $recipient_name;
 
     /**
      * The value for the backing_id field.
@@ -489,7 +495,7 @@ abstract class Mum implements ActiveRecordInterface
 
     /**
      * Get the [id] column value.
-     * 
+     *
      * @return   int
      */
     public function getId()
@@ -500,7 +506,7 @@ abstract class Mum implements ActiveRecordInterface
 
     /**
      * Get the [customer_id] column value.
-     * 
+     *
      * @return   int
      */
     public function getCustomerId()
@@ -510,8 +516,19 @@ abstract class Mum implements ActiveRecordInterface
     }
 
     /**
+     * Get the [recipient_name] column value.
+     *
+     * @return   string
+     */
+    public function getRecipientName()
+    {
+
+        return $this->recipient_name;
+    }
+
+    /**
      * Get the [backing_id] column value.
-     * 
+     *
      * @return   int
      */
     public function getBackingId()
@@ -522,7 +539,7 @@ abstract class Mum implements ActiveRecordInterface
 
     /**
      * Get the [accent_bow_id] column value.
-     * 
+     *
      * @return   int
      */
     public function getAccentBowId()
@@ -533,7 +550,7 @@ abstract class Mum implements ActiveRecordInterface
 
     /**
      * Get the [letter1_id] column value.
-     * 
+     *
      * @return   int
      */
     public function getLetter1Id()
@@ -544,7 +561,7 @@ abstract class Mum implements ActiveRecordInterface
 
     /**
      * Get the [name_ribbon1] column value.
-     * 
+     *
      * @return   string
      */
     public function getNameRibbon1()
@@ -555,7 +572,7 @@ abstract class Mum implements ActiveRecordInterface
 
     /**
      * Get the [letter2_id] column value.
-     * 
+     *
      * @return   int
      */
     public function getLetter2Id()
@@ -566,7 +583,7 @@ abstract class Mum implements ActiveRecordInterface
 
     /**
      * Get the [name_ribbon2] column value.
-     * 
+     *
      * @return   string
      */
     public function getNameRibbon2()
@@ -577,7 +594,7 @@ abstract class Mum implements ActiveRecordInterface
 
     /**
      * Get the [status_id] column value.
-     * 
+     *
      * @return   int
      */
     public function getStatusId()
@@ -588,7 +605,7 @@ abstract class Mum implements ActiveRecordInterface
 
     /**
      * Get the [paid] column value.
-     * 
+     *
      * @return   boolean
      */
     public function getPaid()
@@ -599,7 +616,7 @@ abstract class Mum implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [order_date] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw \DateTime object will be returned.
@@ -619,7 +636,7 @@ abstract class Mum implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [paid_date] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw \DateTime object will be returned.
@@ -639,7 +656,7 @@ abstract class Mum implements ActiveRecordInterface
 
     /**
      * Get the [deposit_sale_id] column value.
-     * 
+     *
      * @return   string
      */
     public function getDepositSaleId()
@@ -650,7 +667,7 @@ abstract class Mum implements ActiveRecordInterface
 
     /**
      * Get the [paid_sale_id] column value.
-     * 
+     *
      * @return   string
      */
     public function getPaidSaleId()
@@ -661,7 +678,7 @@ abstract class Mum implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [delivery_date] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw \DateTime object will be returned.
@@ -681,7 +698,7 @@ abstract class Mum implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \Mum The current object (for fluent API support)
      */
@@ -702,7 +719,7 @@ abstract class Mum implements ActiveRecordInterface
 
     /**
      * Set the value of [customer_id] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \Mum The current object (for fluent API support)
      */
@@ -726,8 +743,29 @@ abstract class Mum implements ActiveRecordInterface
     } // setCustomerId()
 
     /**
+     * Set the value of [recipient_name] column.
+     *
+     * @param      string $v new value
+     * @return   \Mum The current object (for fluent API support)
+     */
+    public function setRecipientName($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->recipient_name !== $v) {
+            $this->recipient_name = $v;
+            $this->modifiedColumns[] = MumTableMap::RECIPIENT_NAME;
+        }
+
+
+        return $this;
+    } // setRecipientName()
+
+    /**
      * Set the value of [backing_id] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \Mum The current object (for fluent API support)
      */
@@ -752,7 +790,7 @@ abstract class Mum implements ActiveRecordInterface
 
     /**
      * Set the value of [accent_bow_id] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \Mum The current object (for fluent API support)
      */
@@ -777,7 +815,7 @@ abstract class Mum implements ActiveRecordInterface
 
     /**
      * Set the value of [letter1_id] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \Mum The current object (for fluent API support)
      */
@@ -802,7 +840,7 @@ abstract class Mum implements ActiveRecordInterface
 
     /**
      * Set the value of [name_ribbon1] column.
-     * 
+     *
      * @param      string $v new value
      * @return   \Mum The current object (for fluent API support)
      */
@@ -823,7 +861,7 @@ abstract class Mum implements ActiveRecordInterface
 
     /**
      * Set the value of [letter2_id] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \Mum The current object (for fluent API support)
      */
@@ -848,7 +886,7 @@ abstract class Mum implements ActiveRecordInterface
 
     /**
      * Set the value of [name_ribbon2] column.
-     * 
+     *
      * @param      string $v new value
      * @return   \Mum The current object (for fluent API support)
      */
@@ -869,7 +907,7 @@ abstract class Mum implements ActiveRecordInterface
 
     /**
      * Set the value of [status_id] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \Mum The current object (for fluent API support)
      */
@@ -898,7 +936,7 @@ abstract class Mum implements ActiveRecordInterface
      *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
      *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
      * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-     * 
+     *
      * @param      boolean|integer|string $v The new value
      * @return   \Mum The current object (for fluent API support)
      */
@@ -923,7 +961,7 @@ abstract class Mum implements ActiveRecordInterface
 
     /**
      * Sets the value of [order_date] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param      mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return   \Mum The current object (for fluent API support)
@@ -944,7 +982,7 @@ abstract class Mum implements ActiveRecordInterface
 
     /**
      * Sets the value of [paid_date] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param      mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return   \Mum The current object (for fluent API support)
@@ -965,7 +1003,7 @@ abstract class Mum implements ActiveRecordInterface
 
     /**
      * Set the value of [deposit_sale_id] column.
-     * 
+     *
      * @param      string $v new value
      * @return   \Mum The current object (for fluent API support)
      */
@@ -986,7 +1024,7 @@ abstract class Mum implements ActiveRecordInterface
 
     /**
      * Set the value of [paid_sale_id] column.
-     * 
+     *
      * @param      string $v new value
      * @return   \Mum The current object (for fluent API support)
      */
@@ -1007,7 +1045,7 @@ abstract class Mum implements ActiveRecordInterface
 
     /**
      * Sets the value of [delivery_date] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param      mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return   \Mum The current object (for fluent API support)
@@ -1069,49 +1107,52 @@ abstract class Mum implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : MumTableMap::translateFieldName('CustomerId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->customer_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : MumTableMap::translateFieldName('BackingId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : MumTableMap::translateFieldName('RecipientName', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->recipient_name = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : MumTableMap::translateFieldName('BackingId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->backing_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : MumTableMap::translateFieldName('AccentBowId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : MumTableMap::translateFieldName('AccentBowId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->accent_bow_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : MumTableMap::translateFieldName('Letter1Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : MumTableMap::translateFieldName('Letter1Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->letter1_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : MumTableMap::translateFieldName('NameRibbon1', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : MumTableMap::translateFieldName('NameRibbon1', TableMap::TYPE_PHPNAME, $indexType)];
             $this->name_ribbon1 = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : MumTableMap::translateFieldName('Letter2Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : MumTableMap::translateFieldName('Letter2Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->letter2_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : MumTableMap::translateFieldName('NameRibbon2', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : MumTableMap::translateFieldName('NameRibbon2', TableMap::TYPE_PHPNAME, $indexType)];
             $this->name_ribbon2 = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : MumTableMap::translateFieldName('StatusId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : MumTableMap::translateFieldName('StatusId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->status_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : MumTableMap::translateFieldName('Paid', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : MumTableMap::translateFieldName('Paid', TableMap::TYPE_PHPNAME, $indexType)];
             $this->paid = (null !== $col) ? (boolean) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : MumTableMap::translateFieldName('OrderDate', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 11 + $startcol : MumTableMap::translateFieldName('OrderDate', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
             $this->order_date = (null !== $col) ? PropelDateTime::newInstance($col, null, '\DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 11 + $startcol : MumTableMap::translateFieldName('PaidDate', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 12 + $startcol : MumTableMap::translateFieldName('PaidDate', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
             $this->paid_date = (null !== $col) ? PropelDateTime::newInstance($col, null, '\DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 12 + $startcol : MumTableMap::translateFieldName('DepositSaleId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 13 + $startcol : MumTableMap::translateFieldName('DepositSaleId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->deposit_sale_id = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 13 + $startcol : MumTableMap::translateFieldName('PaidSaleId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 14 + $startcol : MumTableMap::translateFieldName('PaidSaleId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->paid_sale_id = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 14 + $startcol : MumTableMap::translateFieldName('DeliveryDate', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 15 + $startcol : MumTableMap::translateFieldName('DeliveryDate', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
@@ -1124,7 +1165,7 @@ abstract class Mum implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 15; // 15 = MumTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 16; // 16 = MumTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating \Mum object", 0, $e);
@@ -1468,6 +1509,9 @@ abstract class Mum implements ActiveRecordInterface
         if ($this->isColumnModified(MumTableMap::CUSTOMER_ID)) {
             $modifiedColumns[':p' . $index++]  = 'CUSTOMER_ID';
         }
+        if ($this->isColumnModified(MumTableMap::RECIPIENT_NAME)) {
+            $modifiedColumns[':p' . $index++]  = 'RECIPIENT_NAME';
+        }
         if ($this->isColumnModified(MumTableMap::BACKING_ID)) {
             $modifiedColumns[':p' . $index++]  = 'BACKING_ID';
         }
@@ -1518,49 +1562,52 @@ abstract class Mum implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':                        
+                    case 'ID':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'CUSTOMER_ID':                        
+                    case 'CUSTOMER_ID':
                         $stmt->bindValue($identifier, $this->customer_id, PDO::PARAM_INT);
                         break;
-                    case 'BACKING_ID':                        
+                    case 'RECIPIENT_NAME':
+                        $stmt->bindValue($identifier, $this->recipient_name, PDO::PARAM_STR);
+                        break;
+                    case 'BACKING_ID':
                         $stmt->bindValue($identifier, $this->backing_id, PDO::PARAM_INT);
                         break;
-                    case 'ACCENT_BOW_ID':                        
+                    case 'ACCENT_BOW_ID':
                         $stmt->bindValue($identifier, $this->accent_bow_id, PDO::PARAM_INT);
                         break;
-                    case 'LETTER1_ID':                        
+                    case 'LETTER1_ID':
                         $stmt->bindValue($identifier, $this->letter1_id, PDO::PARAM_INT);
                         break;
-                    case 'NAME_RIBBON1':                        
+                    case 'NAME_RIBBON1':
                         $stmt->bindValue($identifier, $this->name_ribbon1, PDO::PARAM_STR);
                         break;
-                    case 'LETTER2_ID':                        
+                    case 'LETTER2_ID':
                         $stmt->bindValue($identifier, $this->letter2_id, PDO::PARAM_INT);
                         break;
-                    case 'NAME_RIBBON2':                        
+                    case 'NAME_RIBBON2':
                         $stmt->bindValue($identifier, $this->name_ribbon2, PDO::PARAM_STR);
                         break;
-                    case 'STATUS_ID':                        
+                    case 'STATUS_ID':
                         $stmt->bindValue($identifier, $this->status_id, PDO::PARAM_INT);
                         break;
                     case 'PAID':
                         $stmt->bindValue($identifier, (int) $this->paid, PDO::PARAM_INT);
                         break;
-                    case 'ORDER_DATE':                        
+                    case 'ORDER_DATE':
                         $stmt->bindValue($identifier, $this->order_date ? $this->order_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case 'PAID_DATE':                        
+                    case 'PAID_DATE':
                         $stmt->bindValue($identifier, $this->paid_date ? $this->paid_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case 'DEPOSIT_SALE_ID':                        
+                    case 'DEPOSIT_SALE_ID':
                         $stmt->bindValue($identifier, $this->deposit_sale_id, PDO::PARAM_STR);
                         break;
-                    case 'PAID_SALE_ID':                        
+                    case 'PAID_SALE_ID':
                         $stmt->bindValue($identifier, $this->paid_sale_id, PDO::PARAM_STR);
                         break;
-                    case 'DELIVERY_DATE':                        
+                    case 'DELIVERY_DATE':
                         $stmt->bindValue($identifier, $this->delivery_date ? $this->delivery_date->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                 }
@@ -1632,42 +1679,45 @@ abstract class Mum implements ActiveRecordInterface
                 return $this->getCustomerId();
                 break;
             case 2:
-                return $this->getBackingId();
+                return $this->getRecipientName();
                 break;
             case 3:
-                return $this->getAccentBowId();
+                return $this->getBackingId();
                 break;
             case 4:
-                return $this->getLetter1Id();
+                return $this->getAccentBowId();
                 break;
             case 5:
-                return $this->getNameRibbon1();
+                return $this->getLetter1Id();
                 break;
             case 6:
-                return $this->getLetter2Id();
+                return $this->getNameRibbon1();
                 break;
             case 7:
-                return $this->getNameRibbon2();
+                return $this->getLetter2Id();
                 break;
             case 8:
-                return $this->getStatusId();
+                return $this->getNameRibbon2();
                 break;
             case 9:
-                return $this->getPaid();
+                return $this->getStatusId();
                 break;
             case 10:
-                return $this->getOrderDate();
+                return $this->getPaid();
                 break;
             case 11:
-                return $this->getPaidDate();
+                return $this->getOrderDate();
                 break;
             case 12:
-                return $this->getDepositSaleId();
+                return $this->getPaidDate();
                 break;
             case 13:
-                return $this->getPaidSaleId();
+                return $this->getDepositSaleId();
                 break;
             case 14:
+                return $this->getPaidSaleId();
+                break;
+            case 15:
                 return $this->getDeliveryDate();
                 break;
             default:
@@ -1701,25 +1751,26 @@ abstract class Mum implements ActiveRecordInterface
         $result = array(
             $keys[0] => $this->getId(),
             $keys[1] => $this->getCustomerId(),
-            $keys[2] => $this->getBackingId(),
-            $keys[3] => $this->getAccentBowId(),
-            $keys[4] => $this->getLetter1Id(),
-            $keys[5] => $this->getNameRibbon1(),
-            $keys[6] => $this->getLetter2Id(),
-            $keys[7] => $this->getNameRibbon2(),
-            $keys[8] => $this->getStatusId(),
-            $keys[9] => $this->getPaid(),
-            $keys[10] => $this->getOrderDate(),
-            $keys[11] => $this->getPaidDate(),
-            $keys[12] => $this->getDepositSaleId(),
-            $keys[13] => $this->getPaidSaleId(),
-            $keys[14] => $this->getDeliveryDate(),
+            $keys[2] => $this->getRecipientName(),
+            $keys[3] => $this->getBackingId(),
+            $keys[4] => $this->getAccentBowId(),
+            $keys[5] => $this->getLetter1Id(),
+            $keys[6] => $this->getNameRibbon1(),
+            $keys[7] => $this->getLetter2Id(),
+            $keys[8] => $this->getNameRibbon2(),
+            $keys[9] => $this->getStatusId(),
+            $keys[10] => $this->getPaid(),
+            $keys[11] => $this->getOrderDate(),
+            $keys[12] => $this->getPaidDate(),
+            $keys[13] => $this->getDepositSaleId(),
+            $keys[14] => $this->getPaidSaleId(),
+            $keys[15] => $this->getDeliveryDate(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-        
+
         if ($includeForeignObjects) {
             if (null !== $this->aCustomer) {
                 $result['Customer'] = $this->aCustomer->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
@@ -1783,42 +1834,45 @@ abstract class Mum implements ActiveRecordInterface
                 $this->setCustomerId($value);
                 break;
             case 2:
-                $this->setBackingId($value);
+                $this->setRecipientName($value);
                 break;
             case 3:
-                $this->setAccentBowId($value);
+                $this->setBackingId($value);
                 break;
             case 4:
-                $this->setLetter1Id($value);
+                $this->setAccentBowId($value);
                 break;
             case 5:
-                $this->setNameRibbon1($value);
+                $this->setLetter1Id($value);
                 break;
             case 6:
-                $this->setLetter2Id($value);
+                $this->setNameRibbon1($value);
                 break;
             case 7:
-                $this->setNameRibbon2($value);
+                $this->setLetter2Id($value);
                 break;
             case 8:
-                $this->setStatusId($value);
+                $this->setNameRibbon2($value);
                 break;
             case 9:
-                $this->setPaid($value);
+                $this->setStatusId($value);
                 break;
             case 10:
-                $this->setOrderDate($value);
+                $this->setPaid($value);
                 break;
             case 11:
-                $this->setPaidDate($value);
+                $this->setOrderDate($value);
                 break;
             case 12:
-                $this->setDepositSaleId($value);
+                $this->setPaidDate($value);
                 break;
             case 13:
-                $this->setPaidSaleId($value);
+                $this->setDepositSaleId($value);
                 break;
             case 14:
+                $this->setPaidSaleId($value);
+                break;
+            case 15:
                 $this->setDeliveryDate($value);
                 break;
         } // switch()
@@ -1847,19 +1901,20 @@ abstract class Mum implements ActiveRecordInterface
 
         if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
         if (array_key_exists($keys[1], $arr)) $this->setCustomerId($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setBackingId($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setAccentBowId($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setLetter1Id($arr[$keys[4]]);
-        if (array_key_exists($keys[5], $arr)) $this->setNameRibbon1($arr[$keys[5]]);
-        if (array_key_exists($keys[6], $arr)) $this->setLetter2Id($arr[$keys[6]]);
-        if (array_key_exists($keys[7], $arr)) $this->setNameRibbon2($arr[$keys[7]]);
-        if (array_key_exists($keys[8], $arr)) $this->setStatusId($arr[$keys[8]]);
-        if (array_key_exists($keys[9], $arr)) $this->setPaid($arr[$keys[9]]);
-        if (array_key_exists($keys[10], $arr)) $this->setOrderDate($arr[$keys[10]]);
-        if (array_key_exists($keys[11], $arr)) $this->setPaidDate($arr[$keys[11]]);
-        if (array_key_exists($keys[12], $arr)) $this->setDepositSaleId($arr[$keys[12]]);
-        if (array_key_exists($keys[13], $arr)) $this->setPaidSaleId($arr[$keys[13]]);
-        if (array_key_exists($keys[14], $arr)) $this->setDeliveryDate($arr[$keys[14]]);
+        if (array_key_exists($keys[2], $arr)) $this->setRecipientName($arr[$keys[2]]);
+        if (array_key_exists($keys[3], $arr)) $this->setBackingId($arr[$keys[3]]);
+        if (array_key_exists($keys[4], $arr)) $this->setAccentBowId($arr[$keys[4]]);
+        if (array_key_exists($keys[5], $arr)) $this->setLetter1Id($arr[$keys[5]]);
+        if (array_key_exists($keys[6], $arr)) $this->setNameRibbon1($arr[$keys[6]]);
+        if (array_key_exists($keys[7], $arr)) $this->setLetter2Id($arr[$keys[7]]);
+        if (array_key_exists($keys[8], $arr)) $this->setNameRibbon2($arr[$keys[8]]);
+        if (array_key_exists($keys[9], $arr)) $this->setStatusId($arr[$keys[9]]);
+        if (array_key_exists($keys[10], $arr)) $this->setPaid($arr[$keys[10]]);
+        if (array_key_exists($keys[11], $arr)) $this->setOrderDate($arr[$keys[11]]);
+        if (array_key_exists($keys[12], $arr)) $this->setPaidDate($arr[$keys[12]]);
+        if (array_key_exists($keys[13], $arr)) $this->setDepositSaleId($arr[$keys[13]]);
+        if (array_key_exists($keys[14], $arr)) $this->setPaidSaleId($arr[$keys[14]]);
+        if (array_key_exists($keys[15], $arr)) $this->setDeliveryDate($arr[$keys[15]]);
     }
 
     /**
@@ -1873,6 +1928,7 @@ abstract class Mum implements ActiveRecordInterface
 
         if ($this->isColumnModified(MumTableMap::ID)) $criteria->add(MumTableMap::ID, $this->id);
         if ($this->isColumnModified(MumTableMap::CUSTOMER_ID)) $criteria->add(MumTableMap::CUSTOMER_ID, $this->customer_id);
+        if ($this->isColumnModified(MumTableMap::RECIPIENT_NAME)) $criteria->add(MumTableMap::RECIPIENT_NAME, $this->recipient_name);
         if ($this->isColumnModified(MumTableMap::BACKING_ID)) $criteria->add(MumTableMap::BACKING_ID, $this->backing_id);
         if ($this->isColumnModified(MumTableMap::ACCENT_BOW_ID)) $criteria->add(MumTableMap::ACCENT_BOW_ID, $this->accent_bow_id);
         if ($this->isColumnModified(MumTableMap::LETTER1_ID)) $criteria->add(MumTableMap::LETTER1_ID, $this->letter1_id);
@@ -1950,6 +2006,7 @@ abstract class Mum implements ActiveRecordInterface
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
         $copyObj->setCustomerId($this->getCustomerId());
+        $copyObj->setRecipientName($this->getRecipientName());
         $copyObj->setBackingId($this->getBackingId());
         $copyObj->setAccentBowId($this->getAccentBowId());
         $copyObj->setLetter1Id($this->getLetter1Id());
@@ -2410,7 +2467,7 @@ abstract class Mum implements ActiveRecordInterface
     {
         $mumAccessoriesToDelete = $this->getMumAccessories(new Criteria(), $con)->diff($mumAccessories);
 
-        
+
         $this->mumAccessoriesScheduledForDeletion = $mumAccessoriesToDelete;
 
         foreach ($mumAccessoriesToDelete as $mumAccessoryRemoved) {
@@ -2653,7 +2710,7 @@ abstract class Mum implements ActiveRecordInterface
     {
         $mumBearsToDelete = $this->getMumBears(new Criteria(), $con)->diff($mumBears);
 
-        
+
         //since at least one column in the foreign key is at the same time a PK
         //we can not just set a PK to NULL in the lines below. We have to store
         //a backup of all values, so we are able to manipulate these items based on the onDelete value later.
@@ -2972,6 +3029,7 @@ abstract class Mum implements ActiveRecordInterface
     {
         $this->id = null;
         $this->customer_id = null;
+        $this->recipient_name = null;
         $this->backing_id = null;
         $this->accent_bow_id = null;
         $this->letter1_id = null;

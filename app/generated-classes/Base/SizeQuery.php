@@ -19,7 +19,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'size' table.
  *
- * 
+ *
  *
  * @method     ChildSizeQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildSizeQuery orderByName($order = Criteria::ASC) Order by the name column
@@ -67,7 +67,7 @@ use Propel\Runtime\Exception\PropelException;
  */
 abstract class SizeQuery extends ModelCriteria
 {
-    
+
     /**
      * Initializes internal state of \Base\SizeQuery object.
      *
@@ -153,7 +153,7 @@ abstract class SizeQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, NAME, BEAR_LIMIT, PRODUCT_ID FROM size WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -661,10 +661,10 @@ abstract class SizeQuery extends ModelCriteria
             // use transaction because $criteria could contain info
             // for more than one table or we could emulating ON DELETE CASCADE, etc.
             $con->beginTransaction();
-            
+
 
         SizeTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             SizeTableMap::clearRelatedInstancePool();
             $con->commit();

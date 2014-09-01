@@ -19,7 +19,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'mum_bear' table.
  *
- * 
+ *
  *
  * @method     ChildMumBearQuery orderByMumId($order = Criteria::ASC) Order by the mum_id column
  * @method     ChildMumBearQuery orderByBearId($order = Criteria::ASC) Order by the bear_id column
@@ -51,7 +51,7 @@ use Propel\Runtime\Exception\PropelException;
  */
 abstract class MumBearQuery extends ModelCriteria
 {
-    
+
     /**
      * Initializes internal state of \Base\MumBearQuery object.
      *
@@ -137,8 +137,8 @@ abstract class MumBearQuery extends ModelCriteria
     {
         $sql = 'SELECT MUM_ID, BEAR_ID FROM mum_bear WHERE MUM_ID = :p0 AND BEAR_ID = :p1';
         try {
-            $stmt = $con->prepare($sql);            
-            $stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);            
+            $stmt = $con->prepare($sql);
+            $stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);
             $stmt->bindValue(':p1', $key[1], PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -550,10 +550,10 @@ abstract class MumBearQuery extends ModelCriteria
             // use transaction because $criteria could contain info
             // for more than one table or we could emulating ON DELETE CASCADE, etc.
             $con->beginTransaction();
-            
+
 
         MumBearTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             MumBearTableMap::clearRelatedInstancePool();
             $con->commit();

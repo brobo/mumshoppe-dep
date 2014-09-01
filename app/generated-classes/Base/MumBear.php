@@ -21,7 +21,7 @@ use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 
-abstract class MumBear implements ActiveRecordInterface 
+abstract class MumBear implements ActiveRecordInterface
 {
     /**
      * TableMap class name
@@ -345,7 +345,7 @@ abstract class MumBear implements ActiveRecordInterface
 
     /**
      * Get the [mum_id] column value.
-     * 
+     *
      * @return   int
      */
     public function getMumId()
@@ -356,7 +356,7 @@ abstract class MumBear implements ActiveRecordInterface
 
     /**
      * Get the [bear_id] column value.
-     * 
+     *
      * @return   int
      */
     public function getBearId()
@@ -367,7 +367,7 @@ abstract class MumBear implements ActiveRecordInterface
 
     /**
      * Set the value of [mum_id] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \MumBear The current object (for fluent API support)
      */
@@ -392,7 +392,7 @@ abstract class MumBear implements ActiveRecordInterface
 
     /**
      * Set the value of [bear_id] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \MumBear The current object (for fluent API support)
      */
@@ -714,10 +714,10 @@ abstract class MumBear implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'MUM_ID':                        
+                    case 'MUM_ID':
                         $stmt->bindValue($identifier, $this->mum_id, PDO::PARAM_INT);
                         break;
-                    case 'BEAR_ID':                        
+                    case 'BEAR_ID':
                         $stmt->bindValue($identifier, $this->bear_id, PDO::PARAM_INT);
                         break;
                 }
@@ -817,7 +817,7 @@ abstract class MumBear implements ActiveRecordInterface
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-        
+
         if ($includeForeignObjects) {
             if (null !== $this->aMum) {
                 $result['Mum'] = $this->aMum->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);

@@ -21,7 +21,7 @@ use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 use Propel\Runtime\Util\PropelDateTime;
 
-abstract class PasswordRecovery implements ActiveRecordInterface 
+abstract class PasswordRecovery implements ActiveRecordInterface
 {
     /**
      * TableMap class name
@@ -352,7 +352,7 @@ abstract class PasswordRecovery implements ActiveRecordInterface
 
     /**
      * Get the [id] column value.
-     * 
+     *
      * @return   int
      */
     public function getId()
@@ -363,7 +363,7 @@ abstract class PasswordRecovery implements ActiveRecordInterface
 
     /**
      * Get the [customer_id] column value.
-     * 
+     *
      * @return   int
      */
     public function getCustomerId()
@@ -374,7 +374,7 @@ abstract class PasswordRecovery implements ActiveRecordInterface
 
     /**
      * Get the [keyword] column value.
-     * 
+     *
      * @return   string
      */
     public function getKeyword()
@@ -385,7 +385,7 @@ abstract class PasswordRecovery implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [expiration] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw \DateTime object will be returned.
@@ -405,7 +405,7 @@ abstract class PasswordRecovery implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \PasswordRecovery The current object (for fluent API support)
      */
@@ -426,7 +426,7 @@ abstract class PasswordRecovery implements ActiveRecordInterface
 
     /**
      * Set the value of [customer_id] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \PasswordRecovery The current object (for fluent API support)
      */
@@ -451,7 +451,7 @@ abstract class PasswordRecovery implements ActiveRecordInterface
 
     /**
      * Set the value of [keyword] column.
-     * 
+     *
      * @param      string $v new value
      * @return   \PasswordRecovery The current object (for fluent API support)
      */
@@ -472,7 +472,7 @@ abstract class PasswordRecovery implements ActiveRecordInterface
 
     /**
      * Sets the value of [expiration] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param      mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return   \PasswordRecovery The current object (for fluent API support)
@@ -798,16 +798,16 @@ abstract class PasswordRecovery implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':                        
+                    case 'ID':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'CUSTOMER_ID':                        
+                    case 'CUSTOMER_ID':
                         $stmt->bindValue($identifier, $this->customer_id, PDO::PARAM_INT);
                         break;
-                    case 'KEYWORD':                        
+                    case 'KEYWORD':
                         $stmt->bindValue($identifier, $this->keyword, PDO::PARAM_STR);
                         break;
-                    case 'EXPIRATION':                        
+                    case 'EXPIRATION':
                         $stmt->bindValue($identifier, $this->expiration ? $this->expiration->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                 }
@@ -922,7 +922,7 @@ abstract class PasswordRecovery implements ActiveRecordInterface
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-        
+
         if ($includeForeignObjects) {
             if (null !== $this->aCustomer) {
                 $result['Customer'] = $this->aCustomer->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);

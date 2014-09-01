@@ -23,7 +23,7 @@ use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 
-abstract class Grade implements ActiveRecordInterface 
+abstract class Grade implements ActiveRecordInterface
 {
     /**
      * TableMap class name
@@ -361,7 +361,7 @@ abstract class Grade implements ActiveRecordInterface
 
     /**
      * Get the [id] column value.
-     * 
+     *
      * @return   int
      */
     public function getId()
@@ -372,7 +372,7 @@ abstract class Grade implements ActiveRecordInterface
 
     /**
      * Get the [name] column value.
-     * 
+     *
      * @return   string
      */
     public function getName()
@@ -383,7 +383,7 @@ abstract class Grade implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \Grade The current object (for fluent API support)
      */
@@ -404,7 +404,7 @@ abstract class Grade implements ActiveRecordInterface
 
     /**
      * Set the value of [name] column.
-     * 
+     *
      * @param      string $v new value
      * @return   \Grade The current object (for fluent API support)
      */
@@ -737,10 +737,10 @@ abstract class Grade implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':                        
+                    case 'ID':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'NAME':                        
+                    case 'NAME':
                         $stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
                         break;
                 }
@@ -847,7 +847,7 @@ abstract class Grade implements ActiveRecordInterface
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-        
+
         if ($includeForeignObjects) {
             if (null !== $this->collBackings) {
                 $result['Backings'] = $this->collBackings->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
@@ -1182,7 +1182,7 @@ abstract class Grade implements ActiveRecordInterface
     {
         $backingsToDelete = $this->getBackings(new Criteria(), $con)->diff($backings);
 
-        
+
         $this->backingsScheduledForDeletion = $backingsToDelete;
 
         foreach ($backingsToDelete as $backingRemoved) {
@@ -1425,7 +1425,7 @@ abstract class Grade implements ActiveRecordInterface
     {
         $accentBowsToDelete = $this->getAccentBows(new Criteria(), $con)->diff($accentBows);
 
-        
+
         $this->accentBowsScheduledForDeletion = $accentBowsToDelete;
 
         foreach ($accentBowsToDelete as $accentBowRemoved) {

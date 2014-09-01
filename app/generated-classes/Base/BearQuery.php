@@ -19,7 +19,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'bear' table.
  *
- * 
+ *
  *
  * @method     ChildBearQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildBearQuery orderByItemId($order = Criteria::ASC) Order by the item_id column
@@ -75,7 +75,7 @@ use Propel\Runtime\Exception\PropelException;
  */
 abstract class BearQuery extends ModelCriteria
 {
-    
+
     /**
      * Initializes internal state of \Base\BearQuery object.
      *
@@ -161,7 +161,7 @@ abstract class BearQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, ITEM_ID, NAME, UNDERCLASSMAN, JUNIOR, SENIOR, PRICE FROM bear WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -678,10 +678,10 @@ abstract class BearQuery extends ModelCriteria
             // use transaction because $criteria could contain info
             // for more than one table or we could emulating ON DELETE CASCADE, etc.
             $con->beginTransaction();
-            
+
 
         BearTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             BearTableMap::clearRelatedInstancePool();
             $con->commit();

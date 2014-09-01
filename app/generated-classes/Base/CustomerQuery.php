@@ -19,7 +19,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'customer' table.
  *
- * 
+ *
  *
  * @method     ChildCustomerQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildCustomerQuery orderByEmail($order = Criteria::ASC) Order by the email column
@@ -63,7 +63,7 @@ use Propel\Runtime\Exception\PropelException;
  */
 abstract class CustomerQuery extends ModelCriteria
 {
-    
+
     /**
      * Initializes internal state of \Base\CustomerQuery object.
      *
@@ -149,7 +149,7 @@ abstract class CustomerQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, EMAIL, PASSWORD, NAME, PHONE FROM customer WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -615,10 +615,10 @@ abstract class CustomerQuery extends ModelCriteria
             // use transaction because $criteria could contain info
             // for more than one table or we could emulating ON DELETE CASCADE, etc.
             $con->beginTransaction();
-            
+
 
         CustomerTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             CustomerTableMap::clearRelatedInstancePool();
             $con->commit();

@@ -102,6 +102,7 @@
 	<table name="mum" phpName="Mum">
 		<column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
 		<column name="customer_id" type="integer" required="true" />
+		<column name="recipient_name" type="varchar" length="31" required="true" /> 
 		<column name="backing_id" type="integer" />
 		<column name="accent_bow_id" type="integer" />
 		<column name="letter1_id" type="integer" />

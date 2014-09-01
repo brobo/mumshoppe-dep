@@ -19,10 +19,11 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'mum' table.
  *
- * 
+ *
  *
  * @method     ChildMumQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildMumQuery orderByCustomerId($order = Criteria::ASC) Order by the customer_id column
+ * @method     ChildMumQuery orderByRecipientName($order = Criteria::ASC) Order by the recipient_name column
  * @method     ChildMumQuery orderByBackingId($order = Criteria::ASC) Order by the backing_id column
  * @method     ChildMumQuery orderByAccentBowId($order = Criteria::ASC) Order by the accent_bow_id column
  * @method     ChildMumQuery orderByLetter1Id($order = Criteria::ASC) Order by the letter1_id column
@@ -39,6 +40,7 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     ChildMumQuery groupById() Group by the id column
  * @method     ChildMumQuery groupByCustomerId() Group by the customer_id column
+ * @method     ChildMumQuery groupByRecipientName() Group by the recipient_name column
  * @method     ChildMumQuery groupByBackingId() Group by the backing_id column
  * @method     ChildMumQuery groupByAccentBowId() Group by the accent_bow_id column
  * @method     ChildMumQuery groupByLetter1Id() Group by the letter1_id column
@@ -90,6 +92,7 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     ChildMum findOneById(int $id) Return the first ChildMum filtered by the id column
  * @method     ChildMum findOneByCustomerId(int $customer_id) Return the first ChildMum filtered by the customer_id column
+ * @method     ChildMum findOneByRecipientName(string $recipient_name) Return the first ChildMum filtered by the recipient_name column
  * @method     ChildMum findOneByBackingId(int $backing_id) Return the first ChildMum filtered by the backing_id column
  * @method     ChildMum findOneByAccentBowId(int $accent_bow_id) Return the first ChildMum filtered by the accent_bow_id column
  * @method     ChildMum findOneByLetter1Id(int $letter1_id) Return the first ChildMum filtered by the letter1_id column
@@ -106,6 +109,7 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     array findById(int $id) Return ChildMum objects filtered by the id column
  * @method     array findByCustomerId(int $customer_id) Return ChildMum objects filtered by the customer_id column
+ * @method     array findByRecipientName(string $recipient_name) Return ChildMum objects filtered by the recipient_name column
  * @method     array findByBackingId(int $backing_id) Return ChildMum objects filtered by the backing_id column
  * @method     array findByAccentBowId(int $accent_bow_id) Return ChildMum objects filtered by the accent_bow_id column
  * @method     array findByLetter1Id(int $letter1_id) Return ChildMum objects filtered by the letter1_id column
@@ -123,7 +127,7 @@ use Propel\Runtime\Exception\PropelException;
  */
 abstract class MumQuery extends ModelCriteria
 {
-    
+
     /**
      * Initializes internal state of \Base\MumQuery object.
      *
@@ -207,9 +211,9 @@ abstract class MumQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT ID, CUSTOMER_ID, BACKING_ID, ACCENT_BOW_ID, LETTER1_ID, NAME_RIBBON1, LETTER2_ID, NAME_RIBBON2, STATUS_ID, PAID, ORDER_DATE, PAID_DATE, DEPOSIT_SALE_ID, PAID_SALE_ID, DELIVERY_DATE FROM mum WHERE ID = :p0';
+        $sql = 'SELECT ID, CUSTOMER_ID, RECIPIENT_NAME, BACKING_ID, ACCENT_BOW_ID, LETTER1_ID, NAME_RIBBON1, LETTER2_ID, NAME_RIBBON2, STATUS_ID, PAID, ORDER_DATE, PAID_DATE, DEPOSIT_SALE_ID, PAID_SALE_ID, DELIVERY_DATE FROM mum WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -378,6 +382,35 @@ abstract class MumQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(MumTableMap::CUSTOMER_ID, $customerId, $comparison);
+    }
+
+    /**
+     * Filter the query on the recipient_name column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByRecipientName('fooValue');   // WHERE recipient_name = 'fooValue'
+     * $query->filterByRecipientName('%fooValue%'); // WHERE recipient_name LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $recipientName The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildMumQuery The current query, for fluid interface
+     */
+    public function filterByRecipientName($recipientName = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($recipientName)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $recipientName)) {
+                $recipientName = str_replace('*', '%', $recipientName);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(MumTableMap::RECIPIENT_NAME, $recipientName, $comparison);
     }
 
     /**
@@ -1475,10 +1508,10 @@ abstract class MumQuery extends ModelCriteria
             // use transaction because $criteria could contain info
             // for more than one table or we could emulating ON DELETE CASCADE, etc.
             $con->beginTransaction();
-            
+
 
         MumTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             MumTableMap::clearRelatedInstancePool();
             $con->commit();

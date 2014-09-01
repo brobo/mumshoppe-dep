@@ -19,7 +19,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'password_recovery' table.
  *
- * 
+ *
  *
  * @method     ChildPasswordRecoveryQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildPasswordRecoveryQuery orderByCustomerId($order = Criteria::ASC) Order by the customer_id column
@@ -55,7 +55,7 @@ use Propel\Runtime\Exception\PropelException;
  */
 abstract class PasswordRecoveryQuery extends ModelCriteria
 {
-    
+
     /**
      * Initializes internal state of \Base\PasswordRecoveryQuery object.
      *
@@ -141,7 +141,7 @@ abstract class PasswordRecoveryQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, CUSTOMER_ID, KEYWORD, EXPIRATION FROM password_recovery WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -535,10 +535,10 @@ abstract class PasswordRecoveryQuery extends ModelCriteria
             // use transaction because $criteria could contain info
             // for more than one table or we could emulating ON DELETE CASCADE, etc.
             $con->beginTransaction();
-            
+
 
         PasswordRecoveryTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             PasswordRecoveryTableMap::clearRelatedInstancePool();
             $con->commit();
