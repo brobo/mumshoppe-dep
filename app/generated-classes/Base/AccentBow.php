@@ -23,7 +23,7 @@ use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 
-abstract class AccentBow implements ActiveRecordInterface
+abstract class AccentBow implements ActiveRecordInterface 
 {
     /**
      * TableMap class name
@@ -392,7 +392,7 @@ abstract class AccentBow implements ActiveRecordInterface
 
     /**
      * Get the [id] column value.
-     *
+     * 
      * @return   int
      */
     public function getId()
@@ -403,7 +403,7 @@ abstract class AccentBow implements ActiveRecordInterface
 
     /**
      * Get the [item_id] column value.
-     *
+     * 
      * @return   string
      */
     public function getItemId()
@@ -414,7 +414,7 @@ abstract class AccentBow implements ActiveRecordInterface
 
     /**
      * Get the [name] column value.
-     *
+     * 
      * @return   string
      */
     public function getName()
@@ -425,7 +425,7 @@ abstract class AccentBow implements ActiveRecordInterface
 
     /**
      * Get the [grade_id] column value.
-     *
+     * 
      * @return   int
      */
     public function getGradeId()
@@ -436,7 +436,7 @@ abstract class AccentBow implements ActiveRecordInterface
 
     /**
      * Get the [image] column value.
-     *
+     * 
      * @param      ConnectionInterface An optional ConnectionInterface connection to use for fetching this lazy-loaded column.
      * @return   resource
      */
@@ -486,7 +486,7 @@ abstract class AccentBow implements ActiveRecordInterface
     }
     /**
      * Get the [image_mime] column value.
-     *
+     * 
      * @param      ConnectionInterface An optional ConnectionInterface connection to use for fetching this lazy-loaded column.
      * @return   string
      */
@@ -530,7 +530,7 @@ abstract class AccentBow implements ActiveRecordInterface
     }
     /**
      * Set the value of [id] column.
-     *
+     * 
      * @param      int $v new value
      * @return   \AccentBow The current object (for fluent API support)
      */
@@ -551,7 +551,7 @@ abstract class AccentBow implements ActiveRecordInterface
 
     /**
      * Set the value of [item_id] column.
-     *
+     * 
      * @param      string $v new value
      * @return   \AccentBow The current object (for fluent API support)
      */
@@ -572,7 +572,7 @@ abstract class AccentBow implements ActiveRecordInterface
 
     /**
      * Set the value of [name] column.
-     *
+     * 
      * @param      string $v new value
      * @return   \AccentBow The current object (for fluent API support)
      */
@@ -593,7 +593,7 @@ abstract class AccentBow implements ActiveRecordInterface
 
     /**
      * Set the value of [grade_id] column.
-     *
+     * 
      * @param      int $v new value
      * @return   \AccentBow The current object (for fluent API support)
      */
@@ -618,7 +618,7 @@ abstract class AccentBow implements ActiveRecordInterface
 
     /**
      * Set the value of [image] column.
-     *
+     * 
      * @param      resource $v new value
      * @return   \AccentBow The current object (for fluent API support)
      */
@@ -648,7 +648,7 @@ abstract class AccentBow implements ActiveRecordInterface
 
     /**
      * Set the value of [image_mime] column.
-     *
+     * 
      * @param      string $v new value
      * @return   \AccentBow The current object (for fluent API support)
      */
@@ -1016,25 +1016,25 @@ abstract class AccentBow implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':
+                    case 'ID':                        
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'ITEM_ID':
+                    case 'ITEM_ID':                        
                         $stmt->bindValue($identifier, $this->item_id, PDO::PARAM_STR);
                         break;
-                    case 'NAME':
+                    case 'NAME':                        
                         $stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
                         break;
-                    case 'GRADE_ID':
+                    case 'GRADE_ID':                        
                         $stmt->bindValue($identifier, $this->grade_id, PDO::PARAM_INT);
                         break;
-                    case 'IMAGE':
+                    case 'IMAGE':                        
                         if (is_resource($this->image)) {
                             rewind($this->image);
                         }
                         $stmt->bindValue($identifier, $this->image, PDO::PARAM_LOB);
                         break;
-                    case 'IMAGE_MIME':
+                    case 'IMAGE_MIME':                        
                         $stmt->bindValue($identifier, $this->image_mime, PDO::PARAM_STR);
                         break;
                 }
@@ -1157,7 +1157,7 @@ abstract class AccentBow implements ActiveRecordInterface
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-
+        
         if ($includeForeignObjects) {
             if (null !== $this->aGrade) {
                 $result['Grade'] = $this->aGrade->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
@@ -1558,7 +1558,7 @@ abstract class AccentBow implements ActiveRecordInterface
     {
         $mumsToDelete = $this->getMums(new Criteria(), $con)->diff($mums);
 
-
+        
         $this->mumsScheduledForDeletion = $mumsToDelete;
 
         foreach ($mumsToDelete as $mumRemoved) {

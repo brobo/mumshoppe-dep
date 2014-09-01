@@ -23,7 +23,7 @@ use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 
-abstract class Accessory implements ActiveRecordInterface
+abstract class Accessory implements ActiveRecordInterface 
 {
     /**
      * TableMap class name
@@ -434,7 +434,7 @@ abstract class Accessory implements ActiveRecordInterface
 
     /**
      * Get the [id] column value.
-     *
+     * 
      * @return   int
      */
     public function getId()
@@ -445,7 +445,7 @@ abstract class Accessory implements ActiveRecordInterface
 
     /**
      * Get the [item_id] column value.
-     *
+     * 
      * @return   string
      */
     public function getItemId()
@@ -456,7 +456,7 @@ abstract class Accessory implements ActiveRecordInterface
 
     /**
      * Get the [name] column value.
-     *
+     * 
      * @return   string
      */
     public function getName()
@@ -467,7 +467,7 @@ abstract class Accessory implements ActiveRecordInterface
 
     /**
      * Get the [underclassman] column value.
-     *
+     * 
      * @return   boolean
      */
     public function getUnderclassman()
@@ -478,7 +478,7 @@ abstract class Accessory implements ActiveRecordInterface
 
     /**
      * Get the [junior] column value.
-     *
+     * 
      * @return   boolean
      */
     public function getJunior()
@@ -489,7 +489,7 @@ abstract class Accessory implements ActiveRecordInterface
 
     /**
      * Get the [senior] column value.
-     *
+     * 
      * @return   boolean
      */
     public function getSenior()
@@ -500,7 +500,7 @@ abstract class Accessory implements ActiveRecordInterface
 
     /**
      * Get the [price] column value.
-     *
+     * 
      * @return   string
      */
     public function getPrice()
@@ -511,7 +511,7 @@ abstract class Accessory implements ActiveRecordInterface
 
     /**
      * Get the [category_id] column value.
-     *
+     * 
      * @return   int
      */
     public function getCategoryId()
@@ -522,7 +522,7 @@ abstract class Accessory implements ActiveRecordInterface
 
     /**
      * Get the [image] column value.
-     *
+     * 
      * @param      ConnectionInterface An optional ConnectionInterface connection to use for fetching this lazy-loaded column.
      * @return   resource
      */
@@ -572,7 +572,7 @@ abstract class Accessory implements ActiveRecordInterface
     }
     /**
      * Get the [image_mime] column value.
-     *
+     * 
      * @param      ConnectionInterface An optional ConnectionInterface connection to use for fetching this lazy-loaded column.
      * @return   string
      */
@@ -616,7 +616,7 @@ abstract class Accessory implements ActiveRecordInterface
     }
     /**
      * Set the value of [id] column.
-     *
+     * 
      * @param      int $v new value
      * @return   \Accessory The current object (for fluent API support)
      */
@@ -637,7 +637,7 @@ abstract class Accessory implements ActiveRecordInterface
 
     /**
      * Set the value of [item_id] column.
-     *
+     * 
      * @param      string $v new value
      * @return   \Accessory The current object (for fluent API support)
      */
@@ -658,7 +658,7 @@ abstract class Accessory implements ActiveRecordInterface
 
     /**
      * Set the value of [name] column.
-     *
+     * 
      * @param      string $v new value
      * @return   \Accessory The current object (for fluent API support)
      */
@@ -683,7 +683,7 @@ abstract class Accessory implements ActiveRecordInterface
      *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
      *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
      * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-     *
+     * 
      * @param      boolean|integer|string $v The new value
      * @return   \Accessory The current object (for fluent API support)
      */
@@ -712,7 +712,7 @@ abstract class Accessory implements ActiveRecordInterface
      *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
      *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
      * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-     *
+     * 
      * @param      boolean|integer|string $v The new value
      * @return   \Accessory The current object (for fluent API support)
      */
@@ -741,7 +741,7 @@ abstract class Accessory implements ActiveRecordInterface
      *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
      *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
      * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-     *
+     * 
      * @param      boolean|integer|string $v The new value
      * @return   \Accessory The current object (for fluent API support)
      */
@@ -766,7 +766,7 @@ abstract class Accessory implements ActiveRecordInterface
 
     /**
      * Set the value of [price] column.
-     *
+     * 
      * @param      string $v new value
      * @return   \Accessory The current object (for fluent API support)
      */
@@ -787,7 +787,7 @@ abstract class Accessory implements ActiveRecordInterface
 
     /**
      * Set the value of [category_id] column.
-     *
+     * 
      * @param      int $v new value
      * @return   \Accessory The current object (for fluent API support)
      */
@@ -812,7 +812,7 @@ abstract class Accessory implements ActiveRecordInterface
 
     /**
      * Set the value of [image] column.
-     *
+     * 
      * @param      resource $v new value
      * @return   \Accessory The current object (for fluent API support)
      */
@@ -842,7 +842,7 @@ abstract class Accessory implements ActiveRecordInterface
 
     /**
      * Set the value of [image_mime] column.
-     *
+     * 
      * @param      string $v new value
      * @return   \Accessory The current object (for fluent API support)
      */
@@ -1245,13 +1245,13 @@ abstract class Accessory implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':
+                    case 'ID':                        
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'ITEM_ID':
+                    case 'ITEM_ID':                        
                         $stmt->bindValue($identifier, $this->item_id, PDO::PARAM_STR);
                         break;
-                    case 'NAME':
+                    case 'NAME':                        
                         $stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
                         break;
                     case 'UNDERCLASSMAN':
@@ -1263,19 +1263,19 @@ abstract class Accessory implements ActiveRecordInterface
                     case 'SENIOR':
                         $stmt->bindValue($identifier, (int) $this->senior, PDO::PARAM_INT);
                         break;
-                    case 'PRICE':
+                    case 'PRICE':                        
                         $stmt->bindValue($identifier, $this->price, PDO::PARAM_STR);
                         break;
-                    case 'CATEGORY_ID':
+                    case 'CATEGORY_ID':                        
                         $stmt->bindValue($identifier, $this->category_id, PDO::PARAM_INT);
                         break;
-                    case 'IMAGE':
+                    case 'IMAGE':                        
                         if (is_resource($this->image)) {
                             rewind($this->image);
                         }
                         $stmt->bindValue($identifier, $this->image, PDO::PARAM_LOB);
                         break;
-                    case 'IMAGE_MIME':
+                    case 'IMAGE_MIME':                        
                         $stmt->bindValue($identifier, $this->image_mime, PDO::PARAM_STR);
                         break;
                 }
@@ -1414,7 +1414,7 @@ abstract class Accessory implements ActiveRecordInterface
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-
+        
         if ($includeForeignObjects) {
             if (null !== $this->aAccessoryCategory) {
                 $result['AccessoryCategory'] = $this->aAccessoryCategory->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
@@ -1839,7 +1839,7 @@ abstract class Accessory implements ActiveRecordInterface
     {
         $mumAccessoriesToDelete = $this->getMumAccessories(new Criteria(), $con)->diff($mumAccessories);
 
-
+        
         $this->mumAccessoriesScheduledForDeletion = $mumAccessoriesToDelete;
 
         foreach ($mumAccessoriesToDelete as $mumAccessoryRemoved) {

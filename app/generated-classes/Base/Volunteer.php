@@ -19,7 +19,7 @@ use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 use Propel\Runtime\Util\PropelDateTime;
 
-abstract class Volunteer implements ActiveRecordInterface
+abstract class Volunteer implements ActiveRecordInterface 
 {
     /**
      * TableMap class name
@@ -91,6 +91,13 @@ abstract class Volunteer implements ActiveRecordInterface
     protected $phone;
 
     /**
+     * The value for the rights field.
+     * Note: this column has a database default value of: 0
+     * @var        int
+     */
+    protected $rights;
+
+    /**
      * The value for the token_expiration field.
      * @var        string
      */
@@ -112,10 +119,23 @@ abstract class Volunteer implements ActiveRecordInterface
     protected $alreadyInSave = false;
 
     /**
+     * Applies default values to this object.
+     * This method should be called from the object's constructor (or
+     * equivalent initialization method).
+     * @see __construct()
+     */
+    public function applyDefaultValues()
+    {
+        $this->rights = 0;
+    }
+
+    /**
      * Initializes internal state of Base\Volunteer object.
+     * @see applyDefaults()
      */
     public function __construct()
     {
+        $this->applyDefaultValues();
     }
 
     /**
@@ -371,7 +391,7 @@ abstract class Volunteer implements ActiveRecordInterface
 
     /**
      * Get the [id] column value.
-     *
+     * 
      * @return   int
      */
     public function getId()
@@ -382,7 +402,7 @@ abstract class Volunteer implements ActiveRecordInterface
 
     /**
      * Get the [email] column value.
-     *
+     * 
      * @param      ConnectionInterface An optional ConnectionInterface connection to use for fetching this lazy-loaded column.
      * @return   string
      */
@@ -426,7 +446,7 @@ abstract class Volunteer implements ActiveRecordInterface
     }
     /**
      * Get the [password] column value.
-     *
+     * 
      * @return   string
      */
     public function getPassword()
@@ -437,7 +457,7 @@ abstract class Volunteer implements ActiveRecordInterface
 
     /**
      * Get the [name] column value.
-     *
+     * 
      * @return   string
      */
     public function getName()
@@ -448,7 +468,7 @@ abstract class Volunteer implements ActiveRecordInterface
 
     /**
      * Get the [phone] column value.
-     *
+     * 
      * @return   string
      */
     public function getPhone()
@@ -458,8 +478,19 @@ abstract class Volunteer implements ActiveRecordInterface
     }
 
     /**
+     * Get the [rights] column value.
+     * 
+     * @return   int
+     */
+    public function getRights()
+    {
+
+        return $this->rights;
+    }
+
+    /**
      * Get the [optionally formatted] temporal [token_expiration] column value.
-     *
+     * 
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw \DateTime object will be returned.
@@ -511,7 +542,7 @@ abstract class Volunteer implements ActiveRecordInterface
     }
     /**
      * Set the value of [id] column.
-     *
+     * 
      * @param      int $v new value
      * @return   \Volunteer The current object (for fluent API support)
      */
@@ -532,7 +563,7 @@ abstract class Volunteer implements ActiveRecordInterface
 
     /**
      * Set the value of [email] column.
-     *
+     * 
      * @param      string $v new value
      * @return   \Volunteer The current object (for fluent API support)
      */
@@ -559,7 +590,7 @@ abstract class Volunteer implements ActiveRecordInterface
 
     /**
      * Set the value of [password] column.
-     *
+     * 
      * @param      string $v new value
      * @return   \Volunteer The current object (for fluent API support)
      */
@@ -580,7 +611,7 @@ abstract class Volunteer implements ActiveRecordInterface
 
     /**
      * Set the value of [name] column.
-     *
+     * 
      * @param      string $v new value
      * @return   \Volunteer The current object (for fluent API support)
      */
@@ -601,7 +632,7 @@ abstract class Volunteer implements ActiveRecordInterface
 
     /**
      * Set the value of [phone] column.
-     *
+     * 
      * @param      string $v new value
      * @return   \Volunteer The current object (for fluent API support)
      */
@@ -621,8 +652,29 @@ abstract class Volunteer implements ActiveRecordInterface
     } // setPhone()
 
     /**
+     * Set the value of [rights] column.
+     * 
+     * @param      int $v new value
+     * @return   \Volunteer The current object (for fluent API support)
+     */
+    public function setRights($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->rights !== $v) {
+            $this->rights = $v;
+            $this->modifiedColumns[] = VolunteerTableMap::RIGHTS;
+        }
+
+
+        return $this;
+    } // setRights()
+
+    /**
      * Sets the value of [token_expiration] column to a normalized version of the date/time value specified.
-     *
+     * 
      * @param      mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return   \Volunteer The current object (for fluent API support)
@@ -657,6 +709,10 @@ abstract class Volunteer implements ActiveRecordInterface
      */
     public function hasOnlyDefaultValues()
     {
+            if ($this->rights !== 0) {
+                return false;
+            }
+
         // otherwise, everything was equal, so return TRUE
         return true;
     } // hasOnlyDefaultValues()
@@ -695,6 +751,9 @@ abstract class Volunteer implements ActiveRecordInterface
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : VolunteerTableMap::translateFieldName('Phone', TableMap::TYPE_PHPNAME, $indexType)];
             $this->phone = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : VolunteerTableMap::translateFieldName('Rights', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->rights = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -703,7 +762,7 @@ abstract class Volunteer implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 4; // 4 = VolunteerTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 5; // 5 = VolunteerTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating \Volunteer object", 0, $e);
@@ -935,6 +994,9 @@ abstract class Volunteer implements ActiveRecordInterface
         if ($this->isColumnModified(VolunteerTableMap::PHONE)) {
             $modifiedColumns[':p' . $index++]  = 'PHONE';
         }
+        if ($this->isColumnModified(VolunteerTableMap::RIGHTS)) {
+            $modifiedColumns[':p' . $index++]  = 'RIGHTS';
+        }
         if ($this->isColumnModified(VolunteerTableMap::TOKEN_EXPIRATION)) {
             $modifiedColumns[':p' . $index++]  = 'TOKEN_EXPIRATION';
         }
@@ -949,22 +1011,25 @@ abstract class Volunteer implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':
+                    case 'ID':                        
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'EMAIL':
+                    case 'EMAIL':                        
                         $stmt->bindValue($identifier, $this->email, PDO::PARAM_STR);
                         break;
-                    case 'PASSWORD':
+                    case 'PASSWORD':                        
                         $stmt->bindValue($identifier, $this->password, PDO::PARAM_STR);
                         break;
-                    case 'NAME':
+                    case 'NAME':                        
                         $stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
                         break;
-                    case 'PHONE':
+                    case 'PHONE':                        
                         $stmt->bindValue($identifier, $this->phone, PDO::PARAM_STR);
                         break;
-                    case 'TOKEN_EXPIRATION':
+                    case 'RIGHTS':                        
+                        $stmt->bindValue($identifier, $this->rights, PDO::PARAM_INT);
+                        break;
+                    case 'TOKEN_EXPIRATION':                        
                         $stmt->bindValue($identifier, $this->token_expiration ? $this->token_expiration->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                 }
@@ -1045,6 +1110,9 @@ abstract class Volunteer implements ActiveRecordInterface
                 return $this->getPhone();
                 break;
             case 5:
+                return $this->getRights();
+                break;
+            case 6:
                 return $this->getTokenExpiration();
                 break;
             default:
@@ -1080,13 +1148,14 @@ abstract class Volunteer implements ActiveRecordInterface
             $keys[2] => $this->getPassword(),
             $keys[3] => $this->getName(),
             $keys[4] => $this->getPhone(),
-            $keys[5] => ($includeLazyLoadColumns) ? $this->getTokenExpiration() : null,
+            $keys[5] => $this->getRights(),
+            $keys[6] => ($includeLazyLoadColumns) ? $this->getTokenExpiration() : null,
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-
+        
 
         return $result;
     }
@@ -1136,6 +1205,9 @@ abstract class Volunteer implements ActiveRecordInterface
                 $this->setPhone($value);
                 break;
             case 5:
+                $this->setRights($value);
+                break;
+            case 6:
                 $this->setTokenExpiration($value);
                 break;
         } // switch()
@@ -1167,7 +1239,8 @@ abstract class Volunteer implements ActiveRecordInterface
         if (array_key_exists($keys[2], $arr)) $this->setPassword($arr[$keys[2]]);
         if (array_key_exists($keys[3], $arr)) $this->setName($arr[$keys[3]]);
         if (array_key_exists($keys[4], $arr)) $this->setPhone($arr[$keys[4]]);
-        if (array_key_exists($keys[5], $arr)) $this->setTokenExpiration($arr[$keys[5]]);
+        if (array_key_exists($keys[5], $arr)) $this->setRights($arr[$keys[5]]);
+        if (array_key_exists($keys[6], $arr)) $this->setTokenExpiration($arr[$keys[6]]);
     }
 
     /**
@@ -1184,6 +1257,7 @@ abstract class Volunteer implements ActiveRecordInterface
         if ($this->isColumnModified(VolunteerTableMap::PASSWORD)) $criteria->add(VolunteerTableMap::PASSWORD, $this->password);
         if ($this->isColumnModified(VolunteerTableMap::NAME)) $criteria->add(VolunteerTableMap::NAME, $this->name);
         if ($this->isColumnModified(VolunteerTableMap::PHONE)) $criteria->add(VolunteerTableMap::PHONE, $this->phone);
+        if ($this->isColumnModified(VolunteerTableMap::RIGHTS)) $criteria->add(VolunteerTableMap::RIGHTS, $this->rights);
         if ($this->isColumnModified(VolunteerTableMap::TOKEN_EXPIRATION)) $criteria->add(VolunteerTableMap::TOKEN_EXPIRATION, $this->token_expiration);
 
         return $criteria;
@@ -1252,6 +1326,7 @@ abstract class Volunteer implements ActiveRecordInterface
         $copyObj->setPassword($this->getPassword());
         $copyObj->setName($this->getName());
         $copyObj->setPhone($this->getPhone());
+        $copyObj->setRights($this->getRights());
         $copyObj->setTokenExpiration($this->getTokenExpiration());
         if ($makeNew) {
             $copyObj->setNew(true);
@@ -1292,10 +1367,12 @@ abstract class Volunteer implements ActiveRecordInterface
         $this->password = null;
         $this->name = null;
         $this->phone = null;
+        $this->rights = null;
         $this->token_expiration = null;
         $this->token_expiration_isLoaded = false;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
+        $this->applyDefaultValues();
         $this->resetModified();
         $this->setNew(true);
         $this->setDeleted(false);

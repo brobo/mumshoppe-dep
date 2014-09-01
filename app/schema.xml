@@ -169,6 +169,7 @@
 		<column name="password" type="varchar" size="255" required="true" />
 		<column name="name" type="varchar" size="64" required="true" />
 		<column name="phone" type="varchar" size="16" />
+		<column name="rights" type="integer" defaultValue="0" required="true" />
 		<column name="token_expiration" type="timestamp" lazyLoad="true" />
 	</table>
 	

@@ -302,6 +302,7 @@ CREATE TABLE `volunteer`
     `password` VARCHAR(255) NOT NULL,
     `name` VARCHAR(64) NOT NULL,
     `phone` VARCHAR(16),
+    `rights` INTEGER DEFAULT 0 NOT NULL,
     `token_expiration` DATETIME,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;

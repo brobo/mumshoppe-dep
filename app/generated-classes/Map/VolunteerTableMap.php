@@ -57,7 +57,7 @@ class VolunteerTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 6;
+    const NUM_COLUMNS = 7;
 
     /**
      * The number of lazy-loaded columns
@@ -67,7 +67,7 @@ class VolunteerTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 4;
+    const NUM_HYDRATE_COLUMNS = 5;
 
     /**
      * the column name for the ID field
@@ -95,6 +95,11 @@ class VolunteerTableMap extends TableMap
     const PHONE = 'volunteer.PHONE';
 
     /**
+     * the column name for the RIGHTS field
+     */
+    const RIGHTS = 'volunteer.RIGHTS';
+
+    /**
      * the column name for the TOKEN_EXPIRATION field
      */
     const TOKEN_EXPIRATION = 'volunteer.TOKEN_EXPIRATION';
@@ -111,12 +116,12 @@ class VolunteerTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Email', 'Password', 'Name', 'Phone', 'TokenExpiration', ),
-        self::TYPE_STUDLYPHPNAME => array('id', 'email', 'password', 'name', 'phone', 'tokenExpiration', ),
-        self::TYPE_COLNAME       => array(VolunteerTableMap::ID, VolunteerTableMap::EMAIL, VolunteerTableMap::PASSWORD, VolunteerTableMap::NAME, VolunteerTableMap::PHONE, VolunteerTableMap::TOKEN_EXPIRATION, ),
-        self::TYPE_RAW_COLNAME   => array('ID', 'EMAIL', 'PASSWORD', 'NAME', 'PHONE', 'TOKEN_EXPIRATION', ),
-        self::TYPE_FIELDNAME     => array('id', 'email', 'password', 'name', 'phone', 'token_expiration', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
+        self::TYPE_PHPNAME       => array('Id', 'Email', 'Password', 'Name', 'Phone', 'Rights', 'TokenExpiration', ),
+        self::TYPE_STUDLYPHPNAME => array('id', 'email', 'password', 'name', 'phone', 'rights', 'tokenExpiration', ),
+        self::TYPE_COLNAME       => array(VolunteerTableMap::ID, VolunteerTableMap::EMAIL, VolunteerTableMap::PASSWORD, VolunteerTableMap::NAME, VolunteerTableMap::PHONE, VolunteerTableMap::RIGHTS, VolunteerTableMap::TOKEN_EXPIRATION, ),
+        self::TYPE_RAW_COLNAME   => array('ID', 'EMAIL', 'PASSWORD', 'NAME', 'PHONE', 'RIGHTS', 'TOKEN_EXPIRATION', ),
+        self::TYPE_FIELDNAME     => array('id', 'email', 'password', 'name', 'phone', 'rights', 'token_expiration', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, )
     );
 
     /**
@@ -126,12 +131,12 @@ class VolunteerTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Email' => 1, 'Password' => 2, 'Name' => 3, 'Phone' => 4, 'TokenExpiration' => 5, ),
-        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'email' => 1, 'password' => 2, 'name' => 3, 'phone' => 4, 'tokenExpiration' => 5, ),
-        self::TYPE_COLNAME       => array(VolunteerTableMap::ID => 0, VolunteerTableMap::EMAIL => 1, VolunteerTableMap::PASSWORD => 2, VolunteerTableMap::NAME => 3, VolunteerTableMap::PHONE => 4, VolunteerTableMap::TOKEN_EXPIRATION => 5, ),
-        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'EMAIL' => 1, 'PASSWORD' => 2, 'NAME' => 3, 'PHONE' => 4, 'TOKEN_EXPIRATION' => 5, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'email' => 1, 'password' => 2, 'name' => 3, 'phone' => 4, 'token_expiration' => 5, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Email' => 1, 'Password' => 2, 'Name' => 3, 'Phone' => 4, 'Rights' => 5, 'TokenExpiration' => 6, ),
+        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'email' => 1, 'password' => 2, 'name' => 3, 'phone' => 4, 'rights' => 5, 'tokenExpiration' => 6, ),
+        self::TYPE_COLNAME       => array(VolunteerTableMap::ID => 0, VolunteerTableMap::EMAIL => 1, VolunteerTableMap::PASSWORD => 2, VolunteerTableMap::NAME => 3, VolunteerTableMap::PHONE => 4, VolunteerTableMap::RIGHTS => 5, VolunteerTableMap::TOKEN_EXPIRATION => 6, ),
+        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'EMAIL' => 1, 'PASSWORD' => 2, 'NAME' => 3, 'PHONE' => 4, 'RIGHTS' => 5, 'TOKEN_EXPIRATION' => 6, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'email' => 1, 'password' => 2, 'name' => 3, 'phone' => 4, 'rights' => 5, 'token_expiration' => 6, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, )
     );
 
     /**
@@ -155,6 +160,7 @@ class VolunteerTableMap extends TableMap
         $this->addColumn('PASSWORD', 'Password', 'VARCHAR', true, 255, null);
         $this->addColumn('NAME', 'Name', 'VARCHAR', true, 64, null);
         $this->addColumn('PHONE', 'Phone', 'VARCHAR', false, 16, null);
+        $this->addColumn('RIGHTS', 'Rights', 'INTEGER', true, null, 0);
         $this->addColumn('TOKEN_EXPIRATION', 'TokenExpiration', 'TIMESTAMP', false, null, null);
     } // initialize()
 
@@ -307,11 +313,13 @@ class VolunteerTableMap extends TableMap
             $criteria->addSelectColumn(VolunteerTableMap::PASSWORD);
             $criteria->addSelectColumn(VolunteerTableMap::NAME);
             $criteria->addSelectColumn(VolunteerTableMap::PHONE);
+            $criteria->addSelectColumn(VolunteerTableMap::RIGHTS);
         } else {
             $criteria->addSelectColumn($alias . '.ID');
             $criteria->addSelectColumn($alias . '.PASSWORD');
             $criteria->addSelectColumn($alias . '.NAME');
             $criteria->addSelectColumn($alias . '.PHONE');
+            $criteria->addSelectColumn($alias . '.RIGHTS');
         }
     }
 

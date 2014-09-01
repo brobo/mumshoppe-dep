@@ -436,7 +436,7 @@ abstract class Size implements ActiveRecordInterface
 
     /**
      * Get the [image] column value.
-     *
+     * 
      * @param      ConnectionInterface An optional ConnectionInterface connection to use for fetching this lazy-loaded column.
      * @return   resource
      */
@@ -486,7 +486,7 @@ abstract class Size implements ActiveRecordInterface
     }
     /**
      * Get the [image_mime] column value.
-     *
+     * 
      * @param      ConnectionInterface An optional ConnectionInterface connection to use for fetching this lazy-loaded column.
      * @return   string
      */
@@ -618,7 +618,7 @@ abstract class Size implements ActiveRecordInterface
 
     /**
      * Set the value of [image] column.
-     *
+     * 
      * @param      resource $v new value
      * @return   \Size The current object (for fluent API support)
      */
@@ -648,7 +648,7 @@ abstract class Size implements ActiveRecordInterface
 
     /**
      * Set the value of [image_mime] column.
-     *
+     * 
      * @param      string $v new value
      * @return   \Size The current object (for fluent API support)
      */
@@ -1027,13 +1027,13 @@ abstract class Size implements ActiveRecordInterface
                     case 'PRODUCT_ID':
                         $stmt->bindValue($identifier, $this->product_id, PDO::PARAM_INT);
                         break;
-                    case 'IMAGE':
+                    case 'IMAGE':                        
                         if (is_resource($this->image)) {
                             rewind($this->image);
                         }
                         $stmt->bindValue($identifier, $this->image, PDO::PARAM_LOB);
                         break;
-                    case 'IMAGE_MIME':
+                    case 'IMAGE_MIME':                        
                         $stmt->bindValue($identifier, $this->image_mime, PDO::PARAM_STR);
                         break;
                 }

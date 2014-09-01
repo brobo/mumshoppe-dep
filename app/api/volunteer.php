@@ -8,7 +8,8 @@
 				"Id" => $volunteer->getId(),
 				"Name" => $volunteer->getName(),
 				"Email" => $volunteer->getEmail(),
-				"Phone" => $volunteer->getPhone()
+				"Phone" => $volunteer->getPhone(),
+				"Rights" => $volunteer->getRights()
 			);
 		};
 
@@ -48,7 +49,9 @@
 			"Id" => $volunteer->getId(),
 			"Name" => $volunteer->getName(),
 			"Email" => $volunteer->getEmail(),
-			"Phone" => $volunteer->getPhone());
+			"Phone" => $volunteer->getPhone(),
+			"Rights" => $volunteer->getRights()
+		);
 		echo json_encode($res);
 	});
 
@@ -61,7 +64,8 @@
 			$token = array(
 				'Email' => $volunteer->getEmail(),
 				'Id' => $volunteer->getId(),
-				'Type' => 'Volunteer'
+				'Type' => 'Volunteer',
+				'Rights' => $volunteer->getRights()
 			);
 			$jwt = JWT::encode($token, JWTKEY);
 			echo json_encode(array(

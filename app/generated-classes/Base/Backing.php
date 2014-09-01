@@ -25,7 +25,7 @@ use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 
-abstract class Backing implements ActiveRecordInterface
+abstract class Backing implements ActiveRecordInterface 
 {
     /**
      * TableMap class name
@@ -411,7 +411,7 @@ abstract class Backing implements ActiveRecordInterface
 
     /**
      * Get the [id] column value.
-     *
+     * 
      * @return   int
      */
     public function getId()
@@ -422,7 +422,7 @@ abstract class Backing implements ActiveRecordInterface
 
     /**
      * Get the [item_id] column value.
-     *
+     * 
      * @return   string
      */
     public function getItemId()
@@ -433,7 +433,7 @@ abstract class Backing implements ActiveRecordInterface
 
     /**
      * Get the [name] column value.
-     *
+     * 
      * @return   string
      */
     public function getName()
@@ -444,7 +444,7 @@ abstract class Backing implements ActiveRecordInterface
 
     /**
      * Get the [price] column value.
-     *
+     * 
      * @return   string
      */
     public function getPrice()
@@ -455,7 +455,7 @@ abstract class Backing implements ActiveRecordInterface
 
     /**
      * Get the [size_id] column value.
-     *
+     * 
      * @return   int
      */
     public function getSizeId()
@@ -466,7 +466,7 @@ abstract class Backing implements ActiveRecordInterface
 
     /**
      * Get the [grade_id] column value.
-     *
+     * 
      * @return   int
      */
     public function getGradeId()
@@ -477,7 +477,7 @@ abstract class Backing implements ActiveRecordInterface
 
     /**
      * Get the [image] column value.
-     *
+     * 
      * @param      ConnectionInterface An optional ConnectionInterface connection to use for fetching this lazy-loaded column.
      * @return   resource
      */
@@ -527,7 +527,7 @@ abstract class Backing implements ActiveRecordInterface
     }
     /**
      * Get the [image_mime] column value.
-     *
+     * 
      * @param      ConnectionInterface An optional ConnectionInterface connection to use for fetching this lazy-loaded column.
      * @return   string
      */
@@ -571,7 +571,7 @@ abstract class Backing implements ActiveRecordInterface
     }
     /**
      * Set the value of [id] column.
-     *
+     * 
      * @param      int $v new value
      * @return   \Backing The current object (for fluent API support)
      */
@@ -592,7 +592,7 @@ abstract class Backing implements ActiveRecordInterface
 
     /**
      * Set the value of [item_id] column.
-     *
+     * 
      * @param      string $v new value
      * @return   \Backing The current object (for fluent API support)
      */
@@ -613,7 +613,7 @@ abstract class Backing implements ActiveRecordInterface
 
     /**
      * Set the value of [name] column.
-     *
+     * 
      * @param      string $v new value
      * @return   \Backing The current object (for fluent API support)
      */
@@ -634,7 +634,7 @@ abstract class Backing implements ActiveRecordInterface
 
     /**
      * Set the value of [price] column.
-     *
+     * 
      * @param      string $v new value
      * @return   \Backing The current object (for fluent API support)
      */
@@ -655,7 +655,7 @@ abstract class Backing implements ActiveRecordInterface
 
     /**
      * Set the value of [size_id] column.
-     *
+     * 
      * @param      int $v new value
      * @return   \Backing The current object (for fluent API support)
      */
@@ -680,7 +680,7 @@ abstract class Backing implements ActiveRecordInterface
 
     /**
      * Set the value of [grade_id] column.
-     *
+     * 
      * @param      int $v new value
      * @return   \Backing The current object (for fluent API support)
      */
@@ -705,7 +705,7 @@ abstract class Backing implements ActiveRecordInterface
 
     /**
      * Set the value of [image] column.
-     *
+     * 
      * @param      resource $v new value
      * @return   \Backing The current object (for fluent API support)
      */
@@ -735,7 +735,7 @@ abstract class Backing implements ActiveRecordInterface
 
     /**
      * Set the value of [image_mime] column.
-     *
+     * 
      * @param      string $v new value
      * @return   \Backing The current object (for fluent API support)
      */
@@ -1126,31 +1126,31 @@ abstract class Backing implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':
+                    case 'ID':                        
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'ITEM_ID':
+                    case 'ITEM_ID':                        
                         $stmt->bindValue($identifier, $this->item_id, PDO::PARAM_STR);
                         break;
-                    case 'NAME':
+                    case 'NAME':                        
                         $stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
                         break;
-                    case 'PRICE':
+                    case 'PRICE':                        
                         $stmt->bindValue($identifier, $this->price, PDO::PARAM_STR);
                         break;
-                    case 'SIZE_ID':
+                    case 'SIZE_ID':                        
                         $stmt->bindValue($identifier, $this->size_id, PDO::PARAM_INT);
                         break;
-                    case 'GRADE_ID':
+                    case 'GRADE_ID':                        
                         $stmt->bindValue($identifier, $this->grade_id, PDO::PARAM_INT);
                         break;
-                    case 'IMAGE':
+                    case 'IMAGE':                        
                         if (is_resource($this->image)) {
                             rewind($this->image);
                         }
                         $stmt->bindValue($identifier, $this->image, PDO::PARAM_LOB);
                         break;
-                    case 'IMAGE_MIME':
+                    case 'IMAGE_MIME':                        
                         $stmt->bindValue($identifier, $this->image_mime, PDO::PARAM_STR);
                         break;
                 }
@@ -1281,7 +1281,7 @@ abstract class Backing implements ActiveRecordInterface
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-
+        
         if ($includeForeignObjects) {
             if (null !== $this->aSize) {
                 $result['Size'] = $this->aSize->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
@@ -1748,7 +1748,7 @@ abstract class Backing implements ActiveRecordInterface
     {
         $mumsToDelete = $this->getMums(new Criteria(), $con)->diff($mums);
 
-
+        
         $this->mumsScheduledForDeletion = $mumsToDelete;
 
         foreach ($mumsToDelete as $mumRemoved) {

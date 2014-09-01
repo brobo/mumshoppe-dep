@@ -23,6 +23,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildVolunteerQuery orderByPassword($order = Criteria::ASC) Order by the password column
  * @method     ChildVolunteerQuery orderByName($order = Criteria::ASC) Order by the name column
  * @method     ChildVolunteerQuery orderByPhone($order = Criteria::ASC) Order by the phone column
+ * @method     ChildVolunteerQuery orderByRights($order = Criteria::ASC) Order by the rights column
  * @method     ChildVolunteerQuery orderByTokenExpiration($order = Criteria::ASC) Order by the token_expiration column
  *
  * @method     ChildVolunteerQuery groupById() Group by the id column
@@ -30,6 +31,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildVolunteerQuery groupByPassword() Group by the password column
  * @method     ChildVolunteerQuery groupByName() Group by the name column
  * @method     ChildVolunteerQuery groupByPhone() Group by the phone column
+ * @method     ChildVolunteerQuery groupByRights() Group by the rights column
  * @method     ChildVolunteerQuery groupByTokenExpiration() Group by the token_expiration column
  *
  * @method     ChildVolunteerQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
@@ -44,6 +46,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildVolunteer findOneByPassword(string $password) Return the first ChildVolunteer filtered by the password column
  * @method     ChildVolunteer findOneByName(string $name) Return the first ChildVolunteer filtered by the name column
  * @method     ChildVolunteer findOneByPhone(string $phone) Return the first ChildVolunteer filtered by the phone column
+ * @method     ChildVolunteer findOneByRights(int $rights) Return the first ChildVolunteer filtered by the rights column
  * @method     ChildVolunteer findOneByTokenExpiration(string $token_expiration) Return the first ChildVolunteer filtered by the token_expiration column
  *
  * @method     array findById(int $id) Return ChildVolunteer objects filtered by the id column
@@ -51,6 +54,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     array findByPassword(string $password) Return ChildVolunteer objects filtered by the password column
  * @method     array findByName(string $name) Return ChildVolunteer objects filtered by the name column
  * @method     array findByPhone(string $phone) Return ChildVolunteer objects filtered by the phone column
+ * @method     array findByRights(int $rights) Return ChildVolunteer objects filtered by the rights column
  * @method     array findByTokenExpiration(string $token_expiration) Return ChildVolunteer objects filtered by the token_expiration column
  *
  */
@@ -140,7 +144,7 @@ abstract class VolunteerQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT ID, PASSWORD, NAME, PHONE FROM volunteer WHERE ID = :p0';
+        $sql = 'SELECT ID, PASSWORD, NAME, PHONE, RIGHTS FROM volunteer WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -384,6 +388,47 @@ abstract class VolunteerQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(VolunteerTableMap::PHONE, $phone, $comparison);
+    }
+
+    /**
+     * Filter the query on the rights column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByRights(1234); // WHERE rights = 1234
+     * $query->filterByRights(array(12, 34)); // WHERE rights IN (12, 34)
+     * $query->filterByRights(array('min' => 12)); // WHERE rights > 12
+     * </code>
+     *
+     * @param     mixed $rights The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildVolunteerQuery The current query, for fluid interface
+     */
+    public function filterByRights($rights = null, $comparison = null)
+    {
+        if (is_array($rights)) {
+            $useMinMax = false;
+            if (isset($rights['min'])) {
+                $this->addUsingAlias(VolunteerTableMap::RIGHTS, $rights['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($rights['max'])) {
+                $this->addUsingAlias(VolunteerTableMap::RIGHTS, $rights['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(VolunteerTableMap::RIGHTS, $rights, $comparison);
     }
 
     /**
