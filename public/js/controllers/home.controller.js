@@ -50,4 +50,59 @@ angular.module('home.controller', [])
 			$scope.invalid.mismatchPasswords = $scope.customer.Password != $scope.confirmPassword.value;
 		}
 
+	})
+
+	.controller('lostPasswordController', function($scope, $state, promiseTracker, AlertsService, LostPasswordService) {
+		$scope.tracker = promiseTracker();
+
+		$scope.recover = function(email) {
+			var defered = $scope.tracker.createPromise();
+			LostPasswordService.sendRecoveryEmail(email)
+				.success(function(data) {
+					if (data.success) {
+						AlertsService.add('success', 'An email has been sent to you. Please follow the directions there!');
+						$scope.go('home.index');
+					} else {
+						AlertsService.add('warning', 'Unable to send the email. Please double check the email address you entered.');
+					}
+				}).error(function(data) {
+					AlertsService.add('danger', 'An error occured. Please try again latter.');
+				}).finally(function() {
+					defered.resolve();
+				});
+		}
+	})
+
+	.controller('recoverPasswordController', function($scope, $state, $stateParams, promiseTracker, AlertsService, LostPasswordService) {
+		$scope.tracker = promiseTracker();
+
+		$scope.invalid = {};
+		$scope.confirmPassword = {};
+
+		$scope.validate = function(form, field) {
+			$scope.invalid[field] = form[field].$invalid;
+		};
+
+		$scope.verifyPasswords = function() {
+			$scope.invalid.mismatchPasswords = $scope.Password != $scope.confirmPassword.value;
+		}
+
+		$scope.recover = function(form) {
+			if (form.$valid) {
+				var defered = $scope.tracker.createPromise();
+				LostPasswordService.recoverPassword($stateParams.key, $scope.Password)
+					.success(function(data) {
+						if (data.success) {
+							AlertsService.add('success', 'Successfully changed password. You may now log in.');
+							$state.go('home.index');
+						} else {
+							AlertsService.add('warning', 'Unable to change password: ' + data.reason);
+						}
+					}).error(function(data) {
+						AlertsService.add('danger', 'An error occured. Please try again latter.');
+					}).finally(function() {
+						defered.resolve();
+					});
+			}
+		}
 	});

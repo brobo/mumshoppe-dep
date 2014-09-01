@@ -16,6 +16,7 @@ var app = angular.module('mumshoppe', [
 	'confirm.service',
 	'customer.service',
 	'letters.service',
+	'lostpassword.service',
 	'mum.service',
 	'mumtypes.service',
 	'pay.service',
@@ -28,6 +29,11 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 	$stateProvider
 		.state('home', {
 			url: '/home',
+			template: '<div ui-view></div>',
+			abstract: true
+		})
+		.state('home.index', {
+			url: '',
 			templateUrl: 'public/views/mumshoppe/home/home.html',
 			controller: 'homeController'
 		})
@@ -36,8 +42,18 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 			onEnter: function($cookieStore, $rootScope, $state) {
 				$cookieStore.remove('customerToken');
 				$rootScope.updateHeader();
-				$state.go('home');
+				$state.go('home.index');
 			}
+		})
+		.state('home.lostpassword', {
+			url: '/lostpassword',
+			templateUrl: 'public/views/mumshoppe/home/lostpassword.html',
+			controller: 'lostPasswordController'
+		})
+		.state('home.recoverpassword', {
+			url: '/recoverpassword/:key',
+			templateUrl: 'public/views/mumshoppe/home/recoverpassword.html',
+			controller: 'recoverPasswordController'
 		})
 		.state('mums', {
 			url: '/mums',

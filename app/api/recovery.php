@@ -25,18 +25,24 @@
 		
 		$recov->save();
 		
-		$succ = mail($email, "MumShoppe Password Recovery", "Your recovery link: http://localhost/#recover?Key=" . $randString);
+		$succ = mail($email, "MumShoppe Password Recovery", "Your recovery link: http://localhost/mums/mumshoppe#/home/recoverpassword/" . $randString);
+
+		echo json_encode(array('success' => $succ));
 	});
 	
 	$app->post("/api/recover/:keyword", function($keyword) use ($app) {
 		$passRec = PasswordRecoveryQuery::create()->filterByKeyword($keyword)->findOne();
-		if(!$passRec) return;
+		if(!$passRec) {
+			echo json_encode(array('success' => false, 'reason' => 'Unknown recovery key.'));
+			return;
+		}
 		
 		$endTime = $passRec->getExpiration();
 		$nowTime = new DateTime();
 		
 		if($nowTime > $endTime) {
 			$passRec->delete();
+			echo json_encode(array('success' => false, 'reason' => 'Expired key.'));
 			return;
 		}
 		
@@ -47,5 +53,7 @@
 		$user->save();
 		
 		$passRec->delete();
+
+		echo json_encode(array('success' => true));
 	});
 ?>
