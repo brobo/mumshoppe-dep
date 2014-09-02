@@ -7,10 +7,14 @@
 <h3>What type of backing would you like?</h3>
 <div class="btn-group-vertical col-xs-12">
 	<div ng-repeat="backing in backings | filter:{SizeId:selectedSize.Id, GradeId:selectedGrade.Id}">
-		<img src='/mums/api/backing/{{backing.Id}}/image' class="col-lg-1" ng-show="backing.HasImage"/>
-		<label class="btn btn-block btn-default" ng-model="$parent.$parent.selectedBacking" btn-radio="backing">
-			{{backing.Name}} <small>{{backing.ItemId}}</small>
-			<span class="badge">{{backing.Price | currency}}</span>
+		<label class="btn btn-block btn-default col-xs-12" ng-model="$parent.$parent.selectedBacking" btn-radio="backing">
+			<div class="col-xs-12">
+				<img src='/mums/api/backing/{{backing.Id}}/image' class="col-xs-4 col-xs-offset-4" ng-show="backing.HasImage"/>
+			</div>
+			<p class="col-xs-12 text-center container">
+				{{backing.Name}} <small>{{backing.ItemId}}</small>
+				<span class="badge">{{backing.Price | currency}}</span>
+			</p>
 		</label>
 	</div>
 </div>

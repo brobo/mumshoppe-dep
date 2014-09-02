@@ -1,12 +1,11 @@
 <h3>Pick your accessories!</h3>
 <p>Total for accessories: <span class="badge">{{totalPrice || 0 | currency}}</span></p>
 <div class="input-group">
-	<input type="checkbox" class="form-controll" ng-model="filterOn">
 	<label for="search">Filter by:</label>
-	<select ng-model="categorySelect" class="form-control col-lg-6" ng-options="category.Id as category.Name for category in categories" ng-disabled="!filterOn"></select>
+	<select ng-model="categorySelect" class="form-control col-lg-6" ng-options="category.Id as category.Name for category in categories"></select>
 </div>
 <div class="list-item-group">
-	<div class="list-group-item" ng-repeat="accessory in accessories | filter:gradePredicate | filter: (filterOn ? {CategoryId: categorySelect} : {})">
+	<div class="list-group-item" ng-repeat="accessory in accessories | filter:gradePredicate | filter: {CategoryId: categorySelect}">
 		<div class="row">
 			<img class="col-lg-1" src='/mums/api/accessory/{{accessory.Id}}/image' ng-show="accessory.HasImage" />
 			<div class="col-lg-1" ng-show="!accessory.HasImage"></div>

@@ -79,7 +79,7 @@
 	<div class="panel-body">
 		<div ng-repeat="category in categories | orderBy : 'Name'">
 			<strong>{{category.Name}}</strong>
-			<div class="well" ng-init="filtered = (mum.Accessories | filter : {Accessory : {CategoryId : '' + category.Id}})">
+			<div class="well table-responsive" ng-init="filtered = (mum.Accessories | filter : {Accessory : {CategoryId : '' + category.Id}})">
 				<table class="table" ng-show="filtered.length">
 					<tr>
 						<th>Accessory</th>
@@ -115,6 +115,6 @@
 				<td>{{mum.TotalPrice | currency}}</td>
 			</tr>
 		</table>
-		<progressbar class="progress-striped active" type="success" value="mum.Status.Id" max="7">Current Status: {{mum.Status.Name}}</progressbar>
+		<progressbar class="progress-striped active" type="success" value="mum.Status.Id" max="7">{{mum.Status.Name}}</progressbar>
 	</div>
 </div>

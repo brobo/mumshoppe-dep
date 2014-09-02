@@ -40,8 +40,8 @@
 					<input type="text" class="form-control" name="Phone" ng-model="customer.Phone" ng-blur="validate(customerForm, 'Phone')" ng-pattern="REGEX_PHONE">
 				</div>
 			</div>
-			<button type="submit" class="btn btn-success col-xs-2 col-xs-offset-5" ng-disabled="customerForm.$invalid || invalid.mismatchPasswords || invalid.duplicateEmail">
-				<i class="fa fa-long-arrow-right fa-2x"></i></button>
+			<button type="submit" class="btn btn-success col-xs-4 col-xs-offset-4" ng-disabled="customerForm.$invalid || invalid.mismatchPasswords || invalid.duplicateEmail">
+				<i class="fa fa-long-arrow-right fa-2x hidden-xs"></i><i class="fa fa-long-arrow-right visible-xs"></i></button>
 		</form>
 	</tab>
 	<tab heading="Log In">
@@ -60,8 +60,9 @@
 					<input type="password" class="form-control" name="Password" ng-model="customer.Password" required>
 				</div>
 			</div>
-			<p>Forgot your password? <a href="#" ui-sref="^.lostpassword">Recover it!</a></p>
-			<button type="submit" class="btn btn-success col-xs-2 col-xs-offset-5" ng-disabled="loginForm.$invalid"><i class="fa fa-long-arrow-right fa-2x"></i></button>
+			<p class="text-center">Forgot your password? <a href="#" ui-sref="^.lostpassword">Reset it!</a></p>
+			<button type="submit" class="btn btn-success col-xs-4 col-xs-offset-4" ng-disabled="loginFormForm.$invalid">
+				<i class="fa fa-long-arrow-right fa-2x hidden-xs"></i><i class="fa fa-long-arrow-right visible-xs"></i></button>
 		</form>
 	</tab>
 </tabset>

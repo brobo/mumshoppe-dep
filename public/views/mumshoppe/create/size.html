@@ -6,7 +6,11 @@
 <h3>What size {{selectedProduct.Name}} would you like?</h3>
 <div class="btn-group-vertical col-xs-12">
 	<div ng-repeat="size in sizes | filter:{ProductId:selectedProduct.Id}">
-		<img src='/mums/api/size/{{size.Id}}/image' class="col-lg-1" ng-show="size.HasImage"/>
-		<label class="btn btn-block btn-default" ng-model="$parent.$parent.selectedSize" btn-radio="size">{{size.Name}}</label>
+		<label class="btn btn-block btn-default col-xs-12" ng-model="$parent.$parent.selectedSize" btn-radio="size">
+			<div class="col-xs-12">
+				<img src='/mums/api/size/{{size.Id}}/image' ng-show="size.HasImage" class="col-xs-4 col-xs-offset-4"/>
+			</div>
+			<p class="col-xs-12 text-center">{{size.Name}}</p>
+		</label>
 	</div>
 </div>

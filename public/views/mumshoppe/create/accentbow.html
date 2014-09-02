@@ -1,7 +1,13 @@
 <h3>Select an accent bow!</h3>
 <div class="btn-group-vertical col-xs-12">
 	<div ng-repeat="accentbow in accentbows | filter:{GradeId:mum.Grade.Id}">
-		<img src='/mums/api/accentbow/{{accentbow.Id}}/image' class="col-lg-1" ng-show="accentbow.HasImage"/>
-		<label class="btn btn-block btn-default" ng-model="$parent.accentBowId" btn-radio="accentbow.Id">{{accentbow.Name}} <small>{{accentbow.ItemId}}</small></label>
+		<label class="btn btn-block btn-default col-xs-12" ng-model="$parent.accentBowId" btn-radio="accentbow.Id">
+			<div class="col-xs-12">
+				<img src='/mums/api/accentbow/{{accentbow.Id}}/image' ng-show="accentbow.HasImage" class="col-xs-4 col-xs-offset-4"/>
+			</div>
+			<p class="col-xs-12 text-center">
+				{{accentbow.Name}} <small>{{accentbow.ItemId}}</small>
+			</p>
+		</label>
 	</div>
 </div>

@@ -4,26 +4,28 @@
 	<thead>
 		<tr>
 			<th>Status</th>
+			<th>Product</th>
+			<th>Recipient</th>
 			<th>Grade</th>
 			<th>Paid</th>
-			<th>Product</th>
 			<th>Backing</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr ng-repeat="mum in mums">
 			<td>{{mum.Status.Name}}</td>
+			<td>{{mum.Size.Name}} {{mum.Product.Name}}</td>
+			<td>{{mum.Mum.RecipientName}}</td>
 			<td>{{mum.Grade.Name}}</td>
 			<td>
 				<button class="btn btn-success btn-xs" ng-click="payMum(mum.Id)" ng-show="mum.Status.Id > 1 && !mum.Paid"><i class="fa fa-dollar"></i> Pay Now</button>
 				<i class="fa fa-check" ng-show="mum.Paid"></i>
 			</td>
-			<td>{{mum.Size.Name}} {{mum.Product.Name}}</td>
 			<td>{{mum.Backing.Name}}</td>
 			<td>
 				<button class="btn btn-info btn-xs" ui-sref="^.view({mumId: mum.Id})"><i class="fa fa-eye"></i> View</button>
 				<button class="btn btn-warning btn-xs" ui-sref="create.start({mumId: mum.Id})" ng-show="mum.Status.Id === 1"><i class="fa fa-pencil"></i> Edit</button>
-				<button class="btn btn-danger btn-xs" ng-click="deleteMum(mum.Mum.Id)" ng-show="mum.Status.Id === 1"><i class="fa fa-bomb"></i> Delete</button>
+				<button class="btn btn-danger btn-xs" ng-click="deleteMum(mum.Id)" ng-show="mum.Status.Id === 1"><i class="fa fa-bomb"></i> Delete</button>
 			</td>
 		</tr>
 	</tbody>

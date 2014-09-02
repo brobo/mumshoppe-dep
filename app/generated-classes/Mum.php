@@ -27,15 +27,15 @@ class Mum extends BaseMum
 				'Name' => $this->getCustomer()->getName(),
 				'Id' => $this->getCustomer()->getId()
 			) : null,
-			'Accent_bow' => $this->getAccentBow()->getFull(),
-			'Backing' => $this->getBacking()->getFull(),
+			'Accent_bow' => $this->getAccentBow() ? $this->getAccentBow()->getFull() : null,
+			'Backing' => $this->getBacking() ? $this->getBacking()->getFull() : null,
 			'Bears' => array_map(function($bear) {
 							return $bear->getFull();
 						}, $this->getBears()->getData()),
 			'Grade' => $this->getBacking() ? $this->getBacking()->getGrade() : null,
 			'Product' => $this->getBacking() && $this->getBacking()->getSize() ? $this->getBacking()->getSize()->getProduct() : null,
 			'Size' => $this->getBacking() ? $this->getBacking()->getSize()->getFull() : null,
-			'Status' => $this->getStatus(),
+			'Status' => $this->getStatus() ? $this->getStatus() : null,
 			'Accessories' => $this->getMumAccessories()
 		);
 
@@ -71,12 +71,15 @@ class Mum extends BaseMum
 
 		$res = array(
 			'Id' => $full['Mum']['Id'],
-			'Status' => $full['Status'],
+			'Backing' => $full['Backing'],
+			'Customer' => $full['Customer'],
 			'Grade' => $full['Grade'],
 			'OrderDate' => $full['Mum']['OrderDate'],
 			'Paid' => $full['Mum']['Paid'],
-			'Backing' => $full['Backing'],
-			'Customer' => $full['Customer'],
+			'Product' => $full['Product'],
+			'Recipient' => $full['Mum']['RecipientName'],
+			'Size' => $full['Size'],
+			'Status' => $full['Status'],
 			'TotalPrice' => $full['TotalPrice']
 		);
 	
