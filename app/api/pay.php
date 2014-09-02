@@ -1,6 +1,6 @@
 <?php
 
-	$app->get('/api/pay/mark/:mumId', $authVolunteer(VolunteerRights::MarkMumsPaid), function($mumId) {
+	$app->get('/api/pay/mark/:mumId', auth_volunteer(VolunteerRights::MarkMumsPaid), function($mumId) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;
 
@@ -95,7 +95,7 @@
 		echo json_encode(array('success' => true));
 	});
 
-$app->get('/api/pay/full/:mumId', function($mumId) use ($app, $paypalSdkConfig) {
+	$app->get('/api/pay/full/:mumId', function($mumId) use ($app, $paypalSdkConfig) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;
 

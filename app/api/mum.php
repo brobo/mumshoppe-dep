@@ -146,5 +146,11 @@
 
 		echo json_encode($mum->getFull());
 	});
+	
+	$app->delete("/api/mum", function() {
+		MumQuery::create()->delete(); // That is frighteningly simple
+		
+		echo json_encode(["message" => "Successfully truncated mums table."]);
+	});
 
 ?>
