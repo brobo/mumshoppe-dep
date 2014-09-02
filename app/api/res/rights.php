@@ -9,6 +9,7 @@ abstract class VolunteerRights {
 	const ChangeVolunteerPerms = 5;
 	const DeleteVolunteer = 6;
 	const CreateVolunteer = 7;
+	const ToggleOrders = 8;
 	
 	public static function CreateBitmask(array $rights) {
 		$mask = 0;

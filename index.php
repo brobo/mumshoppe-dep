@@ -4,6 +4,10 @@
 	use PayPal\Auth;
 
 	require_once 'app/vendor/autoload.php';
+
+	$app = new \Slim\Slim();
+	
+	require_once 'app/config/load.php';
 	
 	require_once 'app/config/jwt.php';
 	require_once 'app/config/paypal.php';
@@ -13,8 +17,6 @@
 	require_once 'app/api/res/rights.php';
 
 	session_start();
-
-	$app = new \Slim\Slim();
 
 	$app->config(array(
 		'templates.path' => './public'

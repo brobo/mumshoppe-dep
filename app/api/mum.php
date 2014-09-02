@@ -40,6 +40,8 @@
 		echo json_encode($mum->getFull());
 	});
 	
+	// TODO: You can query whether or not to allow further orders by $app->persisted->get("AllowOrders").
+	// Accept/Deny based on that constant.
 	$app->post('/api/mum', function() use ($app) {
 		$mum = new Mum();
 		$mum->setCustomerId($app->request->post('CustomerId'));
@@ -70,6 +72,23 @@
 
 		$mum->save();
 		echo json_encode($mum->getFull());
+	});
+	
+	// Stop any further mums from being ordered.
+	$app->post("/api/mum/stop-orders", auth_volunteer(VolunteerRights::ToggleOrders), function() use ($app) {
+		$app->persisted->set("AllowOrders", false);
+		$app->persisted->save();
+	});
+	
+	// Allow further orders.
+	$app->post("/api/mum/start-orders", auth_volunteer(VolunteerRights::ToggleOrders), function() use ($app) {
+		$app->persisted->set("AllowOrders", true);
+		$app->persisted->save();			
+	});
+	
+	// Query if orders are allowed.
+	$app->get("/api/mum/can-order", function() use ($app) {
+		echo json_encode(["AllowOrders" => $app->persisted->get("AllowOrders")]);
 	});
 
 	$app->post('/api/mum/:mumId/accessory', function($mumId) use ($app) {
