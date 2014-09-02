@@ -6,10 +6,10 @@
 		echo $message . "\n";
 
 		exit;
-	}
+	};
 
-	 $authVolunteer() = function() {
-	 	return function() {
+	 $authVolunteer = function($rights) use ($failAuthentication) {
+	 	return function() use ($rights, $failAuthentication) {
 	 		$app = \Slim\Slim::getInstance();
 	 		$auth = $app->request->headers->get('Authentication');
 	 		if (!$auth) {
@@ -33,6 +33,11 @@
 	 	
 	 		if (new DateTime() > $volunteer->getTokenExpiration())
 	 			$failAuthentication('Your token is expired.');
-	 	}
-	}
+
+	 		foreach ($rights as $right) {
+	 			if (!VolunteerRights::HasRight($token['Rights'], $right))
+	 				$failAuthentication('You do not have that right.');
+	 		}
+	 	};
+	};
 ?>

@@ -1,6 +1,6 @@
 <?php
 
-	$app->get('/api/pay/mark/:mumId', function($mumId) {
+	$app->get('/api/pay/mark/:mumId', $authVolunteer(VolunteerRights::MarkMumsPaid), function($mumId) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;
 
