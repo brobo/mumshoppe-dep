@@ -37,8 +37,8 @@
 	}
 	
 	// Only lets in volunteers with the provided rights.
-	function auth_volunteer($rights) {
-		return function() use ($rights) {
+	function auth_volunteer($right) {
+		return function() use ($right) {
 			$app = \Slim\Slim::getInstance();
 			$token = auth_precheck();
 			
@@ -55,10 +55,8 @@
 			if (new DateTime() > $volunteer->getTokenExpiration())
 				auth_fail('Your token is expired.');
 			
-			foreach ($rights as $right) {
-				if (!VolunteerRights::HasRight($token['Rights'], $right))
+			if (!VolunteerRights::HasRight($token['Rights'], $right))
 					auth_fail('You do not have that right.');
-			}
 		};
 	}
 	

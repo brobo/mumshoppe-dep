@@ -29,6 +29,17 @@ angular.module('mum.service', [])
 			},
 			setAccessories: function(mumId, accessoryData) {
 				return $http.post(getRoute('/api/mum/' + mumId + '/accessory'), accessoryData);
+			},
+			yearly: {
+				canOrder: function() {
+					return $http.get(getRoute('/api/mumcontroll/can-order'));
+				},
+				startOrder: function() {
+					return $http.post(getRoute('/api/mumcontroll/start-orders'));
+				},
+				stopOrder: function() {
+					return $http.post(getRoute('/api/mumcontroll/stop-orders'));
+				}
 			}
 		};
 	});

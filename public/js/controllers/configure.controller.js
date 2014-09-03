@@ -7,12 +7,50 @@ angular.module('configure.controller', [])
 			{heading: "Accessories",		route:"configure.accessories.all"},
 			{heading: "Letters",		route:"configure.letters"},
 			{heading: "Mum Types",		route:"configure.mumtypes.grade"},
-			{heading: "Volunteers",		route:"configure.volunteers"}
+			{heading: "Volunteers",		route:"configure.volunteers"},
+			{heading: "Yearly",			route:"configure.yearly"}
 		];
 
 		$scope.isActive = function(tab) {
 			return $state.includes(tab.route);
 		}
+	})
+
+	.controller('configureYearlyController', function($scope, $state, $modal, AlertsService, MumService, promiseTracker) {
+		$scope.orderTracker = promiseTracker();
+		$scope.updateCanOrder = function() {
+			MumService.yearly.canOrder()
+				.success(function(data) {
+					$scope.canOrder = data.AllowOrders;
+				});
+		};
+		$scope.updateCanOrder();
+
+		$scope.startOrders = function() {
+			var deferred = $scope.orderTracker.createPromise();
+			MumService.yearly.canOrder()
+				.success(function(data) {
+					AlertsService.add('success', 'Successfully opened up orders!');
+				}).error(function(data) {
+					AlertsService.add('danger', 'An error occured. Please try again.');
+				}).finally(function() {
+					deferred.resolve();
+				});
+				$scope.updateCanOrder();
+		};
+
+		$scope.stopOrders = function() {
+			var deferred = $scope.orderTracker.createPromise();
+			MumService.yearly.stopOrder()
+				.success(function(data) {
+					AlertsService.add('success', 'Successfully closed orders!');
+				}).error(function(data) {
+					AlertsService.add('danger', 'An error occured. Please try again.');
+				}).finally(function() {
+					deferred.resolve();
+				});
+				$scope.updateCanOrder();
+		};
 	})
 
 	.controller('configureVolunteerController', function($scope, $state, $modal, VolunteerService) {

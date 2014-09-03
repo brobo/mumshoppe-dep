@@ -71,6 +71,11 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 			templateUrl: 'public/views/volunteer/configure/volunteers.html',
 			controller: 'configureVolunteerController'
 		})
+		.state('configure.yearly', {
+			url: '/yearly',
+			templateUrl: 'public/views/volunteer/configure/yearly.html',
+			controller: 'configureYearlyController'
+		})
 		.state('mums', {
 			url: '/mums',
 			templateUrl: 'public/views/volunteer/mums/index.html',
@@ -223,7 +228,7 @@ app.run(['$cookieStore', '$injector', function($cookieStore, $injector) {
 
 		var token = $cookieStore.get('customerToken');
 		if (token) {
-			headersGetter()['Authorization'] = token.jwt;
+			headersGetter()['Authentication'] = token.jwt;
 		}
 
 		if (data === undefined) {

@@ -75,19 +75,19 @@
 	});
 	
 	// Stop any further mums from being ordered.
-	$app->post("/api/mum/stop-orders", auth_volunteer(VolunteerRights::ToggleOrders), function() use ($app) {
+	$app->post("/api/mumcontroll/stop-orders", auth_volunteer(VolunteerRights::ToggleOrders), function() use ($app) {
 		$app->persisted->set("AllowOrders", false);
 		$app->persisted->save();
 	});
 	
 	// Allow further orders.
-	$app->post("/api/mum/start-orders", auth_volunteer(VolunteerRights::ToggleOrders), function() use ($app) {
+	$app->post("/api/mumcontroll/start-orders", auth_volunteer(VolunteerRights::ToggleOrders), function() use ($app) {
 		$app->persisted->set("AllowOrders", true);
 		$app->persisted->save();			
 	});
 	
 	// Query if orders are allowed.
-	$app->get("/api/mum/can-order", function() use ($app) {
+	$app->get("/api/mumcontroll/can-order", function() use ($app) {
 		echo json_encode(["AllowOrders" => $app->persisted->get("AllowOrders")]);
 	});
 
@@ -167,9 +167,18 @@
 	});
 	
 	$app->delete("/api/mum", function() {
-		MumQuery::create()->delete(); // That is frighteningly simple
-		
-		echo json_encode(["message" => "Successfully truncated mums table."]);
+		$password = $app->request->delete('Password');
+
+		$volunteer = VolunteerQuery::create()->findPK($app->token['Id']);
+		if (!$volunteer) {
+			echo json_encode(["success" => true, "message" => "Invalid volunteer Id."]);
+		}
+		if (password_verify($password, $volunteer->getPassword())) {
+			MumQuery::create()->delete(); // That is frighteningly simple
+			echo json_encode(["success" => true, "message" => "Successfully truncated mums table."]);
+		} else {
+			echo json_encode(["success" => false, "message" => "Incorrect password."]);
+		}
 	});
 
 ?>

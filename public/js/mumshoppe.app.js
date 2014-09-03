@@ -183,7 +183,7 @@ app.run(['$cookieStore', '$injector', function($cookieStore, $injector) {
 
 		var token = $cookieStore.get('customerToken');
 		if (token) {
-			headersGetter()['Authorization'] = token.jwt;
+			headersGetter()['Authentication'] = token.jwt;
 		}
 
 		if (data === undefined) {

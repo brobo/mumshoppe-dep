@@ -1,0 +1,6 @@
+<h2>Yearly Operations</h2>
+<p class="text-danger"><strong>DANGER!</strong> Here be dangerous buttons; proceed with <u>great caution!</u></p>
+
+<button class="btn btn-default btn-block" ng-click="startOrders()" ng-show="!canOrder && !orderTracker.active()">Start Orders</button>
+<button class="btn btn-default btn-block" ng-click="stopOrders()" ng-show="canOrder && !orderTracker.active()">Stop Orders</button>
+<button class="btn btn-default btn-block" ng-show="orderTracker.active()"><i class="fa fa-spin fa-circle-o-notch"></i></button>

@@ -6,10 +6,11 @@ class VariableConfig {
 	
 	private $loaded;
 	
-	private $vars = [];
+	private $vars = array();
 	
 	public function __construct() {
-		$loaded = false;
+		$this->loaded = false;
+		$vars = array();
 	}
 	
 	public function get($name) {
@@ -32,7 +33,7 @@ class VariableConfig {
 	
 	public function load() {
 		if(file_exists(static::CONFIG_FILE)) {
-			$this->vars = json_decode(file_get_contents(static::CONFIG_FILE));
+			$this->vars = json_decode(file_get_contents(static::CONFIG_FILE), true);
 		}
 		$this->loaded = true;
 	}
