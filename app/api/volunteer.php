@@ -85,4 +85,17 @@
 			echo json_encode(array('valid' => true));
 		}
 	});
+
+	$app->post('/api/volunteer/:id/rights', function($id) use ($app) {
+		$volunteer = VolunteerQuery::create()->findPK($id);
+		if (!$volunteer) return;
+
+		$rights = $app->request->post('Rights');
+		if ($rights === null) return;
+
+		$volunteer->setRights($rights);
+		$volunteer->save();
+
+		echo json_encode(array('success' => true));
+	});
 ?>

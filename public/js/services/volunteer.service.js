@@ -14,7 +14,10 @@ angular.module('volunteer.service', [])
 				return $http.post(getRoute('/api/volunteer'), angular.copy(volunteer));
 			},
 			verifyEmail: function(email) {
-				return $http.post(getRoute('/api/volunteer/verify'), {Email: email});
+				return $http.post(getRoute('/api/volunteer/verify'), {Email: email})
+			},
+			rights: function(id, rights) {
+				return $http.post(getRoute('/api/volunteer/' + id + '/rights'), {Rights: rights});
 			}
 		}
 	});

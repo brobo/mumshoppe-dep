@@ -1,0 +1,14 @@
+<form name="permissionForm" ng-submit="save(permissionForm)" novalidate>
+	<div class="btn-group" class="col-xs-6 col-xs-offset-3">
+		<div ng-repeat="permission in permissions" class="col-xs-12">
+			<label class="btn btn-block btn-primary" ng-model="volunteerPermissions[permission.Value]" btn-checkbox>
+				{{permission.Name}} 
+				<i ng-show="volunteerPermissions[permission.Value]" class="fa fa-toggle-on"></i>
+				<i ng-show="!volunteerPermissions[permission.Value]" class="fa fa-toggle-off"></i>
+			</label>
+		</div>
+	</div>
+	<button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+	<button type="submit" class="btn btn-success" ng-show="!tracker.active()">Save</button>
+	<button type="submit" class="btn btn-success" ng-show="tracker.active()" disabled><i class="fa fa-spin fa-circle-o-notch"></i></button>
+</form>

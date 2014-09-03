@@ -61,6 +61,21 @@ angular.module('configure.controller', [])
 				$scope.updateVolunteers();
 			});
 		}
+
+		$scope.editPermissions = function(volunteer) {
+			$modal.open({
+				templateUrl: 'public/views/volunteer/configure/permissions.html',
+				controller: 'editPermissionsController',
+				size: 'lg',
+				resolve: {
+					volunteer: function() {
+						return angular.copy(volunteer);
+					}
+				}
+			}).result.then(function() {
+				$scope.updateVolunteers();
+			});
+		};
 	})
 
 	.controller('editVolunteerController', function($scope, $modalInstance, promiseTracker, save, volunteer, AlertsService, VolunteerService) {
@@ -113,5 +128,56 @@ angular.module('configure.controller', [])
 
 		$scope.verifyPasswords = function() {
 			$scope.invalid.mismatchPasswords = $scope.volunteer.Password != $scope.confirmPassword.value;
+		}
+	})
+
+	.controller('editPermissionsController', function($scope, $modalInstance, volunteer, AlertsService, VolunteerService, promiseTracker) {
+		$scope.tracker = promiseTracker();
+		$scope.permissions = [
+			{Name: "Configure Items", Value: 0},
+			{Name: "View Mums", Value: 1},
+			{Name: "Mark Mums Paid", Value: 2},
+			{Name: "Delete Mums", Value: 3},
+			{Name: "Truncate Mums", Value: 4},
+			{Name: "Change Volunteer Permissions", Value: 5},
+			{Name: "Delete Volunteer", Value: 6},
+			{Name: "Create Volunteer", Value: 7},
+			{Name: "Toggle Orders", Value: 8}
+		];
+
+		$scope.volunteerPermissions = {};
+
+		for (var i=0; i<$scope.permissions.length; i++) {
+			$scope.volunteerPermissions[i] = !!(volunteer.Rights & (1 << $scope.permissions[i].Value));
+		}
+
+		$scope.cancel = function() {
+			$modalInstance.dismiss();
+		}
+
+		$scope.save = function() {
+			var deferred = $scope.tracker.createPromise();
+
+			var rights = 0;
+			for (var i=0; i<$scope.permissions.length; i++)
+				if ($scope.volunteerPermissions[i])
+					rights |= (1 << i);
+
+			VolunteerService.rights(volunteer.Id, rights)
+				.success(function(data) {
+					if (data.success) {
+						AlertsService.add('success', 'Successfully changed permissions!');
+						$modalInstance.close();
+					} else {
+						AlertsService.add('danger', 'An error occured while changing permissions. Please try again.');
+						$modalInstance.dismiss();
+					}
+				}).error(function(data) {
+					console.log(data);
+					AlertsService.add('warning', 'Unable to change permissions. Do you have the rights to do that?');
+					$modalInstance.dismiss();
+				}).finally(function() {
+					deferred.resolve();
+				})
 		}
 	});
