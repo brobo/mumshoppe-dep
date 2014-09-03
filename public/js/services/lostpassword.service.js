@@ -2,12 +2,12 @@ angular.module('lostpassword.service', [])
 	.factory('LostPasswordService', function($http) {
 		return {
 			sendRecoveryEmail: function(email) {
-				return $http.post('/mums/api/recover', {
+				return $http.post(getRoute('/api/recover'), {
 					Email: email
 				});
 			},
 			recoverPassword: function(key, password) {
-				return $http.post('/mums/api/recover/' + key, {
+				return $http.post(getRoute('/api/recover/') + key, {
 					Password: password
 				});
 			}

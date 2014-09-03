@@ -3,60 +3,60 @@ angular.module('mumtypes.service', [])
 		return {
 			grades: {
 				get: function() {
-					return $http.get('/mums/api/grade');
+					return $http.get(getRoute('/api/grade'));
 				},
 				create: function(gradeData) {
-					return $http.post('/mums/api/grade', angular.copy(gradeData));
+					return $http.post(getRoute('/api/grade'), angular.copy(gradeData));
 				},
 				update: function(id, gradeData) {
-					return $http.put('/mums/api/grade/' + id, angular.copy(gradeData));
+					return $http.put(getRoute('/api/grade/') + id, angular.copy(gradeData));
 				},
 				delete: function(id) {
-					return $http.delete('/mums/api/grade/' + id);
+					return $http.delete(getRoute('/api/grade/') + id);
 				},
 				fetch: function(id) {
-					return $http.get('/mums/api/grade/' + id);
+					return $http.get(getRoute('/api/grade/') + id);
 				}
 			},
 			products: {
 				get: function() {
-					return $http.get('/mums/api/product');
+					return $http.get(getRoute('/api/product'));
 				},
 				create: function(productData) {
-					return $http.post('/mums/api/product', angular.copy(productData));
+					return $http.post(getRoute('/api/product'), angular.copy(productData));
 				},
 				update: function(id, productData) {
-					return $http.put('/mums/api/product/' + id, angular.copy(productData));
+					return $http.put(getRoute('/api/product/') + id, angular.copy(productData));
 				},
 				delete: function(id) {
-					return $http.delete('/mums/api/product/' + id);
+					return $http.delete(getRoute('/api/product/') + id);
 				},
 				fetch: function(id) {
-					return $http.get('/mums/api/product/' + id);
+					return $http.get(getRoute('/api/product/') + id);
 				}
 			},
 			sizes: {
 				get: function() {
-					return $http.get('/mums/api/size');
+					return $http.get(getRoute('/api/size'));
 				},
 				create: function(sizeData) {
-					return $http.post('/mums/api/size', angular.copy(sizeData));
+					return $http.post(getRoute('/api/size'), angular.copy(sizeData));
 				},
 				update: function(id, sizeData) {
-					return $http.put('/mums/api/size/' + id, angular.copy(sizeData));
+					return $http.put(getRoute('/api/size/') + id, angular.copy(sizeData));
 				},
 				delete: function(id) {
-					return $http.delete('/mums/api/size/' + id);
+					return $http.delete(getRoute('/api/size/') + id);
 				},
 				fetch: function(id) {
-					return $http.get('/mums/api/size/' + id);
+					return $http.get(getRoute('/api/size/') + id);
 				},
 				image: {
 					upload: function(id, images) {
 						var fd = new FormData();
 						fd.append("image", images[0]);
 
-						return $http.post('/mums/api/size/' + id + '/image', fd, {
+						return $http.post(getRoute('/api/size/' + id + '/image'), fd, {
 							withCredentials: true,
 							headers: {'Content-Type': undefined},
 							transformRequest: angular.identity
@@ -66,26 +66,26 @@ angular.module('mumtypes.service', [])
 			},
 			backings: {
 				get: function() {
-					return $http.get('/mums/api/backing');
+					return $http.get(getRoute('/api/backing'));
 				},
 				create: function(backingData) {
-					return $http.post('/mums/api/backing', angular.copy(backingData));
+					return $http.post(getRoute('/api/backing'), angular.copy(backingData));
 				},
 				update: function(id, backingData) {
-					return $http.put('/mums/api/backing/' + id, angular.copy(backingData));
+					return $http.put(getRoute('/api/backing/') + id, angular.copy(backingData));
 				},
 				delete: function(id) {
-					return $http.delete('/mums/api/backing/' + id);
+					return $http.delete(getRoute('/api/backing/') + id);
 				},
 				fetch: function(id) {
-					return $http.get('/mums/api/backing/' + id);
+					return $http.get(getRoute('/api/backing/') + id);
 				},
 				image: {
 					upload: function(id, images) {
 						var fd = new FormData();
 						fd.append("image", images[0]);
 
-						return $http.post('/mums/api/backing/' + id + '/image', fd, {
+						return $http.post(getRoute('/api/backing/' + id + '/image'), fd, {
 							withCredentials: true,
 							headers: {'Content-Type': undefined},
 							transformRequest: angular.identity

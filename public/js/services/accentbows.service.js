@@ -2,26 +2,26 @@ angular.module('accentbows.service', [])
 	.factory('AccentBowsService', function($http) {
 		return {
 			get: function() {
-				return $http.get('/mums/api/accentbow');
+				return $http.get(getRoute('/api/accentbow'));
 			},
 			create: function(bowData) {
-				return $http.post('/mums/api/accentbow', angular.copy(bowData));
+				return $http.post(getRoute('/api/accentbow'), angular.copy(bowData));
 			},
 			update: function(id, bowData) {
-				return $http.put('/mums/api/accentbow/' + id, angular.copy(bowData));
+				return $http.put(getRoute('/api/accentbow/') + id, angular.copy(bowData));
 			},
 			delete: function(id) {
-				return $http.delete('/mums/api/accentbow/' + id);
+				return $http.delete(getRoute('/api/accentbow/') + id);
 			},
 			fetch: function(id) {
-				return $http.get('/mums/api/accentbow/' + id);
+				return $http.get(getRoute('/api/accentbow/') + id);
 			},
 			image: {
 				upload: function(id, images) {
 					var fd = new FormData();
 					fd.append("image", images[0]);
 
-					return $http.post('/mums/api/accentbow/' + id + '/image', fd, {
+					return $http.post(getRoute('/api/accentbow/' + id + '/image'), fd, {
 						withCredentials: true,
 						headers: {'Content-Type': undefined},
 						transformRequest: angular.identity

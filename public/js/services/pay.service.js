@@ -3,25 +3,25 @@ angular.module('pay.service', [])
 		return {
 			deposite: {
 				startPayFlow: function(mumId) {
-					return $http.get('/mums/api/pay/deposit/' + mumId);
+					return $http.get(getRoute('/api/pay/deposit/') + mumId);
 				},
 				finalize: function(mumId, payerId) {
-					return $http.post('/mums/api/pay/deposit/' + mumId, {
+					return $http.post(getRoute('/api/pay/deposit/') + mumId, {
 						PayerId: payerId
 					});
 				}
 			},
 			full: {
 				startPayFlow: function(mumId) {
-					return $http.get('/mums/api/pay/full/' + mumId);
+					return $http.get(getRoute('/api/pay/full/') + mumId);
 				},
 				finalize: function(mumId, payerId) {
-					return $http.post('/mums/api/pay/full/' + mumId, {
+					return $http.post(getRoute('/api/pay/full/') + mumId, {
 						PayerId: payerId
 					});
 				},
 				markPaid: function(mumId) {
-					return $http.get('/mums/api/pay/mark/' + mumId);
+					return $http.get(getRoute('/api/pay/mark/') + mumId);
 				}
 			}
 		};
