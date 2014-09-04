@@ -1,6 +1,6 @@
 <?php
 
-	$app->get('/api/accentbow', function() {
+	$app->get('/api/accentbow', auth_all(VolunteerRights::ConfigureItems), function() {
 		$bows = AccentBowQuery::create()->find();
 		
 		if (!$bows) return;
@@ -12,7 +12,7 @@
 		echo json_encode(array_map($encodeBow, $bows->getData()));
 	});
 
-	$app->get('/api/accentbow/:id', function($id) {
+	$app->get('/api/accentbow/:id', auth_all(VolunteerRights::ConfigureItems), function($id) {
 		$bow = AccentBowQuery::create()->findPK($id);
 		
 		if (!$bow) return;
@@ -20,7 +20,7 @@
 		echo json_encode($bow->toFull());
 	});
 
-	$app->put('/api/accentbow/:id', function($id) use ($app) {
+	$app->put('/api/accentbow/:id', auth_volunteer(VolunteerRights::ConfigureItems), function($id) use ($app) {
 
 		$bow = AccentBowQuery::create()->findPK($id);
 
@@ -35,7 +35,7 @@
 		echo json_encode($bow->toFull());
 	});
 
-	$app->post('/api/accentbow', function() use ($app) {
+	$app->post('/api/accentbow', auth_volunteer(VolunteerRights::ConfigureItems), function() use ($app) {
 		$bow = new AccentBow();
 
 		foreach ($app->request->post() as $key => $value) {
@@ -47,7 +47,7 @@
 		echo json_encode($bow->toFull());
 	});
 
-	$app->delete('/api/accentbow/:id', function($id) {
+	$app->delete('/api/accentbow/:id', auth_volunteer(VolunteerRights::ConfigureItems), function($id) {
 		$bow = AccentBowQuery::create()->findPK($id);
 
 		if (!$bow) return;
@@ -57,7 +57,7 @@
 		echo json_encode($bow->toFull());
 	});
 
-	$app->post('/api/accentbow/:id/image', function($id) {
+	$app->post('/api/accentbow/:id/image', auth_volunteer(VolunteerRights::ConfigureItems), function($id) {
 		$accentbow = AccentBowQuery::create()->findPK($id);
 		if (!$accentbow) return;
 
@@ -69,7 +69,7 @@
 		echo json_encode(array('message' => 'Success!'));
 	});
 
-	$app->get('/api/accentbow/:id/image', function($id) use ($app) {
+	$app->get('/api/accentbow/:id/image', auth_loggedin(), function($id) use ($app) {
 		$app->response->header('Content-Type', 'content-type: image/jpg');
 
 		$accentbow = AccentBowQuery::create()->findPK($id);

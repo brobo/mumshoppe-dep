@@ -1,6 +1,6 @@
 <?php
 	
-	$app->get('/api/size', function() use ($app) {
+	$app->get('/api/size', auth_all(VolunteerRights::ConfigureItems), function() use ($app) {
 		$sizes = SizeQuery::create()->find();
 
 		if (!$sizes) return;
@@ -12,7 +12,7 @@
 		echo json_encode(array_map($encodeSize, $sizes->getData()));
 	});
 
-	$app->get('/api/size/:id', function($id) {
+	$app->get('/api/size/:id', auth_all(VolunteerRights::ConfigureItems), function($id) {
 		$size = SizeQuery::create()->findPK($id);
 
 		if (!$size) return;
@@ -20,7 +20,7 @@
 		echo json_encode($size->getFull());
 	});
 
-	$app->put('/api/size/:id', function($id) use ($app) {
+	$app->put('/api/size/:id', auth_volunteer(VolunteerRights::ConfigureItems), function($id) use ($app) {
 		$size = SizeQuery::create()->findPK($id);
 
 		if (!$size) return;
@@ -34,7 +34,7 @@
 		echo json_encode($size->getFull());
 	});
 
-	$app->post('/api/size', function() use ($app) {
+	$app->post('/api/size', auth_volunteer(VolunteerRights::ConfigureItems), function() use ($app) {
 		$size = new Size();
 
 		foreach ($app->request->post() as $key => $value) {
@@ -46,7 +46,7 @@
 		echo json_encode($size->getFull());
 	});
 
-	$app->delete('/api/size/:id', function($id) {
+	$app->delete('/api/size/:id', auth_volunteer(VolunteerRights::ConfigureItems), function($id) {
 		$size = SizeQuery::create()->findPK($id);
 
 		if (!$size) return;
@@ -56,7 +56,7 @@
 		echo json_encode($size->getFull());
 	});
 
-	$app->post('/api/size/:id/image', function($id) {
+	$app->post('/api/size/:id/image', auth_volunteer(VolunteerRights::ConfigureItems), function($id) {
 		$size = SizeQuery::create()->findPK($id);
 		if (!$size) return;
 
@@ -68,7 +68,7 @@
 		echo json_encode(array('message' => 'Success!'));
 	});
 
-	$app->get('/api/size/:id/image', function($id) use ($app) {
+	$app->get('/api/size/:id/image', auth_loggedin(), function($id) use ($app) {
 		$app->response->header('Content-Type', 'content-type: image/jpg');
 
 		$size = SizeQuery::create()->findPK($id);

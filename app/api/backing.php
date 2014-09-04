@@ -1,6 +1,6 @@
 <?php
 	
-	$app->get('/api/backing', function() use ($app) {
+	$app->get('/api/backing', auth_all(VolunteerRights::ConfigureItems), function() use ($app) {
 		$backings = BackingQuery::create()->find();
 
 		if (!$backings) return;
@@ -12,7 +12,7 @@
 		echo json_encode(array_map($encodeBacking, $backings->getData()));
 	});
 
-	$app->get('/api/backing/:id', function($id) {
+	$app->get('/api/backing/:id', auth_all(VolunteerRights::ConfigureItems), function($id) {
 		$backing = BackingQuery::create()->findPK($id);
 
 		if (!$backing) return;
@@ -20,7 +20,7 @@
 		echo json_encode($backing->toFull());
 	});
 
-	$app->put('/api/backing/:id', function($id) use ($app) {
+	$app->put('/api/backing/:id', auth_volunteer(VolunteerRights::ConfigureItems), function($id) use ($app) {
 		$backing = BackingQuery::create()->findPK($id);
 
 		if (!$backing) return;
@@ -34,7 +34,7 @@
 		echo json_encode($backing->toFull());
 	});
 
-	$app->post('/api/backing', function() use ($app) {
+	$app->post('/api/backing', auth_volunteer(VolunteerRights::ConfigureItems), function() use ($app) {
 		$backing = new Backing();
 
 		foreach ($app->request->post() as $key => $value) {
@@ -46,7 +46,7 @@
 		echo json_encode($backing->toFull());
 	});
 
-	$app->delete('/api/backing/:id', function($id) {
+	$app->delete('/api/backing/:id', auth_volunteer(VolunteerRights::ConfigureItems), function($id) {
 		$backing = BackingQuery::create()->findPK($id);
 
 		if (!$backing) return;
@@ -56,7 +56,7 @@
 		echo json_encode($backing->toFull());
 	});
 
-	$app->post('/api/backing/:id/image', function($id) {
+	$app->post('/api/backing/:id/image', auth_volunteer(VolunteerRights::ConfigureItems), function($id) {
 		$backing = BackingQuery::create()->findPK($id);
 		if (!$backing) return;
 
@@ -68,7 +68,7 @@
 		echo json_encode(array('message' => 'Success!'));
 	});
 
-	$app->get('/api/backing/:id/image', function($id) use ($app) {
+	$app->get('/api/backing/:id/image', auth_loggedin(), function($id) use ($app) {
 		$app->response->header('Content-Type', 'content-type: image/jpg');
 
 		$backing = BackingQuery::create()->findPK($id);

@@ -1,6 +1,7 @@
 <?php
 
 abstract class VolunteerRights {
+	const NO_RIGHTS = -1; // This is used to enforce a volunteer token without rights
 	const ConfigureItems = 0;
 	const ViewMums = 1;
 	const MarkMumsPaid = 2;

@@ -9,7 +9,7 @@
 		$mum->save();
 	});
 	
-	$app->get('/api/pay/deposit/:mumId', function($mumId) use ($app, $paypalSdkConfig) {
+	$app->get('/api/pay/deposit/:mumId', auth_customer(), function($mumId) use ($app, $paypalSdkConfig) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;
 
@@ -59,7 +59,7 @@
 		}
 	});
 
-	$app->post('/api/pay/deposit/:mumId', function($mumId) use ($app, $paypalSdkConfig) {
+	$app->post('/api/pay/deposit/:mumId', auth_customer(), function($mumId) use ($app, $paypalSdkConfig) {
 		if (!isset($_SESSION['deposit']['payment-id'])) return;
 		if (!isset($_SESSION['deposit']['access-token'])) return;
 
@@ -95,7 +95,7 @@
 		echo json_encode(array('success' => true));
 	});
 
-	$app->get('/api/pay/full/:mumId', function($mumId) use ($app, $paypalSdkConfig) {
+	$app->get('/api/pay/full/:mumId', auth_customer(), function($mumId) use ($app, $paypalSdkConfig) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;
 
@@ -145,7 +145,7 @@
 		}
 	});
 
-	$app->post('/api/pay/full/:mumId', function($mumId) use ($app, $paypalSdkConfig) {
+	$app->post('/api/pay/full/:mumId', auth_customer(), function($mumId) use ($app, $paypalSdkConfig) {
 		if (!isset($_SESSION['full']['payment-id'])) return;
 		if (!isset($_SESSION['full']['access-token'])) return;
 

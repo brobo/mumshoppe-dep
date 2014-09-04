@@ -15,7 +15,7 @@
 		);
 	};
 
-	$app->get('/api/accessory', function() use ($encodeAccessory) {
+	$app->get('/api/accessory', auth_all(VolunteerRights::ConfigureItems), function() use ($encodeAccessory) {
 		$accessories = AccessoryQuery::create()->joinWith('AccessoryCategory')->find()->getData();
 		
 		if (!$accessories) return;
@@ -23,7 +23,7 @@
 		echo json_encode(array_map($encodeAccessory, $accessories));
 	});
 
-	$app->get('/api/accessory/:id', function($id) use ($encodeAccessory) {
+	$app->get('/api/accessory/:id', auth_all(VolunteerRights::ConfigureItems), function($id) use ($encodeAccessory) {
 		$accessory = AccessoryQuery::create()->joinWith('Accessory.AccessoryCategory')->findPK($id);
 		
 		if (!$accessory) return;
@@ -31,7 +31,7 @@
 		echo json_encode($encodeAccessory($accessory));
 	});
 
-	$app->put('/api/accessory/:id', function($id) use ($app, $encodeAccessory) {
+	$app->put('/api/accessory/:id', auth_volunteer(VolunteerRights::ConfigureItems), function($id) use ($app, $encodeAccessory) {
 
 		$accessory = AccessoryQuery::create()->findPK($id);
 
@@ -48,7 +48,7 @@
 		echo json_encode($encodeAccessory($accessory));
 	});
 
-	$app->post('/api/accessory', function() use ($app, $encodeAccessory) {
+	$app->post('/api/accessory', auth_volunteer(VolunteerRights::ConfigureItems), function() use ($app, $encodeAccessory) {
 		$accessory = new Accessory();
 
 		foreach ($app->request->post() as $key => $value) {
@@ -62,7 +62,7 @@
 		echo json_encode($encodeAccessory($accessory));
 	});
 
-	$app->delete('/api/accessory/:id', function($id) {
+	$app->delete('/api/accessory/:id', auth_volunteer(VolunteerRights::ConfigureItems), function($id) {
 		$accessory = AccessoryQuery::create()->findPK($id);
 
 		if (!$accessory) return;
@@ -72,7 +72,7 @@
 		echo json_encode($encodeAccessory($accessory));
 	});
 
-	$app->post('/api/accessory/:id/image', function($id) {
+	$app->post('/api/accessory/:id/image', auth_volunteer(VolunteerRights::ConfigureItems), function($id) {
 		$accessory = AccessoryQuery::create()->findPK($id);
 		if (!$accessory) return;
 
@@ -84,7 +84,7 @@
 		echo json_encode(array('message' => 'Success!'));
 	});
 
-	$app->get('/api/accessory/:id/image', function($id) use ($app) {
+	$app->get('/api/accessory/:id/image', auth_loggedin(), function($id) use ($app) {
 		$app->response->header('Content-Type', 'content-type: image/jpg');
 
 		$accessory = AccessoryQuery::create()->findPK($id);

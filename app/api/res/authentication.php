@@ -54,6 +54,8 @@
 			 
 			// if (new DateTime() > $volunteer->getTokenExpiration())
 			// 	auth_fail('Your token is expired.');
+
+			if ($right === -1) return;
 			
 			if (!VolunteerRights::HasRight($token['Rights'], $right))
 					auth_fail('You do not have that right.');
@@ -73,5 +75,19 @@
 					break;
 			}
 		};
+	}
+
+	function auth_loggedin() {
+		return function() {
+			$token = auth_precheck();
+		}
+	}
+
+	function auth_customer() {
+		retur nfunction() {
+			$token = auth_precheck();
+			if ($token['Type'] != 'Customer')
+				auth_fail('You do not have that right.');
+		}
 	}
 ?>

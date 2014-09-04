@@ -1,6 +1,6 @@
 <?php
 
-	$app->get('/api/bear', function() {
+	$app->get('/api/bear', auth_all(VolunteerRights::ConfigureItems), function() {
 		$bears = BearQuery::create()->find();
 		
 		if (!$bears) return;
@@ -12,7 +12,7 @@
 		echo json_encode(array_map($encodeBear, $bears->getData()));
 	});
 
-	$app->get('/api/bear/:id', function($id) {
+	$app->get('/api/bear/:id', auth_all(VolunteerRights::ConfigureItems), function($id) {
 		$bear = BearQuery::create()->findPK($id);
 		
 		if (!$bear) return;
@@ -20,7 +20,7 @@
 		echo json_encode($bear->getFull());
 	});
 
-	$app->put('/api/bear/:id', function($id) use ($app) {
+	$app->put('/api/bear/:id', auth_volunteer(VolunteerRights::ConfigureItems), function($id) use ($app) {
 
 		$bear = BearQuery::create()->findPK($id);
 
@@ -35,7 +35,7 @@
 		echo json_encode($bear->getFull());
 	});
 
-	$app->post('/api/bear', function() use ($app) {
+	$app->post('/api/bear', auth_volunteer(VolunteerRights::ConfigureItems), function() use ($app) {
 		$bear = new Bear();
 
 		foreach ($app->request->post() as $key => $value) {
@@ -47,7 +47,7 @@
 		echo json_encode($bear->getFull());
 	});
 
-	$app->delete('/api/bear/:id', function($id) {
+	$app->delete('/api/bear/:id', auth_volunteer(VolunteerRights::ConfigureItems), function($id) {
 		$bear = BearQuery::create()->findPK($id);
 
 		if (!$bear) return;
@@ -57,7 +57,7 @@
 		echo json_encode($bear->getFull());
 	});
 
-	$app->post('/api/bear/:id/image', function($id) {
+	$app->post('/api/bear/:id/image', auth_volunteer(VolunteerRights::ConfigureItems), function($id) {
 		$bear = BearQuery::create()->findPK($id);
 		if (!$bear) return;
 
@@ -69,7 +69,7 @@
 		echo json_encode(array('message' => 'Success!'));
 	});
 
-	$app->get('/api/bear/:id/image', function($id) use ($app) {
+	$app->get('/api/bear/:id/image', auth_loggedin(), function($id) use ($app) {
 		$app->response->header('Content-Type', 'content-type: image/jpg');
 
 		$bear = BearQuery::create()->findPK($id);

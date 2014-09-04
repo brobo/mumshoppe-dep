@@ -1,6 +1,6 @@
 <?php
 
-	$app->get('/api/volunteer', function() {
+	$app->get('/api/volunteer', auth_volunteer(VolunteerRights::NO_RIGHTS), function() {
 		$volunteers = VolunteerQuery::create()->find();
 
 		$encodeVolunteer = function($volunteer) {
@@ -16,7 +16,7 @@
 		echo json_encode(array_map($encodeVolunteer, $volunteers->getData()));
 	});
 
-	$app->put('/api/volunteer/:volunteerId', function($volunteerId) use ($app) {
+	$app->put('/api/volunteer/:volunteerId', auth_volunteer(VolunteerRights::CreateVolunteer), function($volunteerId) use ($app) {
 		$volunteer = VolunteerQuery::create()->findPK($volunteerId);
 		if (!$volunteer) return;
 
@@ -35,7 +35,7 @@
 		));
 	});
 
-	$app->post('/api/volunteer', function() use ($app) {
+	$app->post('/api/volunteer', auth_volunteer(VolunteerRights::CreateVolunteer), function() use ($app) {
 		$volunteer = new Volunteer();
 
 		$volunteer->setName($app->request->post('Name'));
@@ -55,7 +55,7 @@
 		echo json_encode($res);
 	});
 
-	$app->post('/api/volunteer/login', function() use ($app) {
+	$app->post('/api/volunteer/login', auth_volunteer(VolunteerRights::CreateVolunteer), function() use ($app) {
 		$email = $app->request->post('Email');
 		$password = $app->request->post('Password');
 
@@ -77,7 +77,7 @@
 		}
 	});
 
-	$app->post('/api/volunteer/verify', function() use ($app) {
+	$app->post('/api/volunteer/verify', auth_volunteer(VolunteerRights::CreateVolunteer), function() use ($app) {
 		$volunteers = VolunteerQuery::create()->filterByEmail($app->request->post('Email'))->count();
 		if ($volunteers > 0) {
 			echo json_encode(array('valid' => false));	
@@ -86,7 +86,7 @@
 		}
 	});
 
-	$app->post('/api/volunteer/:id/rights', function($id) use ($app) {
+	$app->post('/api/volunteer/:id/rights', auth_volunteer(VolunteerRights::ChangeVolunteerPerms), function($id) use ($app) {
 		$volunteer = VolunteerQuery::create()->findPK($id);
 		if (!$volunteer) return;
 

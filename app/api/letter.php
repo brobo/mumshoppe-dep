@@ -1,6 +1,6 @@
 <?php
 
-	$app->get('/api/letter', function() {
+	$app->get('/api/letter', auth_all(VolunteerRights::ConfigureItems), function() {
 		$letters = LetterQuery::create()->find();
 		
 		if (!$letters) return;
@@ -8,7 +8,7 @@
 		echo json_encode($letters->toArray());
 	});
 
-	$app->get('/api/letter/:id', function($id) {
+	$app->get('/api/letter/:id', auth_all(VolunteerRights::ConfigureItems), function($id) {
 		$letter = LetterQuery::create()->findPK($id);
 		
 		if (!$letter) return;
@@ -16,7 +16,7 @@
 		echo $letter->toJson();
 	});
 
-	$app->put('/api/letter/:id', function($id) use ($app) {
+	$app->put('/api/letter/:id', auth_volunteer(VolunteerRights::ConfigureItems), function($id) use ($app) {
 
 		$letter = LetterQuery::create()->findPK($id);
 
@@ -31,7 +31,7 @@
 		echo $letter->toJson();
 	});
 
-	$app->post('/api/letter', function() use ($app) {
+	$app->post('/api/letter', auth_volunteer(VolunteerRights::ConfigureItems), function() use ($app) {
 		$letter = new Letter();
 
 		foreach ($app->request->post() as $key => $value) {
@@ -43,7 +43,7 @@
 		echo $letter->toJson();
 	});
 
-	$app->delete('/api/letter/:id', function($id) {
+	$app->delete('/api/letter/:id', auth_volunteer(VolunteerRights::ConfigureItems), function($id) {
 		$letter = LetterQuery::create()->findPK($id);
 
 		if (!$letter) return;

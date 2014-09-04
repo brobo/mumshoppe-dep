@@ -1,6 +1,6 @@
 <?php
 
-	$app->get('/api/mum', function() use ($app) {
+	$app->get('/api/mum', auth_all(VolunteerRights::ViewMums), function() use ($app) {
 		$mums = MumQuery::create();
 
 		foreach ($app->request->get() as $key => $value) {
@@ -34,7 +34,7 @@
 		echo json_encode(array_map($encodeMum, $mums));
 	});
 
-	$app->get('/api/mum/:mumId', function($mumId) use ($app) {
+	$app->get('/api/mum/:mumId', auth_all(VolunteerRights::ViewMums), function($mumId) use ($app) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;
 		echo json_encode($mum->getFull());
@@ -42,7 +42,7 @@
 	
 	// TODO: You can query whether or not to allow further orders by $app->persisted->get("AllowOrders").
 	// Accept/Deny based on that constant.
-	$app->post('/api/mum', function() use ($app) {
+	$app->post('/api/mum', auth_customer(), function() use ($app) {
 		$mum = new Mum();
 		$mum->setCustomerId($app->request->post('CustomerId'));
 		$mum->save();
@@ -50,7 +50,7 @@
 		echo json_encode($mum->getFull());
 	});
 
-	$app->put('/api/mum/:mumId', function($mumId) use ($app) {
+	$app->put('/api/mum/:mumId', auth_customer(), function($mumId) use ($app) {
 		$mum = MumQuery::create()->findPK($mumId);
 
 		if (!$mum) return;
@@ -63,7 +63,7 @@
 		echo json_encode($mum->getFull());
 	});
 
-	$app->put('/api/mum/:mumId/status', function($mumId) use ($app) {
+	$app->put('/api/mum/:mumId/status', auth_volunteer(VolunteerRights::ViewMums), function($mumId) use ($app) {
 		$mum = MumQuery::create()->findPK($mumId);
 
 		if (!$mum) return;
@@ -91,7 +91,7 @@
 		echo json_encode(["AllowOrders" => $app->persisted->get("AllowOrders")]);
 	});
 
-	$app->post('/api/mum/:mumId/accessory', function($mumId) use ($app) {
+	$app->post('/api/mum/:mumId/accessory', auth_all(VolunteerRights::ViewMums), function($mumId) use ($app) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;
 		foreach ($mum->getMumAccessories() as $mumAccessory) {
@@ -108,7 +108,7 @@
 		echo json_encode(array('message'=>'Successfully saved.'));
 	});
 
-	$app->post('/api/mum/:mumId/accessory/:accessoryId', function($mumId, $accessoryId) use ($app) {
+	$app->post('/api/mum/:mumId/accessory/:accessoryId', auth_customer(), function($mumId, $accessoryId) use ($app) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;
 		$accessory = AccessoryQuery::create()->findPK($accessoryId);
@@ -126,7 +126,7 @@
 		echo json_encode(array('message' => 'Success'));
 	});
 
-	$app->delete('/api/mum/:mumId/accessory/:accessoryId', function($mumId, $accessoryId) use ($app) {
+	$app->delete('/api/mum/:mumId/accessory/:accessoryId', auth_customer(), function($mumId, $accessoryId) use ($app) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;
 		$accessory = AccessoryQuery::create()->findPK($accessoryId);
@@ -136,7 +136,7 @@
 		echo json_encode($mum->getFull());
 	});
 
-	$app->put('/api/mum/:mumId/bear/:bearId', function($mumId, $bearId) use ($app) {
+	$app->put('/api/mum/:mumId/bear/:bearId', auth_customer(), function($mumId, $bearId) use ($app) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;
 		$bear = BearQuery::create()->findPK($bearId);
@@ -148,7 +148,7 @@
 		echo json_encode(array('message' => 'Success'));
 	});
 
-	$app->delete('/api/mum/:mumId/bear/:bearId', function($mumId, $bearId) use ($app) {
+	$app->delete('/api/mum/:mumId/bear/:bearId', auth_customer(), function($mumId, $bearId) use ($app) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;
 		$bear = BearQuery::create()->findPK($bearId);
@@ -158,7 +158,7 @@
 		echo json_encode($mum->getFull());
 	});
 
-	$app->delete('/api/mum/:mumId', function($mumId) {
+	$app->delete('/api/mum/:mumId', auth_customer(), function($mumId) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;
 		$mum->delete();

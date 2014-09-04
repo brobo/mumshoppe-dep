@@ -1,6 +1,6 @@
 <?php
 	
-	$app->get('/api/product', function() use ($app) {
+	$app->get('/api/product', auth_all(VolunteerRights::ConfigureItems), function() use ($app) {
 		$products = ProductQuery::create()->find();
 
 		if (!$products) return;
@@ -8,7 +8,7 @@
 		echo json_encode($products->toArray());
 	});
 
-	$app->get('/api/product/:id', function($id) {
+	$app->get('/api/product/:id', auth_all(VolunteerRights::ConfigureItems), function($id) {
 		$product = ProductQuery::create()->findPK($id);
 
 		if (!$product) return;
@@ -16,7 +16,7 @@
 		echo $product->toJson();
 	});
 
-	$app->put('/api/product/:id', function($id) use ($app) {
+	$app->put('/api/product/:id', auth_volunteer(VolunteerRights::ConfigureItems), function($id) use ($app) {
 		$product = ProductQuery::create()->findPK($id);
 
 		if (!$product) return;
@@ -30,7 +30,7 @@
 		echo $product->toJson();
 	});
 
-	$app->post('/api/product', function() use ($app) {
+	$app->post('/api/product', auth_volunteer(VolunteerRights::ConfigureItems), function() use ($app) {
 		$product = new Product();
 
 		foreach ($app->request->post() as $key => $value) {
@@ -42,7 +42,7 @@
 		echo $product->toJson();
 	});
 
-	$app->delete('/api/product/:id', function($id) {
+	$app->delete('/api/product/:id', auth_volunteer(VolunteerRights::ConfigureItems), function($id) {
 		$product = ProductQuery::create()->findPK($id);
 
 		if (!$product) return;
