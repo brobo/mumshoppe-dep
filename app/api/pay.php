@@ -1,5 +1,12 @@
 <?php
 
+	/*****************************************************
+	 * Copyright (c) 2014 Colby Brown                    *
+	 * This program is released under the MIT license.   *
+	 * For more information about the MIT license,       *
+	 * visit http://opensource.org/licenses/MIT          *
+	 *****************************************************/
+
 	$app->get('/api/pay/mark/:mumId', auth_volunteer(VolunteerRights::MarkMumsPaid), function($mumId) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;

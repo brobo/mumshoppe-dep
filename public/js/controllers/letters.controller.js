@@ -1,3 +1,11 @@
+
+	/*****************************************************
+	 * Copyright (c) 2014 Colby Brown                    *
+	 * This program is released under the MIT license.   *
+	 * For more information about the MIT license,       *
+	 * visit http://opensource.org/licenses/MIT          *
+	 *****************************************************/
+
 angular.module('letters.controller', [])
 	.controller('lettersController', function($scope, $modal, promiseTracker, LettersService, AlertsService, ConfirmService) {
 		

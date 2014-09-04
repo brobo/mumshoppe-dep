@@ -1,3 +1,11 @@
+
+	/*****************************************************
+	 * Copyright (c) 2014 Colby Brown                    *
+	 * This program is released under the MIT license.   *
+	 * For more information about the MIT license,       *
+	 * visit http://opensource.org/licenses/MIT          *
+	 *****************************************************/
+
 angular.module('accessories.service', [])
 	.factory('AccessoriesService', function($http) {
 		return {
@@ -5,9 +13,11 @@ angular.module('accessories.service', [])
 				return $http.get(getRoute('/api/accessory'));
 			},
 			create: function(accessoryData) {
+				console.log('creating');
 				return $http.post(getRoute('/api/accessory'), angular.copy(accessoryData));
 			},
 			update: function(id, accessoryData) {
+				console.log('updating');
 				return $http.put(getRoute('/api/accessory/') + id, angular.copy(accessoryData));
 			},
 			delete: function(id) {

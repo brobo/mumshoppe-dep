@@ -1,3 +1,11 @@
+
+	/*****************************************************
+	 * Copyright (c) 2014 Colby Brown                    *
+	 * This program is released under the MIT license.   *
+	 * For more information about the MIT license,       *
+	 * visit http://opensource.org/licenses/MIT          *
+	 *****************************************************/
+
 angular.module('accessoriesEdit.controller', [])
 	.controller('accessoriesEditController', function($scope, $state, $stateParams, $modal, promiseTracker, AccessoriesService, AlertsService) {
 

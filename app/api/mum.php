@@ -1,5 +1,12 @@
 <?php
 
+	/*****************************************************
+	 * Copyright (c) 2014 Colby Brown                    *
+	 * This program is released under the MIT license.   *
+	 * For more information about the MIT license,       *
+	 * visit http://opensource.org/licenses/MIT          *
+	 *****************************************************/
+	
 	$app->get('/api/mum', auth_all(VolunteerRights::ViewMums), function() use ($app) {
 		$mums = MumQuery::create()->joinWith("Mum.Customer");
 		if(isCustomer()) {

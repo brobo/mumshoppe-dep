@@ -1,5 +1,12 @@
 <?php
 
+	/*****************************************************
+	 * Copyright (c) 2014 Colby Brown                    *
+	 * This program is released under the MIT license.   *
+	 * For more information about the MIT license,       *
+	 * visit http://opensource.org/licenses/MIT          *
+	 *****************************************************/
+
 // TODO: Unfortunately, this is not atomic. That could be problematic.
 class VariableConfig {
 	const CONFIG_FILE = "config.json";

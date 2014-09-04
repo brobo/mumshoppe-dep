@@ -1,5 +1,12 @@
 <?php
 
+	/*****************************************************
+	 * Copyright (c) 2014 Colby Brown                    *
+	 * This program is released under the MIT license.   *
+	 * For more information about the MIT license,       *
+	 * visit http://opensource.org/licenses/MIT          *
+	 *****************************************************/
+
 	$app->get('/api/volunteer', auth_volunteer(VolunteerRights::NO_RIGHTS), function() {
 		$volunteers = VolunteerQuery::create()->find();
 

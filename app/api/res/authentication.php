@@ -1,4 +1,12 @@
 <?php
+	
+	/*****************************************************
+	 * Copyright (c) 2014 Colby Brown                    *
+	 * This program is released under the MIT license.   *
+	 * For more information about the MIT license,       *
+	 * visit http://opensource.org/licenses/MIT          *
+	 *****************************************************/
+
 	function auth_fail($message) {
 		header('HTTP/1.0 401 Unauthorized');
 		echo 'You failed to provide a valid token for that request.' . "\n";

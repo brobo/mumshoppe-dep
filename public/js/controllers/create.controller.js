@@ -1,3 +1,11 @@
+
+	/*****************************************************
+	 * Copyright (c) 2014 Colby Brown                    *
+	 * This program is released under the MIT license.   *
+	 * For more information about the MIT license,       *
+	 * visit http://opensource.org/licenses/MIT          *
+	 *****************************************************/
+
 angular.module('create.controller', [])
 	.controller('createController', function($scope, $state, $cookieStore, $stateParams, promiseTracker, MumService) {
 

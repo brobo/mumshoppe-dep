@@ -1,3 +1,11 @@
+
+	/*****************************************************
+	 * Copyright (c) 2014 Colby Brown                    *
+	 * This program is released under the MIT license.   *
+	 * For more information about the MIT license,       *
+	 * visit http://opensource.org/licenses/MIT          *
+	 *****************************************************/
+
 angular.module('pay.controller', [])
 	.controller('payIndexController', function($scope, $stateParams, $window, promiseTracker, AlertsService, PayService, MumService) {
 		$scope.tracker = promiseTracker();

@@ -1,5 +1,12 @@
 <?php
 
+	/*****************************************************
+	 * Copyright (c) 2014 Colby Brown                    *
+	 * This program is released under the MIT license.   *
+	 * For more information about the MIT license,       *
+	 * visit http://opensource.org/licenses/MIT          *
+	 *****************************************************/
+
 abstract class VolunteerRights {
 	const NO_RIGHTS = -1; // This is used to enforce a volunteer token without rights
 	const ConfigureItems = 0;

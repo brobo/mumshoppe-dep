@@ -1,3 +1,11 @@
+
+	/*****************************************************
+	 * Copyright (c) 2014 Colby Brown                    *
+	 * This program is released under the MIT license.   *
+	 * For more information about the MIT license,       *
+	 * visit http://opensource.org/licenses/MIT          *
+	 *****************************************************/
+
 var app = angular.module('volunteer', [
 	'ajoslin.promise-tracker',
 	'cn.offCanvas',
@@ -207,7 +215,7 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 		.state('configure.accessories.add', {
 			url: '/add',
 			templateUrl: 'public/views/volunteer/accessories/edit.html',
-			controller: 'accessoriesEditController'
+			controller: 'accessoriesAddController'
 		})
 		.state('configure.accessories.edit', {
 			url: '/edit/:accessoryId',
