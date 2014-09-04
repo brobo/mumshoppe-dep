@@ -21,7 +21,16 @@ angular.module('mums.mumshoppe.controller', [])
 		$scope.createMum = function() {
 			MumService.create()
 				.success(function(data) {
-					$state.go('create.start', {mumId: data.Mum.Id});
+					if (data.success) {
+						$state.go('create.start', {mumId: data.mum.Mum.Id});
+					} else {
+						if (!data.orders) {
+							AlertsService.add('warning', 'The mum shoppe is not taking any more orders for this year.');
+						} else {
+							AlertsService.add('danger', 'Something went wrong - try again.');
+						}
+					}
+					
 				}).error(function(data) {
 					console.log(data);
 					AlertsService.add('danger', 'Something went wrong - try again.');

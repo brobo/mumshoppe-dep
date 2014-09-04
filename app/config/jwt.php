@@ -7,6 +7,7 @@
 	 * visit http://opensource.org/licenses/MIT          *
 	 *****************************************************/
 
+	// JWTKEY: The private key used to encrypt and decrypt JSON web tokens.
 	define('JWTKEY', 'H/6P[HXO@(?K30xOhU<QS;2ME~cTE6');
 
 ?>

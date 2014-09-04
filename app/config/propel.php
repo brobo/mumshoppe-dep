@@ -7,6 +7,11 @@
 	 * visit http://opensource.org/licenses/MIT          *
 	 *****************************************************/
 
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'mums');
+define('DB_USER', 'root');
+define('DB_PASSWORD', '');
+
 require_once 'app/vendor/autoload.php';
 use Propel\Runtime\Propel;
 use Propel\Runtime\Connection\ConnectionManagerSingle;
@@ -15,8 +20,8 @@ $serviceContainer->setAdapterClass('mums', 'mysql');
 $manager = new ConnectionManagerSingle();
 $manager = new ConnectionManagerSingle();
 $manager->setConfiguration(array (
-	'dsn'		=>	'mysql:host=localhost;dbname=mums',
-	'user'		=>	'root',
-	'password'	=>	''
+	'dsn'		=>	'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME,
+	'user'		=>	DB_USER,
+	'password'	=>	DB_PASSWORD
 ));
 $serviceContainer->setConnectionManager('mums', $manager);

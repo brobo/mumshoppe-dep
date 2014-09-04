@@ -69,7 +69,7 @@
 		echo json_encode($encodeAccessory($accessory));
 	});
 
-	$app->delete('/api/accessory/:id', auth_volunteer(VolunteerRights::ConfigureItems), function($id) {
+	$app->delete('/api/accessory/:id', auth_volunteer(VolunteerRights::ConfigureItems), function($id) use ($encodeAccessory) {
 		$accessory = AccessoryQuery::create()->findPK($id);
 
 		if (!$accessory) return;

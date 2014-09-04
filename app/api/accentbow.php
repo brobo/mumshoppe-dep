@@ -24,7 +24,7 @@
 		
 		if (!$bow) return;
 
-		echo json_encode($bow->toFull());
+		echo json_encode($bow->getFull());
 	});
 
 	$app->put('/api/accentbow/:id', auth_volunteer(VolunteerRights::ConfigureItems), function($id) use ($app) {
@@ -39,7 +39,7 @@
 
 		$bow->save();
 
-		echo json_encode($bow->toFull());
+		echo json_encode($bow->getFull());
 	});
 
 	$app->post('/api/accentbow', auth_volunteer(VolunteerRights::ConfigureItems), function() use ($app) {
@@ -51,7 +51,7 @@
 
 		$bow->save();
 
-		echo json_encode($bow->toFull());
+		echo json_encode($bow->getFull());
 	});
 
 	$app->delete('/api/accentbow/:id', auth_volunteer(VolunteerRights::ConfigureItems), function($id) {
@@ -61,7 +61,7 @@
 
 		$bow->delete();
 		
-		echo json_encode($bow->toFull());
+		echo json_encode($bow->getFull());
 	});
 
 	$app->post('/api/accentbow/:id/image', auth_volunteer(VolunteerRights::ConfigureItems), function($id) {

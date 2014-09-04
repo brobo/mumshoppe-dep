@@ -299,7 +299,7 @@ CREATE TABLE IF NOT EXISTS `volunteer` (
 --
 
 INSERT INTO `volunteer` (`id`, `email`, `password`, `name`, `phone`, `rights`) VALUES
-(1, 'root@root.com', '$2y$10$bCt4s2UdMrTyUSUOJIhNzOe/PP3Dvklf0c0eh48Qu2Vl9bSlVyJ5C', 'Root Volunteer', NULL, 0);
+(1, 'root@root.com', '$2y$10$gkDt.gpEuekue90a44KIYO7JVHqbEi2mQ3xWCIVQP9lJbG.wG.YmG', 'Root Volunteer', NULL, 511);
 
 --
 -- Constraints for dumped tables

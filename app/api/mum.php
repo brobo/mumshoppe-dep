@@ -55,11 +55,16 @@
 	// TODO: You can query whether or not to allow further orders by $app->persisted->get("AllowOrders").
 	// Accept/Deny based on that constant.
 	$app->post('/api/mum', auth_customer(), function() use ($app) {
+		if (!$app->persisted->get('AllowOrders')) {
+			echo json_encode(['success' => false, 'orders' => false]);
+			return;
+		}
+
 		$mum = new Mum();
 		$mum->setCustomerId($app->token['Id']);
 		$mum->save();
 
-		echo json_encode($mum->getFull());
+		echo json_encode(['success' => true, 'mum' => $mum->getFull()]);
 	});
 
 	$app->put('/api/mum/:mumId', auth_customer(), function($mumId) use ($app) {
