@@ -1,12 +1,13 @@
 <?php
 
 	$app->get('/api/mum', auth_all(VolunteerRights::ViewMums), function() use ($app) {
-		$mums = MumQuery::create();
+		$mums = MumQuery::create()->joinWith("Mum.Customer");
+		if(isCustomer()) $mums = $mums->where("Customer.Id = ?", $app->token["Id"]);
 
 		foreach ($app->request->get() as $key => $value) {
 			switch ($key) {
 			case 'CustomerName':
-				$mums = $mums->joinWith('Mum.Customer')->where('Customer.Name LIKE ?', "%$value%");
+				$mums = $mums->where('Customer.Name LIKE ?', "%$value%");
 				break;
 			case 'Year':
 				if ($value)
