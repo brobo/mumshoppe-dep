@@ -80,14 +80,14 @@
 	function auth_loggedin() {
 		return function() {
 			$token = auth_precheck();
-		}
+		};
 	}
 
 	function auth_customer() {
-		retur nfunction() {
+		return function() {
 			$token = auth_precheck();
 			if ($token['Type'] != 'Customer')
 				auth_fail('You do not have that right.');
-		}
+		};
 	}
 ?>

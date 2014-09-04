@@ -1,6 +1,6 @@
 <?php
 	
-	$app->get('/api/grade', auth_volunteer(VolunteerRights::ConfigureItems), function() use ($app) {
+	$app->get('/api/grade', auth_all(VolunteerRights::ConfigureItems), function() use ($app) {
 		$grades = GradeQuery::create()->find();
 
 		if (!$grades) return;

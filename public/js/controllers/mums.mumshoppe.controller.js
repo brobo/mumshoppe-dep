@@ -11,12 +11,12 @@ angular.module('mums.mumshoppe.controller', [])
 		$scope.updateMums();
 
 		$scope.createMum = function() {
-			MumService.create($cookieStore.get('customerToken').Id)
+			MumService.create()
 				.success(function(data) {
 					$state.go('create.start', {mumId: data.Mum.Id});
 				}).error(function(data) {
 					console.log(data);
-					AlertsService.alert('danger', 'Something went wrong - try again.');
+					AlertsService.add('danger', 'Something went wrong - try again.');
 				}).finally(function() {
 					$scope.updateMums();
 				});

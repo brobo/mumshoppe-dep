@@ -19,8 +19,8 @@ angular.module('create.controller', [])
 
 	})
 
-	.controller('createThankYouController', function($state) {
-		$state.$parent.next = function() {
+	.controller('createThankYouController', function($scope, $state) {
+		$scope.$parent.next = function() {
 			$state.go('mums.all');
 		}
 	})

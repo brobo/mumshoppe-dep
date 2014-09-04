@@ -6,6 +6,12 @@ angular.module('accessoriesAll.controller', [])
 				$scope.accessories = data;
 			});
 		}
+
+		AccessoriesService.categories.get()
+			.success(function(data) {
+				$scope.categories = data;
+				$scope.categorySelect = $scope.categories[0].Id;
+			});
 		
 		updateAccessoryList();
 

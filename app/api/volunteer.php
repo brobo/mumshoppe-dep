@@ -55,7 +55,7 @@
 		echo json_encode($res);
 	});
 
-	$app->post('/api/volunteer/login', auth_volunteer(VolunteerRights::CreateVolunteer), function() use ($app) {
+	$app->post('/api/volunteer/login', function() use ($app) {
 		$email = $app->request->post('Email');
 		$password = $app->request->post('Password');
 

@@ -1,10 +1,8 @@
 angular.module('mum.service', [])
 	.factory('MumService', function($http) {
 		return {
-			create: function(customerId) {
-				return $http.post(getRoute('/api/mum'), {
-					CustomerId: customerId
-				});
+			create: function() {
+				return $http.post(getRoute('/api/mum'));
 			},
 			get: function(criteria) {
 				return $http.get(getRoute('/api/mum'), {params: criteria});

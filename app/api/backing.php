@@ -17,7 +17,7 @@
 
 		if (!$backing) return;
 
-		echo json_encode($backing->toFull());
+		echo json_encode($backing->getFull());
 	});
 
 	$app->put('/api/backing/:id', auth_volunteer(VolunteerRights::ConfigureItems), function($id) use ($app) {
@@ -31,7 +31,7 @@
 
 		$backing->save();
 
-		echo json_encode($backing->toFull());
+		echo json_encode($backing->getFull());
 	});
 
 	$app->post('/api/backing', auth_volunteer(VolunteerRights::ConfigureItems), function() use ($app) {
@@ -43,7 +43,7 @@
 
 		$backing->save();
 
-		echo json_encode($backing->toFull());
+		echo json_encode($backing->getFull());
 	});
 
 	$app->delete('/api/backing/:id', auth_volunteer(VolunteerRights::ConfigureItems), function($id) {
@@ -53,7 +53,7 @@
 
 		$backing->delete();
 
-		echo json_encode($backing->toFull());
+		echo json_encode($backing->getFull());
 	});
 
 	$app->post('/api/backing/:id/image', auth_volunteer(VolunteerRights::ConfigureItems), function($id) {
@@ -68,7 +68,7 @@
 		echo json_encode(array('message' => 'Success!'));
 	});
 
-	$app->get('/api/backing/:id/image', auth_loggedin(), function($id) use ($app) {
+	$app->get('/api/backing/:id/image', function($id) use ($app) {
 		$app->response->header('Content-Type', 'content-type: image/jpg');
 
 		$backing = BackingQuery::create()->findPK($id);

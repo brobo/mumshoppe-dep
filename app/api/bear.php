@@ -69,7 +69,7 @@
 		echo json_encode(array('message' => 'Success!'));
 	});
 
-	$app->get('/api/bear/:id/image', auth_loggedin(), function($id) use ($app) {
+	$app->get('/api/bear/:id/image', function($id) use ($app) {
 		$app->response->header('Content-Type', 'content-type: image/jpg');
 
 		$bear = BearQuery::create()->findPK($id);

@@ -68,7 +68,7 @@
 		echo json_encode(array('message' => 'Success!'));
 	});
 
-	$app->get('/api/size/:id/image', auth_loggedin(), function($id) use ($app) {
+	$app->get('/api/size/:id/image', function($id) use ($app) {
 		$app->response->header('Content-Type', 'content-type: image/jpg');
 
 		$size = SizeQuery::create()->findPK($id);

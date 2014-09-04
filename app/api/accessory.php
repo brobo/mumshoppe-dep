@@ -84,7 +84,7 @@
 		echo json_encode(array('message' => 'Success!'));
 	});
 
-	$app->get('/api/accessory/:id/image', auth_loggedin(), function($id) use ($app) {
+	$app->get('/api/accessory/:id/image', function($id) use ($app) {
 		$app->response->header('Content-Type', 'content-type: image/jpg');
 
 		$accessory = AccessoryQuery::create()->findPK($id);

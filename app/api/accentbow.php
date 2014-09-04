@@ -69,7 +69,7 @@
 		echo json_encode(array('message' => 'Success!'));
 	});
 
-	$app->get('/api/accentbow/:id/image', auth_loggedin(), function($id) use ($app) {
+	$app->get('/api/accentbow/:id/image', function($id) use ($app) {
 		$app->response->header('Content-Type', 'content-type: image/jpg');
 
 		$accentbow = AccentBowQuery::create()->findPK($id);
