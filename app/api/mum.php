@@ -38,6 +38,8 @@
 	$app->get('/api/mum/:mumId', auth_all(VolunteerRights::ViewMums), function($mumId) use ($app) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;
+		if (isCustomer() && $mum->getCustomerId() !== $app->token['Id'])
+				return;
 		echo json_encode($mum->getFull());
 	});
 	
@@ -45,7 +47,7 @@
 	// Accept/Deny based on that constant.
 	$app->post('/api/mum', auth_customer(), function() use ($app) {
 		$mum = new Mum();
-		$mum->setCustomerId($app->request->post('CustomerId'));
+		$mum->setCustomerId($app->token['Id']);
 		$mum->save();
 
 		echo json_encode($mum->getFull());
@@ -55,6 +57,8 @@
 		$mum = MumQuery::create()->findPK($mumId);
 
 		if (!$mum) return;
+		if ($mum->getCustomerId() !== $app->token['Id'])
+				return;
 
 		foreach ($app->request->put() as $key => $value) {
 			$mum->setByName($key, $value);
@@ -95,6 +99,9 @@
 	$app->post('/api/mum/:mumId/accessory', auth_all(VolunteerRights::ViewMums), function($mumId) use ($app) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;
+		if (isCustomer() && $mum->getCustomerId() !== $app->token['Id'])
+				return;
+
 		foreach ($mum->getMumAccessories() as $mumAccessory) {
 			$mumAccessory->delete();
 		}
@@ -112,6 +119,9 @@
 	$app->post('/api/mum/:mumId/accessory/:accessoryId', auth_customer(), function($mumId, $accessoryId) use ($app) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;
+		if (isCustomer() && $mum->getCustomerId() !== $app->token['Id'])
+				return;
+
 		$accessory = AccessoryQuery::create()->findPK($accessoryId);
 		if (!$accessory) return;
 		$mumAccessory = MumAccessoryQuery::create()->filterByMumId($mumId)->filterByAccessoryId($accessoryId)->findOne();
@@ -130,6 +140,9 @@
 	$app->delete('/api/mum/:mumId/accessory/:accessoryId', auth_customer(), function($mumId, $accessoryId) use ($app) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;
+		if (isCustomer() && $mum->getCustomerId() !== $app->token['Id'])
+				return;
+
 		$accessory = AccessoryQuery::create()->findPK($accessoryId);
 		$mum->removeAccessory($accessory);
 
@@ -140,6 +153,9 @@
 	$app->put('/api/mum/:mumId/bear/:bearId', auth_customer(), function($mumId, $bearId) use ($app) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;
+		if (isCustomer() && $mum->getCustomerId() !== $app->token['Id'])
+				return;
+
 		$bear = BearQuery::create()->findPK($bearId);
 		if (!$bear) return;
 		if(!$mum->getBears(BearQuery::create()->filterById($bearId))) return;
@@ -152,6 +168,9 @@
 	$app->delete('/api/mum/:mumId/bear/:bearId', auth_customer(), function($mumId, $bearId) use ($app) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;
+		if (isCustomer() && $mum->getCustomerId() !== $app->token['Id'])
+				return;
+
 		$bear = BearQuery::create()->findPK($bearId);
 		$mum->removeBear($bear);
 
@@ -162,6 +181,9 @@
 	$app->delete('/api/mum/:mumId', auth_customer(), function($mumId) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;
+		if (isCustomer() && $mum->getCustomerId() !== $app->token['Id'])
+				return;
+			
 		$mum->delete();
 
 		echo json_encode($mum->getFull());
