@@ -1,6 +1,0 @@
-/vendor
-/composer.lock
-/tests/coverage
-/docs
-/testing
-build/coverage
