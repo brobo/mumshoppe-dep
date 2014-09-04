@@ -226,7 +226,7 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 app.run(['$cookieStore', '$injector', function($cookieStore, $injector) {
 	$injector.get("$http").defaults.transformRequest.unshift(function(data, headersGetter) {
 
-		var token = $cookieStore.get('customerToken');
+		var token = $cookieStore.get('volunteerToken');
 		if (token) {
 			headersGetter()['Authentication'] = token.jwt;
 		}

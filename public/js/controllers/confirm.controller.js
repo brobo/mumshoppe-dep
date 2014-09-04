@@ -12,12 +12,17 @@ angular.module('confirm.controller', ['ajoslin.promise-tracker'])
 
 		$scope.confirmed = function() {
 			var defered = $scope.tracker.createPromise();
-			after().then(function() {
-				defered.resolve();
+			var promise = after();
+			if (promise.then) {
+				promise.then(function() {
+					defered.resolve();
+					$modalInstance.close();
+				}, function() {
+					defered.resolve();
+					$modalInstance.dismiss();
+				});
+			} else {
 				$modalInstance.close();
-			}, function() {
-				defered.resolve();
-				$modalInstance.dismiss();
-			});
+			}
 		};
 	});

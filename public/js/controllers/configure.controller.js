@@ -16,27 +16,49 @@ angular.module('configure.controller', [])
 		}
 	})
 
-	.controller('configureYearlyController', function($scope, $state, $modal, AlertsService, MumService, promiseTracker) {
-		$scope.orderTracker = promiseTracker();
-		$scope.updateCanOrder = function() {
-			MumService.yearly.canOrder()
+	.controller('truncateController', function($scope, $modalInstance, AlertsService, MumService, promiseTracker) {
+		$scope.password = {};
+		$scope.tracker = promiseTracker();
+		$scope.truncate = function() {
+			var deferred = $scope.tracker.createPromise();
+			MumService.yearly.truncate($scope.password.value)
 				.success(function(data) {
-					$scope.canOrder = data.AllowOrders;
+					if (data.success) {
+						AlertsService.add('success', 'The mums have been truncated!');
+					} else {
+						AlertsService.add('danger', 'An error occured; please try again.');
+					}
+				}).error(function(data) {
+					AlertsService.add('warning', 'Something went wrong; are you sure you have permission to do that?');
+				}).finally(function() {
+					$modalInstance.close();
+					deferred.resolve();
 				});
-		};
-		$scope.updateCanOrder();
+		}
+		$scope.cancel = function() {
+			AlertsService.add('info', 'A catastrophe avoided! You canceled the truncation.');
+			$modalInstance.dismiss();
+		}
+	})
+
+	.controller('configureYearlyController', function($scope, $state, $modal, AlertsService, ConfirmService, MumService, promiseTracker) {
+		$scope.orderTracker = promiseTracker();
+		MumService.yearly.canOrder()
+			.success(function(data) {
+				$scope.canOrder = data.AllowOrders;
+			});
 
 		$scope.startOrders = function() {
 			var deferred = $scope.orderTracker.createPromise();
-			MumService.yearly.canOrder()
+			MumService.yearly.startOrder()
 				.success(function(data) {
 					AlertsService.add('success', 'Successfully opened up orders!');
 				}).error(function(data) {
-					AlertsService.add('danger', 'An error occured. Please try again.');
+					AlertsService.add('danger', 'Are you sure you have permission to do that?');
 				}).finally(function() {
 					deferred.resolve();
 				});
-				$scope.updateCanOrder();
+				$scope.canOrder = true;
 		};
 
 		$scope.stopOrders = function() {
@@ -45,11 +67,30 @@ angular.module('configure.controller', [])
 				.success(function(data) {
 					AlertsService.add('success', 'Successfully closed orders!');
 				}).error(function(data) {
-					AlertsService.add('danger', 'An error occured. Please try again.');
+					console.log(data);
+					AlertsService.add('danger', 'Are you sure you have permission to do that?');
 				}).finally(function() {
 					deferred.resolve();
 				});
-				$scope.updateCanOrder();
+				$scope.canOrder = false;
+		};
+
+		$scope.truncateOrders = function() {
+			ConfirmService.confirm({
+				head: "Truncate Mums?!?",
+				body: "WOAH! This is a VERY DANGEROUS THING TO DO! This will delete all orders since the beginning of time! Are you absolutely, 100% positive, completely certain, no-doubt about it sure you really want to do this?"
+			}, function() {
+				return ConfirmService.confirm({
+					head: "Wait, seriously?!?",
+					body: "No, seriously, think about this. All mums, unpaid and potentialy paid mums, will be deleted. There is no way to recover this data once it's gone! Are you definately, unquestionably, irrefutably ready to delete all mums?"
+				}, function() {
+					return $modal.open({
+						templateUrl: 'public/views/volunteer/configure/confirmTruncation.html',
+						controller: 'truncateController',
+						size: 'lg'
+					});
+				});
+			});
 		};
 	})
 

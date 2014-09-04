@@ -32,13 +32,16 @@ angular.module('mum.service', [])
 			},
 			yearly: {
 				canOrder: function() {
-					return $http.get(getRoute('/api/mumcontroll/can-order'));
+					return $http.get(getRoute('/api/mumcontrol/can-order'));
 				},
 				startOrder: function() {
-					return $http.post(getRoute('/api/mumcontroll/start-orders'));
+					return $http.post(getRoute('/api/mumcontrol/start-orders'));
 				},
 				stopOrder: function() {
-					return $http.post(getRoute('/api/mumcontroll/stop-orders'));
+					return $http.post(getRoute('/api/mumcontrol/stop-orders'));
+				},
+				truncate: function(password) {
+					return $http.post(getRoute('/api/mumcontrol/truncate'), {Password: password});
 				}
 			}
 		};

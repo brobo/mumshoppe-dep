@@ -1,0 +1,10 @@
+<h2>If you really insist...</h2>
+<p class="text-danger">
+	Ok. Let's be real. This is the last screen before all the mums are thrown into the dark void and obliterated forever.
+	This is your final chance to come to your senses and turn back.
+	If you truly are conclusively, unmistakibly, indubitably, incontestably, incontrovertibly, unequivocaly, water-tightly resolved to do this thing, then type your password in the box below.
+</p>
+<input type="password" class="form-control" ng-model="password.value" />
+<button class="btn btn-danger btn-block" ng-show="!tracker.active()" ng-click="truncate()">Proceed forwards at your own peril.</button>
+<button class="btn btn-danger btn-block" ng-show="tracker.active()"><i class="fa fa-spin fa-circle-o-notch"></i></button>
+<button class="btn btn-success btn-block" ng-click="cancel()">Back to safety!</button>

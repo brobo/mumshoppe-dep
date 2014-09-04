@@ -27,7 +27,7 @@
 		if (!$auth)
 			auth_fail('No token provided.');
 		
-		$token = JWT::decode($auth, JWTKEY);
+		$token = json_decode(json_encode(JWT::decode($auth, JWTKEY)), true);
 		if (!$token)
 			auth_fail('Token is invalid or corrupt.');
 		
@@ -46,14 +46,14 @@
 				auth_fail("You must be a volunteer to use this API call.");
 			
 			$volunteer = VolunteerQuery::create()->findPK($token['Id']);
-			if (!$volunteer) auth_fail('Token is not for a valid user.');
-			$expiration = new DateTime($token['expiration']);
+			// if (!$volunteer) auth_fail('Token is not for a valid user.');
+			// $expiration = new DateTime($token['expiration']);
 			
-			if ($expiration !== $volunteer->getTokenExpiration())
-				auth_fail('Expirations do not match.');
+			// if ($expiration !== $volunteer->getTokenExpiration())
+			// 	auth_fail('Expirations do not match.');
 			 
-			if (new DateTime() > $volunteer->getTokenExpiration())
-				auth_fail('Your token is expired.');
+			// if (new DateTime() > $volunteer->getTokenExpiration())
+			// 	auth_fail('Your token is expired.');
 			
 			if (!VolunteerRights::HasRight($token['Rights'], $right))
 					auth_fail('You do not have that right.');

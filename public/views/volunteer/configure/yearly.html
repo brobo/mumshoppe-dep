@@ -4,3 +4,6 @@
 <button class="btn btn-default btn-block" ng-click="startOrders()" ng-show="!canOrder && !orderTracker.active()">Start Orders</button>
 <button class="btn btn-default btn-block" ng-click="stopOrders()" ng-show="canOrder && !orderTracker.active()">Stop Orders</button>
 <button class="btn btn-default btn-block" ng-show="orderTracker.active()"><i class="fa fa-spin fa-circle-o-notch"></i></button>
+
+<button class="btn btn-danger btn-block" ng-click="truncateOrders()" ng-show="!truncateTracker.active()">Truncate Orders</button>
+<button class="btn btn-danger btn-block" ng-show="truncateTracker.active()"><i class="fa fa-spin fa-circle-o-notch"></i></button>
