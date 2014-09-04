@@ -8,17 +8,18 @@
 	}
 	
 	function getToken() {
+		$app = \Slim\Slim::getInstance();
 		if(isset($app->token))
 			return $app->token;
 		return null;
 	}
 	
 	function isVolunteer() {
-		return getToken()["Type"] === "Volunteer";
+		return getToken()["Type"] == "Volunteer";
 	}
 	
 	function isCustomer() {
-		return getToken()["Type"] === "Customer";
+		return getToken()["Type"] == "Customer";
 	}
 
 	function auth_precheck() {

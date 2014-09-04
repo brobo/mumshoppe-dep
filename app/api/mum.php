@@ -2,7 +2,9 @@
 
 	$app->get('/api/mum', auth_all(VolunteerRights::ViewMums), function() use ($app) {
 		$mums = MumQuery::create()->joinWith("Mum.Customer");
-		if(isCustomer()) $mums = $mums->where("Customer.Id = ?", $app->token["Id"]);
+		if(isCustomer()) {
+			$mums = $mums->where("Customer.Id = ?", $app->token["Id"]);
+		}
 
 		foreach ($app->request->get() as $key => $value) {
 			switch ($key) {

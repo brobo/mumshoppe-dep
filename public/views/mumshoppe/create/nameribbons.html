@@ -8,7 +8,8 @@
 			<label class="control-label" for="Type">Type</label>
 			<select type="select" class="form-control" ng-model="letterOneId" ng-options="letter.Id as letter.Name + ' ($' + letter.Price + ' each)' for letter in letters" required></select>
 			<label class="control-label" for="Name">Name</label>
-			<input class="form-control" ng-model="nameOne" ng-maxlength="12" ng-pattern="REGEX_ALPHABETIC" required>
+			<input class="form-control" name="nameOneBox" ng-model="nameOne" ng-maxlength="12" ng-pattern="REGEX_ALPHABETIC" required>
+			<p class="text-danger" ng-show="hasNameRibbonOne && !nameOne.length">Please enter a valid name less than 12 characters long.</p>
 		</fieldset>
 	</div>
 </form>
@@ -22,6 +23,7 @@
 			<select type="select" class="form-control" ng-model="letterTwoId" ng-options="letter.Id as letter.Name + ' ($' + letter.Price + ' each)' for letter in letters" required></select>
 			<label class="control-label" for="Name">Name</label>
 			<input class="form-control" ng-model="nameTwo" ng-maxlength="12" ng-pattern="REGEX_ALPHABETIC" required>
+			<p class="text-danger" ng-show="hasNameRibbonTwo && !nameTwo.length">Please enter a valid name less than 12 characters long.</p>
 		</fieldset>
 	</div>
 </form>

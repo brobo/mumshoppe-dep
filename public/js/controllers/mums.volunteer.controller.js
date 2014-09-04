@@ -31,11 +31,6 @@ angular.module('mums.volunteer.controller', [])
 		$scope.search = function() {
 			return SearchService.canvas.toggle();
 		}
-
-		$scope.years = [{ label: "Unordered", value: "" }];
-		for (var y=2014; y<=year; y++) {
-			$scope.years.unshift({ label: y, value: '' + y });
-		}
 	})
 
 	.controller('mumsViewController', function($scope, $state, $stateParams, promiseTracker, MumService, LettersService, AccessoriesService, PayService) {
@@ -105,11 +100,9 @@ angular.module('mums.volunteer.controller', [])
 		var service;
 		return service = {
 			criteria: {
-				Year: '2014',
+				Ordered: true,
 			},
 			search: function() {
-				service.criteria.Ordered = !!service.criteria.Year;
-				service.criteria.Unordered = !service.criteria.Year;
 				return MumService.get(service.criteria);
 			},
 			canvas: cnOffCanvas({

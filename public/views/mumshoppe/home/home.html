@@ -16,6 +16,7 @@
 				<div class="input-group">
 					<div class="input-group-addon"><i class="fa fa-question"></i></div>
 					<input type="password" class="form-control" name="Password" ng-model="customer.Password" ng-minlength="5" ng-change="validate(customerForm, 'Password'); verifyPasswords()" required>
+					<p ng-show="invalid.Password" class="text-danger">Your password needs to be at least 5 characters long.</p>
 				</div>
 			</div>
 			<div class="form-group" ng-class="{'has-error': invalid.confirmPassword || invalid.mismatchPasswords}">

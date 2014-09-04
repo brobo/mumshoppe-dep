@@ -252,7 +252,6 @@ angular.module('create.controller', [])
 	})
 
 	.controller('createNameRibbonController', function($scope, $state, $stateParams, AlertsService, LettersService, MumService) {
-		$scope.hasRibbonOne = true;
 		$scope.REGEX_ALPHABETIC = /^[a-zA-Z ]*$/
 		$scope.letterLookup = {};
 
@@ -381,9 +380,9 @@ angular.module('create.controller', [])
 			'backing': '^.size'
 		};
 		var forwards = {
-			'product': '^.grade',
-			'grade': '^.size',
-			'size': '^.backing'
+			'product': {page: '^.grade', req:'selectedProduct'},
+			'grade': {page: '^.size', req:'selectedGrade'},
+			'size': {page: '^.backing', req:'selectedSize'}
 		};
 
 		$scope.selectedParent = {};
@@ -417,7 +416,10 @@ angular.module('create.controller', [])
 		$scope.$parent.next = function() {
 			for (var key in forwards) {
 				if ($state.current.name.indexOf(key) > -1) {
-					$state.go(forwards[key]);
+					if (!$scope[forwards[key].req]) {
+						return;
+					}
+					$state.go(forwards[key].page);
 					return;
 				}
 			}
