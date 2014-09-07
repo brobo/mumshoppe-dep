@@ -1,3 +1,4 @@
+app/vendor/.git
 .bowerrc
 composer.lock
 .buildpath
