@@ -3,7 +3,8 @@
 		"slim/slim": "2.*",
 		"propel/propel": "2.0.0-alpha2",
 		"firebase/php-jwt": "dev-master",
-		"paypal/rest-api-sdk-php": "dev-master"
+		"paypal/rest-api-sdk-php": "dev-master",
+		"hautelook/phpass": "dev-master"
 	},
 	"autoload": {
 		"classmap": ["generated-classes/"]

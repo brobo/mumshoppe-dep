@@ -9,8 +9,8 @@
 
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'mums');
-define('DB_USER', 'root');
-define('DB_PASSWORD', '');
+define('DB_USER', 'mumshoppe');
+define('DB_PASSWORD', 'pCr38i@AjhHW2j85!i2T1Lh2Pn&#Vpil');
 
 require_once 'app/vendor/autoload.php';
 use Propel\Runtime\Propel;

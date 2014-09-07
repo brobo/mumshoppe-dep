@@ -16,5 +16,5 @@ return array(
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),
     'Propel' => array($vendorDir . '/propel/propel/src'),
     'PayPal' => array($vendorDir . '/paypal/sdk-core-php/lib', $vendorDir . '/paypal/rest-api-sdk-php/lib'),
-    'League\\OAuth2\\Server' => array($vendorDir . '/league/oauth2-server/src'),
+    'Hautelook' => array($vendorDir . '/hautelook/phpass/src'),
 );
