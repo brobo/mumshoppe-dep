@@ -7,12 +7,14 @@
 	 * visit http://opensource.org/licenses/MIT          *
 	 *****************************************************/
 	 
-	$app->post('/api/customer', function() use ($app) {
+	$app->post('/api/customer', function() use ($app, $passwordHasher) {
 		$customer = new Customer();
+
+		$hash = $passwordHasher->HashPassword($app->request->post('Password'));
 
 		$customer->setName($app->request->post('Name'));
 		$customer->setEmail($app->request->post('Email'));
-		$customer->setPassword(password_hash($app->request->post('Password'), PASSWORD_BCRYPT));
+		$customer->setPassword($hash);
 		$customer->setPhone($app->request->post('Phone'));
 
 		$customer->save();
@@ -24,12 +26,12 @@
 		echo json_encode($res);
 	});
 
-	$app->post('/api/customer/login', function() use ($app) {
+	$app->post('/api/customer/login', function() use ($app, $passwordHasher) {
 		$email = $app->request->post('Email');
 		$password = $app->request->post('Password');
 
 		$customer = CustomerQuery::create()->filterByEmail($email)->findOne();
-		if (password_verify($password, $customer->getPassword())) {
+		if ($passwordHasher->CheckPassword($password, $customer->getPassword())) {
 			$token = array(
 				'Email' => $customer->getEmail(),
 				'Id' => $customer->getId(),

@@ -11,6 +11,7 @@
 	
 	require_once 'app/config/jwt.php';
 	require_once 'app/config/paypal.php';
+	require_once 'app/config/phpass.php';
 	require_once 'app/config/propel.php';
 
 	require_once 'app/api/res/authentication.php';

@@ -38,7 +38,7 @@
 		echo json_encode(array('success' => $succ));
 	});
 	
-	$app->post("/api/recover/:keyword", function($keyword) use ($app) {
+	$app->post("/api/recover/:keyword", function($keyword) use ($app, $passwordHasher) {
 		$passRec = PasswordRecoveryQuery::create()->filterByKeyword($keyword)->findOne();
 		if(!$passRec) {
 			echo json_encode(array('success' => false, 'reason' => 'Unknown recovery key.'));
@@ -54,10 +54,10 @@
 			return;
 		}
 		
-		$pass = $app->request->post("Password");
+		$hash = $passwordHasher->HashPassword($app->request->post("Password"));
 		
 		$user = $passRec->getCustomer();
-		$user->setPassword(password_hash($pass, PASSWORD_BCRYPT));
+		$user->setPassword($hash);
 		$user->save();
 		
 		$passRec->delete();

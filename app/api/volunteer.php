@@ -42,12 +42,14 @@
 		));
 	});
 
-	$app->post('/api/volunteer', auth_volunteer(VolunteerRights::CreateVolunteer), function() use ($app) {
+	$app->post('/api/volunteer', auth_volunteer(VolunteerRights::CreateVolunteer), function() use ($app, $passwordHasher) {
 		$volunteer = new Volunteer();
+
+		$hash = $passwordHasher->HashPassword($app->request->post('Password'));
 
 		$volunteer->setName($app->request->post('Name'));
 		$volunteer->setEmail($app->request->post('Email'));
-		$volunteer->setPassword(password_hash($app->request->post('Password'), PASSWORD_BCRYPT));
+		$volunteer->setPassword($hash);
 		$volunteer->setPhone($app->request->post('Phone'));
 
 		$volunteer->save();
@@ -62,12 +64,12 @@
 		echo json_encode($res);
 	});
 
-	$app->post('/api/volunteer/login', function() use ($app) {
+	$app->post('/api/volunteer/login', function() use ($app, $passwordHasher) {
 		$email = $app->request->post('Email');
 		$password = $app->request->post('Password');
 
 		$volunteer = VolunteerQuery::create()->filterByEmail($email)->findOne();
-		if (password_verify($password, $volunteer->getPassword())) {
+		if ($passwordHasher->CheckPassword($password, $volunteer->getPassword())) {
 			$token = array(
 				'Email' => $volunteer->getEmail(),
 				'Id' => $volunteer->getId(),
