@@ -34,7 +34,9 @@
 		if (!$bow) return;
 
 		foreach ($app->request->put() as $key => $value) {
-			$bow->setByName($key, $value);
+			try {
+				$bow->setByName($key, $value);
+			} catch (Exception $ex) {}
 		}
 
 		$bow->save();

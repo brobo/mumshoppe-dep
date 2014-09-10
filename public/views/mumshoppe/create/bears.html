@@ -4,7 +4,7 @@
 <div class="list-item-group">
 	<div class="list-group-item" ng-repeat="bear in bears | filter:predicate">
 		<div class="row">
-			<img src='/mums/api/bear/{{bear.Id}}/image' class="col-lg-1" ng-show="bear.HasImage"/>
+			<img ng-src="{{bear.image}}" class="col-lg-1" ng-show="bear.HasImage"/>
 			<h4 class="col-xs-6">
 				{{bear.Name}} <small>{{bear.ItemId}}</small> <span class="badge">{{bear.Price | currency}}</span>
 			</h4>

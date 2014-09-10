@@ -16,6 +16,11 @@ angular.module('mumtypes.controller', [])
 			itemDetails.service.get()
 				.success(function(data) {
 					$scope.items = data;
+					if (itemDetails.imageRoute) {
+						for (var i=0; i<$scope.items.length; i++) {
+							$scope.items[i].image = getRoute(itemDetails.imageRoute + $scope.items[i].Id + '/image');
+						}
+					}
 				});
 		}
 		$scope.updateItems();
@@ -24,27 +29,27 @@ angular.module('mumtypes.controller', [])
 			itemDetails.fetch[i]($scope);
 		}
 
-		$scope.imageSize = function(id) {
+		$scope.imageSize = function(size) {
 			$modal.open({
 				templateUrl: 'imageForm',
 				controller: 'imageSizeController',
 				size: 'lg',
 				resolve: {
-					id: function() {
-						return id;
+					size: function() {
+						return size;
 					}
 				}
 			});
 		}
 
-		$scope.imageBacking = function(id) {
+		$scope.imageBacking = function(backing) {
 			$modal.open({
 				templateUrl: 'imageForm',
 				controller: 'imageBackingController',
 				size: 'lg',
 				resolve: {
-					id: function() {
-						return id;
+					backing: function() {
+						return backing;
 					}
 				}
 			});
@@ -251,16 +256,16 @@ angular.module('mumtypes.controller', [])
 		}
 	})
 
-	.controller('imageSizeController', function($scope, $modalInstance, AlertsService, MumtypesService, promiseTracker, id) {
+	.controller('imageSizeController', function($scope, $modalInstance, AlertsService, MumtypesService, promiseTracker, size) {
 		$scope.tracker = promiseTracker();
-		$scope.id = id;
+		$scope.size = size;
 		$scope.cancel = function() {
 			$modalInstance.dismiss();
 		}
 
 		$scope.uploadFile = function(files) {
 			var defered = $scope.tracker.createPromise();
-			MumtypesService.sizes.image.upload(id, files)
+			MumtypesService.sizes.image.upload(size.Id, files)
 				.success(function(data) {
 					AlertsService.add('success', 'Successfully added image.');
 				}).error(function(data) {
@@ -273,16 +278,16 @@ angular.module('mumtypes.controller', [])
 		}
 	})
 
-	.controller('imageBackingController', function($scope, $modalInstance, AlertsService, MumtypesService, promiseTracker, id) {
+	.controller('imageBackingController', function($scope, $modalInstance, AlertsService, MumtypesService, promiseTracker, backing) {
 		$scope.tracker = promiseTracker();
-		$scope.id = id;
+		$scope.backing = backing;
 		$scope.cancel = function() {
 			$modalInstance.dismiss();
 		}
 
 		$scope.uploadFile = function(files) {
 			var defered = $scope.tracker.createPromise();
-			MumtypesService.backings.image.upload(id, files)
+			MumtypesService.backings.image.upload(backing.Id, files)
 				.success(function(data) {
 					AlertsService.add('success', 'Successfully added image.');
 				}).error(function(data) {

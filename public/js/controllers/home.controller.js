@@ -36,7 +36,7 @@ angular.module('home.controller', [])
 				CustomerService.register($scope.customer)
 					.success(function(data) {
 						AlertsService.add('success', 'Successfully registered! You may now log in.');
-						$state.go('home.login');
+						$state.go('^.login');
 					}).error(function(data) {
 						AlertsService.add('danger', 'Something went wrong. Please try again.');
 					});

@@ -7,7 +7,7 @@
 	 *****************************************************/
 
 angular.module('accessories.service', [])
-	.factory('AccessoriesService', function($http) {
+	.factory('AccessoriesService', function($http, $cookieStore) {
 		return {
 			get: function() {
 				return $http.get(getRoute('/api/accessory'));
@@ -44,7 +44,10 @@ angular.module('accessories.service', [])
 
 					return $http.post(getRoute('/api/accessory/' + id + '/image'), fd, {
 						withCredentials: true,
-						headers: {'Content-Type': undefined},
+						headers: {
+							'Content-Type': undefined,
+							'Authentication': $cookieStore.get('volunteerToken').jwt
+						},
 						transformRequest: angular.identity
 					});
 				}

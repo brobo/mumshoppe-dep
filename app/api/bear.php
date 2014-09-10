@@ -34,7 +34,9 @@
 		if (!$bear) return;
 
 		foreach ($app->request->put() as $key => $value) {
-			$bear->setByName($key, $value);
+			try {
+				$bear->setByName($key, $value);
+			} catch (Exception $ex) {}
 		}
 
 		$bear->save();

@@ -8,7 +8,7 @@
 	<div ng-repeat="size in sizes | filter:{ProductId:selectedProduct.Id}">
 		<label class="btn btn-block btn-default col-xs-12" ng-model="$parent.$parent.selectedSize" btn-radio="size">
 			<div class="col-xs-12">
-				<img src='/mums/api/size/{{size.Id}}/image' ng-show="size.HasImage" class="col-xs-4 col-xs-offset-4"/>
+				<img ng-src="{{size.image}}" ng-show="size.HasImage" class="col-xs-4 col-xs-offset-4"/>
 			</div>
 			<p class="col-xs-12 text-center">{{size.Name}}</p>
 		</label>

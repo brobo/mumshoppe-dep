@@ -12,19 +12,22 @@ angular.module('bears.controller', [])
 		$scope.updateBears = function() {
 			BearsService.get().success(function(data) {		
 				$scope.bears = data;
+				for (var i=0; i<$scope.bears.length; i++) {
+					$scope.bears[i].image = getRoute('/api/bear/' + $scope.bears[i].Id + '/image');
+				}
 			});
 		}
 
 		$scope.updateBears();
 
-		$scope.imageBear = function(id) {
+		$scope.imageBear = function(bear) {
 			$modal.open({
 				templateUrl: 'imageForm',
 				controller: 'imageBearController',
 				size: 'lg',
 				resolve: {
-					id: function() {
-						return id;
+					bear: function() {
+						return bear;
 					}
 				}
 			});
@@ -86,16 +89,16 @@ angular.module('bears.controller', [])
 		}
 	})
 
-	.controller('imageBearController', function($scope, $modalInstance, AlertsService, BearsService, promiseTracker, id) {
+	.controller('imageBearController', function($scope, $modalInstance, AlertsService, BearsService, promiseTracker, bear) {
 		$scope.tracker = promiseTracker();
-		$scope.id = id;
+		$scope.bear = bear;
 		$scope.cancel = function() {
 			$modalInstance.dismiss();
 		}
 
 		$scope.uploadFile = function(files) {
 			var defered = $scope.tracker.createPromise();
-			BearsService.image.upload(id, files)
+			BearsService.image.upload(bear.id, files)
 				.success(function(data) {
 					AlertsService.add('success', 'Successfully added image.');
 				}).error(function(data) {

@@ -66,7 +66,10 @@ angular.module('mumtypes.service', [])
 
 						return $http.post(getRoute('/api/size/' + id + '/image'), fd, {
 							withCredentials: true,
-							headers: {'Content-Type': undefined},
+							headers: { 
+								'Content-Type': undefined,
+								'Authentication': $cookieStore.get('volunteerToken').jwt
+							},
 							transformRequest: angular.identity
 						});
 					}
@@ -95,7 +98,10 @@ angular.module('mumtypes.service', [])
 
 						return $http.post(getRoute('/api/backing/' + id + '/image'), fd, {
 							withCredentials: true,
-							headers: {'Content-Type': undefined},
+							headers: {
+								'Content-Type': undefined,
+								'Authentication': $cookieStore.get('volunteerToken').jwt
+							},
 							transformRequest: angular.identity
 						});
 					}

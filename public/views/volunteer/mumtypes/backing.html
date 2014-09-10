@@ -8,11 +8,11 @@
 <div class="list-group">
 	<div ng-repeat="backing in items | filter:{GradeId:grade.Id, SizeId:size.Id}" class="row">
 		<a class="list-group-item col-xs-10">
-			<img src='/mums/api/backing/{{backing.Id}}/image' class="col-lg-1" ng-show="backing.HasImage"/>
+			<img ng-src="{{backing.image}}" class="col-lg-1" ng-show="backing.HasImage"/>
 			<h4 class="list-group-item-heading">{{backing.Name}} <small>{{backing.ItemId}}</small> <span class="badge">{{backing.Price | currency}}</span></h4>
 		</a>
 		<div class="col-xs-2">
-			<button class="btn btn-warning btn-xs" ng-click="imageBacking(backing.Id)"><i class="fa fa-image"></i> Image</button>
+			<button class="btn btn-warning btn-xs" ng-click="imageBacking(backing)"><i class="fa fa-image"></i> Image</button>
 			<button class="btn btn-info btn-xs" ng-click="editItem(backing, {SizeId:size.Id, GradeId:grade.Id})"><i class="fa fa-pencil"></i> Edit</button>
 			<button class="btn btn-danger btn-xs" ng-click="deleteItem(backing)"><i class="fa fa-bomb"></i> Delete</button>
 		</div>
@@ -22,7 +22,7 @@
 
 <script type="text/ng-template" id="imageForm">
 	<form class="form-horizontal" name="imageForm" ng-submit="save(imageForm)" novalidate>
-		<img src="/mums/api/backing/{{id}}/image" />
+		<img ng-src="{{backing.image}}" />
 		<input type="file" name="image" onchange="angular.element(this).scope().uploadFile(this.files)" />
 		<i ng-show="tracker.active()" class="fa fa-spin fa-circle-o-notch"></i>
 		<button class="btn btn-default" ng-click="cancel()">Cancel</button>

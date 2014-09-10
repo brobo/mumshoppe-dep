@@ -150,6 +150,7 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 					return {
 						formController: 'mumtypesEditSizeController',
 						service: MumtypesService.sizes,
+						imageRoute: '/api/size/',
 						fetch: [
 							function($scope) {
 								return MumtypesService.grades.fetch($stateParams.gradeId)
@@ -177,6 +178,7 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 					return {
 						formController: 'mumtypesEditBackingController',
 						service: MumtypesService.backings,
+						imageRoute: '/api/backing/',
 						fetch: [
 							function($scope) {
 								return MumtypesService.grades.fetch($stateParams.gradeId)

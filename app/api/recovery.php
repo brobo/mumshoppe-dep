@@ -33,7 +33,7 @@
 		
 		$recov->save();
 		
-		$succ = mail($email, "MumShoppe Password Recovery", "Your recovery link: http://localhost/mums/mumshoppe#/home/recoverpassword/" . $randString);
+		$succ = mail($email, "MumShoppe Password Recovery", "Your recovery link: " . URL_BASE . "/mumshoppe#/home/recoverpassword/" . $randString);
 
 		echo json_encode(array('success' => $succ));
 	});

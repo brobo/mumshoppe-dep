@@ -12,6 +12,9 @@ angular.module('accessoriesAll.controller', [])
 		function updateAccessoryList() {
 			AccessoriesService.get().success(function(data) {
 				$scope.accessories = data;
+				for (var i=0; i<$scope.accessories.length; i++) {
+					$scope.accessories[i].image = getRoute('/api/accessory/' + $scope.accessories[i].Id + '/image');
+				}
 			});
 		}
 
@@ -31,14 +34,14 @@ angular.module('accessoriesAll.controller', [])
 			$state.go('^.edit', { accessoryId: id});
 		}
 
-		$scope.imageAccessory = function(id) {
+		$scope.imageAccessory = function(image) {
 			$modal.open({
 				templateUrl: 'imageForm',
 				controller: 'imageAccessoryController',
 				size: 'lg',
 				resolve: {
-					id: function() {
-						return id;
+					image: function() {
+						return image;
 					}
 				}
 			});
@@ -65,16 +68,16 @@ angular.module('accessoriesAll.controller', [])
 
 	})
 
-	.controller('imageAccessoryController', function($scope, $modalInstance, AlertsService, AccessoriesService, promiseTracker, id) {
+	.controller('imageAccessoryController', function($scope, $modalInstance, AlertsService, AccessoriesService, promiseTracker, image) {
 		$scope.tracker = promiseTracker();
-		$scope.id = id;
+		$scope.image = image;
 		$scope.cancel = function() {
 			$modalInstance.dismiss();
 		}
 
 		$scope.uploadFile = function(files) {
 			var defered = $scope.tracker.createPromise();
-			AccessoriesService.image.upload(id, files)
+			AccessoriesService.image.upload(image.Id, files)
 				.success(function(data) {
 					AlertsService.add('success', 'Successfully added image.');
 				}).error(function(data) {

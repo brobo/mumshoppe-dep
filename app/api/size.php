@@ -33,7 +33,9 @@
 		if (!$size) return;
 
 		foreach ($app->request->put() as $key => $value) {
-			$size->setByName($key, $value);
+			try {
+				$size->setByName($key, $value);
+			} catch (Exception $e) {}
 		}
 
 		$size->save();

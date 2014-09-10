@@ -137,6 +137,7 @@ angular.module('create.controller', [])
 				$scope.accessories = data;
 				for (var i=0; i<$scope.accessories.length; i++) {
 					$scope.priceLookup[$scope.accessories[i].Id] = $scope.accessories[i].Price;
+					$scope.accessories[i].image = getRoute('/api/accessory/' + $scope.accessories[i].Id + '/image');
 				}
 			});
 		AccessoriesService.categories.get()
@@ -199,6 +200,7 @@ angular.module('create.controller', [])
 					var total = 0;
 					for (var i=0; i<$scope.mum.Bears.length; i++) {
 						total += parseFloat($scope.mum.Bears[i].Price);
+						$scope.mum.Bears[i].image = getRoute('/api/bear/' + $scope.mum.Bears[i].Id + '/image');
 					}
 					$scope.totalPrice = total;
 
@@ -337,6 +339,9 @@ angular.module('create.controller', [])
 		AccentBowsService.get()
 			.success(function(data) {
 				$scope.accentbows = data;
+				for (var i=0; i<$scope.accentbows.length; i++) {
+					$scope.accentbows[i].image = getRoute('/api/accentbow/' + $scope.accentbows[i].Id + '/image');
+				}
 			});
 
 		$scope.$parent.back = function() {
@@ -415,10 +420,16 @@ angular.module('create.controller', [])
 		MumtypesService.sizes.get()
 			.success(function(data) {
 				$scope.sizes = data;
+				for (var i=0; i<$scope.sizes.length; i++) {
+					$scope.sizes[i].image = getRoute('/api/size/' + $scope.sizes[i].Id + '/image');
+				}
 			});
 		MumtypesService.backings.get()
 			.success(function(data) {
 				$scope.backings = data;
+				for (var i=0; i<$scope.backings.length; i++) {
+					$scope.backings[i].image = getRoute('/api/backing/' + $scope.backings[i].Id + '/image');
+				}
 			});
 
 		$scope.$parent.next = function() {

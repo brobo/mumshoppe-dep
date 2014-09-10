@@ -7,7 +7,7 @@
 	 *****************************************************/
 
 angular.module('accessoriesAdd.controller', [])
-	.controller('accessoriesAddController', function($scope, $state, promiseTracker, AccessoriesService, AlertsService) {
+	.controller('accessoriesAddController', function($scope, $state, $modal, promiseTracker, AccessoriesService, AlertsService) {
 
 		$scope.REGEX_PRICE = /^[0-9]*(\.[0-9]{1,2})?$/
 

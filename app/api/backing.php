@@ -33,7 +33,10 @@
 		if (!$backing) return;
 
 		foreach ($app->request->put() as $key => $value) {
-			$backing->setByName($key, $value);
+			try {
+				$backing->setByName($key, $value);
+			} catch (Exception $ex) {}
+			
 		}
 
 		$backing->save();

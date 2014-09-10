@@ -7,7 +7,7 @@
 <div class="list-item-group">
 	<div class="list-group-item" ng-repeat="accessory in accessories | filter:gradePredicate | filter: {CategoryId: categorySelect}">
 		<div class="row">
-			<img class="col-lg-1" src='/mums/api/accessory/{{accessory.Id}}/image' ng-show="accessory.HasImage" />
+			<img class="col-lg-1" ng-src='{{accessory.image}}' ng-show="accessory.HasImage" />
 			<div class="col-lg-1" ng-show="!accessory.HasImage"></div>
 			<h4 class="col-lg-3">
 				{{accessory.Name}} 

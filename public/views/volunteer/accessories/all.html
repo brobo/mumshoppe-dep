@@ -17,14 +17,14 @@
 	</thead>
 	<tbody>
 		<tr ng-repeat="accessory in accessories | filter: {CategoryId: categorySelect}">
-			<td class="col-lg-1"><img class="col-lg-12" src='/mums/api/accessory/{{accessory.Id}}/image' ng-show="accessory.HasImage" /></td>
+			<td class="col-lg-1"><img class="col-lg-12" ng-src="{{accessory.image}}" ng-show="accessory.HasImage" /></td>
 			<td><h4>{{accessory.Name}} <small>{{accessory.ItemId}}</small></td>
 			<td><span class="fa" ng-class="{'fa-check': accessory.Underclassman}"></span></td>
 			<td><span class="fa" ng-class="{'fa-check': accessory.Junior}"></span></td>
 			<td><span class="fa" ng-class="{'fa-check': accessory.Senior}"></span></td>
 			<td>{{accessory.Price | currency}}</td>
 			<td>
-				<button class="btn btn-warning btn-xs" ng-click="imageAccessory(accessory.Id)"><i class="fa fa-image"></i> Image</button>
+				<button class="btn btn-warning btn-xs" ng-click="imageAccessory(accessory)"><i class="fa fa-image"></i> Image</button>
 				<button class="btn btn-info btn-xs" ng-click="editAccessory(accessory.Id)"><i class="fa fa-pencil"></i> Edit</button>
 				<button class="btn btn-danger btn-xs" ng-click="deleteAccessory(accessory)"><i class="fa fa-bomb"></i> Delete</button></td>
 		</tr>
@@ -34,7 +34,7 @@
 
 <script type="text/ng-template" id="imageForm">
 	<form class="form-horizontal" name="imageForm" ng-submit="save(imageForm)" novalidate>
-		<img src="/mums/api/accessory/{{id}}/image" />
+		<img ng-src="{{accessory.image}}" />
 		<input type="file" name="image" onchange="angular.element(this).scope().uploadFile(this.files)" />
 		<i ng-show="tracker.active()" class="fa fa-spin fa-circle-o-notch"></i>
 		<button class="btn btn-default" ng-click="cancel()">Cancel</button>

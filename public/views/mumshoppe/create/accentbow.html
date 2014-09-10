@@ -3,7 +3,7 @@
 	<div ng-repeat="accentbow in accentbows | filter:{GradeId:mum.Grade.Id}">
 		<label class="btn btn-block btn-default col-xs-12" ng-model="$parent.accentBowId" btn-radio="accentbow.Id">
 			<div class="col-xs-12">
-				<img src='/mums/api/accentbow/{{accentbow.Id}}/image' ng-show="accentbow.HasImage" class="col-xs-4 col-xs-offset-4"/>
+				<img ng-src='{{accentbow.image}}' ng-show="accentbow.HasImage" class="col-xs-4 col-xs-offset-4"/>
 			</div>
 			<p class="col-xs-12 text-center">
 				{{accentbow.Name}} <small>{{accentbow.ItemId}}</small>

@@ -9,7 +9,7 @@
 	<div ng-repeat="backing in backings | filter:{SizeId:selectedSize.Id, GradeId:selectedGrade.Id}">
 		<label class="btn btn-block btn-default col-xs-12" ng-model="$parent.$parent.selectedBacking" btn-radio="backing">
 			<div class="col-xs-12">
-				<img src='/mums/api/backing/{{backing.Id}}/image' class="col-xs-4 col-xs-offset-4" ng-show="backing.HasImage"/>
+				<img ng-src='{{backing.image}}' class="col-xs-4 col-xs-offset-4" ng-show="backing.HasImage"/>
 			</div>
 			<p class="col-xs-12 text-center container">
 				{{backing.Name}} <small>{{backing.ItemId}}</small>

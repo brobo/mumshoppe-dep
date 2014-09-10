@@ -7,7 +7,7 @@
 	 *****************************************************/
 
 angular.module('accentbows.service', [])
-	.factory('AccentBowsService', function($http) {
+	.factory('AccentBowsService', function($http, $cookieStore) {
 		return {
 			get: function() {
 				return $http.get(getRoute('/api/accentbow'));
@@ -31,8 +31,11 @@ angular.module('accentbows.service', [])
 
 					return $http.post(getRoute('/api/accentbow/' + id + '/image'), fd, {
 						withCredentials: true,
-						headers: {'Content-Type': undefined},
-						transformRequest: angular.identity
+						headers: {
+							'Content-Type': undefined,
+							'Authentication': $cookieStore.get('volunteerToken').jwt
+						},
+						transformRequest: [angular.identity]
 					});
 				}
 			}

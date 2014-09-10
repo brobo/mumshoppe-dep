@@ -7,7 +7,7 @@
 	 *****************************************************/
 
 angular.module('bears.service', [])
-	.factory('BearsService', function($http) {
+	.factory('BearsService', function($http, $cookieStore) {
 		return {
 			get: function() {
 				return $http.get(getRoute('/api/bear'));
@@ -31,8 +31,11 @@ angular.module('bears.service', [])
 
 					return $http.post(getRoute('/api/bear/' + id + '/image'), fd, {
 						withCredentials: true,
-						headers: {'Content-Type': undefined},
-						transformRequest: angular.identity
+						headers: {
+							'Content-Type': undefined,
+							'Authentication': $cookieStore.get('volunteerToken').jwt
+						},
+						transformRequest: [angular.identity]
 					});
 				}
 			}
