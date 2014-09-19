@@ -7,7 +7,7 @@
 	 *****************************************************/
 
 angular.module('mumtypes.service', [])
-	.factory('MumtypesService', function($http) {
+	.factory('MumtypesService', function($http, $cookieStore) {
 		return {
 			grades: {
 				get: function() {

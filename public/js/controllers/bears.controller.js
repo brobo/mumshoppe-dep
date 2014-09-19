@@ -98,7 +98,7 @@ angular.module('bears.controller', [])
 
 		$scope.uploadFile = function(files) {
 			var defered = $scope.tracker.createPromise();
-			BearsService.image.upload(bear.id, files)
+			BearsService.image.upload(bear.Id, files)
 				.success(function(data) {
 					AlertsService.add('success', 'Successfully added image.');
 				}).error(function(data) {

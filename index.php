@@ -1,5 +1,4 @@
 <?php
-	header('HTTP/1.1 500 Internal Server Error');
 
 	use PayPal\Auth;
 
@@ -13,11 +12,16 @@
 	require_once 'app/config/paypal.php';
 	require_once 'app/config/phpass.php';
 	require_once 'app/config/propel.php';
+	require_once 'app/config/upload.php';
 
 	require_once 'app/api/res/authentication.php';
 	require_once 'app/api/res/rights.php';
 
 	session_start();
+
+	$app->error(function(\Exception $e) use ($app) {
+		header('HTTP/1.1 500 Internal Server Error');
+	});
 
 	$app->config(array(
 		'templates.path' => './public'
@@ -27,12 +31,12 @@
 		echo "Hello, $name";
 	});
 
-	$app->get('/volunteer', function() use ($app) {
-		$app->render('volunteer.html');
-	});
-
 	$app->get('/mumshoppe', function() use ($app) {
 		$app->render('mumshoppe.html');
+	});
+
+	$app->get('/volunteer', function() use ($app) {
+		$app->render('volunteer.html');
 	});
 
 	$app->get('/', function() use ($app) {
