@@ -57,12 +57,12 @@ class BearTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 9;
+    const NUM_COLUMNS = 8;
 
     /**
      * The number of lazy-loaded columns
      */
-    const NUM_LAZY_LOAD_COLUMNS = 2;
+    const NUM_LAZY_LOAD_COLUMNS = 1;
 
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
@@ -110,11 +110,6 @@ class BearTableMap extends TableMap
     const IMAGE = 'bear.IMAGE';
 
     /**
-     * the column name for the IMAGE_MIME field
-     */
-    const IMAGE_MIME = 'bear.IMAGE_MIME';
-
-    /**
      * The default string format for model objects of the related table
      */
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -126,12 +121,12 @@ class BearTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'ItemId', 'Name', 'Underclassman', 'Junior', 'Senior', 'Price', 'Image', 'ImageMime', ),
-        self::TYPE_STUDLYPHPNAME => array('id', 'itemId', 'name', 'underclassman', 'junior', 'senior', 'price', 'image', 'imageMime', ),
-        self::TYPE_COLNAME       => array(BearTableMap::ID, BearTableMap::ITEM_ID, BearTableMap::NAME, BearTableMap::UNDERCLASSMAN, BearTableMap::JUNIOR, BearTableMap::SENIOR, BearTableMap::PRICE, BearTableMap::IMAGE, BearTableMap::IMAGE_MIME, ),
-        self::TYPE_RAW_COLNAME   => array('ID', 'ITEM_ID', 'NAME', 'UNDERCLASSMAN', 'JUNIOR', 'SENIOR', 'PRICE', 'IMAGE', 'IMAGE_MIME', ),
-        self::TYPE_FIELDNAME     => array('id', 'item_id', 'name', 'underclassman', 'junior', 'senior', 'price', 'image', 'image_mime', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, )
+        self::TYPE_PHPNAME       => array('Id', 'ItemId', 'Name', 'Underclassman', 'Junior', 'Senior', 'Price', 'Image', ),
+        self::TYPE_STUDLYPHPNAME => array('id', 'itemId', 'name', 'underclassman', 'junior', 'senior', 'price', 'image', ),
+        self::TYPE_COLNAME       => array(BearTableMap::ID, BearTableMap::ITEM_ID, BearTableMap::NAME, BearTableMap::UNDERCLASSMAN, BearTableMap::JUNIOR, BearTableMap::SENIOR, BearTableMap::PRICE, BearTableMap::IMAGE, ),
+        self::TYPE_RAW_COLNAME   => array('ID', 'ITEM_ID', 'NAME', 'UNDERCLASSMAN', 'JUNIOR', 'SENIOR', 'PRICE', 'IMAGE', ),
+        self::TYPE_FIELDNAME     => array('id', 'item_id', 'name', 'underclassman', 'junior', 'senior', 'price', 'image', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
     );
 
     /**
@@ -141,12 +136,12 @@ class BearTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'ItemId' => 1, 'Name' => 2, 'Underclassman' => 3, 'Junior' => 4, 'Senior' => 5, 'Price' => 6, 'Image' => 7, 'ImageMime' => 8, ),
-        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'itemId' => 1, 'name' => 2, 'underclassman' => 3, 'junior' => 4, 'senior' => 5, 'price' => 6, 'image' => 7, 'imageMime' => 8, ),
-        self::TYPE_COLNAME       => array(BearTableMap::ID => 0, BearTableMap::ITEM_ID => 1, BearTableMap::NAME => 2, BearTableMap::UNDERCLASSMAN => 3, BearTableMap::JUNIOR => 4, BearTableMap::SENIOR => 5, BearTableMap::PRICE => 6, BearTableMap::IMAGE => 7, BearTableMap::IMAGE_MIME => 8, ),
-        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'ITEM_ID' => 1, 'NAME' => 2, 'UNDERCLASSMAN' => 3, 'JUNIOR' => 4, 'SENIOR' => 5, 'PRICE' => 6, 'IMAGE' => 7, 'IMAGE_MIME' => 8, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'item_id' => 1, 'name' => 2, 'underclassman' => 3, 'junior' => 4, 'senior' => 5, 'price' => 6, 'image' => 7, 'image_mime' => 8, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'ItemId' => 1, 'Name' => 2, 'Underclassman' => 3, 'Junior' => 4, 'Senior' => 5, 'Price' => 6, 'Image' => 7, ),
+        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'itemId' => 1, 'name' => 2, 'underclassman' => 3, 'junior' => 4, 'senior' => 5, 'price' => 6, 'image' => 7, ),
+        self::TYPE_COLNAME       => array(BearTableMap::ID => 0, BearTableMap::ITEM_ID => 1, BearTableMap::NAME => 2, BearTableMap::UNDERCLASSMAN => 3, BearTableMap::JUNIOR => 4, BearTableMap::SENIOR => 5, BearTableMap::PRICE => 6, BearTableMap::IMAGE => 7, ),
+        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'ITEM_ID' => 1, 'NAME' => 2, 'UNDERCLASSMAN' => 3, 'JUNIOR' => 4, 'SENIOR' => 5, 'PRICE' => 6, 'IMAGE' => 7, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'item_id' => 1, 'name' => 2, 'underclassman' => 3, 'junior' => 4, 'senior' => 5, 'price' => 6, 'image' => 7, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
     );
 
     /**
@@ -172,8 +167,7 @@ class BearTableMap extends TableMap
         $this->addColumn('JUNIOR', 'Junior', 'BOOLEAN', true, 1, false);
         $this->addColumn('SENIOR', 'Senior', 'BOOLEAN', true, 1, false);
         $this->addColumn('PRICE', 'Price', 'DECIMAL', true, 10, null);
-        $this->addColumn('IMAGE', 'Image', 'BLOB', false, null, null);
-        $this->addColumn('IMAGE_MIME', 'ImageMime', 'VARCHAR', false, 31, null);
+        $this->addColumn('IMAGE', 'Image', 'VARCHAR', false, 32, null);
     } // initialize()
 
     /**

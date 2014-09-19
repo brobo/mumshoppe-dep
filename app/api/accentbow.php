@@ -66,13 +66,17 @@
 		echo json_encode($bow->getFull());
 	});
 
-	$app->post('/api/accentbow/:id/image', auth_volunteer(VolunteerRights::ConfigureItems), function($id) {
+	$app->post('/api/accentbow/:id/image', auth_volunteer(VolunteerRights::ConfigureItems), function($id) use ($confirmUpload) {
 		$accentbow = AccentBowQuery::create()->findPK($id);
 		if (!$accentbow) return;
 
-		$content = file_get_contents($_FILES['image']['tmp_name']);
-		$accentbow->setImage($content);
-		$accentbow->setImageMime($_FILES['image']['type']);
+		if (($reason = $confirmUpload($_FILES['image'])) !== null) {
+			echo json_encode(array('success' => 'false', 'reason' => $reason));
+		}
+
+		$filename = uniqid('accentbow', true);
+		move_uploaded_file($_FILES['image']['tmp_name'], UPLOAD_DIR . $filename);
+		$accentbow->setImage($filename);
 
 		$accentbow->save();
 		echo json_encode(array('message' => 'Success!'));
@@ -84,12 +88,13 @@
 		$accentbow = AccentBowQuery::create()->findPK($id);
 		if (!$accentbow) return;
 
-		$fp = $accentbow->getImage();
+		$filename = UPLOAD_DIR . $accentbow->getImage();
+		$fp = fopen($filename, 'rb');
 
 		$res = $app->response();
 		if ($fp !== null) {
 			$content = stream_get_contents($fp, -1, 0);
-			$res->header('Content-Type', 'content-type: ' . $accentbow->getImageMime());
+			$res->header('Content-Type', 'content-type: ' . filetype($filename));
 			echo $content;
 		}
 	});

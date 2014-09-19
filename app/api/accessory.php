@@ -16,7 +16,7 @@
 			"Junior" => $accessory->getJunior(),
 			"Senior" => $accessory->getSenior(),
 			"Price" => $accessory->getPrice(),
-			"HasImage" => $accessory->getImageMime() !== "",
+			"HasImage" => $accessory->getImage() !== "",
 			"CategoryId" => $accessory->getCategoryId(),
 			"AccessoryCategory" => $accessory->getAccessoryCategory()->toArray()
 		);
@@ -79,13 +79,17 @@
 		echo json_encode($encodeAccessory($accessory));
 	});
 
-	$app->post('/api/accessory/:id/image', auth_volunteer(VolunteerRights::ConfigureItems), function($id) {
+	$app->post('/api/accessory/:id/image', auth_volunteer(VolunteerRights::ConfigureItems), function($id) use($confirmUpload) {
 		$accessory = AccessoryQuery::create()->findPK($id);
 		if (!$accessory) return;
 
-		$content = file_get_contents($_FILES['image']['tmp_name']);
-		$accessory->setImage($content);
-		$accessory->setImageMime($_FILES['image']['type']);
+		if (($reason = $confirmUpload($_FILES['image'])) !== null) {
+			echo json_encode(array('success' => 'false', 'reason' => $reason));
+		}
+
+		$filename = uniqid('accessory', true);
+		move_uploaded_file($_FILES['image']['tmp_name'], UPLOAD_DIR . $filename);
+		$accessory->setImage($filename);
 
 		$accessory->save();
 		echo json_encode(array('message' => 'Success!'));
@@ -97,12 +101,13 @@
 		$accessory = AccessoryQuery::create()->findPK($id);
 		if (!$accessory) return;
 
-		$fp = $accessory->getImage();
+		$filename = UPLOAD_DIR . $accessory->getImage();
+		$fp = fopen($filename, 'rb');
 
 		$res = $app->response();
 		if ($fp !== null) {
 			$content = stream_get_contents($fp, -1, 0);
-			$res->header('Content-Type', 'content-type: ' . $accessory->getImageMime());
+			$res->header('Content-Type', 'content-type: ' . filetype($filename));
 			echo $content;
 		}
 	});

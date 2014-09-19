@@ -29,7 +29,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildBearQuery orderBySenior($order = Criteria::ASC) Order by the senior column
  * @method     ChildBearQuery orderByPrice($order = Criteria::ASC) Order by the price column
  * @method     ChildBearQuery orderByImage($order = Criteria::ASC) Order by the image column
- * @method     ChildBearQuery orderByImageMime($order = Criteria::ASC) Order by the image_mime column
  *
  * @method     ChildBearQuery groupById() Group by the id column
  * @method     ChildBearQuery groupByItemId() Group by the item_id column
@@ -39,7 +38,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildBearQuery groupBySenior() Group by the senior column
  * @method     ChildBearQuery groupByPrice() Group by the price column
  * @method     ChildBearQuery groupByImage() Group by the image column
- * @method     ChildBearQuery groupByImageMime() Group by the image_mime column
  *
  * @method     ChildBearQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildBearQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -59,8 +57,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildBear findOneByJunior(boolean $junior) Return the first ChildBear filtered by the junior column
  * @method     ChildBear findOneBySenior(boolean $senior) Return the first ChildBear filtered by the senior column
  * @method     ChildBear findOneByPrice(string $price) Return the first ChildBear filtered by the price column
- * @method     ChildBear findOneByImage(resource $image) Return the first ChildBear filtered by the image column
- * @method     ChildBear findOneByImageMime(string $image_mime) Return the first ChildBear filtered by the image_mime column
+ * @method     ChildBear findOneByImage(string $image) Return the first ChildBear filtered by the image column
  *
  * @method     array findById(int $id) Return ChildBear objects filtered by the id column
  * @method     array findByItemId(string $item_id) Return ChildBear objects filtered by the item_id column
@@ -69,8 +66,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     array findByJunior(boolean $junior) Return ChildBear objects filtered by the junior column
  * @method     array findBySenior(boolean $senior) Return ChildBear objects filtered by the senior column
  * @method     array findByPrice(string $price) Return ChildBear objects filtered by the price column
- * @method     array findByImage(resource $image) Return ChildBear objects filtered by the image column
- * @method     array findByImageMime(string $image_mime) Return ChildBear objects filtered by the image_mime column
+ * @method     array findByImage(string $image) Return ChildBear objects filtered by the image column
  *
  */
 abstract class BearQuery extends ModelCriteria
@@ -472,44 +468,30 @@ abstract class BearQuery extends ModelCriteria
     /**
      * Filter the query on the image column
      *
-     * @param     mixed $image The value to use as filter
+     * Example usage:
+     * <code>
+     * $query->filterByImage('fooValue');   // WHERE image = 'fooValue'
+     * $query->filterByImage('%fooValue%'); // WHERE image LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $image The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildBearQuery The current query, for fluid interface
      */
     public function filterByImage($image = null, $comparison = null)
     {
-
-        return $this->addUsingAlias(BearTableMap::IMAGE, $image, $comparison);
-    }
-
-    /**
-     * Filter the query on the image_mime column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByImageMime('fooValue');   // WHERE image_mime = 'fooValue'
-     * $query->filterByImageMime('%fooValue%'); // WHERE image_mime LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $imageMime The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return ChildBearQuery The current query, for fluid interface
-     */
-    public function filterByImageMime($imageMime = null, $comparison = null)
-    {
         if (null === $comparison) {
-            if (is_array($imageMime)) {
+            if (is_array($image)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $imageMime)) {
-                $imageMime = str_replace('*', '%', $imageMime);
+            } elseif (preg_match('/[\%\*]/', $image)) {
+                $image = str_replace('*', '%', $image);
                 $comparison = Criteria::LIKE;
             }
         }
 
-        return $this->addUsingAlias(BearTableMap::IMAGE_MIME, $imageMime, $comparison);
+        return $this->addUsingAlias(BearTableMap::IMAGE, $image, $comparison);
     }
 
     /**

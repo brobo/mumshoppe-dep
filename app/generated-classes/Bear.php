@@ -13,7 +13,7 @@ class Bear extends BaseBear
 			'Junior' => $this->getJunior(),
 			'Senior' => $this->getSenior(),
 			'Price' => $this->getPrice(),
-			'HasImage' => !!$this->getImageMime()
+			'HasImage' => !!$this->getImage()
 		);
 
 		return $res;

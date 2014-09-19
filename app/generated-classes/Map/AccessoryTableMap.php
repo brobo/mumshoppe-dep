@@ -57,12 +57,12 @@ class AccessoryTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 10;
+    const NUM_COLUMNS = 9;
 
     /**
      * The number of lazy-loaded columns
      */
-    const NUM_LAZY_LOAD_COLUMNS = 2;
+    const NUM_LAZY_LOAD_COLUMNS = 1;
 
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
@@ -115,11 +115,6 @@ class AccessoryTableMap extends TableMap
     const IMAGE = 'accessory.IMAGE';
 
     /**
-     * the column name for the IMAGE_MIME field
-     */
-    const IMAGE_MIME = 'accessory.IMAGE_MIME';
-
-    /**
      * The default string format for model objects of the related table
      */
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -131,12 +126,12 @@ class AccessoryTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'ItemId', 'Name', 'Underclassman', 'Junior', 'Senior', 'Price', 'CategoryId', 'Image', 'ImageMime', ),
-        self::TYPE_STUDLYPHPNAME => array('id', 'itemId', 'name', 'underclassman', 'junior', 'senior', 'price', 'categoryId', 'image', 'imageMime', ),
-        self::TYPE_COLNAME       => array(AccessoryTableMap::ID, AccessoryTableMap::ITEM_ID, AccessoryTableMap::NAME, AccessoryTableMap::UNDERCLASSMAN, AccessoryTableMap::JUNIOR, AccessoryTableMap::SENIOR, AccessoryTableMap::PRICE, AccessoryTableMap::CATEGORY_ID, AccessoryTableMap::IMAGE, AccessoryTableMap::IMAGE_MIME, ),
-        self::TYPE_RAW_COLNAME   => array('ID', 'ITEM_ID', 'NAME', 'UNDERCLASSMAN', 'JUNIOR', 'SENIOR', 'PRICE', 'CATEGORY_ID', 'IMAGE', 'IMAGE_MIME', ),
-        self::TYPE_FIELDNAME     => array('id', 'item_id', 'name', 'underclassman', 'junior', 'senior', 'price', 'category_id', 'image', 'image_mime', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
+        self::TYPE_PHPNAME       => array('Id', 'ItemId', 'Name', 'Underclassman', 'Junior', 'Senior', 'Price', 'CategoryId', 'Image', ),
+        self::TYPE_STUDLYPHPNAME => array('id', 'itemId', 'name', 'underclassman', 'junior', 'senior', 'price', 'categoryId', 'image', ),
+        self::TYPE_COLNAME       => array(AccessoryTableMap::ID, AccessoryTableMap::ITEM_ID, AccessoryTableMap::NAME, AccessoryTableMap::UNDERCLASSMAN, AccessoryTableMap::JUNIOR, AccessoryTableMap::SENIOR, AccessoryTableMap::PRICE, AccessoryTableMap::CATEGORY_ID, AccessoryTableMap::IMAGE, ),
+        self::TYPE_RAW_COLNAME   => array('ID', 'ITEM_ID', 'NAME', 'UNDERCLASSMAN', 'JUNIOR', 'SENIOR', 'PRICE', 'CATEGORY_ID', 'IMAGE', ),
+        self::TYPE_FIELDNAME     => array('id', 'item_id', 'name', 'underclassman', 'junior', 'senior', 'price', 'category_id', 'image', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, )
     );
 
     /**
@@ -146,12 +141,12 @@ class AccessoryTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'ItemId' => 1, 'Name' => 2, 'Underclassman' => 3, 'Junior' => 4, 'Senior' => 5, 'Price' => 6, 'CategoryId' => 7, 'Image' => 8, 'ImageMime' => 9, ),
-        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'itemId' => 1, 'name' => 2, 'underclassman' => 3, 'junior' => 4, 'senior' => 5, 'price' => 6, 'categoryId' => 7, 'image' => 8, 'imageMime' => 9, ),
-        self::TYPE_COLNAME       => array(AccessoryTableMap::ID => 0, AccessoryTableMap::ITEM_ID => 1, AccessoryTableMap::NAME => 2, AccessoryTableMap::UNDERCLASSMAN => 3, AccessoryTableMap::JUNIOR => 4, AccessoryTableMap::SENIOR => 5, AccessoryTableMap::PRICE => 6, AccessoryTableMap::CATEGORY_ID => 7, AccessoryTableMap::IMAGE => 8, AccessoryTableMap::IMAGE_MIME => 9, ),
-        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'ITEM_ID' => 1, 'NAME' => 2, 'UNDERCLASSMAN' => 3, 'JUNIOR' => 4, 'SENIOR' => 5, 'PRICE' => 6, 'CATEGORY_ID' => 7, 'IMAGE' => 8, 'IMAGE_MIME' => 9, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'item_id' => 1, 'name' => 2, 'underclassman' => 3, 'junior' => 4, 'senior' => 5, 'price' => 6, 'category_id' => 7, 'image' => 8, 'image_mime' => 9, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'ItemId' => 1, 'Name' => 2, 'Underclassman' => 3, 'Junior' => 4, 'Senior' => 5, 'Price' => 6, 'CategoryId' => 7, 'Image' => 8, ),
+        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'itemId' => 1, 'name' => 2, 'underclassman' => 3, 'junior' => 4, 'senior' => 5, 'price' => 6, 'categoryId' => 7, 'image' => 8, ),
+        self::TYPE_COLNAME       => array(AccessoryTableMap::ID => 0, AccessoryTableMap::ITEM_ID => 1, AccessoryTableMap::NAME => 2, AccessoryTableMap::UNDERCLASSMAN => 3, AccessoryTableMap::JUNIOR => 4, AccessoryTableMap::SENIOR => 5, AccessoryTableMap::PRICE => 6, AccessoryTableMap::CATEGORY_ID => 7, AccessoryTableMap::IMAGE => 8, ),
+        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'ITEM_ID' => 1, 'NAME' => 2, 'UNDERCLASSMAN' => 3, 'JUNIOR' => 4, 'SENIOR' => 5, 'PRICE' => 6, 'CATEGORY_ID' => 7, 'IMAGE' => 8, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'item_id' => 1, 'name' => 2, 'underclassman' => 3, 'junior' => 4, 'senior' => 5, 'price' => 6, 'category_id' => 7, 'image' => 8, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, )
     );
 
     /**
@@ -178,8 +173,7 @@ class AccessoryTableMap extends TableMap
         $this->addColumn('SENIOR', 'Senior', 'BOOLEAN', true, 1, false);
         $this->addColumn('PRICE', 'Price', 'DECIMAL', true, 10, null);
         $this->addForeignKey('CATEGORY_ID', 'CategoryId', 'INTEGER', 'accessory_category', 'ID', false, null, null);
-        $this->addColumn('IMAGE', 'Image', 'BLOB', false, null, null);
-        $this->addColumn('IMAGE_MIME', 'ImageMime', 'VARCHAR', false, 31, null);
+        $this->addColumn('IMAGE', 'Image', 'VARCHAR', false, 32, null);
     } // initialize()
 
     /**

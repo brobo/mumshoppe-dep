@@ -11,7 +11,7 @@ class AccentBow extends BaseAccentBow
 			'ItemId' => $this->getItemId(),
 			'Name' => $this->getName(),
 			'GradeId' => $this->getGradeId(),
-			'HasImage' => !!$this->getImageMime()
+			'HasImage' => !!$this->getImage()
 		);
 
 		return $res;

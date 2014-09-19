@@ -435,52 +435,6 @@
         ]
     },
     {
-        "name": "firebase/php-jwt",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "target-dir": "Firebase/PHP-JWT",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/firebase/php-jwt.git",
-            "reference": "9e5ae039440bc0806ba85ab887ab9701b5e55ffb"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/firebase/php-jwt/zipball/9e5ae039440bc0806ba85ab887ab9701b5e55ffb",
-            "reference": "9e5ae039440bc0806ba85ab887ab9701b5e55ffb",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.2.0"
-        },
-        "time": "2014-08-28 17:20:29",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "classmap": [
-                "Authentication/"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "BSD-3-Clause"
-        ],
-        "authors": [
-            {
-                "name": "Neuman Vong",
-                "email": "neuman+pear@twilio.com",
-                "role": "Developer"
-            },
-            {
-                "name": "Anant Narayanan",
-                "email": "anant@php.net",
-                "role": "Developer"
-            }
-        ],
-        "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
-        "homepage": "https://github.com/firebase/php-jwt"
-    },
-    {
         "name": "paypal/sdk-core-php",
         "version": "v2.4.3",
         "version_normalized": "2.4.3.0",
@@ -522,57 +476,6 @@
         "keywords": [
             "paypal",
             "php",
-            "sdk"
-        ]
-    },
-    {
-        "name": "paypal/rest-api-sdk-php",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/paypal/rest-api-sdk-php.git",
-            "reference": "755d25572183c5196ff406ff4337ce6f213c8465"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/paypal/rest-api-sdk-php/zipball/755d25572183c5196ff406ff4337ce6f213c8465",
-            "reference": "755d25572183c5196ff406ff4337ce6f213c8465",
-            "shasum": ""
-        },
-        "require": {
-            "ext-curl": "*",
-            "ext-json": "*",
-            "paypal/sdk-core-php": "2.4.*",
-            "php": ">=5.3.0"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "3.7.*"
-        },
-        "time": "2014-08-26 21:08:23",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "PayPal": "lib/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache2"
-        ],
-        "authors": [
-            {
-                "name": "PayPal",
-                "homepage": "https://github.com/paypal/rest-api-sdk-php/contributors"
-            }
-        ],
-        "description": "PayPal's PHP SDK for REST APIs",
-        "homepage": "https://github.com/paypal/rest-api-sdk-php",
-        "keywords": [
-            "payments",
-            "paypal",
-            "rest",
             "sdk"
         ]
     },
@@ -668,6 +571,103 @@
             "microframework",
             "rest",
             "router"
+        ]
+    },
+    {
+        "name": "firebase/php-jwt",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "Firebase/PHP-JWT",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/firebase/php-jwt.git",
+            "reference": "6e4b99948f79622aad86101c4baeb744d14d5946"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/firebase/php-jwt/zipball/6e4b99948f79622aad86101c4baeb744d14d5946",
+            "reference": "6e4b99948f79622aad86101c4baeb744d14d5946",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2.0"
+        },
+        "time": "2014-09-10 01:49:07",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "classmap": [
+                "Authentication/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Neuman Vong",
+                "email": "neuman+pear@twilio.com",
+                "role": "Developer"
+            },
+            {
+                "name": "Anant Narayanan",
+                "email": "anant@php.net",
+                "role": "Developer"
+            }
+        ],
+        "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
+        "homepage": "https://github.com/firebase/php-jwt"
+    },
+    {
+        "name": "paypal/rest-api-sdk-php",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/paypal/rest-api-sdk-php.git",
+            "reference": "9d5d0beb57227cc31f1072ad37ddea57f6ea71b7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/paypal/rest-api-sdk-php/zipball/9d5d0beb57227cc31f1072ad37ddea57f6ea71b7",
+            "reference": "9d5d0beb57227cc31f1072ad37ddea57f6ea71b7",
+            "shasum": ""
+        },
+        "require": {
+            "ext-curl": "*",
+            "ext-json": "*",
+            "paypal/sdk-core-php": "2.4.*",
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "3.7.*"
+        },
+        "time": "2014-09-09 15:28:29",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "PayPal": "lib/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache2"
+        ],
+        "authors": [
+            {
+                "name": "PayPal",
+                "homepage": "https://github.com/paypal/rest-api-sdk-php/contributors"
+            }
+        ],
+        "description": "PayPal's PHP SDK for REST APIs",
+        "homepage": "https://github.com/paypal/rest-api-sdk-php",
+        "keywords": [
+            "payments",
+            "paypal",
+            "rest",
+            "sdk"
         ]
     }
 ]

@@ -23,7 +23,7 @@ use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 
-abstract class Accessory implements ActiveRecordInterface 
+abstract class Accessory implements ActiveRecordInterface
 {
     /**
      * TableMap class name
@@ -110,7 +110,7 @@ abstract class Accessory implements ActiveRecordInterface
 
     /**
      * The value for the image field.
-     * @var        resource
+     * @var        string
      */
     protected $image;
 
@@ -120,19 +120,6 @@ abstract class Accessory implements ActiveRecordInterface
      * @var boolean
      */
     protected $image_isLoaded = false;
-
-    /**
-     * The value for the image_mime field.
-     * @var        string
-     */
-    protected $image_mime;
-
-    /**
-     * Whether the lazy-loaded $image_mime value has been loaded from database.
-     * This is necessary to avoid repeated lookups if $image_mime column is NULL in the db.
-     * @var boolean
-     */
-    protected $image_mime_isLoaded = false;
 
     /**
      * @var        AccessoryCategory
@@ -434,7 +421,7 @@ abstract class Accessory implements ActiveRecordInterface
 
     /**
      * Get the [id] column value.
-     * 
+     *
      * @return   int
      */
     public function getId()
@@ -445,7 +432,7 @@ abstract class Accessory implements ActiveRecordInterface
 
     /**
      * Get the [item_id] column value.
-     * 
+     *
      * @return   string
      */
     public function getItemId()
@@ -456,7 +443,7 @@ abstract class Accessory implements ActiveRecordInterface
 
     /**
      * Get the [name] column value.
-     * 
+     *
      * @return   string
      */
     public function getName()
@@ -467,7 +454,7 @@ abstract class Accessory implements ActiveRecordInterface
 
     /**
      * Get the [underclassman] column value.
-     * 
+     *
      * @return   boolean
      */
     public function getUnderclassman()
@@ -478,7 +465,7 @@ abstract class Accessory implements ActiveRecordInterface
 
     /**
      * Get the [junior] column value.
-     * 
+     *
      * @return   boolean
      */
     public function getJunior()
@@ -489,7 +476,7 @@ abstract class Accessory implements ActiveRecordInterface
 
     /**
      * Get the [senior] column value.
-     * 
+     *
      * @return   boolean
      */
     public function getSenior()
@@ -500,7 +487,7 @@ abstract class Accessory implements ActiveRecordInterface
 
     /**
      * Get the [price] column value.
-     * 
+     *
      * @return   string
      */
     public function getPrice()
@@ -511,7 +498,7 @@ abstract class Accessory implements ActiveRecordInterface
 
     /**
      * Get the [category_id] column value.
-     * 
+     *
      * @return   int
      */
     public function getCategoryId()
@@ -522,9 +509,9 @@ abstract class Accessory implements ActiveRecordInterface
 
     /**
      * Get the [image] column value.
-     * 
+     *
      * @param      ConnectionInterface An optional ConnectionInterface connection to use for fetching this lazy-loaded column.
-     * @return   resource
+     * @return   string
      */
     public function getImage(ConnectionInterface $con = null)
     {
@@ -558,65 +545,15 @@ abstract class Accessory implements ActiveRecordInterface
 
         $firstColumn = $row ? current($row) : null;
 
-            if ($firstColumn !== null) {
-                $this->image = fopen('php://memory', 'r+');
-                fwrite($this->image, $firstColumn);
-                rewind($this->image);
-            } else {
-                $this->image = null;
-            }
+            $this->image = ($firstColumn !== null) ? (string) $firstColumn : null;
             $this->image_isLoaded = true;
         } catch (Exception $e) {
             throw new PropelException("Error loading value for [image] column on demand.", 0, $e);
         }
     }
     /**
-     * Get the [image_mime] column value.
-     * 
-     * @param      ConnectionInterface An optional ConnectionInterface connection to use for fetching this lazy-loaded column.
-     * @return   string
-     */
-    public function getImageMime(ConnectionInterface $con = null)
-    {
-        if (!$this->image_mime_isLoaded && $this->image_mime === null && !$this->isNew()) {
-            $this->loadImageMime($con);
-        }
-
-
-        return $this->image_mime;
-    }
-
-    /**
-     * Load the value for the lazy-loaded [image_mime] column.
-     *
-     * This method performs an additional query to return the value for
-     * the [image_mime] column, since it is not populated by
-     * the hydrate() method.
-     *
-     * @param      $con ConnectionInterface (optional) The ConnectionInterface connection to use.
-     * @return void
-     * @throws PropelException - any underlying error will be wrapped and re-thrown.
-     */
-    protected function loadImageMime(ConnectionInterface $con = null)
-    {
-        $c = $this->buildPkeyCriteria();
-        $c->addSelectColumn(AccessoryTableMap::IMAGE_MIME);
-        try {
-            $dataFetcher = ChildAccessoryQuery::create(null, $c)->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
-            $row = $dataFetcher->fetch();
-            $dataFetcher->close();
-
-        $firstColumn = $row ? current($row) : null;
-
-            $this->image_mime = ($firstColumn !== null) ? (string) $firstColumn : null;
-            $this->image_mime_isLoaded = true;
-        } catch (Exception $e) {
-            throw new PropelException("Error loading value for [image_mime] column on demand.", 0, $e);
-        }
-    }
-    /**
      * Set the value of [id] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \Accessory The current object (for fluent API support)
      */
@@ -637,7 +574,7 @@ abstract class Accessory implements ActiveRecordInterface
 
     /**
      * Set the value of [item_id] column.
-     * 
+     *
      * @param      string $v new value
      * @return   \Accessory The current object (for fluent API support)
      */
@@ -658,7 +595,7 @@ abstract class Accessory implements ActiveRecordInterface
 
     /**
      * Set the value of [name] column.
-     * 
+     *
      * @param      string $v new value
      * @return   \Accessory The current object (for fluent API support)
      */
@@ -683,7 +620,7 @@ abstract class Accessory implements ActiveRecordInterface
      *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
      *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
      * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-     * 
+     *
      * @param      boolean|integer|string $v The new value
      * @return   \Accessory The current object (for fluent API support)
      */
@@ -712,7 +649,7 @@ abstract class Accessory implements ActiveRecordInterface
      *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
      *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
      * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-     * 
+     *
      * @param      boolean|integer|string $v The new value
      * @return   \Accessory The current object (for fluent API support)
      */
@@ -741,7 +678,7 @@ abstract class Accessory implements ActiveRecordInterface
      *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
      *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
      * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-     * 
+     *
      * @param      boolean|integer|string $v The new value
      * @return   \Accessory The current object (for fluent API support)
      */
@@ -766,7 +703,7 @@ abstract class Accessory implements ActiveRecordInterface
 
     /**
      * Set the value of [price] column.
-     * 
+     *
      * @param      string $v new value
      * @return   \Accessory The current object (for fluent API support)
      */
@@ -787,7 +724,7 @@ abstract class Accessory implements ActiveRecordInterface
 
     /**
      * Set the value of [category_id] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \Accessory The current object (for fluent API support)
      */
@@ -812,8 +749,8 @@ abstract class Accessory implements ActiveRecordInterface
 
     /**
      * Set the value of [image] column.
-     * 
-     * @param      resource $v new value
+     *
+     * @param      string $v new value
      * @return   \Accessory The current object (for fluent API support)
      */
     public function setImage($v)
@@ -824,48 +761,18 @@ abstract class Accessory implements ActiveRecordInterface
         // when the getImage() method is called.
         $this->image_isLoaded = true;
 
-        // Because BLOB columns are streams in PDO we have to assume that they are
-        // always modified when a new value is passed in.  For example, the contents
-        // of the stream itself may have changed externally.
-        if (!is_resource($v) && $v !== null) {
-            $this->image = fopen('php://memory', 'r+');
-            fwrite($this->image, $v);
-            rewind($this->image);
-        } else { // it's already a stream
-            $this->image = $v;
-        }
-        $this->modifiedColumns[] = AccessoryTableMap::IMAGE;
-
-
-        return $this;
-    } // setImage()
-
-    /**
-     * Set the value of [image_mime] column.
-     * 
-     * @param      string $v new value
-     * @return   \Accessory The current object (for fluent API support)
-     */
-    public function setImageMime($v)
-    {
-        // explicitly set the is-loaded flag to true for this lazy load col;
-        // it doesn't matter if the value is actually set or not (logic below) as
-        // any attempt to set the value means that no db lookup should be performed
-        // when the getImageMime() method is called.
-        $this->image_mime_isLoaded = true;
-
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->image_mime !== $v) {
-            $this->image_mime = $v;
-            $this->modifiedColumns[] = AccessoryTableMap::IMAGE_MIME;
+        if ($this->image !== $v) {
+            $this->image = $v;
+            $this->modifiedColumns[] = AccessoryTableMap::IMAGE;
         }
 
 
         return $this;
-    } // setImageMime()
+    } // setImage()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -1013,10 +920,6 @@ abstract class Accessory implements ActiveRecordInterface
         $this->image = null;
         $this->image_isLoaded = false;
 
-        // Reset the image_mime lazy-load column
-        $this->image_mime = null;
-        $this->image_mime_isLoaded = false;
-
         if ($deep) {  // also de-associate any related objects?
 
             $this->aAccessoryCategory = null;
@@ -1153,11 +1056,6 @@ abstract class Accessory implements ActiveRecordInterface
                     $this->doUpdate($con);
                 }
                 $affectedRows += 1;
-                // Rewind the image LOB column, since PDO does not rewind after inserting value.
-                if ($this->image !== null && is_resource($this->image)) {
-                    rewind($this->image);
-                }
-
                 $this->resetModified();
             }
 
@@ -1231,9 +1129,6 @@ abstract class Accessory implements ActiveRecordInterface
         if ($this->isColumnModified(AccessoryTableMap::IMAGE)) {
             $modifiedColumns[':p' . $index++]  = 'IMAGE';
         }
-        if ($this->isColumnModified(AccessoryTableMap::IMAGE_MIME)) {
-            $modifiedColumns[':p' . $index++]  = 'IMAGE_MIME';
-        }
 
         $sql = sprintf(
             'INSERT INTO accessory (%s) VALUES (%s)',
@@ -1245,13 +1140,13 @@ abstract class Accessory implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':                        
+                    case 'ID':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'ITEM_ID':                        
+                    case 'ITEM_ID':
                         $stmt->bindValue($identifier, $this->item_id, PDO::PARAM_STR);
                         break;
-                    case 'NAME':                        
+                    case 'NAME':
                         $stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
                         break;
                     case 'UNDERCLASSMAN':
@@ -1263,20 +1158,14 @@ abstract class Accessory implements ActiveRecordInterface
                     case 'SENIOR':
                         $stmt->bindValue($identifier, (int) $this->senior, PDO::PARAM_INT);
                         break;
-                    case 'PRICE':                        
+                    case 'PRICE':
                         $stmt->bindValue($identifier, $this->price, PDO::PARAM_STR);
                         break;
-                    case 'CATEGORY_ID':                        
+                    case 'CATEGORY_ID':
                         $stmt->bindValue($identifier, $this->category_id, PDO::PARAM_INT);
                         break;
-                    case 'IMAGE':                        
-                        if (is_resource($this->image)) {
-                            rewind($this->image);
-                        }
-                        $stmt->bindValue($identifier, $this->image, PDO::PARAM_LOB);
-                        break;
-                    case 'IMAGE_MIME':                        
-                        $stmt->bindValue($identifier, $this->image_mime, PDO::PARAM_STR);
+                    case 'IMAGE':
+                        $stmt->bindValue($identifier, $this->image, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -1367,9 +1256,6 @@ abstract class Accessory implements ActiveRecordInterface
             case 8:
                 return $this->getImage();
                 break;
-            case 9:
-                return $this->getImageMime();
-                break;
             default:
                 return null;
                 break;
@@ -1408,13 +1294,12 @@ abstract class Accessory implements ActiveRecordInterface
             $keys[6] => $this->getPrice(),
             $keys[7] => $this->getCategoryId(),
             $keys[8] => ($includeLazyLoadColumns) ? $this->getImage() : null,
-            $keys[9] => ($includeLazyLoadColumns) ? $this->getImageMime() : null,
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-        
+
         if ($includeForeignObjects) {
             if (null !== $this->aAccessoryCategory) {
                 $result['AccessoryCategory'] = $this->aAccessoryCategory->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
@@ -1483,9 +1368,6 @@ abstract class Accessory implements ActiveRecordInterface
             case 8:
                 $this->setImage($value);
                 break;
-            case 9:
-                $this->setImageMime($value);
-                break;
         } // switch()
     }
 
@@ -1519,7 +1401,6 @@ abstract class Accessory implements ActiveRecordInterface
         if (array_key_exists($keys[6], $arr)) $this->setPrice($arr[$keys[6]]);
         if (array_key_exists($keys[7], $arr)) $this->setCategoryId($arr[$keys[7]]);
         if (array_key_exists($keys[8], $arr)) $this->setImage($arr[$keys[8]]);
-        if (array_key_exists($keys[9], $arr)) $this->setImageMime($arr[$keys[9]]);
     }
 
     /**
@@ -1540,7 +1421,6 @@ abstract class Accessory implements ActiveRecordInterface
         if ($this->isColumnModified(AccessoryTableMap::PRICE)) $criteria->add(AccessoryTableMap::PRICE, $this->price);
         if ($this->isColumnModified(AccessoryTableMap::CATEGORY_ID)) $criteria->add(AccessoryTableMap::CATEGORY_ID, $this->category_id);
         if ($this->isColumnModified(AccessoryTableMap::IMAGE)) $criteria->add(AccessoryTableMap::IMAGE, $this->image);
-        if ($this->isColumnModified(AccessoryTableMap::IMAGE_MIME)) $criteria->add(AccessoryTableMap::IMAGE_MIME, $this->image_mime);
 
         return $criteria;
     }
@@ -1612,7 +1492,6 @@ abstract class Accessory implements ActiveRecordInterface
         $copyObj->setPrice($this->getPrice());
         $copyObj->setCategoryId($this->getCategoryId());
         $copyObj->setImage($this->getImage());
-        $copyObj->setImageMime($this->getImageMime());
 
         if ($deepCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1839,7 +1718,7 @@ abstract class Accessory implements ActiveRecordInterface
     {
         $mumAccessoriesToDelete = $this->getMumAccessories(new Criteria(), $con)->diff($mumAccessories);
 
-        
+
         $this->mumAccessoriesScheduledForDeletion = $mumAccessoriesToDelete;
 
         foreach ($mumAccessoriesToDelete as $mumAccessoryRemoved) {
@@ -1980,8 +1859,6 @@ abstract class Accessory implements ActiveRecordInterface
         $this->category_id = null;
         $this->image = null;
         $this->image_isLoaded = false;
-        $this->image_mime = null;
-        $this->image_mime_isLoaded = false;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->applyDefaultValues();

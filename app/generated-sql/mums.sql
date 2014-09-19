@@ -41,8 +41,7 @@ CREATE TABLE `size`
     `name` VARCHAR(32) NOT NULL,
     `bear_limit` INTEGER NOT NULL,
     `product_id` INTEGER NOT NULL,
-    `image` BLOB,
-    `image_mime` VARCHAR(31),
+    `image` VARCHAR(32),
     PRIMARY KEY (`id`),
     INDEX `size_FI_1` (`product_id`),
     CONSTRAINT `size_FK_1`
@@ -64,8 +63,7 @@ CREATE TABLE `backing`
     `price` DECIMAL(10,2) NOT NULL,
     `size_id` INTEGER NOT NULL,
     `grade_id` INTEGER NOT NULL,
-    `image` BLOB,
-    `image_mime` VARCHAR(31),
+    `image` VARCHAR(32),
     PRIMARY KEY (`id`),
     INDEX `backing_FI_1` (`size_id`),
     INDEX `backing_FI_2` (`grade_id`),
@@ -109,8 +107,7 @@ CREATE TABLE `accessory`
     `senior` TINYINT(1) DEFAULT 0 NOT NULL,
     `price` DECIMAL(10,2) NOT NULL,
     `category_id` INTEGER,
-    `image` BLOB,
-    `image_mime` VARCHAR(31),
+    `image` VARCHAR(32),
     PRIMARY KEY (`id`),
     INDEX `accessory_FI_1` (`category_id`),
     CONSTRAINT `accessory_FK_1`
@@ -144,8 +141,7 @@ CREATE TABLE `accent_bow`
     `item_id` VARCHAR(15),
     `name` VARCHAR(255) NOT NULL,
     `grade_id` INTEGER NOT NULL,
-    `image` BLOB,
-    `image_mime` VARCHAR(31),
+    `image` VARCHAR(32),
     PRIMARY KEY (`id`),
     INDEX `accent_bow_FI_1` (`grade_id`),
     CONSTRAINT `accent_bow_FK_1`
@@ -181,8 +177,7 @@ CREATE TABLE `bear`
     `junior` TINYINT(1) DEFAULT 0 NOT NULL,
     `senior` TINYINT(1) DEFAULT 0 NOT NULL,
     `price` DECIMAL(10,2) NOT NULL,
-    `image` BLOB,
-    `image_mime` VARCHAR(31),
+    `image` VARCHAR(32),
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 

@@ -26,14 +26,12 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildAccentBowQuery orderByName($order = Criteria::ASC) Order by the name column
  * @method     ChildAccentBowQuery orderByGradeId($order = Criteria::ASC) Order by the grade_id column
  * @method     ChildAccentBowQuery orderByImage($order = Criteria::ASC) Order by the image column
- * @method     ChildAccentBowQuery orderByImageMime($order = Criteria::ASC) Order by the image_mime column
  *
  * @method     ChildAccentBowQuery groupById() Group by the id column
  * @method     ChildAccentBowQuery groupByItemId() Group by the item_id column
  * @method     ChildAccentBowQuery groupByName() Group by the name column
  * @method     ChildAccentBowQuery groupByGradeId() Group by the grade_id column
  * @method     ChildAccentBowQuery groupByImage() Group by the image column
- * @method     ChildAccentBowQuery groupByImageMime() Group by the image_mime column
  *
  * @method     ChildAccentBowQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildAccentBowQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -54,15 +52,13 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildAccentBow findOneByItemId(string $item_id) Return the first ChildAccentBow filtered by the item_id column
  * @method     ChildAccentBow findOneByName(string $name) Return the first ChildAccentBow filtered by the name column
  * @method     ChildAccentBow findOneByGradeId(int $grade_id) Return the first ChildAccentBow filtered by the grade_id column
- * @method     ChildAccentBow findOneByImage(resource $image) Return the first ChildAccentBow filtered by the image column
- * @method     ChildAccentBow findOneByImageMime(string $image_mime) Return the first ChildAccentBow filtered by the image_mime column
+ * @method     ChildAccentBow findOneByImage(string $image) Return the first ChildAccentBow filtered by the image column
  *
  * @method     array findById(int $id) Return ChildAccentBow objects filtered by the id column
  * @method     array findByItemId(string $item_id) Return ChildAccentBow objects filtered by the item_id column
  * @method     array findByName(string $name) Return ChildAccentBow objects filtered by the name column
  * @method     array findByGradeId(int $grade_id) Return ChildAccentBow objects filtered by the grade_id column
- * @method     array findByImage(resource $image) Return ChildAccentBow objects filtered by the image column
- * @method     array findByImageMime(string $image_mime) Return ChildAccentBow objects filtered by the image_mime column
+ * @method     array findByImage(string $image) Return ChildAccentBow objects filtered by the image column
  *
  */
 abstract class AccentBowQuery extends ModelCriteria
@@ -385,44 +381,30 @@ abstract class AccentBowQuery extends ModelCriteria
     /**
      * Filter the query on the image column
      *
-     * @param     mixed $image The value to use as filter
+     * Example usage:
+     * <code>
+     * $query->filterByImage('fooValue');   // WHERE image = 'fooValue'
+     * $query->filterByImage('%fooValue%'); // WHERE image LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $image The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildAccentBowQuery The current query, for fluid interface
      */
     public function filterByImage($image = null, $comparison = null)
     {
-
-        return $this->addUsingAlias(AccentBowTableMap::IMAGE, $image, $comparison);
-    }
-
-    /**
-     * Filter the query on the image_mime column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByImageMime('fooValue');   // WHERE image_mime = 'fooValue'
-     * $query->filterByImageMime('%fooValue%'); // WHERE image_mime LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $imageMime The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return ChildAccentBowQuery The current query, for fluid interface
-     */
-    public function filterByImageMime($imageMime = null, $comparison = null)
-    {
         if (null === $comparison) {
-            if (is_array($imageMime)) {
+            if (is_array($image)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $imageMime)) {
-                $imageMime = str_replace('*', '%', $imageMime);
+            } elseif (preg_match('/[\%\*]/', $image)) {
+                $image = str_replace('*', '%', $image);
                 $comparison = Criteria::LIKE;
             }
         }
 
-        return $this->addUsingAlias(AccentBowTableMap::IMAGE_MIME, $imageMime, $comparison);
+        return $this->addUsingAlias(AccentBowTableMap::IMAGE, $image, $comparison);
     }
 
     /**

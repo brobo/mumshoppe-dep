@@ -19,7 +19,7 @@ use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 use Propel\Runtime\Util\PropelDateTime;
 
-abstract class Volunteer implements ActiveRecordInterface 
+abstract class Volunteer implements ActiveRecordInterface
 {
     /**
      * TableMap class name
@@ -391,7 +391,7 @@ abstract class Volunteer implements ActiveRecordInterface
 
     /**
      * Get the [id] column value.
-     * 
+     *
      * @return   int
      */
     public function getId()
@@ -402,7 +402,7 @@ abstract class Volunteer implements ActiveRecordInterface
 
     /**
      * Get the [email] column value.
-     * 
+     *
      * @param      ConnectionInterface An optional ConnectionInterface connection to use for fetching this lazy-loaded column.
      * @return   string
      */
@@ -446,7 +446,7 @@ abstract class Volunteer implements ActiveRecordInterface
     }
     /**
      * Get the [password] column value.
-     * 
+     *
      * @return   string
      */
     public function getPassword()
@@ -457,7 +457,7 @@ abstract class Volunteer implements ActiveRecordInterface
 
     /**
      * Get the [name] column value.
-     * 
+     *
      * @return   string
      */
     public function getName()
@@ -468,7 +468,7 @@ abstract class Volunteer implements ActiveRecordInterface
 
     /**
      * Get the [phone] column value.
-     * 
+     *
      * @return   string
      */
     public function getPhone()
@@ -479,7 +479,7 @@ abstract class Volunteer implements ActiveRecordInterface
 
     /**
      * Get the [rights] column value.
-     * 
+     *
      * @return   int
      */
     public function getRights()
@@ -490,7 +490,7 @@ abstract class Volunteer implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [token_expiration] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw \DateTime object will be returned.
@@ -542,7 +542,7 @@ abstract class Volunteer implements ActiveRecordInterface
     }
     /**
      * Set the value of [id] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \Volunteer The current object (for fluent API support)
      */
@@ -563,7 +563,7 @@ abstract class Volunteer implements ActiveRecordInterface
 
     /**
      * Set the value of [email] column.
-     * 
+     *
      * @param      string $v new value
      * @return   \Volunteer The current object (for fluent API support)
      */
@@ -590,7 +590,7 @@ abstract class Volunteer implements ActiveRecordInterface
 
     /**
      * Set the value of [password] column.
-     * 
+     *
      * @param      string $v new value
      * @return   \Volunteer The current object (for fluent API support)
      */
@@ -611,7 +611,7 @@ abstract class Volunteer implements ActiveRecordInterface
 
     /**
      * Set the value of [name] column.
-     * 
+     *
      * @param      string $v new value
      * @return   \Volunteer The current object (for fluent API support)
      */
@@ -632,7 +632,7 @@ abstract class Volunteer implements ActiveRecordInterface
 
     /**
      * Set the value of [phone] column.
-     * 
+     *
      * @param      string $v new value
      * @return   \Volunteer The current object (for fluent API support)
      */
@@ -653,7 +653,7 @@ abstract class Volunteer implements ActiveRecordInterface
 
     /**
      * Set the value of [rights] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \Volunteer The current object (for fluent API support)
      */
@@ -674,7 +674,7 @@ abstract class Volunteer implements ActiveRecordInterface
 
     /**
      * Sets the value of [token_expiration] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param      mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return   \Volunteer The current object (for fluent API support)
@@ -1011,25 +1011,25 @@ abstract class Volunteer implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':                        
+                    case 'ID':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'EMAIL':                        
+                    case 'EMAIL':
                         $stmt->bindValue($identifier, $this->email, PDO::PARAM_STR);
                         break;
-                    case 'PASSWORD':                        
+                    case 'PASSWORD':
                         $stmt->bindValue($identifier, $this->password, PDO::PARAM_STR);
                         break;
-                    case 'NAME':                        
+                    case 'NAME':
                         $stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
                         break;
-                    case 'PHONE':                        
+                    case 'PHONE':
                         $stmt->bindValue($identifier, $this->phone, PDO::PARAM_STR);
                         break;
-                    case 'RIGHTS':                        
+                    case 'RIGHTS':
                         $stmt->bindValue($identifier, $this->rights, PDO::PARAM_INT);
                         break;
-                    case 'TOKEN_EXPIRATION':                        
+                    case 'TOKEN_EXPIRATION':
                         $stmt->bindValue($identifier, $this->token_expiration ? $this->token_expiration->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
                 }
@@ -1155,7 +1155,7 @@ abstract class Volunteer implements ActiveRecordInterface
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-        
+
 
         return $result;
     }

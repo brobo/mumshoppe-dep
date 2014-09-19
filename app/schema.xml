@@ -16,8 +16,7 @@
 		<column name="name" type="varchar" size="32" required="true" />
 		<column name="bear_limit" type="integer" required="true" />
 		<column name="product_id" type="integer" required="true" />
-		<column name="image" type="blob" lazyLoad="true" />
-		<column name="image_mime" type="varchar" size="31" lazyLoad="true" />
+		<column name="image" type="varchar" size="32" lazyLoad="true" />
 		<foreign-key foreignTable="product" phpName="Product" refPhpName="Size">
 			<reference local="product_id" foreign="id" />
 		</foreign-key>
@@ -30,8 +29,7 @@
 		<column name="price" type="decimal" size="10" scale="2" required="true" />
 		<column name="size_id" type="integer" required="true" />
 		<column name="grade_id" type="integer" required="true" />
-		<column name="image" type="blob" lazyLoad="true" />
-		<column name="image_mime" type="varchar" size="31" lazyLoad="true" />
+		<column name="image" type="varchar" size="32" lazyLoad="true" />
 		<foreign-key foreignTable="size" phpName="Size" refPhpName="Backing">
 			<reference local="size_id" foreign="id" />
 		</foreign-key>
@@ -57,8 +55,7 @@
 		<column name="senior" type="boolean" required="true" defaultValue="false" />
 		<column name="price" type="decimal" size="10" scale="2" required="true" />
 		<column name="category_id" type="integer" />
-		<column name="image" type="blob" lazyLoad="true" />
-		<column name="image_mime" type="varchar" size="31" lazyLoad="true" />
+		<column name="image" type="varchar" size="32" lazyLoad="true" />
 		<foreign-key foreignTable="accessory_category" phpName="AccessoryCategory" refPhpName="Accessory">
 			<reference local="category_id" foreign="id" />
 		</foreign-key>
@@ -75,8 +72,7 @@
 		<column name="item_id" type="varchar" size="15" />
 		<column name="name" type="varchar" length="32" required="true" />
 		<column name="grade_id" type="integer" required="true" />
-		<column name="image" type="blob" lazyLoad="true" />
-		<column name="image_mime" type="varchar" size="31" lazyLoad="true" />
+		<column name="image" type="varchar" size="32" lazyLoad="true" />
 		<foreign-key foreignTable="grade" phpName="Grade" refPhpName="AccentBow">
 			<reference local="grade_id" foreign="id" />
 		</foreign-key>
@@ -95,8 +91,7 @@
 		<column name="junior" type="boolean" required="true" defaultValue="false" />
 		<column name="senior" type="boolean" required="true" defaultValue="false" />
 		<column name="price" type="decimal" size="10" scale="2" required="true" />
-		<column name="image" type="blob" lazyLoad="true" />
-		<column name="image_mime" type="varchar" size="31" lazyLoad="true" />
+		<column name="image" type="varchar" size="32" lazyLoad="true" />
 	</table>
 
 	<table name="mum" phpName="Mum">

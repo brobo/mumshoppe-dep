@@ -65,13 +65,17 @@
 		echo json_encode($size->getFull());
 	});
 
-	$app->post('/api/size/:id/image', auth_volunteer(VolunteerRights::ConfigureItems), function($id) {
+	$app->post('/api/size/:id/image', auth_volunteer(VolunteerRights::ConfigureItems), function($id) use ($confirmUpload) {
 		$size = SizeQuery::create()->findPK($id);
 		if (!$size) return;
 
-		$content = file_get_contents($_FILES['image']['tmp_name']);
-		$size->setImage($content);
-		$size->setImageMime($_FILES['image']['type']);
+		if (($reason = $confirmUpload($_FILES['image'])) !== null) {
+			echo json_encode(array('success' => 'false', 'reason' => $reason));
+		}
+
+		$filename = uniqid('size', true);
+		move_uploaded_file($_FILES['image']['tmp_name'], UPLOAD_DIR . $filename);
+		$size->setImage($filename);
 
 		$size->save();
 		echo json_encode(array('message' => 'Success!'));
@@ -83,12 +87,13 @@
 		$size = SizeQuery::create()->findPK($id);
 		if (!$size) return;
 
-		$fp = $size->getImage();
+		$filename = UPLOAD_DIR . $size->getImage();
+		$fp = fopen($filename, 'rb');
 
 		$res = $app->response();
 		if ($fp !== null) {
 			$content = stream_get_contents($fp, -1, 0);
-			$res->header('Content-Type', 'content-type: ' . $size->getImageMime());
+			$res->header('Content-Type', 'content-type: ' . filetype($filename));
 			echo $content;
 		}
 	});

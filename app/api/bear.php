@@ -66,13 +66,17 @@
 		echo json_encode($bear->getFull());
 	});
 
-	$app->post('/api/bear/:id/image', auth_volunteer(VolunteerRights::ConfigureItems), function($id) {
+	$app->post('/api/bear/:id/image', auth_volunteer(VolunteerRights::ConfigureItems), function($id) use ($confirmUpload) {
 		$bear = BearQuery::create()->findPK($id);
 		if (!$bear) return;
 
-		$content = file_get_contents($_FILES['image']['tmp_name']);
-		$bear->setImage($content);
-		$bear->setImageMime($_FILES['image']['type']);
+		if (($reason = $confirmUpload($_FILES['image'])) !== null) {
+			echo json_encode(array('success' => 'false', 'reason' => $reason));
+		}
+
+		$filename = uniqid('bear', true);
+		move_uploaded_file($_FILES['image']['tmp_name'], UPLOAD_DIR . $filename);
+		$bear->setImage($filename);
 
 		$bear->save();
 		echo json_encode(array('message' => 'Success!'));
@@ -84,12 +88,13 @@
 		$bear = BearQuery::create()->findPK($id);
 		if (!$bear) return;
 
-		$fp = $bear->getImage();
+		$filename = UPLOAD_DIR . $bear->getImage();
+		$fp = fopen($filename, 'rb');
 
 		$res = $app->response();
 		if ($fp !== null) {
 			$content = stream_get_contents($fp, -1, 0);
-			$res->header('Content-Type', 'content-type: ' . $bear->getImageMime());
+			$res->header('Content-Type', 'content-type: ' . filetype($filename));
 			echo $content;
 		}
 	});

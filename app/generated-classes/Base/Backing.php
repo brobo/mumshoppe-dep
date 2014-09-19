@@ -25,7 +25,7 @@ use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 
-abstract class Backing implements ActiveRecordInterface 
+abstract class Backing implements ActiveRecordInterface
 {
     /**
      * TableMap class name
@@ -97,7 +97,7 @@ abstract class Backing implements ActiveRecordInterface
 
     /**
      * The value for the image field.
-     * @var        resource
+     * @var        string
      */
     protected $image;
 
@@ -107,19 +107,6 @@ abstract class Backing implements ActiveRecordInterface
      * @var boolean
      */
     protected $image_isLoaded = false;
-
-    /**
-     * The value for the image_mime field.
-     * @var        string
-     */
-    protected $image_mime;
-
-    /**
-     * Whether the lazy-loaded $image_mime value has been loaded from database.
-     * This is necessary to avoid repeated lookups if $image_mime column is NULL in the db.
-     * @var boolean
-     */
-    protected $image_mime_isLoaded = false;
 
     /**
      * @var        Size
@@ -411,7 +398,7 @@ abstract class Backing implements ActiveRecordInterface
 
     /**
      * Get the [id] column value.
-     * 
+     *
      * @return   int
      */
     public function getId()
@@ -422,7 +409,7 @@ abstract class Backing implements ActiveRecordInterface
 
     /**
      * Get the [item_id] column value.
-     * 
+     *
      * @return   string
      */
     public function getItemId()
@@ -433,7 +420,7 @@ abstract class Backing implements ActiveRecordInterface
 
     /**
      * Get the [name] column value.
-     * 
+     *
      * @return   string
      */
     public function getName()
@@ -444,7 +431,7 @@ abstract class Backing implements ActiveRecordInterface
 
     /**
      * Get the [price] column value.
-     * 
+     *
      * @return   string
      */
     public function getPrice()
@@ -455,7 +442,7 @@ abstract class Backing implements ActiveRecordInterface
 
     /**
      * Get the [size_id] column value.
-     * 
+     *
      * @return   int
      */
     public function getSizeId()
@@ -466,7 +453,7 @@ abstract class Backing implements ActiveRecordInterface
 
     /**
      * Get the [grade_id] column value.
-     * 
+     *
      * @return   int
      */
     public function getGradeId()
@@ -477,9 +464,9 @@ abstract class Backing implements ActiveRecordInterface
 
     /**
      * Get the [image] column value.
-     * 
+     *
      * @param      ConnectionInterface An optional ConnectionInterface connection to use for fetching this lazy-loaded column.
-     * @return   resource
+     * @return   string
      */
     public function getImage(ConnectionInterface $con = null)
     {
@@ -513,65 +500,15 @@ abstract class Backing implements ActiveRecordInterface
 
         $firstColumn = $row ? current($row) : null;
 
-            if ($firstColumn !== null) {
-                $this->image = fopen('php://memory', 'r+');
-                fwrite($this->image, $firstColumn);
-                rewind($this->image);
-            } else {
-                $this->image = null;
-            }
+            $this->image = ($firstColumn !== null) ? (string) $firstColumn : null;
             $this->image_isLoaded = true;
         } catch (Exception $e) {
             throw new PropelException("Error loading value for [image] column on demand.", 0, $e);
         }
     }
     /**
-     * Get the [image_mime] column value.
-     * 
-     * @param      ConnectionInterface An optional ConnectionInterface connection to use for fetching this lazy-loaded column.
-     * @return   string
-     */
-    public function getImageMime(ConnectionInterface $con = null)
-    {
-        if (!$this->image_mime_isLoaded && $this->image_mime === null && !$this->isNew()) {
-            $this->loadImageMime($con);
-        }
-
-
-        return $this->image_mime;
-    }
-
-    /**
-     * Load the value for the lazy-loaded [image_mime] column.
-     *
-     * This method performs an additional query to return the value for
-     * the [image_mime] column, since it is not populated by
-     * the hydrate() method.
-     *
-     * @param      $con ConnectionInterface (optional) The ConnectionInterface connection to use.
-     * @return void
-     * @throws PropelException - any underlying error will be wrapped and re-thrown.
-     */
-    protected function loadImageMime(ConnectionInterface $con = null)
-    {
-        $c = $this->buildPkeyCriteria();
-        $c->addSelectColumn(BackingTableMap::IMAGE_MIME);
-        try {
-            $dataFetcher = ChildBackingQuery::create(null, $c)->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
-            $row = $dataFetcher->fetch();
-            $dataFetcher->close();
-
-        $firstColumn = $row ? current($row) : null;
-
-            $this->image_mime = ($firstColumn !== null) ? (string) $firstColumn : null;
-            $this->image_mime_isLoaded = true;
-        } catch (Exception $e) {
-            throw new PropelException("Error loading value for [image_mime] column on demand.", 0, $e);
-        }
-    }
-    /**
      * Set the value of [id] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \Backing The current object (for fluent API support)
      */
@@ -592,7 +529,7 @@ abstract class Backing implements ActiveRecordInterface
 
     /**
      * Set the value of [item_id] column.
-     * 
+     *
      * @param      string $v new value
      * @return   \Backing The current object (for fluent API support)
      */
@@ -613,7 +550,7 @@ abstract class Backing implements ActiveRecordInterface
 
     /**
      * Set the value of [name] column.
-     * 
+     *
      * @param      string $v new value
      * @return   \Backing The current object (for fluent API support)
      */
@@ -634,7 +571,7 @@ abstract class Backing implements ActiveRecordInterface
 
     /**
      * Set the value of [price] column.
-     * 
+     *
      * @param      string $v new value
      * @return   \Backing The current object (for fluent API support)
      */
@@ -655,7 +592,7 @@ abstract class Backing implements ActiveRecordInterface
 
     /**
      * Set the value of [size_id] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \Backing The current object (for fluent API support)
      */
@@ -680,7 +617,7 @@ abstract class Backing implements ActiveRecordInterface
 
     /**
      * Set the value of [grade_id] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \Backing The current object (for fluent API support)
      */
@@ -705,8 +642,8 @@ abstract class Backing implements ActiveRecordInterface
 
     /**
      * Set the value of [image] column.
-     * 
-     * @param      resource $v new value
+     *
+     * @param      string $v new value
      * @return   \Backing The current object (for fluent API support)
      */
     public function setImage($v)
@@ -717,48 +654,18 @@ abstract class Backing implements ActiveRecordInterface
         // when the getImage() method is called.
         $this->image_isLoaded = true;
 
-        // Because BLOB columns are streams in PDO we have to assume that they are
-        // always modified when a new value is passed in.  For example, the contents
-        // of the stream itself may have changed externally.
-        if (!is_resource($v) && $v !== null) {
-            $this->image = fopen('php://memory', 'r+');
-            fwrite($this->image, $v);
-            rewind($this->image);
-        } else { // it's already a stream
-            $this->image = $v;
-        }
-        $this->modifiedColumns[] = BackingTableMap::IMAGE;
-
-
-        return $this;
-    } // setImage()
-
-    /**
-     * Set the value of [image_mime] column.
-     * 
-     * @param      string $v new value
-     * @return   \Backing The current object (for fluent API support)
-     */
-    public function setImageMime($v)
-    {
-        // explicitly set the is-loaded flag to true for this lazy load col;
-        // it doesn't matter if the value is actually set or not (logic below) as
-        // any attempt to set the value means that no db lookup should be performed
-        // when the getImageMime() method is called.
-        $this->image_mime_isLoaded = true;
-
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->image_mime !== $v) {
-            $this->image_mime = $v;
-            $this->modifiedColumns[] = BackingTableMap::IMAGE_MIME;
+        if ($this->image !== $v) {
+            $this->image = $v;
+            $this->modifiedColumns[] = BackingTableMap::IMAGE;
         }
 
 
         return $this;
-    } // setImageMime()
+    } // setImage()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -890,10 +797,6 @@ abstract class Backing implements ActiveRecordInterface
         // Reset the image lazy-load column
         $this->image = null;
         $this->image_isLoaded = false;
-
-        // Reset the image_mime lazy-load column
-        $this->image_mime = null;
-        $this->image_mime_isLoaded = false;
 
         if ($deep) {  // also de-associate any related objects?
 
@@ -1039,11 +942,6 @@ abstract class Backing implements ActiveRecordInterface
                     $this->doUpdate($con);
                 }
                 $affectedRows += 1;
-                // Rewind the image LOB column, since PDO does not rewind after inserting value.
-                if ($this->image !== null && is_resource($this->image)) {
-                    rewind($this->image);
-                }
-
                 $this->resetModified();
             }
 
@@ -1112,9 +1010,6 @@ abstract class Backing implements ActiveRecordInterface
         if ($this->isColumnModified(BackingTableMap::IMAGE)) {
             $modifiedColumns[':p' . $index++]  = 'IMAGE';
         }
-        if ($this->isColumnModified(BackingTableMap::IMAGE_MIME)) {
-            $modifiedColumns[':p' . $index++]  = 'IMAGE_MIME';
-        }
 
         $sql = sprintf(
             'INSERT INTO backing (%s) VALUES (%s)',
@@ -1126,32 +1021,26 @@ abstract class Backing implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':                        
+                    case 'ID':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'ITEM_ID':                        
+                    case 'ITEM_ID':
                         $stmt->bindValue($identifier, $this->item_id, PDO::PARAM_STR);
                         break;
-                    case 'NAME':                        
+                    case 'NAME':
                         $stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
                         break;
-                    case 'PRICE':                        
+                    case 'PRICE':
                         $stmt->bindValue($identifier, $this->price, PDO::PARAM_STR);
                         break;
-                    case 'SIZE_ID':                        
+                    case 'SIZE_ID':
                         $stmt->bindValue($identifier, $this->size_id, PDO::PARAM_INT);
                         break;
-                    case 'GRADE_ID':                        
+                    case 'GRADE_ID':
                         $stmt->bindValue($identifier, $this->grade_id, PDO::PARAM_INT);
                         break;
-                    case 'IMAGE':                        
-                        if (is_resource($this->image)) {
-                            rewind($this->image);
-                        }
-                        $stmt->bindValue($identifier, $this->image, PDO::PARAM_LOB);
-                        break;
-                    case 'IMAGE_MIME':                        
-                        $stmt->bindValue($identifier, $this->image_mime, PDO::PARAM_STR);
+                    case 'IMAGE':
+                        $stmt->bindValue($identifier, $this->image, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -1236,9 +1125,6 @@ abstract class Backing implements ActiveRecordInterface
             case 6:
                 return $this->getImage();
                 break;
-            case 7:
-                return $this->getImageMime();
-                break;
             default:
                 return null;
                 break;
@@ -1275,13 +1161,12 @@ abstract class Backing implements ActiveRecordInterface
             $keys[4] => $this->getSizeId(),
             $keys[5] => $this->getGradeId(),
             $keys[6] => ($includeLazyLoadColumns) ? $this->getImage() : null,
-            $keys[7] => ($includeLazyLoadColumns) ? $this->getImageMime() : null,
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-        
+
         if ($includeForeignObjects) {
             if (null !== $this->aSize) {
                 $result['Size'] = $this->aSize->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
@@ -1347,9 +1232,6 @@ abstract class Backing implements ActiveRecordInterface
             case 6:
                 $this->setImage($value);
                 break;
-            case 7:
-                $this->setImageMime($value);
-                break;
         } // switch()
     }
 
@@ -1381,7 +1263,6 @@ abstract class Backing implements ActiveRecordInterface
         if (array_key_exists($keys[4], $arr)) $this->setSizeId($arr[$keys[4]]);
         if (array_key_exists($keys[5], $arr)) $this->setGradeId($arr[$keys[5]]);
         if (array_key_exists($keys[6], $arr)) $this->setImage($arr[$keys[6]]);
-        if (array_key_exists($keys[7], $arr)) $this->setImageMime($arr[$keys[7]]);
     }
 
     /**
@@ -1400,7 +1281,6 @@ abstract class Backing implements ActiveRecordInterface
         if ($this->isColumnModified(BackingTableMap::SIZE_ID)) $criteria->add(BackingTableMap::SIZE_ID, $this->size_id);
         if ($this->isColumnModified(BackingTableMap::GRADE_ID)) $criteria->add(BackingTableMap::GRADE_ID, $this->grade_id);
         if ($this->isColumnModified(BackingTableMap::IMAGE)) $criteria->add(BackingTableMap::IMAGE, $this->image);
-        if ($this->isColumnModified(BackingTableMap::IMAGE_MIME)) $criteria->add(BackingTableMap::IMAGE_MIME, $this->image_mime);
 
         return $criteria;
     }
@@ -1470,7 +1350,6 @@ abstract class Backing implements ActiveRecordInterface
         $copyObj->setSizeId($this->getSizeId());
         $copyObj->setGradeId($this->getGradeId());
         $copyObj->setImage($this->getImage());
-        $copyObj->setImageMime($this->getImageMime());
 
         if ($deepCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1748,7 +1627,7 @@ abstract class Backing implements ActiveRecordInterface
     {
         $mumsToDelete = $this->getMums(new Criteria(), $con)->diff($mums);
 
-        
+
         $this->mumsScheduledForDeletion = $mumsToDelete;
 
         foreach ($mumsToDelete as $mumRemoved) {
@@ -1962,8 +1841,6 @@ abstract class Backing implements ActiveRecordInterface
         $this->grade_id = null;
         $this->image = null;
         $this->image_isLoaded = false;
-        $this->image_mime = null;
-        $this->image_mime_isLoaded = false;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();

@@ -11,7 +11,7 @@ class Size extends BaseSize
 			'Name' => $this->getName(),
 			'BearLimit' => $this->getBearLimit(),
 			'ProductId' => $this->getProductId(),
-			'HasImage' => !!$this->getImageMime()
+			'HasImage' => !!$this->getImage()
 		);
 
 		return $res;

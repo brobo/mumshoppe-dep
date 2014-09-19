@@ -66,13 +66,17 @@
 		echo json_encode($backing->getFull());
 	});
 
-	$app->post('/api/backing/:id/image', auth_volunteer(VolunteerRights::ConfigureItems), function($id) {
+	$app->post('/api/backing/:id/image', auth_volunteer(VolunteerRights::ConfigureItems), function($id) use ($confirmUpload) {
 		$backing = BackingQuery::create()->findPK($id);
 		if (!$backing) return;
 
-		$content = file_get_contents($_FILES['image']['tmp_name']);
-		$backing->setImage($content);
-		$backing->setImageMime($_FILES['image']['type']);
+		if (($reason = $confirmUpload($_FILES['image'])) !== null) {
+			echo json_encode(array('success' => 'false', 'reason' => $reason));
+		}
+
+		$filename = uniqid('backing', true);
+		move_uploaded_file($_FILES['image']['tmp_name'], UPLOAD_DIR . $filename);
+		$backing->setImage($filename);
 
 		$backing->save();
 		echo json_encode(array('message' => 'Success!'));
@@ -84,12 +88,13 @@
 		$backing = BackingQuery::create()->findPK($id);
 		if (!$backing) return;
 
-		$fp = $backing->getImage();
+		$filename = UPLOAD_DIR . $backing->getImage();
+		$fp = fopen($filename, 'rb');
 
 		$res = $app->response();
 		if ($fp !== null) {
 			$content = stream_get_contents($fp, -1, 0);
-			$res->header('Content-Type', 'content-type: ' . $backing->getImageMime());
+			$res->header('Content-Type', 'content-type: ' . filetype($filename));
 			echo $content;
 		}
 	});
