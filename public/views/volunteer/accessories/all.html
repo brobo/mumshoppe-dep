@@ -12,7 +12,9 @@
 			<th>Underclassman</th>
 			<th>Junior</th>
 			<th>Senior</th>
-			<th>Price</th>
+			<th>Mum Price</th>
+			<th>Garter Price</th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -22,7 +24,8 @@
 			<td><span class="fa" ng-class="{'fa-check': accessory.Underclassman}"></span></td>
 			<td><span class="fa" ng-class="{'fa-check': accessory.Junior}"></span></td>
 			<td><span class="fa" ng-class="{'fa-check': accessory.Senior}"></span></td>
-			<td>{{accessory.Price | currency}}</td>
+			<td colspan="{{accessory.MumPrice == accessory.GarterPrice ? 2 : 1}}" class="text-center">{{accessory.MumPrice | currency}}</td>
+			<td ng-show="{{accessory.MumPrice != accessory.GarterPrice}}" class="text-center">{{accessory.GarterPrice | currency}}</td>
 			<td>
 				<button class="btn btn-warning btn-xs" ng-click="imageAccessory(accessory)"><i class="fa fa-image"></i> Image</button>
 				<button class="btn btn-info btn-xs" ng-click="editAccessory(accessory.Id)"><i class="fa fa-pencil"></i> Edit</button>

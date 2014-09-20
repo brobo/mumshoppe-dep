@@ -13,7 +13,7 @@ angular.module('create.controller', [])
 			return MumService.fetch($stateParams.mumId)
 				.success(function(data) {
 					$scope.mum = data;
-					console.log($scope.mum);
+					$scope.priceType = $scope.mum.Product.Name == 'Mum' ? 'MumPrice' : 'GarterPrice';
 					$scope.stagedCharges = [];
 				});
 		}
@@ -93,7 +93,7 @@ angular.module('create.controller', [])
 					$scope.bearTotal += parseFloat($scope.mum.Bears[i].Price);
 				}
 				for (var i=0; i<$scope.mum.Accessories.length; i++) {
-					$scope.accessoryTotal += parseFloat($scope.mum.Accessories[i].Accessory.Price * $scope.mum.Accessories[i].Quantity);
+					$scope.accessoryTotal += parseFloat($scope.mum.Accessories[i].Accessory[$scope.priceType] * $scope.mum.Accessories[i].Quantity);
 				}
 			});
 		LettersService.get()
@@ -136,7 +136,7 @@ angular.module('create.controller', [])
 			.success(function(data) {
 				$scope.accessories = data;
 				for (var i=0; i<$scope.accessories.length; i++) {
-					$scope.priceLookup[$scope.accessories[i].Id] = $scope.accessories[i].Price;
+					$scope.priceLookup[$scope.accessories[i].Id] = {'MumPrice': $scope.accessories[i].MumPrice, 'GarterPrice': $scope.accessories[i].GarterPrice};
 					$scope.accessories[i].image = getRoute('/api/accessory/' + $scope.accessories[i].Id + '/image');
 				}
 			});
@@ -168,7 +168,7 @@ angular.module('create.controller', [])
 		$scope.updateTotal = function() {
 			var total = 0;
 			for (var key in $scope.quantities) {
-				total += $scope.quantities[key] * ($scope.priceLookup[key] || 0);
+				total += $scope.quantities[key] * ($scope.priceLookup[key][$scope.priceType] || 0);
 			}
 			$scope.totalPrice = total;
 			$scope.$parent.staged = $scope.totalPrice;

@@ -14,8 +14,9 @@ class Mum extends BaseMum
 		foreach ($fullMum['Bears'] as $bear) {
 			$totalPrice += $bear['Price'];
 		}
+		$priceType = $fullMum['Product']['Name'] == 'Mum' ? 'MumPrice' : 'GarterPrice';
 		foreach ($fullMum['Accessories'] as $accessory) {
-			$totalPrice += $accessory['Quantity'] * $accessory['Accessory']['Price'];
+			$totalPrice += $accessory['Quantity'] * $accessory['Accessory'][$priceType];
 		}
 		return $totalPrice;
 	}
@@ -49,7 +50,7 @@ class Mum extends BaseMum
 		for ($i = 0; $i < count($res['Accessories']); $i++) {
 			$res['Accessories'][$i]['Accessory'] = 
 				AccessoryQuery::create()
-					->select(array('Id', 'Name', 'Underclassman', 'Junior', 'Senior', 'Price', 'CategoryId'))
+					->select(array('Id', 'Name', 'Underclassman', 'Junior', 'Senior', 'MumPrice', 'GarterPrice', 'CategoryId'))
 					->findPK($res['Accessories'][$i]['AccessoryId']);
 		}
 

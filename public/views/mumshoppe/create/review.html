@@ -89,9 +89,9 @@
 					</tr>
 					<tr ng-repeat="accessory in filtered">
 						<th>{{accessory.Accessory.Name}} <small>{{accessory.Accessory.ItemId}}</small></th>
-						<td>{{accessory.Accessory.Price | currency}}</td>
+						<td>{{accessory.Accessory[priceType] | currency}}</td>
 						<td>{{accessory.Quantity}}</td>
-						<td><span class="badge">{{accessory.Accessory.Price * accessory.Quantity | currency}}</span></td>
+						<td><span class="badge">{{accessory.Accessory[priceType] * accessory.Quantity | currency}}</span></td>
 					</tr>
 					<p ng-show="!filtered.length">You didn't select any {{category.Name}}!</p>
 				</table>

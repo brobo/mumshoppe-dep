@@ -1,5 +1,6 @@
 <h3>Pick your accessories!</h3>
 <p>Total for accessories: <span class="badge">{{totalPrice || 0 | currency}}</span></p>
+<p>Price type: {{priceType}}</p>
 <div class="input-group">
 	<label for="search">Filter by:</label>
 	<select ng-model="categorySelect" class="form-control col-lg-6" ng-options="category.Id as category.Name for category in categories"></select>
@@ -13,9 +14,9 @@
 				{{accessory.Name}} 
 				<small>
 					{{accessory.ItemId}}
-					({{accessory.Price | currency}} each)
+					({{accessory[priceType] | currency}} each)
 				</small>
-				<span class="badge">{{accessory.Price * quantities[accessory.Id] || 0 | currency}}</span>
+				<span class="badge">{{accessory[priceType] * quantities[accessory.Id] || 0 | currency}}</span>
 			</h4>
 			<div class="input-group col-lg-2">
 				<span class="input-group-btn"><button class="btn btn-default" ng-click="decrement(accessory)" ng-disabled="!quantities[accessory.Id]">-</button></span>

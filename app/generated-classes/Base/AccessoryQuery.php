@@ -27,7 +27,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildAccessoryQuery orderByUnderclassman($order = Criteria::ASC) Order by the underclassman column
  * @method     ChildAccessoryQuery orderByJunior($order = Criteria::ASC) Order by the junior column
  * @method     ChildAccessoryQuery orderBySenior($order = Criteria::ASC) Order by the senior column
- * @method     ChildAccessoryQuery orderByPrice($order = Criteria::ASC) Order by the price column
+ * @method     ChildAccessoryQuery orderByMumPrice($order = Criteria::ASC) Order by the mum_price column
+ * @method     ChildAccessoryQuery orderByGarterPrice($order = Criteria::ASC) Order by the garter_price column
  * @method     ChildAccessoryQuery orderByCategoryId($order = Criteria::ASC) Order by the category_id column
  * @method     ChildAccessoryQuery orderByImage($order = Criteria::ASC) Order by the image column
  *
@@ -37,7 +38,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildAccessoryQuery groupByUnderclassman() Group by the underclassman column
  * @method     ChildAccessoryQuery groupByJunior() Group by the junior column
  * @method     ChildAccessoryQuery groupBySenior() Group by the senior column
- * @method     ChildAccessoryQuery groupByPrice() Group by the price column
+ * @method     ChildAccessoryQuery groupByMumPrice() Group by the mum_price column
+ * @method     ChildAccessoryQuery groupByGarterPrice() Group by the garter_price column
  * @method     ChildAccessoryQuery groupByCategoryId() Group by the category_id column
  * @method     ChildAccessoryQuery groupByImage() Group by the image column
  *
@@ -62,7 +64,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildAccessory findOneByUnderclassman(boolean $underclassman) Return the first ChildAccessory filtered by the underclassman column
  * @method     ChildAccessory findOneByJunior(boolean $junior) Return the first ChildAccessory filtered by the junior column
  * @method     ChildAccessory findOneBySenior(boolean $senior) Return the first ChildAccessory filtered by the senior column
- * @method     ChildAccessory findOneByPrice(string $price) Return the first ChildAccessory filtered by the price column
+ * @method     ChildAccessory findOneByMumPrice(string $mum_price) Return the first ChildAccessory filtered by the mum_price column
+ * @method     ChildAccessory findOneByGarterPrice(string $garter_price) Return the first ChildAccessory filtered by the garter_price column
  * @method     ChildAccessory findOneByCategoryId(int $category_id) Return the first ChildAccessory filtered by the category_id column
  * @method     ChildAccessory findOneByImage(string $image) Return the first ChildAccessory filtered by the image column
  *
@@ -72,7 +75,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     array findByUnderclassman(boolean $underclassman) Return ChildAccessory objects filtered by the underclassman column
  * @method     array findByJunior(boolean $junior) Return ChildAccessory objects filtered by the junior column
  * @method     array findBySenior(boolean $senior) Return ChildAccessory objects filtered by the senior column
- * @method     array findByPrice(string $price) Return ChildAccessory objects filtered by the price column
+ * @method     array findByMumPrice(string $mum_price) Return ChildAccessory objects filtered by the mum_price column
+ * @method     array findByGarterPrice(string $garter_price) Return ChildAccessory objects filtered by the garter_price column
  * @method     array findByCategoryId(int $category_id) Return ChildAccessory objects filtered by the category_id column
  * @method     array findByImage(string $image) Return ChildAccessory objects filtered by the image column
  *
@@ -163,7 +167,7 @@ abstract class AccessoryQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT ID, ITEM_ID, NAME, UNDERCLASSMAN, JUNIOR, SENIOR, PRICE, CATEGORY_ID FROM accessory WHERE ID = :p0';
+        $sql = 'SELECT ID, ITEM_ID, NAME, UNDERCLASSMAN, JUNIOR, SENIOR, MUM_PRICE, GARTER_PRICE, CATEGORY_ID FROM accessory WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -433,16 +437,16 @@ abstract class AccessoryQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the price column
+     * Filter the query on the mum_price column
      *
      * Example usage:
      * <code>
-     * $query->filterByPrice(1234); // WHERE price = 1234
-     * $query->filterByPrice(array(12, 34)); // WHERE price IN (12, 34)
-     * $query->filterByPrice(array('min' => 12)); // WHERE price > 12
+     * $query->filterByMumPrice(1234); // WHERE mum_price = 1234
+     * $query->filterByMumPrice(array(12, 34)); // WHERE mum_price IN (12, 34)
+     * $query->filterByMumPrice(array('min' => 12)); // WHERE mum_price > 12
      * </code>
      *
-     * @param     mixed $price The value to use as filter.
+     * @param     mixed $mumPrice The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -450,16 +454,16 @@ abstract class AccessoryQuery extends ModelCriteria
      *
      * @return ChildAccessoryQuery The current query, for fluid interface
      */
-    public function filterByPrice($price = null, $comparison = null)
+    public function filterByMumPrice($mumPrice = null, $comparison = null)
     {
-        if (is_array($price)) {
+        if (is_array($mumPrice)) {
             $useMinMax = false;
-            if (isset($price['min'])) {
-                $this->addUsingAlias(AccessoryTableMap::PRICE, $price['min'], Criteria::GREATER_EQUAL);
+            if (isset($mumPrice['min'])) {
+                $this->addUsingAlias(AccessoryTableMap::MUM_PRICE, $mumPrice['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($price['max'])) {
-                $this->addUsingAlias(AccessoryTableMap::PRICE, $price['max'], Criteria::LESS_EQUAL);
+            if (isset($mumPrice['max'])) {
+                $this->addUsingAlias(AccessoryTableMap::MUM_PRICE, $mumPrice['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -470,7 +474,48 @@ abstract class AccessoryQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(AccessoryTableMap::PRICE, $price, $comparison);
+        return $this->addUsingAlias(AccessoryTableMap::MUM_PRICE, $mumPrice, $comparison);
+    }
+
+    /**
+     * Filter the query on the garter_price column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByGarterPrice(1234); // WHERE garter_price = 1234
+     * $query->filterByGarterPrice(array(12, 34)); // WHERE garter_price IN (12, 34)
+     * $query->filterByGarterPrice(array('min' => 12)); // WHERE garter_price > 12
+     * </code>
+     *
+     * @param     mixed $garterPrice The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildAccessoryQuery The current query, for fluid interface
+     */
+    public function filterByGarterPrice($garterPrice = null, $comparison = null)
+    {
+        if (is_array($garterPrice)) {
+            $useMinMax = false;
+            if (isset($garterPrice['min'])) {
+                $this->addUsingAlias(AccessoryTableMap::GARTER_PRICE, $garterPrice['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($garterPrice['max'])) {
+                $this->addUsingAlias(AccessoryTableMap::GARTER_PRICE, $garterPrice['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(AccessoryTableMap::GARTER_PRICE, $garterPrice, $comparison);
     }
 
     /**

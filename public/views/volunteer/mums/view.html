@@ -91,7 +91,7 @@
 						<th>{{accessory.Accessory.Name}}</th>
 						<td>{{accessory.Accessory.Price | currency}}</td>
 						<td>{{accessory.Quantity}}</td>
-						<td><span class="badge">{{accessory.Accessory.Price * accessory.Quantity | currency}}</span></td>
+						<td><span class="badge">{{accessory.Accessory[priceType] * accessory.Quantity | currency}}</span></td>
 					</tr>
 					<p ng-show="!filtered.length">No {{category.Name}} were selected.</p>
 				</table>

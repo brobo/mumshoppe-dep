@@ -15,7 +15,8 @@
 			"Underclassman" => $accessory->getUnderclassman(),
 			"Junior" => $accessory->getJunior(),
 			"Senior" => $accessory->getSenior(),
-			"Price" => $accessory->getPrice(),
+			"MumPrice" => $accessory->getMumPrice(),
+			"GarterPrice" => $accessory->getGarterPrice(),
 			"HasImage" => $accessory->getImage() !== "",
 			"CategoryId" => $accessory->getCategoryId(),
 			"AccessoryCategory" => $accessory->getAccessoryCategory()->toArray()

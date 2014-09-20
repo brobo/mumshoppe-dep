@@ -97,10 +97,16 @@ abstract class Accessory implements ActiveRecordInterface
     protected $senior;
 
     /**
-     * The value for the price field.
+     * The value for the mum_price field.
      * @var        string
      */
-    protected $price;
+    protected $mum_price;
+
+    /**
+     * The value for the garter_price field.
+     * @var        string
+     */
+    protected $garter_price;
 
     /**
      * The value for the category_id field.
@@ -486,14 +492,25 @@ abstract class Accessory implements ActiveRecordInterface
     }
 
     /**
-     * Get the [price] column value.
+     * Get the [mum_price] column value.
      *
      * @return   string
      */
-    public function getPrice()
+    public function getMumPrice()
     {
 
-        return $this->price;
+        return $this->mum_price;
+    }
+
+    /**
+     * Get the [garter_price] column value.
+     *
+     * @return   string
+     */
+    public function getGarterPrice()
+    {
+
+        return $this->garter_price;
     }
 
     /**
@@ -702,25 +719,46 @@ abstract class Accessory implements ActiveRecordInterface
     } // setSenior()
 
     /**
-     * Set the value of [price] column.
+     * Set the value of [mum_price] column.
      *
      * @param      string $v new value
      * @return   \Accessory The current object (for fluent API support)
      */
-    public function setPrice($v)
+    public function setMumPrice($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->price !== $v) {
-            $this->price = $v;
-            $this->modifiedColumns[] = AccessoryTableMap::PRICE;
+        if ($this->mum_price !== $v) {
+            $this->mum_price = $v;
+            $this->modifiedColumns[] = AccessoryTableMap::MUM_PRICE;
         }
 
 
         return $this;
-    } // setPrice()
+    } // setMumPrice()
+
+    /**
+     * Set the value of [garter_price] column.
+     *
+     * @param      string $v new value
+     * @return   \Accessory The current object (for fluent API support)
+     */
+    public function setGarterPrice($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->garter_price !== $v) {
+            $this->garter_price = $v;
+            $this->modifiedColumns[] = AccessoryTableMap::GARTER_PRICE;
+        }
+
+
+        return $this;
+    } // setGarterPrice()
 
     /**
      * Set the value of [category_id] column.
@@ -841,10 +879,13 @@ abstract class Accessory implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : AccessoryTableMap::translateFieldName('Senior', TableMap::TYPE_PHPNAME, $indexType)];
             $this->senior = (null !== $col) ? (boolean) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : AccessoryTableMap::translateFieldName('Price', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->price = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : AccessoryTableMap::translateFieldName('MumPrice', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->mum_price = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : AccessoryTableMap::translateFieldName('CategoryId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : AccessoryTableMap::translateFieldName('GarterPrice', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->garter_price = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : AccessoryTableMap::translateFieldName('CategoryId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->category_id = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
@@ -854,7 +895,7 @@ abstract class Accessory implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 8; // 8 = AccessoryTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 9; // 9 = AccessoryTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating \Accessory object", 0, $e);
@@ -1120,8 +1161,11 @@ abstract class Accessory implements ActiveRecordInterface
         if ($this->isColumnModified(AccessoryTableMap::SENIOR)) {
             $modifiedColumns[':p' . $index++]  = 'SENIOR';
         }
-        if ($this->isColumnModified(AccessoryTableMap::PRICE)) {
-            $modifiedColumns[':p' . $index++]  = 'PRICE';
+        if ($this->isColumnModified(AccessoryTableMap::MUM_PRICE)) {
+            $modifiedColumns[':p' . $index++]  = 'MUM_PRICE';
+        }
+        if ($this->isColumnModified(AccessoryTableMap::GARTER_PRICE)) {
+            $modifiedColumns[':p' . $index++]  = 'GARTER_PRICE';
         }
         if ($this->isColumnModified(AccessoryTableMap::CATEGORY_ID)) {
             $modifiedColumns[':p' . $index++]  = 'CATEGORY_ID';
@@ -1158,8 +1202,11 @@ abstract class Accessory implements ActiveRecordInterface
                     case 'SENIOR':
                         $stmt->bindValue($identifier, (int) $this->senior, PDO::PARAM_INT);
                         break;
-                    case 'PRICE':
-                        $stmt->bindValue($identifier, $this->price, PDO::PARAM_STR);
+                    case 'MUM_PRICE':
+                        $stmt->bindValue($identifier, $this->mum_price, PDO::PARAM_STR);
+                        break;
+                    case 'GARTER_PRICE':
+                        $stmt->bindValue($identifier, $this->garter_price, PDO::PARAM_STR);
                         break;
                     case 'CATEGORY_ID':
                         $stmt->bindValue($identifier, $this->category_id, PDO::PARAM_INT);
@@ -1248,12 +1295,15 @@ abstract class Accessory implements ActiveRecordInterface
                 return $this->getSenior();
                 break;
             case 6:
-                return $this->getPrice();
+                return $this->getMumPrice();
                 break;
             case 7:
-                return $this->getCategoryId();
+                return $this->getGarterPrice();
                 break;
             case 8:
+                return $this->getCategoryId();
+                break;
+            case 9:
                 return $this->getImage();
                 break;
             default:
@@ -1291,9 +1341,10 @@ abstract class Accessory implements ActiveRecordInterface
             $keys[3] => $this->getUnderclassman(),
             $keys[4] => $this->getJunior(),
             $keys[5] => $this->getSenior(),
-            $keys[6] => $this->getPrice(),
-            $keys[7] => $this->getCategoryId(),
-            $keys[8] => ($includeLazyLoadColumns) ? $this->getImage() : null,
+            $keys[6] => $this->getMumPrice(),
+            $keys[7] => $this->getGarterPrice(),
+            $keys[8] => $this->getCategoryId(),
+            $keys[9] => ($includeLazyLoadColumns) ? $this->getImage() : null,
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1360,12 +1411,15 @@ abstract class Accessory implements ActiveRecordInterface
                 $this->setSenior($value);
                 break;
             case 6:
-                $this->setPrice($value);
+                $this->setMumPrice($value);
                 break;
             case 7:
-                $this->setCategoryId($value);
+                $this->setGarterPrice($value);
                 break;
             case 8:
+                $this->setCategoryId($value);
+                break;
+            case 9:
                 $this->setImage($value);
                 break;
         } // switch()
@@ -1398,9 +1452,10 @@ abstract class Accessory implements ActiveRecordInterface
         if (array_key_exists($keys[3], $arr)) $this->setUnderclassman($arr[$keys[3]]);
         if (array_key_exists($keys[4], $arr)) $this->setJunior($arr[$keys[4]]);
         if (array_key_exists($keys[5], $arr)) $this->setSenior($arr[$keys[5]]);
-        if (array_key_exists($keys[6], $arr)) $this->setPrice($arr[$keys[6]]);
-        if (array_key_exists($keys[7], $arr)) $this->setCategoryId($arr[$keys[7]]);
-        if (array_key_exists($keys[8], $arr)) $this->setImage($arr[$keys[8]]);
+        if (array_key_exists($keys[6], $arr)) $this->setMumPrice($arr[$keys[6]]);
+        if (array_key_exists($keys[7], $arr)) $this->setGarterPrice($arr[$keys[7]]);
+        if (array_key_exists($keys[8], $arr)) $this->setCategoryId($arr[$keys[8]]);
+        if (array_key_exists($keys[9], $arr)) $this->setImage($arr[$keys[9]]);
     }
 
     /**
@@ -1418,7 +1473,8 @@ abstract class Accessory implements ActiveRecordInterface
         if ($this->isColumnModified(AccessoryTableMap::UNDERCLASSMAN)) $criteria->add(AccessoryTableMap::UNDERCLASSMAN, $this->underclassman);
         if ($this->isColumnModified(AccessoryTableMap::JUNIOR)) $criteria->add(AccessoryTableMap::JUNIOR, $this->junior);
         if ($this->isColumnModified(AccessoryTableMap::SENIOR)) $criteria->add(AccessoryTableMap::SENIOR, $this->senior);
-        if ($this->isColumnModified(AccessoryTableMap::PRICE)) $criteria->add(AccessoryTableMap::PRICE, $this->price);
+        if ($this->isColumnModified(AccessoryTableMap::MUM_PRICE)) $criteria->add(AccessoryTableMap::MUM_PRICE, $this->mum_price);
+        if ($this->isColumnModified(AccessoryTableMap::GARTER_PRICE)) $criteria->add(AccessoryTableMap::GARTER_PRICE, $this->garter_price);
         if ($this->isColumnModified(AccessoryTableMap::CATEGORY_ID)) $criteria->add(AccessoryTableMap::CATEGORY_ID, $this->category_id);
         if ($this->isColumnModified(AccessoryTableMap::IMAGE)) $criteria->add(AccessoryTableMap::IMAGE, $this->image);
 
@@ -1489,7 +1545,8 @@ abstract class Accessory implements ActiveRecordInterface
         $copyObj->setUnderclassman($this->getUnderclassman());
         $copyObj->setJunior($this->getJunior());
         $copyObj->setSenior($this->getSenior());
-        $copyObj->setPrice($this->getPrice());
+        $copyObj->setMumPrice($this->getMumPrice());
+        $copyObj->setGarterPrice($this->getGarterPrice());
         $copyObj->setCategoryId($this->getCategoryId());
         $copyObj->setImage($this->getImage());
 
@@ -1855,7 +1912,8 @@ abstract class Accessory implements ActiveRecordInterface
         $this->underclassman = null;
         $this->junior = null;
         $this->senior = null;
-        $this->price = null;
+        $this->mum_price = null;
+        $this->garter_price = null;
         $this->category_id = null;
         $this->image = null;
         $this->image_isLoaded = false;

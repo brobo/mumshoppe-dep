@@ -53,7 +53,8 @@
 		<column name="underclassman" type="boolean" required="true" defaultValue="false" />
 		<column name="junior" type="boolean" required="true" defaultValue="false" />
 		<column name="senior" type="boolean" required="true" defaultValue="false" />
-		<column name="price" type="decimal" size="10" scale="2" required="true" />
+		<column name="mum_price" type="decimal" size="10" scale="2" required="true" />
+		<column name="garter_price" type="decimal" size="10" scale="2" required="true" />
 		<column name="category_id" type="integer" />
 		<column name="image" type="varchar" size="32" lazyLoad="true" />
 		<foreign-key foreignTable="accessory_category" phpName="AccessoryCategory" refPhpName="Accessory">

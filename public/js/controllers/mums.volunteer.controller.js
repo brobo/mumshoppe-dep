@@ -46,6 +46,7 @@ angular.module('mums.volunteer.controller', [])
 			return MumService.fetch($stateParams.mumId)
 				.success(function(data) {
 					$scope.mum = data;
+					$scope.priceType = $scope.mum.Product.Name == 'Mum' ? 'MumPrice' : 'GarterPrice';
 				});
 		}
 
@@ -62,7 +63,7 @@ angular.module('mums.volunteer.controller', [])
 					$scope.bearTotal += parseFloat($scope.mum.Bears[i].Price);
 				}
 				for (var i=0; i<$scope.mum.Accessories.length; i++) {
-					$scope.accessoryTotal += parseFloat($scope.mum.Accessories[i].Accessory.Price * $scope.mum.Accessories[i].Quantity);
+					$scope.accessoryTotal += parseFloat($scope.mum.Accessories[i].Accessory[$scope.priceType] * $scope.mum.Accessories[i].Quantity);
 				}
 			});
 		LettersService.get()

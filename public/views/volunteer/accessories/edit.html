@@ -26,13 +26,22 @@
 		</div>
 	</div>
 
-	<div class="form-group has-feedback col-xs-12" ng-class="{'has-error': invalid.Price}">
-		<label for="Price" class="control-label">Price</label>
+	<div class="form-group has-feedback col-xs-12" ng-class="{'has-error': invalid.MumPrice}">
+		<label for="MumPrice" class="control-label">Mum Price</label>
 		<div class="input-group">
 			<div class="input-group-addon">$</div>
-			<input type="text" class="form-control" name="Price" ng-model="accessory.Price" ng-pattern="REGEX_PRICE" ng-blur="validate('Price')" required>
+			<input type="text" class="form-control" name="MumPrice" ng-model="accessory.MumPrice" ng-pattern="REGEX_PRICE" ng-blur="validate('MumPrice')" required>
 		</div>
-		<i class="fa form-control-feedback" ng-class="{'fa-warning': invalid.Price}"></i>
+		<i class="fa form-control-feedback" ng-class="{'fa-warning': invalid.MumPrice}"></i>
+	</div>
+
+	<div class="form-group has-feedback col-xs-12" ng-class="{'has-error': invalid.GarterPrice}">
+		<label for="GarterPrice" class="control-label">Garter Price</label>
+		<div class="input-group">
+			<div class="input-group-addon">$</div>
+			<input type="text" class="form-control" name="GarterPrice" ng-model="accessory.GarterPrice" ng-pattern="REGEX_PRICE" ng-blur="validate('GarterPrice')" required>
+		</div>
+		<i class="fa form-control-feedback" ng-class="{'fa-warning': invalid.GarterPrice}"></i>
 	</div>
 
 	<div class="form-group col-xs-12">
