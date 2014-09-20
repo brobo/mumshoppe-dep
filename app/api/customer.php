@@ -31,6 +31,10 @@
 		$password = $app->request->post('Password');
 
 		$customer = CustomerQuery::create()->filterByEmail($email)->findOne();
+		if (!$customer) {
+			$app->response->setStatus(401);
+			return;
+		}
 		if ($passwordHasher->CheckPassword($password, $customer->getPassword())) {
 			$token = array(
 				'Email' => $customer->getEmail(),
