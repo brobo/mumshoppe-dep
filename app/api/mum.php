@@ -192,7 +192,7 @@
 		echo json_encode($mum->getFull());
 	});
 
-	$app->delete('/api/mum/:mumId', auth_customer(), function($mumId) {
+	$app->delete('/api/mum/:mumId', auth_customer(), function($mumId) use ($app) {
 		$mum = MumQuery::create()->findPK($mumId);
 		if (!$mum) return;
 		if (isCustomer() && $mum->getCustomerId() !== $app->token['Id'])

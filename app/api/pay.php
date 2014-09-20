@@ -36,7 +36,7 @@
 		$amount->setTotal(25);
 
 		$transaction = new PayPal\Api\Transaction();
-		$transaction->setDescription('Ordering a mum');
+		$transaction->setDescription('Mum deposit');
 		$transaction->setAmount($amount);
 
 		$redirectUrls = new PayPal\Api\RedirectUrls();
@@ -122,7 +122,7 @@
 		$amount->setTotal($mum->getFull()['TotalPrice'] - 25);
 
 		$transaction = new PayPal\Api\Transaction();
-		$transaction->setDescription('Paying for a mum');
+		$transaction->setDescription('Mum payment');
 		$transaction->setAmount($amount);
 
 		$redirectUrls = new PayPal\Api\RedirectUrls();
