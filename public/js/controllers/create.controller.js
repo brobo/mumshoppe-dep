@@ -203,7 +203,6 @@ angular.module('create.controller', [])
 					var total = 0;
 					for (var i=0; i<$scope.mum.Bears.length; i++) {
 						total += parseFloat($scope.mum.Bears[i].Price);
-						$scope.mum.Bears[i].image = getRoute('/api/bear/' + $scope.mum.Bears[i].Id + '/image');
 					}
 					$scope.totalPrice = total;
 
@@ -217,6 +216,9 @@ angular.module('create.controller', [])
 		BearsService.get()
 			.success(function(data) {
 				$scope.bears = data;
+				for (var i=0; i<$scope.bears.length; i++) {
+					$scope.bears[i].image = getRoute('/api/bear/' + $scope.bears[i].Id + '/image');
+				}
 			});
 
 		$scope.$parent.next = function() {
