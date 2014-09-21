@@ -13,7 +13,7 @@ angular.module('create.controller', [])
 			return MumService.fetch($stateParams.mumId)
 				.success(function(data) {
 					$scope.mum = data;
-					$scope.priceType = $scope.mum.Product.Name == 'Mum' ? 'MumPrice' : 'GarterPrice';
+					$scope.priceType = ($scope.mum.Product.Name == 'Mum') ? 'MumPrice' : 'GarterPrice';
 					$scope.stagedCharges = [];
 				});
 		}
@@ -58,7 +58,10 @@ angular.module('create.controller', [])
 		}
 	})
 
-	.controller('createDepositController', function($scope, $stateParams, $window, promiseTracker, AlertsService, PayService) {
+	.controller('createDepositController', function($scope, $state, $stateParams, $window, promiseTracker, AlertsService, PayService) {
+		if (!$scope.mum) {
+			$scope.updateMum();
+		}
 		$scope.tracker = promiseTracker();
 		$scope.redirecting = false;
 		$scope.startPayFlow = function() {
